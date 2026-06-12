@@ -79,13 +79,12 @@ German and `/en/<slug>` for English; the in-page copy translates per `useLocale(
 
 ## Design Direction
 
-These are starting constraints, not a finished design system. We will refine them with real content in place rather than in the abstract.
+The brand foundations are documented in [`docs/style/`](./style/) — the palette in [`colors.md`](./style/colors.md), the three-font system
+in [`typography.md`](./style/typography.md), the reusable patterns (pill buttons, section eyebrow, service cards, credential blocks) in
+[`patterns.md`](./style/patterns.md), and the single-theme decision in [`themes.md`](./style/themes.md). Constraints below are operational,
+not visual.
 
-- **Tone:** calm, clean, medical — not corporate, not "wellness". Generous whitespace, low chroma.
-- **Color:** muted teal / sage as primary (`#0f766e` provisional — same as the PWA `theme_color`), warm-neutral background, single accent
-  for CTAs. Avoid stock-medical blue and avoid spa-pink.
-- **Typography:** one humanist sans for body (Inter or similar) and a slightly warmer display face for headings — both with full Latin
-  Extended coverage (Umlauts must look right). System fallbacks acceptable.
+- **Tone:** calm, editorial, medical — not corporate, not "wellness". Generous whitespace, low chroma.
 - **Photography:** a small set of bespoke photographs of the practice (room, hands, instruments) takes priority over stock. Avoid close-up
   feet-trauma photos on landing pages — they perform poorly with elderly visitors and family-of-patient searchers.
 - **Iconography:** Lucide React only ([`docs/conventions.md`](./conventions.md)). No clipart.
@@ -98,7 +97,6 @@ Open design questions (decide before launch):
 
 1. Logo / wordmark — does the practice have one, or do we set type?
 2. Primary photograph for the home hero — bespoke or licensed?
-3. Final color palette — locked once we have the hero photo.
 
 ---
 
@@ -197,3 +195,6 @@ _(Move shipped roadmap items here with a one-line note + PR link. Prepend the da
 - 2026-06-12 — Scaffolded bilingual route stubs for `/therapeutin`, `/podologie`, `/heilpraktiker-podologie`, `/praxis`, `/leistungen`,
   `/hygiene`, `/podologie-urkunde`, `/heilpraktiker-urkunde`, `/kontakt`, `/anfahrt` with `seoMeta()` + sitemap entries. Bodies still
   placeholder `<h1>`s.
+- 2026-06-12 — Brand design system foundations landed: aubergine-led palette, Fraunces / Source Sans 3 / JetBrains Mono self-hosted, pill
+  button variants, `SectionEyebrow` component, home page retrofitted as the reference implementation. See
+  [`docs/style/colors.md`](./style/colors.md), [`typography.md`](./style/typography.md), [`patterns.md`](./style/patterns.md).

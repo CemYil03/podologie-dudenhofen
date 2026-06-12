@@ -84,6 +84,17 @@ If a comment paraphrases what the next line does, delete the comment and fix the
 - Application-specific components live directly in `src/web/components/`.
 - Use the `cn()` utility from `src/web/utils/cn.ts` for conditional class merging.
 
+## Brand Colors and Fonts
+
+The site has a small, opinionated brand palette and a three-font system. Tokens live in `src/styles.css` and are exposed as Tailwind
+utilities (`bg-aubergine`, `text-cream`, `font-serif`, `font-mono`, …). Every page reaches into the same tokens — never re-introduce raw hex
+values like `bg-[#FBF7F3]` once a token exists for that role. Reusable visual patterns (pill buttons, section eyebrow + rule, service cards,
+credential blocks) are documented in `docs/style/patterns.md`.
+
+- Palette and when-to-use rules: [`docs/style/colors.md`](./style/colors.md)
+- Type system and per-face rules: [`docs/style/typography.md`](./style/typography.md)
+- Reusable patterns: [`docs/style/patterns.md`](./style/patterns.md)
+
 ## GraphQL
 
 - The schema is defined SDL-first in `src/server/graphql/schema.graphqls`.

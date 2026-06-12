@@ -1,6 +1,7 @@
 import { Outlet, createFileRoute, notFound, redirect } from '@tanstack/react-router';
 import { createIsomorphicFn } from '@tanstack/react-start';
 import { getRequestHeader, setResponseHeader } from '@tanstack/react-start/server';
+import { SiteHeader } from '../web/components/SiteHeader';
 import { DEFAULT_LOCALE, LOCALES, localeFromAcceptLanguage } from '../web/utils/locale';
 import type { Locale } from '../web/utils/locale';
 
@@ -33,5 +34,10 @@ export const Route = createFileRoute('/{-$locale}')({
             }
         }
     },
-    component: () => <Outlet />,
+    component: () => (
+        <>
+            <SiteHeader />
+            <Outlet />
+        </>
+    ),
 });

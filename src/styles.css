@@ -3,11 +3,15 @@
 
 @import 'tw-animate-css';
 
-/* Source Sans 3 — variable weight, self-hosted via @fontsource. Vite hashes
-   and bundles the .woff2 files referenced inside this CSS so the font ships
-   with the app and is not fetched from a CDN at runtime. */
+/* Brand fonts — variable weight, self-hosted via @fontsource. Vite hashes
+   and bundles the .woff2 files referenced inside these CSS files so the fonts
+   ship with the app and are not fetched from a CDN at runtime. See
+   docs/style/typography.md for the role each face plays. */
 @import '@fontsource-variable/source-sans-3/wght.css';
 @import '@fontsource-variable/source-sans-3/wght-italic.css';
+@import '@fontsource-variable/fraunces/wght.css';
+@import '@fontsource-variable/fraunces/wght-italic.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
 
 /* Pick up Streamdown's utility classes — see streamdown's README. */
 @source "../node_modules/streamdown/dist/*.js";
@@ -48,12 +52,28 @@
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.871 0.006 286.286);
+
+    /* Brand palette — see docs/style/colors.md. The shadcn tokens above stay
+       neutral; brand surfaces (page backgrounds, headings, CTA buttons,
+       eyebrows, credential blocks) read from these instead. */
+    --color-brand-aubergine: #6b2545;
+    --color-brand-aubergine-dark: #4a1830;
+    --color-brand-cream: #fbf7f3;
+    --color-brand-blush: #f7ede9;
+    --color-brand-sage: #8a9b7e;
+    --color-brand-gold: #c9a574;
+    --color-brand-charcoal: #2b2530;
+    --color-brand-charcoal-2: #4a4350;
+    --color-brand-charcoal-3: #5a5158;
+    --color-brand-charcoal-4: #6b6270;
 }
 
 @theme inline {
     --font-sans:
         'Source Sans 3 Variable', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
         sans-serif;
+    --font-serif: 'Fraunces Variable', ui-serif, Georgia, 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -90,6 +110,15 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Brand color utilities — `bg-aubergine`, `text-cream`, `border-gold`, etc. */
+    --color-aubergine: var(--color-brand-aubergine);
+    --color-aubergine-dark: var(--color-brand-aubergine-dark);
+    --color-cream: var(--color-brand-cream);
+    --color-blush: var(--color-brand-blush);
+    --color-sage: var(--color-brand-sage);
+    --color-gold: var(--color-brand-gold);
+    --color-charcoal: var(--color-brand-charcoal);
 }
 
 @layer base {

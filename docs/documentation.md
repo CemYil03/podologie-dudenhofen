@@ -22,7 +22,9 @@ docs/
 │   ├── state-synchronization.md  # Client-server state sync via subscriptions
 │   └── server-architecture.md    # Server-side domain logic structure (CQRS)
 ├── style/                        # Visual-design decisions (typography, color, theming)
-│   ├── typography.md             # Self-hosted Source Sans 3 — bundled woff2, preload, Tailwind --font-sans token
+│   ├── colors.md                 # Brand palette — aubergine/cream/blush/sage/gold/charcoal + when-to-use rules
+│   ├── patterns.md               # Reusable patterns — pill buttons, section eyebrow + rule, service cards, credential block
+│   ├── typography.md             # Three-font system — Fraunces (display), Source Sans 3 (body), JetBrains Mono (labels)
 │   └── themes.md                 # One theme, light — no dark mode, no toggle
 ├── features/                     # Implemented feature documentation
 └── assets/                       # Diagrams, images, and other media

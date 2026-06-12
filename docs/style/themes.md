@@ -5,9 +5,11 @@ deliberate decision, not an oversight.
 
 ## Context
 
-The brand colors and the warm background (`#FBF7F3`) on `<body>` are specifically tuned for a healthcare context: the site is the public
-face of a podiatry practice, and patients arriving from search results expect a calm, clinical, daylight-feeling page. A second theme would
-either need its own brand palette (which doesn't exist) or a mechanical inversion that would clash with the warm beige and the photography.
+The brand colors and the warm background (cream `#FBF7F3`) on `<body>` are specifically tuned for a healthcare context: the site is the
+public face of a podiatry practice, and patients arriving from search results expect a calm, clinical, daylight-feeling page. A second theme
+would either need its own brand palette (which doesn't exist) or a mechanical inversion that would clash with the warm cream background and
+the photography. The full palette and the rules that govern it live in [colors.md](./colors.md) — this document is about the single-theme
+decision itself, not the colors.
 
 ## Decision
 

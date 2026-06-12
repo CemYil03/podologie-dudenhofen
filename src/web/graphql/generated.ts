@@ -713,12 +713,6 @@ export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
-export type GqlCTerminateSessionsMutationVariables = Exact<{
-    currentSessionId: string;
-}>;
-
-export type GqlCTerminateSessionsMutation = { user: { terminateSessions: { success: boolean } } };
-
 export const ChatMessageGenerationFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -2351,52 +2345,3 @@ export const HomePageDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCHomePageQuery, GqlCHomePageQueryVariables>;
-export const TerminateSessionsDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'TerminateSessions' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'currentSessionId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'user' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'terminateSessions' },
-                                    arguments: [
-                                        {
-                                            kind: 'Argument',
-                                            name: { kind: 'Name', value: 'sessionIds' },
-                                            value: {
-                                                kind: 'ListValue',
-                                                values: [{ kind: 'Variable', name: { kind: 'Name', value: 'currentSessionId' } }],
-                                            },
-                                        },
-                                    ],
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'success' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<GqlCTerminateSessionsMutation, GqlCTerminateSessionsMutationVariables>;

@@ -15,6 +15,9 @@ const buttonVariants = cva(
                 secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
+                brand: 'rounded-full bg-aubergine text-cream hover:bg-aubergine-dark focus-visible:ring-aubergine/40 active:scale-[0.97] active:bg-aubergine-dark active:brightness-90 selection:bg-aubergine-dark selection:text-cream',
+                'brand-outline':
+                    'rounded-full border border-aubergine bg-transparent text-aubergine hover:bg-aubergine hover:text-cream focus-visible:ring-aubergine/40 active:scale-[0.97] active:bg-aubergine-dark active:text-cream active:border-aubergine-dark selection:bg-aubergine-dark selection:text-cream',
             },
             size: {
                 default: 'h-9 px-4 py-2 has-[>svg]:px-3',

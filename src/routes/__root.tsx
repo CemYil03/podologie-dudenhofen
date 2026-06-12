@@ -2,6 +2,8 @@ import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from '@tan
 import { useEffect } from 'react';
 import { Provider as GraphQLClientProvider } from 'urql';
 import sourceSans3LatinWoff2 from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
+import frauncesLatinWoff2 from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
+import jetbrainsMonoLatinWoff2 from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
 import appCss from '../styles.css?url';
 import { Toaster } from '../web/components/base/sonner';
 import { TooltipProvider } from '../web/components/base/tooltip';
@@ -26,6 +28,20 @@ export const Route = createRootRoute({
                 as: 'font',
                 type: 'font/woff2',
                 href: sourceSans3LatinWoff2,
+                crossOrigin: 'anonymous',
+            },
+            {
+                rel: 'preload',
+                as: 'font',
+                type: 'font/woff2',
+                href: frauncesLatinWoff2,
+                crossOrigin: 'anonymous',
+            },
+            {
+                rel: 'preload',
+                as: 'font',
+                type: 'font/woff2',
+                href: jetbrainsMonoLatinWoff2,
                 crossOrigin: 'anonymous',
             },
             {
@@ -92,8 +108,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <head>
                 <HeadContent />
             </head>
-            {/* selection:bg-[rgba(79,184,178,0.24)] */}
-            <body className="font-sans antialiased wrap-anywhere bg-[#FBF7F3]">
+            <body className="font-sans antialiased wrap-anywhere bg-cream text-charcoal selection:bg-aubergine/25 selection:text-aubergine-dark">
                 <NavigationProgress />
                 <TooltipProvider>
                     <GraphQLClientProvider value={urqlClient}>{children}</GraphQLClientProvider>
