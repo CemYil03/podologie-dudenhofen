@@ -1,0 +1,32 @@
+{
+    "short_name": "Podologie Dudenhofen",
+    "name": "Podologie Dudenhofen — Medizinische Fußpflege",
+    "icons": [
+        {
+            "src": "/favicon/favicon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon/favicon.svg",
+            "type": "image/svg+xml",
+            "sizes": "any"
+        },
+        {
+            "src": "/favicon/web-app-manifest-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicon/web-app-manifest-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "maskable"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#641357",
+    "background_color": "#ffffff"
+}
