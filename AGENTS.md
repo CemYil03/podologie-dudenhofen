@@ -44,7 +44,8 @@ These are non-negotiable. The full details are in `docs/conventions.md`.
 | Background jobs       | pg-boss via `serverRuntime.jobs.enqueue()`                               | `docs/architecture/jobs.md`                    |
 | Server-side rendering | Singleton headless Chromium via `serverRuntime.browser.capture()`        | `docs/architecture/server-side-rendering.md`   |
 | SEO                   | `seoMeta()` per page; dynamic `/sitemap.xml` and `/robots.txt`           | `docs/architecture/seo.md`                     |
-| Typography            | Self-hosted Source Sans 3 variable font, bundled via `@fontsource`       | `docs/architecture/typography.md`              |
+| Typography            | Self-hosted Source Sans 3 variable font, bundled via `@fontsource`       | `docs/style/typography.md`                     |
+| Theming               | Single light theme — no dark mode, no `dark:` utilities                  | `docs/style/themes.md`                         |
 | Code generation       | `npm run graphql:generate` — server `GqlS*`, client `GqlC*`              | `codegen.ts`                                   |
 
 ## How to Add Things

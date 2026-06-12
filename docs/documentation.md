@@ -20,8 +20,10 @@ docs/
 │   ├── seo.md                    # SEO standards — seoMeta() helper, dynamic sitemap.xml, robots.txt
 │   ├── server-side-rendering.md  # Playwright-based UI capture for image/PDF exports
 │   ├── state-synchronization.md  # Client-server state sync via subscriptions
-│   ├── server-architecture.md    # Server-side domain logic structure (CQRS)
-│   └── typography.md             # Self-hosted Source Sans 3 — bundled woff2, preload, Tailwind --font-sans token
+│   └── server-architecture.md    # Server-side domain logic structure (CQRS)
+├── style/                        # Visual-design decisions (typography, color, theming)
+│   ├── typography.md             # Self-hosted Source Sans 3 — bundled woff2, preload, Tailwind --font-sans token
+│   └── themes.md                 # One theme, light — no dark mode, no toggle
 ├── features/                     # Implemented feature documentation
 └── assets/                       # Diagrams, images, and other media
 ```
@@ -51,6 +53,13 @@ One file per user-facing feature, added once the feature is implemented. Each do
 
 Features are different from architecture: architecture describes structural decisions that affect many features; features describe specific
 end-to-end functionality built on top of that architecture.
+
+### `style/`
+
+Visual-design decisions: type, color, theming, motion, brand. Each document follows the same shape as `architecture/` (context, decision,
+alternatives, consequences) but covers _how the site looks_ rather than how the system is structured. Add a file whenever a new design
+constraint is introduced or an explicit non-decision needs to be recorded (e.g. "one theme only, light" — see
+[style/themes.md](./style/themes.md)).
 
 ### `conventions.md`
 

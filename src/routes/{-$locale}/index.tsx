@@ -17,7 +17,7 @@ export const Route = createFileRoute('/{-$locale}/')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Podologie Dudenhofen', en: 'Podiatry Dudenhofen' }[locale],
+            title: { de: 'Start', en: 'Home' }[locale],
             description: {
                 de: 'Eine Vorlage für Full-Stack-Anwendungen mit TanStack Start.', // todo: adjust
                 en: 'A template for full-stack applications built with TanStack Start.', // todo: adjust
