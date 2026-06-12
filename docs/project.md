@@ -54,20 +54,26 @@ Non-goals (for now): online booking with a calendar, payments, patient portal, m
 
 The site launches with these pages. Every page is bilingual unless marked otherwise.
 
-| Route                    | Purpose                                                                                          | Priority |
-| ------------------------ | ------------------------------------------------------------------------------------------------ | -------- |
-| `/` (Home)               | Hook + 2–3 service highlights + opening hours + map + contact CTA + (later) AI assistant entry   | P0       |
-| `/leistungen` (Services) | Catalog: medizinische Fußpflege, Nagelkorrektur-Spangen, diabetisches Fußsyndrom, Hausbesuche, … | P0       |
-| `/ueber-uns` (About)     | Practitioner bio, qualifications, hygiene approach                                               | P0       |
-| `/kontakt` (Contact)     | Phone, email, address, map, contact / appointment-request form                                   | P0       |
-| `/preise` (Prices)       | Self-payer prices + insurance handling (gesetzlich, privat, Verordnung)                          | P1       |
-| `/faq`                   | Common questions extracted from phone calls and the AI assistant transcript                      | P1       |
-| `/impressum`             | Legal imprint — required by §5 TMG                                                               | P0       |
-| `/datenschutz`           | Privacy policy — required by GDPR                                                                | P0       |
-| `/barrierefreiheit`      | Accessibility statement (BFSG / EU 2025)                                                         | P1       |
+| Route                                        | Purpose                                                                                          | Priority |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------- |
+| `/` (Home)                                   | Hook + 2–3 service highlights + opening hours + map + contact CTA + (later) AI assistant entry   | P0       |
+| `/therapeutin` (Therapist)                   | Practitioner bio, Werdegang, Behandlungsansatz                                                   | P0       |
+| `/podologie` (Podiatry)                      | What podiatry is, when it's the right next step                                                  | P0       |
+| `/heilpraktiker-podologie` (HP for Podiatry) | Scope of the Heilpraktiker für Podologie qualification and what it adds                          | P0       |
+| `/praxis` (Practice)                         | Rooms and equipment of the practice                                                              | P0       |
+| `/leistungen` (Services)                     | Catalog: medizinische Fußpflege, Nagelkorrektur-Spangen, diabetisches Fußsyndrom, Hausbesuche, … | P0       |
+| `/hygiene` (Hygiene)                         | Aufbereitung der Instrumente, Flächendesinfektion, Patientenschutz                               | P0       |
+| `/podologie-urkunde` (Podiatry Cert.)        | Staatliche Urkunde — Nachweis der Podologie-Qualifikation                                        | P1       |
+| `/heilpraktiker-urkunde` (HP Cert.)          | Erlaubnisurkunde Heilpraktiker für Podologie                                                     | P1       |
+| `/kontakt` (Contact)                         | Phone, email, address, map, contact / appointment-request form                                   | P0       |
+| `/anfahrt` (Directions)                      | Map, ÖPNV-Anbindung, Parkmöglichkeiten                                                           | P0       |
+| `/impressum` (Imprint)                       | Legal imprint — required by §5 TMG                                                               | P0       |
+| `/datenschutz` (Privacy)                     | Privacy policy — required by GDPR                                                                | P0       |
+| `/barrierefreiheit` (Accessibility)          | Accessibility statement (BFSG / EU 2025)                                                         | P1       |
 
-URL-slug rule: German slugs for `/`, English route segment is the `/en/...` mirror with English slugs (`/en/services`, `/en/contact`,
-`/en/imprint`, `/en/privacy`). The router's `{-$locale}` segment handles both; see [`docs/architecture/i18n.md`](./architecture/i18n.md).
+URL-slug rule: German slugs are canonical and shared across both locales. The router's `{-$locale}` segment exposes them at `/<slug>` for
+German and `/en/<slug>` for English; the in-page copy translates per `useLocale()`. See
+[`docs/architecture/i18n.md`](./architecture/i18n.md).
 
 ---
 
@@ -104,8 +110,9 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 
 - [ ] **Project identity pass.** Replace remaining template placeholders: HTML `<title>` in `src/routes/__root.tsx`, favicon set, theme
       tokens in `src/styles.css`, 404 copy. Re-grep for `Project name`, `TanStack App`, `example.com` after each change.
-- [ ] **Static content pages.** Build out `/leistungen`, `/ueber-uns`, `/kontakt`, `/impressum`, `/datenschutz` with real copy provided by
-      the practice owner. Both locales.
+- [ ] **Static content pages.** Build out `/therapeutin`, `/podologie`, `/heilpraktiker-podologie`, `/praxis`, `/leistungen`, `/hygiene`,
+      `/podologie-urkunde`, `/heilpraktiker-urkunde`, `/kontakt`, `/anfahrt`, `/impressum`, `/datenschutz` with real copy provided by the
+      practice owner. Both locales. (Routes scaffolded with seoMeta + bilingual `<h1>` placeholders — fill in body content next.)
 - [ ] **Home page.** Hook, services-overview, opening hours, map, primary CTA. Bilingual.
 - [ ] **Contact form.** Single form on `/kontakt`: name, contact (phone or email), preferred-callback window, free-text reason. Submits via
       a GraphQL mutation, sends an email via a transactional provider (decision pending — Postmark / Resend / SES), stores a row for audit.
@@ -187,3 +194,6 @@ Track unresolved product/legal/operational questions here. Resolve and remove ra
 _(Move shipped roadmap items here with a one-line note + PR link. Prepend the date so the order is obvious.)_
 
 - 2026-06-12 — Repository rebranded from the TanStack template to Podologie Dudenhofen (README, package name, manifest, doc placeholders).
+- 2026-06-12 — Scaffolded bilingual route stubs for `/therapeutin`, `/podologie`, `/heilpraktiker-podologie`, `/praxis`, `/leistungen`,
+  `/hygiene`, `/podologie-urkunde`, `/heilpraktiker-urkunde`, `/kontakt`, `/anfahrt` with `seoMeta()` + sitemap entries. Bodies still
+  placeholder `<h1>`s.

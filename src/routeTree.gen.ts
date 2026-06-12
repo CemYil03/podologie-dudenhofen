@@ -13,8 +13,18 @@ import { Route as Char123LocaleChar125RouteImport } from './routes/{-$locale}'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
+import { Route as Char123LocaleChar125TherapeutinRouteImport } from './routes/{-$locale}/therapeutin'
 import { Route as Char123LocaleChar125TermsRouteImport } from './routes/{-$locale}/terms'
+import { Route as Char123LocaleChar125PraxisRouteImport } from './routes/{-$locale}/praxis'
+import { Route as Char123LocaleChar125PodologieUrkundeRouteImport } from './routes/{-$locale}/podologie-urkunde'
+import { Route as Char123LocaleChar125PodologieRouteImport } from './routes/{-$locale}/podologie'
+import { Route as Char123LocaleChar125LeistungenRouteImport } from './routes/{-$locale}/leistungen'
+import { Route as Char123LocaleChar125KontaktRouteImport } from './routes/{-$locale}/kontakt'
+import { Route as Char123LocaleChar125HygieneRouteImport } from './routes/{-$locale}/hygiene'
+import { Route as Char123LocaleChar125HeilpraktikerUrkundeRouteImport } from './routes/{-$locale}/heilpraktiker-urkunde'
+import { Route as Char123LocaleChar125HeilpraktikerPodologieRouteImport } from './routes/{-$locale}/heilpraktiker-podologie'
 import { Route as Char123LocaleChar125ChatRouteImport } from './routes/{-$locale}/chat'
+import { Route as Char123LocaleChar125AnfahrtRouteImport } from './routes/{-$locale}/anfahrt'
 import { Route as ApiStreamRouteImport } from './routes/api/stream'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
@@ -42,16 +52,76 @@ const Char123LocaleChar125IndexRoute =
     path: '/',
     getParentRoute: () => Char123LocaleChar125Route,
   } as any)
+const Char123LocaleChar125TherapeutinRoute =
+  Char123LocaleChar125TherapeutinRouteImport.update({
+    id: '/therapeutin',
+    path: '/therapeutin',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const Char123LocaleChar125TermsRoute =
   Char123LocaleChar125TermsRouteImport.update({
     id: '/terms',
     path: '/terms',
     getParentRoute: () => Char123LocaleChar125Route,
   } as any)
+const Char123LocaleChar125PraxisRoute =
+  Char123LocaleChar125PraxisRouteImport.update({
+    id: '/praxis',
+    path: '/praxis',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125PodologieUrkundeRoute =
+  Char123LocaleChar125PodologieUrkundeRouteImport.update({
+    id: '/podologie-urkunde',
+    path: '/podologie-urkunde',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125PodologieRoute =
+  Char123LocaleChar125PodologieRouteImport.update({
+    id: '/podologie',
+    path: '/podologie',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125LeistungenRoute =
+  Char123LocaleChar125LeistungenRouteImport.update({
+    id: '/leistungen',
+    path: '/leistungen',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125KontaktRoute =
+  Char123LocaleChar125KontaktRouteImport.update({
+    id: '/kontakt',
+    path: '/kontakt',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125HygieneRoute =
+  Char123LocaleChar125HygieneRouteImport.update({
+    id: '/hygiene',
+    path: '/hygiene',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125HeilpraktikerUrkundeRoute =
+  Char123LocaleChar125HeilpraktikerUrkundeRouteImport.update({
+    id: '/heilpraktiker-urkunde',
+    path: '/heilpraktiker-urkunde',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125HeilpraktikerPodologieRoute =
+  Char123LocaleChar125HeilpraktikerPodologieRouteImport.update({
+    id: '/heilpraktiker-podologie',
+    path: '/heilpraktiker-podologie',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const Char123LocaleChar125ChatRoute =
   Char123LocaleChar125ChatRouteImport.update({
     id: '/chat',
     path: '/chat',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125AnfahrtRoute =
+  Char123LocaleChar125AnfahrtRouteImport.update({
+    id: '/anfahrt',
+    path: '/anfahrt',
     getParentRoute: () => Char123LocaleChar125Route,
   } as any)
 const ApiStreamRoute = ApiStreamRouteImport.update({
@@ -89,8 +159,18 @@ export interface FileRoutesByFullPath {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
+  '/{-$locale}/anfahrt': typeof Char123LocaleChar125AnfahrtRoute
   '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
+  '/{-$locale}/heilpraktiker-podologie': typeof Char123LocaleChar125HeilpraktikerPodologieRoute
+  '/{-$locale}/heilpraktiker-urkunde': typeof Char123LocaleChar125HeilpraktikerUrkundeRoute
+  '/{-$locale}/hygiene': typeof Char123LocaleChar125HygieneRoute
+  '/{-$locale}/kontakt': typeof Char123LocaleChar125KontaktRoute
+  '/{-$locale}/leistungen': typeof Char123LocaleChar125LeistungenRoute
+  '/{-$locale}/podologie': typeof Char123LocaleChar125PodologieRoute
+  '/{-$locale}/podologie-urkunde': typeof Char123LocaleChar125PodologieUrkundeRoute
+  '/{-$locale}/praxis': typeof Char123LocaleChar125PraxisRoute
   '/{-$locale}/terms': typeof Char123LocaleChar125TermsRoute
+  '/{-$locale}/therapeutin': typeof Char123LocaleChar125TherapeutinRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
 }
@@ -101,8 +181,18 @@ export interface FileRoutesByTo {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
+  '/{-$locale}/anfahrt': typeof Char123LocaleChar125AnfahrtRoute
   '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
+  '/{-$locale}/heilpraktiker-podologie': typeof Char123LocaleChar125HeilpraktikerPodologieRoute
+  '/{-$locale}/heilpraktiker-urkunde': typeof Char123LocaleChar125HeilpraktikerUrkundeRoute
+  '/{-$locale}/hygiene': typeof Char123LocaleChar125HygieneRoute
+  '/{-$locale}/kontakt': typeof Char123LocaleChar125KontaktRoute
+  '/{-$locale}/leistungen': typeof Char123LocaleChar125LeistungenRoute
+  '/{-$locale}/podologie': typeof Char123LocaleChar125PodologieRoute
+  '/{-$locale}/podologie-urkunde': typeof Char123LocaleChar125PodologieUrkundeRoute
+  '/{-$locale}/praxis': typeof Char123LocaleChar125PraxisRoute
   '/{-$locale}/terms': typeof Char123LocaleChar125TermsRoute
+  '/{-$locale}/therapeutin': typeof Char123LocaleChar125TherapeutinRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
 }
@@ -115,8 +205,18 @@ export interface FileRoutesById {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
+  '/{-$locale}/anfahrt': typeof Char123LocaleChar125AnfahrtRoute
   '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
+  '/{-$locale}/heilpraktiker-podologie': typeof Char123LocaleChar125HeilpraktikerPodologieRoute
+  '/{-$locale}/heilpraktiker-urkunde': typeof Char123LocaleChar125HeilpraktikerUrkundeRoute
+  '/{-$locale}/hygiene': typeof Char123LocaleChar125HygieneRoute
+  '/{-$locale}/kontakt': typeof Char123LocaleChar125KontaktRoute
+  '/{-$locale}/leistungen': typeof Char123LocaleChar125LeistungenRoute
+  '/{-$locale}/podologie': typeof Char123LocaleChar125PodologieRoute
+  '/{-$locale}/podologie-urkunde': typeof Char123LocaleChar125PodologieUrkundeRoute
+  '/{-$locale}/praxis': typeof Char123LocaleChar125PraxisRoute
   '/{-$locale}/terms': typeof Char123LocaleChar125TermsRoute
+  '/{-$locale}/therapeutin': typeof Char123LocaleChar125TherapeutinRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads_/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
 }
@@ -130,8 +230,18 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
+    | '/{-$locale}/anfahrt'
     | '/{-$locale}/chat'
+    | '/{-$locale}/heilpraktiker-podologie'
+    | '/{-$locale}/heilpraktiker-urkunde'
+    | '/{-$locale}/hygiene'
+    | '/{-$locale}/kontakt'
+    | '/{-$locale}/leistungen'
+    | '/{-$locale}/podologie'
+    | '/{-$locale}/podologie-urkunde'
+    | '/{-$locale}/praxis'
     | '/{-$locale}/terms'
+    | '/{-$locale}/therapeutin'
     | '/{-$locale}/'
     | '/api/file-uploads/$fileUploadId'
   fileRoutesByTo: FileRoutesByTo
@@ -142,8 +252,18 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
+    | '/{-$locale}/anfahrt'
     | '/{-$locale}/chat'
+    | '/{-$locale}/heilpraktiker-podologie'
+    | '/{-$locale}/heilpraktiker-urkunde'
+    | '/{-$locale}/hygiene'
+    | '/{-$locale}/kontakt'
+    | '/{-$locale}/leistungen'
+    | '/{-$locale}/podologie'
+    | '/{-$locale}/podologie-urkunde'
+    | '/{-$locale}/praxis'
     | '/{-$locale}/terms'
+    | '/{-$locale}/therapeutin'
     | '/{-$locale}'
     | '/api/file-uploads/$fileUploadId'
   id:
@@ -155,8 +275,18 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
+    | '/{-$locale}/anfahrt'
     | '/{-$locale}/chat'
+    | '/{-$locale}/heilpraktiker-podologie'
+    | '/{-$locale}/heilpraktiker-urkunde'
+    | '/{-$locale}/hygiene'
+    | '/{-$locale}/kontakt'
+    | '/{-$locale}/leistungen'
+    | '/{-$locale}/podologie'
+    | '/{-$locale}/podologie-urkunde'
+    | '/{-$locale}/praxis'
     | '/{-$locale}/terms'
+    | '/{-$locale}/therapeutin'
     | '/{-$locale}/'
     | '/api/file-uploads_/$fileUploadId'
   fileRoutesById: FileRoutesById
@@ -202,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
       parentRoute: typeof Char123LocaleChar125Route
     }
+    '/{-$locale}/therapeutin': {
+      id: '/{-$locale}/therapeutin'
+      path: '/therapeutin'
+      fullPath: '/{-$locale}/therapeutin'
+      preLoaderRoute: typeof Char123LocaleChar125TherapeutinRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/{-$locale}/terms': {
       id: '/{-$locale}/terms'
       path: '/terms'
@@ -209,11 +346,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125TermsRouteImport
       parentRoute: typeof Char123LocaleChar125Route
     }
+    '/{-$locale}/praxis': {
+      id: '/{-$locale}/praxis'
+      path: '/praxis'
+      fullPath: '/{-$locale}/praxis'
+      preLoaderRoute: typeof Char123LocaleChar125PraxisRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/podologie-urkunde': {
+      id: '/{-$locale}/podologie-urkunde'
+      path: '/podologie-urkunde'
+      fullPath: '/{-$locale}/podologie-urkunde'
+      preLoaderRoute: typeof Char123LocaleChar125PodologieUrkundeRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/podologie': {
+      id: '/{-$locale}/podologie'
+      path: '/podologie'
+      fullPath: '/{-$locale}/podologie'
+      preLoaderRoute: typeof Char123LocaleChar125PodologieRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/leistungen': {
+      id: '/{-$locale}/leistungen'
+      path: '/leistungen'
+      fullPath: '/{-$locale}/leistungen'
+      preLoaderRoute: typeof Char123LocaleChar125LeistungenRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/kontakt': {
+      id: '/{-$locale}/kontakt'
+      path: '/kontakt'
+      fullPath: '/{-$locale}/kontakt'
+      preLoaderRoute: typeof Char123LocaleChar125KontaktRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/hygiene': {
+      id: '/{-$locale}/hygiene'
+      path: '/hygiene'
+      fullPath: '/{-$locale}/hygiene'
+      preLoaderRoute: typeof Char123LocaleChar125HygieneRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/heilpraktiker-urkunde': {
+      id: '/{-$locale}/heilpraktiker-urkunde'
+      path: '/heilpraktiker-urkunde'
+      fullPath: '/{-$locale}/heilpraktiker-urkunde'
+      preLoaderRoute: typeof Char123LocaleChar125HeilpraktikerUrkundeRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/heilpraktiker-podologie': {
+      id: '/{-$locale}/heilpraktiker-podologie'
+      path: '/heilpraktiker-podologie'
+      fullPath: '/{-$locale}/heilpraktiker-podologie'
+      preLoaderRoute: typeof Char123LocaleChar125HeilpraktikerPodologieRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/{-$locale}/chat': {
       id: '/{-$locale}/chat'
       path: '/chat'
       fullPath: '/{-$locale}/chat'
       preLoaderRoute: typeof Char123LocaleChar125ChatRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/anfahrt': {
+      id: '/{-$locale}/anfahrt'
+      path: '/anfahrt'
+      fullPath: '/{-$locale}/anfahrt'
+      preLoaderRoute: typeof Char123LocaleChar125AnfahrtRouteImport
       parentRoute: typeof Char123LocaleChar125Route
     }
     '/api/stream': {
@@ -255,14 +455,37 @@ declare module '@tanstack/react-router' {
 }
 
 interface Char123LocaleChar125RouteChildren {
+  Char123LocaleChar125AnfahrtRoute: typeof Char123LocaleChar125AnfahrtRoute
   Char123LocaleChar125ChatRoute: typeof Char123LocaleChar125ChatRoute
+  Char123LocaleChar125HeilpraktikerPodologieRoute: typeof Char123LocaleChar125HeilpraktikerPodologieRoute
+  Char123LocaleChar125HeilpraktikerUrkundeRoute: typeof Char123LocaleChar125HeilpraktikerUrkundeRoute
+  Char123LocaleChar125HygieneRoute: typeof Char123LocaleChar125HygieneRoute
+  Char123LocaleChar125KontaktRoute: typeof Char123LocaleChar125KontaktRoute
+  Char123LocaleChar125LeistungenRoute: typeof Char123LocaleChar125LeistungenRoute
+  Char123LocaleChar125PodologieRoute: typeof Char123LocaleChar125PodologieRoute
+  Char123LocaleChar125PodologieUrkundeRoute: typeof Char123LocaleChar125PodologieUrkundeRoute
+  Char123LocaleChar125PraxisRoute: typeof Char123LocaleChar125PraxisRoute
   Char123LocaleChar125TermsRoute: typeof Char123LocaleChar125TermsRoute
+  Char123LocaleChar125TherapeutinRoute: typeof Char123LocaleChar125TherapeutinRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
 }
 
 const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
+  Char123LocaleChar125AnfahrtRoute: Char123LocaleChar125AnfahrtRoute,
   Char123LocaleChar125ChatRoute: Char123LocaleChar125ChatRoute,
+  Char123LocaleChar125HeilpraktikerPodologieRoute:
+    Char123LocaleChar125HeilpraktikerPodologieRoute,
+  Char123LocaleChar125HeilpraktikerUrkundeRoute:
+    Char123LocaleChar125HeilpraktikerUrkundeRoute,
+  Char123LocaleChar125HygieneRoute: Char123LocaleChar125HygieneRoute,
+  Char123LocaleChar125KontaktRoute: Char123LocaleChar125KontaktRoute,
+  Char123LocaleChar125LeistungenRoute: Char123LocaleChar125LeistungenRoute,
+  Char123LocaleChar125PodologieRoute: Char123LocaleChar125PodologieRoute,
+  Char123LocaleChar125PodologieUrkundeRoute:
+    Char123LocaleChar125PodologieUrkundeRoute,
+  Char123LocaleChar125PraxisRoute: Char123LocaleChar125PraxisRoute,
   Char123LocaleChar125TermsRoute: Char123LocaleChar125TermsRoute,
+  Char123LocaleChar125TherapeutinRoute: Char123LocaleChar125TherapeutinRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
 }
 

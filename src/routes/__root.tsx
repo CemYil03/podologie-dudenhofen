@@ -88,7 +88,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <HeadContent />
             </head>
             {/* selection:bg-[rgba(79,184,178,0.24)] */}
-            <body className="font-sans antialiased wrap-anywhere">
+            <body className="font-sans antialiased wrap-anywhere bg-[#FBF7F3]">
                 <NavigationProgress />
                 <TooltipProvider>
                     <GraphQLClientProvider value={urqlClient}>{children}</GraphQLClientProvider>
