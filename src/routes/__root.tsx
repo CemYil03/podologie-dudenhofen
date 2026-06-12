@@ -1,14 +1,13 @@
 import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { Provider as GraphQLClientProvider } from 'urql';
+import sourceSans3LatinWoff2 from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
 import appCss from '../styles.css?url';
 import { Toaster } from '../web/components/base/sonner';
 import { TooltipProvider } from '../web/components/base/tooltip';
 import { NavigationProgress } from '../web/components/NavigationProgress';
 import { urqlClient } from '../web/graphql/client';
 import { useLocale } from '../web/hooks/useLocale';
-
-const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`;
 
 export const Route = createRootRoute({
     head: () => ({
@@ -22,6 +21,13 @@ export const Route = createRootRoute({
             },
         ],
         links: [
+            {
+                rel: 'preload',
+                as: 'font',
+                type: 'font/woff2',
+                href: sourceSans3LatinWoff2,
+                crossOrigin: 'anonymous',
+            },
             {
                 rel: 'stylesheet',
                 href: appCss,
@@ -84,7 +90,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     return (
         <html lang={locale} suppressHydrationWarning>
             <head>
-                <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
                 <HeadContent />
             </head>
             {/* selection:bg-[rgba(79,184,178,0.24)] */}

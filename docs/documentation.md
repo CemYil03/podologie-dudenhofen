@@ -20,7 +20,8 @@ docs/
 │   ├── seo.md                    # SEO standards — seoMeta() helper, dynamic sitemap.xml, robots.txt
 │   ├── server-side-rendering.md  # Playwright-based UI capture for image/PDF exports
 │   ├── state-synchronization.md  # Client-server state sync via subscriptions
-│   └── server-architecture.md    # Server-side domain logic structure (CQRS)
+│   ├── server-architecture.md    # Server-side domain logic structure (CQRS)
+│   └── typography.md             # Self-hosted Source Sans 3 — bundled woff2, preload, Tailwind --font-sans token
 ├── features/                     # Implemented feature documentation
 └── assets/                       # Diagrams, images, and other media
 ```
