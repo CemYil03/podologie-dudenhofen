@@ -17,10 +17,10 @@ export const Route = createFileRoute('/{-$locale}/')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Willkommen', en: 'Welcome' }[locale],
+            title: { de: 'Podologie Dudenhofen', en: 'Podiatry Dudenhofen' }[locale],
             description: {
-                de: 'Eine Vorlage für Full-Stack-Anwendungen mit TanStack Start.',
-                en: 'A template for full-stack applications built with TanStack Start.',
+                de: 'Eine Vorlage für Full-Stack-Anwendungen mit TanStack Start.', // todo: adjust
+                en: 'A template for full-stack applications built with TanStack Start.', // todo: adjust
             }[locale],
             path: '/',
             locale,
@@ -60,6 +60,29 @@ export const Route = createFileRoute('/{-$locale}/')({
                     </Link>
                     <Link to="/{-$locale}/terms">to terms</Link>
                 </div>
+
+                <h1 className="font-semibold text-3xl">Podologin mit Krankenkassenzulassung und Heilpraktikerin für Podologie</h1>
+                <p>
+                    Im Jahr 2008 habe ich meine erste Ausbildung im Bereich der kosmetischen Fußpflege gemacht und auch direkt im Anschluss
+                    ein Gewerbe angemeldet.
+                </p>
+                <p>
+                    Mit dieser Ausbildung durfte ich aber nur kosmetisch arbeiten. Das heißt, mir liebgewonnene Kunden durfte ich auf einmal
+                    nicht mehr behandeln, nachdem sie an Diabetes erkrankten, Medikamente einnehmen mussten, oder wenn die Nägel anfingen
+                    einzuwachsen.
+                </p>
+                <p>
+                    Aus diesem Grund habe ich mich an einer Podologie- Schule angemeldet und die dreijährige Ausbildung, mit abschließendem
+                    Staatsexamen abgeschlossen.
+                </p>
+                <p>
+                    Am 02.09.2017 habe ich dann die Prüfung zum sektoralen Heilpraktiker für Podologie mit Erfolg bestanden, die am
+                    22.03.2022 in Rheinland Pfalz anerkannt wurde.
+                </p>
+                <p>
+                    Als Podologin mit Kassenzulassung bin ich verpflichtet in regelmäßigen Abständen Fortbildungen zu besuchen, über die ich
+                    immer über Neuheiten informiert werde, um meinen Patienten gerecht zu werden.
+                </p>
             </main>
         );
     },
