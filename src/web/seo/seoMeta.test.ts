@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
 import { seoMeta } from './seoMeta';
+import { SITE_NAME } from './seoConstants';
 
 const baseInput = {
     title: 'Welcome',
@@ -16,7 +17,7 @@ describe('seoMeta', () => {
 
         // Assert
         const titleEntry = output.meta.find((entry): entry is { title: string } => 'title' in entry);
-        expect(titleEntry?.title).toBe('Welcome — Project name');
+        expect(titleEntry?.title).toBe('Welcome — ' + SITE_NAME);
     });
 
     it('emits a bare-path canonical for the default locale and a /en prefix for english', () => {
@@ -76,8 +77,8 @@ describe('seoMeta', () => {
         // Assert
         const ogImage = output.meta.find((entry) => 'property' in entry && entry.property === 'og:image');
         const twitterImage = output.meta.find((entry) => 'name' in entry && entry.name === 'twitter:image');
-        expect(ogImage).toEqual({ property: 'og:image', content: 'https://example.com/logo512.png' });
-        expect(twitterImage).toEqual({ name: 'twitter:image', content: 'https://example.com/logo512.png' });
+        expect(ogImage).toEqual({ property: 'og:image', content: 'https://example.com/podologie-dudenhofen-logo.png' });
+        expect(twitterImage).toEqual({ name: 'twitter:image', content: 'https://example.com/podologie-dudenhofen-logo.png' });
     });
 
     it('passes through an absolute image URL unchanged', () => {
