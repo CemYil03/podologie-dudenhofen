@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
 import { Fragment } from 'react';
+import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { KontaktPageDocument } from '../../web/graphql/generated';
@@ -22,8 +23,8 @@ export const Route = createFileRoute('/{-$locale}/kontakt')({
         return seoMeta({
             title: { de: 'Kontakt', en: 'Contact' }[locale],
             description: {
-                de: `Kontakt zur ${PRACTICE.name} — Telefon ${PRACTICE.phone.human}, ${addressLine}. Öffnungszeiten Mo–Do ${weekdayHours}, Fr ${fridayHours}. Anfahrt aus Speyer, Schifferstadt und Römerberg, Parkplätze direkt vor der Praxis.`,
-                en: `Contact ${PRACTICE.name} — phone ${PRACTICE.phone.human}, ${addressLine}. Opening hours Mon–Thu ${weekdayHours}, Fri ${fridayHours}. Easily reached from Speyer, Schifferstadt and Römerberg with parking right outside the practice.`,
+                de: `Kontakt zur ${PRACTICE.name} — Telefon ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Öffnungszeiten Mo–Do ${weekdayHours}, Fr ${fridayHours}. Anfahrt aus Speyer, Schifferstadt und Römerberg, Parkplätze direkt vor der Praxis.`,
+                en: `Contact ${PRACTICE.name} — phone ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Opening hours Mon–Thu ${weekdayHours}, Fri ${fridayHours}. Easily reached from Speyer, Schifferstadt and Römerberg with parking right outside the practice.`,
             }[locale],
             path: '/kontakt',
             locale,
@@ -73,10 +74,10 @@ function KontaktPage() {
                                     {{ de: 'Telefon', en: 'Phone' }[locale]}
                                 </span>
                                 <a
-                                    href={`tel:${PRACTICE.phone.tel}`}
+                                    href={`tel:${PRACTICE.phone}`}
                                     className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
                                 >
-                                    {PRACTICE.phone.human}
+                                    {formatPhoneNumber(PRACTICE.phone)}
                                 </a>
                                 <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
                                     {
@@ -90,7 +91,7 @@ function KontaktPage() {
                                     {
                                         {
                                             de: 'Wenn wir gerade nicht ans Telefon gehen können, rufen wir zurück — bitte unterdrücken Sie Ihre Rufnummer nicht, oder versuchen Sie es etwas später noch einmal.',
-                                            en: 'If we can\'t pick up, we\'ll call you back — please don\'t withhold your number, or try again a little later.',
+                                            en: "If we can't pick up, we'll call you back — please don't withhold your number, or try again a little later.",
                                         }[locale]
                                     }
                                 </span>
@@ -272,7 +273,7 @@ function KontaktPage() {
                         </p>
                         <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                             <Button variant="brand" size="lg" asChild>
-                                <a href={`tel:${PRACTICE.phone.tel}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
+                                <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
                             </Button>
                             <Button variant="brand-outline" size="lg" asChild>
                                 <a href={`mailto:${PRACTICE.email}`}>{{ de: 'E-Mail schreiben', en: 'Send email' }[locale]}</a>

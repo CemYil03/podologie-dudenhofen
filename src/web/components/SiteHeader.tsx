@@ -1,6 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router';
 import { MenuIcon, PhoneIcon } from 'lucide-react';
 import { useState } from 'react';
+import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { useLocale } from '../hooks/useLocale';
 import { PRACTICE } from '../practice';
 import { cn } from '../utils/cn';
@@ -56,12 +57,12 @@ export function SiteHeader() {
 
                 <div className="flex items-center gap-2">
                     <a
-                        href={`tel:${PRACTICE.phone.tel}`}
+                        href={`tel:${PRACTICE.phone}`}
                         className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex"
                         aria-label={{ de: 'Praxis anrufen', en: 'Call the practice' }[locale]}
                     >
                         <PhoneIcon className="size-4" aria-hidden />
-                        <span>{PRACTICE.phone.human}</span>
+                        <span>{formatPhoneNumber(PRACTICE.phone)}</span>
                     </a>
                     <LanguageSwitcher />
 
@@ -97,11 +98,11 @@ export function SiteHeader() {
                             </nav>
                             <div className="mt-auto border-t border-aubergine/10 p-4">
                                 <a
-                                    href={`tel:${PRACTICE.phone.tel}`}
+                                    href={`tel:${PRACTICE.phone}`}
                                     className="flex items-center justify-center gap-2 rounded-full bg-aubergine px-4 py-3 text-sm font-medium text-cream"
                                 >
                                     <PhoneIcon className="size-4" aria-hidden />
-                                    <span>{PRACTICE.phone.human}</span>
+                                    <span>{formatPhoneNumber(PRACTICE.phone)}</span>
                                 </a>
                             </div>
                         </SheetContent>

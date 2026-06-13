@@ -89,6 +89,14 @@ If a comment paraphrases what the next line does, delete the comment and fix the
 Site-wide practice facts (name, person, email, phone, address, hours, map URLs) live in `src/web/practice.ts` — never re-declare phone,
 email, address, or hours inline.
 
+## Shared Formatters
+
+Cross-cutting display helpers — anything that turns a stored value into a UI string — live in `src/shared/formatters/`. The convention is
+**store the raw value; format only at the render site**. Phone numbers are stored in raw E.164 (`+<countryCode><nationalNumber>`, digits
+only); a single E.164 string is also a valid `tel:` URI per RFC 3966, so it goes straight into `href={`tel:${PRACTICE.phone}`}` and runs
+through `formatPhoneNumber()` for the visible label. Do not introduce a parallel "human" copy of any value that already has a raw
+representation.
+
 ## Brand Colors and Fonts
 
 The site has a small, opinionated brand palette and a three-font system. Tokens live in `src/styles.css` and are exposed as Tailwind

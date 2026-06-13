@@ -8,10 +8,13 @@ import {
     ClipboardCheckIcon,
     CompassIcon,
     CreditCardIcon,
+    EuroIcon,
     FileTextIcon,
     FootprintsIcon,
     HandIcon,
+    HomeIcon,
     MessageCircleIcon,
+    PercentIcon,
     PhoneIcon,
     PillIcon,
     ScissorsIcon,
@@ -22,6 +25,7 @@ import {
     WrenchIcon,
 } from 'lucide-react';
 import { useState } from 'react';
+import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { LeistungenPageDocument } from '../../web/graphql/generated';
@@ -371,11 +375,11 @@ function LeistungenPage() {
                             }[locale]
                         }
                         <a
-                            href={`tel:${PRACTICE.phone.tel}`}
+                            href={`tel:${PRACTICE.phone}`}
                             className="inline-flex items-center gap-1.5 font-medium text-aubergine underline-offset-4 hover:underline"
                         >
                             <PhoneIcon className="size-3.5" aria-hidden />
-                            {PRACTICE.phone.human}
+                            {formatPhoneNumber(PRACTICE.phone)}
                         </a>
                     </p>
                 </div>
@@ -530,36 +534,144 @@ function LeistungenPage() {
 
                     <div key={patientType} className="mt-10 grid max-w-3xl gap-8">
                         {patientType === 'kasse' ? (
-                            <div className="flex gap-4">
-                                <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
-                                    <ClipboardCheckIcon className="size-5" aria-hidden />
+                            <>
+                                <div className="flex gap-4">
+                                    <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                        <ClipboardCheckIcon className="size-5" aria-hidden />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
+                                            {{ de: 'Kassenleistung', en: 'Statutory insurance' }[locale]}
+                                        </h3>
+                                        <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
+                                            {
+                                                {
+                                                    de: 'Bei diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten — wir rechnen direkt ab.',
+                                                    en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the costs — we bill directly.',
+                                                }[locale]
+                                            }
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                        {{ de: 'Kassenleistung', en: 'Statutory insurance' }[locale]}
+
+                                <div className="rounded-xl border border-aubergine/10 bg-cream p-6">
+                                    <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
+                                        {
+                                            {
+                                                de: 'Was Sie als Kassenpatient*in selbst zahlen',
+                                                en: 'What you pay yourself as a statutory patient',
+                                            }[locale]
+                                        }
                                     </h3>
-                                    <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
-                                        {
-                                            {
-                                                de: 'Bei diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten — wir rechnen direkt ab.',
-                                                en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the costs — we bill directly.',
-                                            }[locale]
-                                        }
-                                    </p>
-                                    <button
-                                        type="button"
-                                        onClick={() => setPatientType('privat')}
-                                        className="mt-3 text-sm text-aubergine underline-offset-4 hover:underline"
-                                    >
-                                        {
-                                            {
-                                                de: 'Privat ohne Verordnung? Hier wechseln →',
-                                                en: 'Private without prescription? Switch here →',
-                                            }[locale]
-                                        }
-                                    </button>
+                                    <ul className="mt-4 grid gap-4">
+                                        <li className="flex gap-3">
+                                            <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                                <EuroIcon className="size-4" aria-hidden />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-aubergine-dark">
+                                                    {
+                                                        {
+                                                            de: '10 € pro Verordnung',
+                                                            en: '€10 per prescription',
+                                                        }[locale]
+                                                    }
+                                                </h4>
+                                                <p className="text-sm text-(--color-brand-charcoal-2)">
+                                                    {
+                                                        {
+                                                            de: 'Einmalige Rezeptgebühr je Verordnungsblatt — unabhängig davon, wie viele Behandlungen darauf stehen.',
+                                                            en: 'A one-off prescription fee per prescription form — regardless of how many treatments are on it.',
+                                                        }[locale]
+                                                    }
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li className="flex gap-3">
+                                            <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                                <PercentIcon className="size-4" aria-hidden />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-aubergine-dark">
+                                                    {
+                                                        {
+                                                            de: '10 % Eigenanteil je Behandlung',
+                                                            en: '10% co-payment per treatment',
+                                                        }[locale]
+                                                    }
+                                                </h4>
+                                                <p className="text-sm text-(--color-brand-charcoal-2)">
+                                                    {
+                                                        {
+                                                            de: 'Gesetzliche Zuzahlung von 10 % der Behandlungskosten — diese rechnen wir direkt mit Ihnen ab.',
+                                                            en: 'A statutory co-payment of 10% of the treatment cost — billed directly to you.',
+                                                        }[locale]
+                                                    }
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li className="flex gap-3">
+                                            <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                                <HomeIcon className="size-4" aria-hidden />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-aubergine-dark">
+                                                    {
+                                                        {
+                                                            de: 'Hausbesuch: Eigenanteil auch auf Hauspauschale & Wegegeld',
+                                                            en: 'Home visit: co-payment applies to flat fee & travel costs',
+                                                        }[locale]
+                                                    }
+                                                </h4>
+                                                <p className="text-sm text-(--color-brand-charcoal-2)">
+                                                    {
+                                                        {
+                                                            de: 'Die 10 % gelten nicht nur für die Behandlung, sondern auch für Hauspauschale und Wegegeld.',
+                                                            en: 'The 10% applies not only to the treatment itself, but also to the home-visit flat fee and travel costs.',
+                                                        }[locale]
+                                                    }
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li className="flex gap-3">
+                                            <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                                <ShieldCheckIcon className="size-4" aria-hidden />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-medium text-aubergine-dark">
+                                                    {
+                                                        {
+                                                            de: 'Von Zuzahlungen befreit?',
+                                                            en: 'Exempt from co-payments?',
+                                                        }[locale]
+                                                    }
+                                                </h4>
+                                                <p className="text-sm text-(--color-brand-charcoal-2)">
+                                                    {
+                                                        {
+                                                            de: 'Wenn Ihre Krankenkasse Sie für das laufende Jahr von Zuzahlungen befreit hat, bringen Sie bitte den Befreiungsausweis mit.',
+                                                            en: 'If your health-insurance fund has granted you a co-payment exemption for this year, please bring the exemption certificate.',
+                                                        }[locale]
+                                                    }
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setPatientType('privat')}
+                                    className="text-sm text-aubergine underline-offset-4 hover:underline"
+                                >
+                                    {
+                                        {
+                                            de: 'Privat ohne Verordnung? Hier wechseln →',
+                                            en: 'Private without prescription? Switch here →',
+                                        }[locale]
+                                    }
+                                </button>
+                            </>
                         ) : (
                             <div className="flex gap-4">
                                 <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
@@ -578,11 +690,11 @@ function LeistungenPage() {
                                         }
                                     </p>
                                     <a
-                                        href={`tel:${PRACTICE.phone.tel}`}
+                                        href={`tel:${PRACTICE.phone}`}
                                         className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-aubergine underline-offset-4 hover:underline"
                                     >
                                         <PhoneIcon className="size-4" aria-hidden />
-                                        {PRACTICE.phone.human}
+                                        {formatPhoneNumber(PRACTICE.phone)}
                                     </a>
                                     <button
                                         type="button"
@@ -634,9 +746,9 @@ function LeistungenPage() {
                             asChild
                             className="inline-flex items-center gap-2 rounded-full border border-aubergine/20 px-5 py-2.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream"
                         >
-                            <a href={`tel:${PRACTICE.phone.tel}`}>
+                            <a href={`tel:${PRACTICE.phone}`}>
                                 <PhoneIcon className="size-4" aria-hidden />
-                                {PRACTICE.phone.human}
+                                {formatPhoneNumber(PRACTICE.phone)}
                             </a>
                         </Button>
                     </div>

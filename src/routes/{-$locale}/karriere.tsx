@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ClockIcon, GraduationCapIcon, HandshakeIcon, ShieldCheckIcon } from 'lucide-react';
+import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { KarrierePageDocument } from '../../web/graphql/generated';
@@ -308,8 +309,8 @@ function KarrierePage() {
                                 {index === 0 ? (
                                     <p className="mt-3 text-sm text-cream/70">
                                         {{ de: 'Telefon', en: 'Phone' }[locale]}:{' '}
-                                        <a href={`tel:${PRACTICE.phone.tel}`} className="text-gold hover:underline">
-                                            {PRACTICE.phone.human}
+                                        <a href={`tel:${PRACTICE.phone}`} className="text-gold hover:underline">
+                                            {formatPhoneNumber(PRACTICE.phone)}
                                         </a>
                                     </p>
                                 ) : null}
@@ -323,8 +324,8 @@ function KarrierePage() {
                             </Link>
                         </Button>
                         <Button variant="link" asChild className="text-cream/80 hover:text-cream">
-                            <a href={`tel:${PRACTICE.phone.tel}`}>
-                                {{ de: 'oder anrufen', en: 'or call' }[locale]}: {PRACTICE.phone.human}
+                            <a href={`tel:${PRACTICE.phone}`}>
+                                {{ de: 'oder anrufen', en: 'or call' }[locale]}: {formatPhoneNumber(PRACTICE.phone)}
                             </a>
                         </Button>
                     </div>

@@ -2,14 +2,15 @@
 // name, person, contact details, address, opening hours, and external map
 // URLs. Imported by site chrome (header, footer), route content, and
 // `seoMeta()` — never re-declare any of these values inline.
+//
+// `phone` is the raw E.164 number — also a valid `tel:` URI per RFC 3966.
+// Use `formatPhoneNumber()` from `src/shared/formatters` whenever it is
+// rendered to the UI; never store a pre-formatted human variant alongside.
 export const PRACTICE = {
     name: 'Podologie Dudenhofen',
     person: 'Annette Yilmaz',
     email: 'podologie.annette@gmail.com',
-    phone: {
-        human: '+49 6232 621064',
-        tel: '+496232621064',
-    },
+    phone: '+496232621064',
     address: {
         street: 'Speyerer Straße 60',
         postcode: '67373',

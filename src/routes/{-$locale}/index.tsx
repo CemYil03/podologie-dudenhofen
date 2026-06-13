@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ActivityIcon, AwardIcon, BadgeCheckIcon, PhoneIcon, ShieldCheckIcon, StethoscopeIcon } from 'lucide-react';
+import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { HomePageDocument } from '../../web/graphql/generated';
@@ -57,6 +58,7 @@ export const Route = createFileRoute('/{-$locale}/')({
             { de: 'Brauche ich eine Verordnung?', en: 'Do I need a prescription?' },
             { de: 'Was bringe ich zum ersten Termin mit?', en: 'What should I bring to the first appointment?' },
             { de: 'Übernimmt meine Krankenkasse das?', en: 'Will my health insurance cover this?' },
+            { de: 'Was zahle ich als Kassenpatient*in?', en: 'What will I pay as a statutory patient?' },
         ] as const;
 
         const credentials = [
@@ -224,12 +226,12 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     </div>
                                 </address>
                                 <a
-                                    href={`tel:${PRACTICE.phone.tel}`}
+                                    href={`tel:${PRACTICE.phone}`}
                                     className="mt-6 inline-flex items-center gap-2 font-serif text-2xl text-aubergine hover:underline"
                                     aria-label={{ de: 'Praxis anrufen', en: 'Call the practice' }[locale]}
                                 >
                                     <PhoneIcon className="size-5" aria-hidden />
-                                    {PRACTICE.phone.human}
+                                    {formatPhoneNumber(PRACTICE.phone)}
                                 </a>
                             </div>
                             <div>
@@ -311,9 +313,9 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 asChild
                                 className="inline-flex items-center gap-2 text-sm text-(--color-brand-charcoal-2) hover:text-aubergine"
                             >
-                                <a href={`tel:${PRACTICE.phone.tel}`}>
+                                <a href={`tel:${PRACTICE.phone}`}>
                                     <PhoneIcon className="size-4" aria-hidden />
-                                    {PRACTICE.phone.human}
+                                    {formatPhoneNumber(PRACTICE.phone)}
                                 </a>
                             </Button>
                         </div>
