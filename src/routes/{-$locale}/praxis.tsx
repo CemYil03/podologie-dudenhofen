@@ -63,8 +63,8 @@ function PraxisPage() {
                     <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                         {
                             {
-                                de: 'Barrierefrei, ruhig, gut belüftet.',
-                                en: 'Barrier-free, calm and well-ventilated.',
+                                de: 'Barrierefrei, ruhig, klimatisiert.',
+                                en: 'Barrier-free, calm and air-conditioned.',
                             }[locale]
                         }
                     </h2>
@@ -100,8 +100,8 @@ function PraxisPage() {
                             <p>
                                 {
                                     {
-                                        de: 'Der Raum ist gut belüftet und mit medizinischer Behandlungseinheit, Lupenleuchte und Absaugung ausgestattet. Alles, was für eine saubere podologische Behandlung gebraucht wird — nicht mehr, nicht weniger.',
-                                        en: 'The room is well-ventilated and equipped with a medical treatment unit, magnifying lamp and suction. Everything a clean podiatric treatment requires — no more, no less.',
+                                        de: 'Der Raum ist klimatisiert und gut belüftet und mit medizinischer Behandlungseinheit, Lupenleuchte und Absaugung ausgestattet. Alles, was für eine saubere podologische Behandlung gebraucht wird — nicht mehr, nicht weniger.',
+                                        en: 'The room is air-conditioned and well-ventilated, equipped with a medical treatment unit, magnifying lamp and suction. Everything a clean podiatric treatment requires — no more, no less.',
                                     }[locale]
                                 }
                             </p>
