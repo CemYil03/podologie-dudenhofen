@@ -222,29 +222,50 @@ function QualifikationPage() {
                         </div>
                     </div>
 
-                    <img
-                        src="/podologie-urkunde.png"
-                        alt="Staatliche Urkunde Podologin — Annette Yilmaz"
-                        loading="lazy"
-                        className="mx-auto mt-12 h-auto w-full max-w-md rounded-lg border border-gold/30 shadow-lg"
-                    />
-                    <p className="mx-auto mt-4 max-w-md text-sm text-cream/80">
-                        {
-                            {
-                                de: 'Urkunde über die staatliche Anerkennung als Podologin.',
-                                en: 'Certificate of state recognition as a podiatrist.',
-                            }[locale]
-                        }
-                    </p>
-
-                    {/* <p className="mx-auto mt-10 max-w-2xl text-cream/80">
-                        {
-                            {
-                                de: 'Die zweite Urkunde — Heilpraktikerin für Podologie — liegt noch nicht digital vor. Ich zeige sie Ihnen gerne persönlich beim Termin in der Praxis.',
-                                en: 'The second certificate — Heilpraktiker for podiatry — is not yet digitised. I am happy to show it to you in person at your appointment.',
-                            }[locale]
-                        }
-                    </p> */}
+                    <div className="mx-auto mt-12 grid max-w-3xl gap-10 sm:grid-cols-2">
+                        <figure>
+                            <img
+                                src="/urkunden/annette-yilmaz-podologin.png"
+                                alt={
+                                    {
+                                        de: 'Staatliche Urkunde Podologin — Annette Yilmaz',
+                                        en: 'State certificate as podiatrist — Annette Yilmaz',
+                                    }[locale]
+                                }
+                                loading="lazy"
+                                className="mx-auto h-auto w-full rounded-lg border border-gold/30 shadow-lg"
+                            />
+                            <figcaption className="mx-auto mt-4 text-sm text-cream/80">
+                                {
+                                    {
+                                        de: 'Urkunde über die staatliche Anerkennung als Podologin.',
+                                        en: 'Certificate of state recognition as a podiatrist.',
+                                    }[locale]
+                                }
+                            </figcaption>
+                        </figure>
+                        <figure>
+                            <img
+                                src="/urkunden/annette-yilmaz-heilpraktikerin.png"
+                                alt={
+                                    {
+                                        de: 'Urkunde Heilpraktikerin für Podologie — Annette Yilmaz',
+                                        en: 'Certificate as Heilpraktiker for podiatry — Annette Yilmaz',
+                                    }[locale]
+                                }
+                                loading="lazy"
+                                className="mx-auto h-auto w-full rounded-lg border border-gold/30 shadow-lg"
+                            />
+                            <figcaption className="mx-auto mt-4 text-sm text-cream/80">
+                                {
+                                    {
+                                        de: 'Urkunde über die Erlaubnis zur Ausübung der Heilkunde, beschränkt auf das Gebiet der Podologie.',
+                                        en: 'Certificate of licence to practise healing, restricted to the field of podiatry.',
+                                    }[locale]
+                                }
+                            </figcaption>
+                        </figure>
+                    </div>
 
                     <div className="mx-auto mt-12 max-w-2xl text-left">
                         <h3 className="font-serif text-xl font-semibold text-cream">{{ de: 'Zertifikate', en: 'Certificates' }[locale]}</h3>
