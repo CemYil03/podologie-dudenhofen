@@ -18,8 +18,8 @@ export const Route = createFileRoute('/{-$locale}/')({
         return seoMeta({
             title: { de: 'Start', en: 'Home' }[locale],
             description: {
-                de: 'Podologie Dudenhofen — kleine Praxis für medizinische Fußpflege, Diabetisches Fußsyndrom und Nagelkorrekturen. Mit Kassenzulassung. Termine nach Vereinbarung.',
-                en: 'Podologie Dudenhofen — a small practice for medical foot-care, diabetic foot syndrome and nail-correction. Statutory health-insurance accredited. By appointment.',
+                de: 'Podologie Dudenhofen — kleine podologische Praxis, auch für medizinische Fußpflege, Diabetisches Fußsyndrom und Nagelkorrekturen. Mit Kassenzulassung. Termine nach Vereinbarung.',
+                en: 'Podologie Dudenhofen — a small podiatry practice, also offering medical foot-care, diabetic foot syndrome treatment and nail-correction. Statutory health-insurance accredited. By appointment.',
             }[locale],
             path: '/',
             locale,
@@ -75,8 +75,8 @@ export const Route = createFileRoute('/{-$locale}/')({
                             <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                                 {
                                     {
-                                        de: 'Medizinische Fußpflege in Dudenhofen — mit Kassenzulassung.',
-                                        en: 'Medical foot-care in Dudenhofen — covered by statutory health insurance.',
+                                        de: 'Podologische Praxis in Dudenhofen — mit Kassenzulassung.',
+                                        en: 'Podiatry practice in Dudenhofen — covered by statutory health insurance.',
                                     }[locale]
                                 }
                             </h1>

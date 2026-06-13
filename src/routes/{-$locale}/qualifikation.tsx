@@ -210,8 +210,8 @@ function QualifikationPage() {
                             <h2 className="font-serif text-3xl leading-tight font-semibold text-cream sm:text-4xl">
                                 {
                                     {
-                                        de: 'Urkunden zur Einsicht',
-                                        en: 'Certificates on file',
+                                        de: 'Mit Brief und Siegel',
+                                        en: 'Signed and sealed',
                                     }[locale]
                                 }
                             </h2>
@@ -222,7 +222,7 @@ function QualifikationPage() {
                         src="/podologie-urkunde.png"
                         alt="Staatliche Urkunde Podologin — Annette Yilmaz"
                         loading="lazy"
-                        className="mx-auto mt-12 max-w-md rounded-lg border border-gold/30 shadow-lg"
+                        className="mx-auto mt-12 h-auto w-full max-w-md rounded-lg border border-gold/30 shadow-lg"
                     />
                     <p className="mx-auto mt-4 max-w-md text-sm text-cream/80">
                         {
@@ -233,14 +233,14 @@ function QualifikationPage() {
                         }
                     </p>
 
-                    <p className="mx-auto mt-10 max-w-2xl text-cream/80">
+                    {/* <p className="mx-auto mt-10 max-w-2xl text-cream/80">
                         {
                             {
                                 de: 'Die zweite Urkunde — Heilpraktikerin für Podologie — liegt noch nicht digital vor. Ich zeige sie Ihnen gerne persönlich beim Termin in der Praxis.',
                                 en: 'The second certificate — Heilpraktiker for podiatry — is not yet digitised. I am happy to show it to you in person at your appointment.',
                             }[locale]
                         }
-                    </p>
+                    </p> */}
 
                     <div className="mx-auto mt-12 max-w-2xl text-left">
                         <h3 className="font-serif text-xl font-semibold text-cream">{{ de: 'Zertifikate', en: 'Certificates' }[locale]}</h3>
