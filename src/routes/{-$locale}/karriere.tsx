@@ -2,13 +2,17 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ClockIcon, GraduationCapIcon, HandshakeIcon, ShieldCheckIcon } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { PRACTICE_PHONE_HUMAN, PRACTICE_PHONE_TEL } from '../../web/components/SiteHeader';
+import { SessionBootstrapDocument } from '../../web/graphql/generated';
+import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
+import { PRACTICE } from '../../web/practice';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/karriere')({
+    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
@@ -129,8 +133,8 @@ function KarrierePage() {
         {
             title: { de: 'Schreiben Sie uns', en: 'Get in touch' },
             body: {
-                de: 'Eine kurze Mail oder ein Anruf reicht. Adresse: podologie.annette@gmail.com.',
-                en: 'A short email or phone call is enough. Address: podologie.annette@gmail.com.',
+                de: `Eine kurze Mail oder ein Anruf reicht. Adresse: ${PRACTICE.email}.`,
+                en: `A short email or phone call is enough. Address: ${PRACTICE.email}.`,
             },
         },
         {
@@ -304,8 +308,8 @@ function KarrierePage() {
                                 {index === 0 ? (
                                     <p className="mt-3 text-sm text-cream/70">
                                         {{ de: 'Telefon', en: 'Phone' }[locale]}:{' '}
-                                        <a href={`tel:${PRACTICE_PHONE_TEL}`} className="text-gold hover:underline">
-                                            {PRACTICE_PHONE_HUMAN}
+                                        <a href={`tel:${PRACTICE.phone.tel}`} className="text-gold hover:underline">
+                                            {PRACTICE.phone.human}
                                         </a>
                                     </p>
                                 ) : null}
@@ -319,8 +323,8 @@ function KarrierePage() {
                             </Link>
                         </Button>
                         <Button variant="link" asChild className="text-cream/80 hover:text-cream">
-                            <a href={`tel:${PRACTICE_PHONE_TEL}`}>
-                                {{ de: 'oder anrufen', en: 'or call' }[locale]}: {PRACTICE_PHONE_HUMAN}
+                            <a href={`tel:${PRACTICE.phone.tel}`}>
+                                {{ de: 'oder anrufen', en: 'or call' }[locale]}: {PRACTICE.phone.human}
                             </a>
                         </Button>
                     </div>

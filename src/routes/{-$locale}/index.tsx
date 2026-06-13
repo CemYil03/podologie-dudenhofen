@@ -2,10 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ActivityIcon, AwardIcon, BadgeCheckIcon, PhoneIcon, ShieldCheckIcon, StethoscopeIcon } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { PRACTICE_PHONE_HUMAN, PRACTICE_PHONE_TEL } from '../../web/components/SiteHeader';
 import { HomePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
+import { PRACTICE } from '../../web/practice';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
@@ -217,23 +217,25 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     </div>
                                 </dl>
                                 <address className="mt-8 not-italic text-(--color-brand-charcoal-2)">
-                                    <div className="font-medium text-charcoal">Annette Yilmaz</div>
-                                    <div>Speyerer Straße 60</div>
-                                    <div>67373 Dudenhofen</div>
+                                    <div className="font-medium text-charcoal">{PRACTICE.person}</div>
+                                    <div>{PRACTICE.address.street}</div>
+                                    <div>
+                                        {PRACTICE.address.postcode} {PRACTICE.address.city}
+                                    </div>
                                 </address>
                                 <a
-                                    href={`tel:${PRACTICE_PHONE_TEL}`}
+                                    href={`tel:${PRACTICE.phone.tel}`}
                                     className="mt-6 inline-flex items-center gap-2 font-serif text-2xl text-aubergine hover:underline"
                                     aria-label={{ de: 'Praxis anrufen', en: 'Call the practice' }[locale]}
                                 >
                                     <PhoneIcon className="size-5" aria-hidden />
-                                    {PRACTICE_PHONE_HUMAN}
+                                    {PRACTICE.phone.human}
                                 </a>
                             </div>
                             <div>
                                 <div className="aspect-square overflow-hidden rounded-xl border border-aubergine/10">
                                     <iframe
-                                        src="https://www.google.com/maps?q=Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen&output=embed"
+                                        src={PRACTICE.maps.embed}
                                         title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen' }[locale]}
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
@@ -309,9 +311,9 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 asChild
                                 className="inline-flex items-center gap-2 text-sm text-(--color-brand-charcoal-2) hover:text-aubergine"
                             >
-                                <a href={`tel:${PRACTICE_PHONE_TEL}`}>
+                                <a href={`tel:${PRACTICE.phone.tel}`}>
                                     <PhoneIcon className="size-4" aria-hidden />
-                                    {PRACTICE_PHONE_HUMAN}
+                                    {PRACTICE.phone.human}
                                 </a>
                             </Button>
                         </div>

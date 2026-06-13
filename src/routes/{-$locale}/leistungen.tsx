@@ -18,13 +18,17 @@ import {
 } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { PRACTICE_PHONE_HUMAN, PRACTICE_PHONE_TEL } from '../../web/components/SiteHeader';
+import { SessionBootstrapDocument } from '../../web/graphql/generated';
+import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
+import { PRACTICE } from '../../web/practice';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/leistungen')({
+    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
@@ -257,11 +261,11 @@ function LeistungenPage() {
                             }[locale]
                         }
                         <a
-                            href={`tel:${PRACTICE_PHONE_TEL}`}
+                            href={`tel:${PRACTICE.phone.tel}`}
                             className="inline-flex items-center gap-1.5 font-medium text-aubergine underline-offset-4 hover:underline"
                         >
                             <PhoneIcon className="size-3.5" aria-hidden />
-                            {PRACTICE_PHONE_HUMAN}
+                            {PRACTICE.phone.human}
                         </a>
                     </p>
                 </div>
@@ -388,11 +392,11 @@ function LeistungenPage() {
                                     }
                                 </p>
                                 <a
-                                    href={`tel:${PRACTICE_PHONE_TEL}`}
+                                    href={`tel:${PRACTICE.phone.tel}`}
                                     className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-aubergine underline-offset-4 hover:underline"
                                 >
                                     <PhoneIcon className="size-4" aria-hidden />
-                                    {PRACTICE_PHONE_HUMAN}
+                                    {PRACTICE.phone.human}
                                 </a>
                             </div>
                         </div>
@@ -431,9 +435,9 @@ function LeistungenPage() {
                             asChild
                             className="inline-flex items-center gap-2 rounded-full border border-aubergine/20 px-5 py-2.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream"
                         >
-                            <a href={`tel:${PRACTICE_PHONE_TEL}`}>
+                            <a href={`tel:${PRACTICE.phone.tel}`}>
                                 <PhoneIcon className="size-4" aria-hidden />
-                                {PRACTICE_PHONE_HUMAN}
+                                {PRACTICE.phone.human}
                             </a>
                         </Button>
                     </div>

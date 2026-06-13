@@ -1,8 +1,10 @@
+import { PRACTICE } from '../practice';
 import type { Locale } from '../utils/locale';
 
-// Site-wide branding and SEO defaults. Update `SITE_NAME` here once and every
-// page's `<title>`, `og:site_name`, and Twitter card text follows.
-export const SITE_NAME = 'Podologie Dudenhofen';
+// Site-wide branding and SEO defaults. Update `PRACTICE.name` in
+// `src/web/practice.ts` and every page's `<title>`, `og:site_name`, and
+// Twitter card text follows.
+export const SITE_NAME = PRACTICE.name;
 
 // Default Open Graph / Twitter Card image. Root-relative so the `seoMeta()`
 // helper turns it into an absolute URL using `webPageUrl`. Replace with your

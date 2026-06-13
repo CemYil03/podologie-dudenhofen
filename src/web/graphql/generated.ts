@@ -713,6 +713,10 @@ export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
+export type GqlCSessionBootstrapQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCSessionBootstrapQuery = { currentSession: { sessionId: string } };
+
 export const ChatMessageGenerationFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -2345,3 +2349,23 @@ export const HomePageDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCHomePageQuery, GqlCHomePageQueryVariables>;
+export const SessionBootstrapDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'SessionBootstrap' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'sessionId' } }] },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCSessionBootstrapQuery, GqlCSessionBootstrapQueryVariables>;

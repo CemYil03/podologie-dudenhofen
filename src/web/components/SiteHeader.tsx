@@ -2,16 +2,11 @@ import { Link, useLocation } from '@tanstack/react-router';
 import { MenuIcon, PhoneIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useLocale } from '../hooks/useLocale';
+import { PRACTICE } from '../practice';
 import { cn } from '../utils/cn';
 import { Button } from './base/button';
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './base/sheet';
 import { LanguageSwitcher } from './LanguageSwitcher';
-
-// Practice phone — tel: links never include spaces; the display string keeps
-// the German grouping. Keep this in one place: any nav, footer, and contact
-// CTA reads from `PRACTICE_PHONE_*` rather than re-typing it.
-export const PRACTICE_PHONE_HUMAN = '+49 6232 621064';
-export const PRACTICE_PHONE_TEL = '+496232621064';
 
 type NavItem = {
     to: '/{-$locale}/praxis' | '/{-$locale}/leistungen' | '/{-$locale}/qualifikation' | '/{-$locale}/karriere' | '/{-$locale}/kontakt';
@@ -35,7 +30,7 @@ export function SiteHeader() {
         <header className="sticky top-0 z-50 border-b border-aubergine/10 bg-cream/80 backdrop-blur-md">
             <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
                 <Link to="/{-$locale}" className="font-serif text-lg font-semibold tracking-tight text-aubergine-dark">
-                    Podologie Dudenhofen
+                    {PRACTICE.name}
                 </Link>
 
                 {/* Desktop nav */}
@@ -61,12 +56,12 @@ export function SiteHeader() {
 
                 <div className="flex items-center gap-2">
                     <a
-                        href={`tel:${PRACTICE_PHONE_TEL}`}
+                        href={`tel:${PRACTICE.phone.tel}`}
                         className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex"
                         aria-label={{ de: 'Praxis anrufen', en: 'Call the practice' }[locale]}
                     >
                         <PhoneIcon className="size-4" aria-hidden />
-                        <span>{PRACTICE_PHONE_HUMAN}</span>
+                        <span>{PRACTICE.phone.human}</span>
                     </a>
                     <LanguageSwitcher />
 
@@ -110,11 +105,11 @@ export function SiteHeader() {
                             </nav>
                             <div className="mt-auto border-t border-aubergine/10 p-4">
                                 <a
-                                    href={`tel:${PRACTICE_PHONE_TEL}`}
+                                    href={`tel:${PRACTICE.phone.tel}`}
                                     className="flex items-center justify-center gap-2 rounded-full bg-aubergine px-4 py-3 text-sm font-medium text-cream"
                                 >
                                     <PhoneIcon className="size-4" aria-hidden />
-                                    <span>{PRACTICE_PHONE_HUMAN}</span>
+                                    <span>{PRACTICE.phone.human}</span>
                                 </a>
                             </div>
                         </SheetContent>

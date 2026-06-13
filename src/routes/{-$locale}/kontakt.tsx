@@ -1,28 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
+import { Fragment } from 'react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { PRACTICE_PHONE_HUMAN, PRACTICE_PHONE_TEL } from '../../web/components/SiteHeader';
+import { SessionBootstrapDocument } from '../../web/graphql/generated';
+import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
+import { PRACTICE } from '../../web/practice';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
 
-const PRACTICE_EMAIL = 'podologie.annette@gmail.com';
-
-const GOOGLE_MAPS_URL = 'https://www.google.com/maps/dir/53.5542316,9.9152351/Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen';
-const APPLE_MAPS_URL =
-    'https://maps.apple.com/directions?destination=Podologie+Annette+Yilmaz%2C+Speyerer+Stra%C3%9Fe+60+67373+Dudenhofen+Deutschland&destination-place-id=IE4D6102C9A687DCD&mode=driving';
-const MAP_EMBED_URL = 'https://www.google.com/maps?q=Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen&output=embed';
-
 export const Route = createFileRoute('/{-$locale}/kontakt')({
+    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);
+        const addressLine = `${PRACTICE.address.street}, ${PRACTICE.address.postcode} ${PRACTICE.address.city}`;
+        const weekdayHours = PRACTICE.hours[0].time[locale];
+        const fridayHours = PRACTICE.hours[1].time[locale];
         return seoMeta({
             title: { de: 'Kontakt', en: 'Contact' }[locale],
             description: {
-                de: `Kontakt zur Podologie Dudenhofen — Telefon ${PRACTICE_PHONE_HUMAN}, Speyerer Straße 60, 67373 Dudenhofen. Öffnungszeiten Mo–Do 08:00–18:00, Fr 08:00–14:00. Anfahrt aus Speyer, Schifferstadt und Römerberg, Parkplätze direkt vor der Praxis.`,
-                en: `Contact Podologie Dudenhofen — phone ${PRACTICE_PHONE_HUMAN}, Speyerer Straße 60, 67373 Dudenhofen. Opening hours Mon–Thu 08:00–18:00, Fri 08:00–14:00. Easily reached from Speyer, Schifferstadt and Römerberg with parking right outside the practice.`,
+                de: `Kontakt zur ${PRACTICE.name} — Telefon ${PRACTICE.phone.human}, ${addressLine}. Öffnungszeiten Mo–Do ${weekdayHours}, Fr ${fridayHours}. Anfahrt aus Speyer, Schifferstadt und Römerberg, Parkplätze direkt vor der Praxis.`,
+                en: `Contact ${PRACTICE.name} — phone ${PRACTICE.phone.human}, ${addressLine}. Opening hours Mon–Thu ${weekdayHours}, Fri ${fridayHours}. Easily reached from Speyer, Schifferstadt and Römerberg with parking right outside the practice.`,
             }[locale],
             path: '/kontakt',
             locale,
@@ -72,10 +73,10 @@ function KontaktPage() {
                                     {{ de: 'Telefon', en: 'Phone' }[locale]}
                                 </span>
                                 <a
-                                    href={`tel:${PRACTICE_PHONE_TEL}`}
+                                    href={`tel:${PRACTICE.phone.tel}`}
                                     className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
                                 >
-                                    {PRACTICE_PHONE_HUMAN}
+                                    {PRACTICE.phone.human}
                                 </a>
                                 <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
                                     {
@@ -98,10 +99,10 @@ function KontaktPage() {
                                     {{ de: 'E-Mail', en: 'Email' }[locale]}
                                 </span>
                                 <a
-                                    href={`mailto:${PRACTICE_EMAIL}`}
+                                    href={`mailto:${PRACTICE.email}`}
                                     className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
                                 >
-                                    {PRACTICE_EMAIL}
+                                    {PRACTICE.email}
                                 </a>
                                 <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
                                     {
@@ -124,13 +125,13 @@ function KontaktPage() {
                                     {{ de: 'Anschrift', en: 'Address' }[locale]}
                                 </span>
                                 <address className="mt-1 font-serif text-xl text-aubergine-dark not-italic">
-                                    Podologie Dudenhofen
+                                    {PRACTICE.name}
                                     <br />
-                                    Annette Yilmaz
+                                    {PRACTICE.person}
                                     <br />
-                                    Speyerer Straße 60
+                                    {PRACTICE.address.street}
                                     <br />
-                                    67373 Dudenhofen
+                                    {PRACTICE.address.postcode} {PRACTICE.address.city}
                                 </address>
                             </div>
                         </div>
@@ -145,14 +146,14 @@ function KontaktPage() {
                                     {{ de: 'Öffnungszeiten', en: 'Opening hours' }[locale]}
                                 </span>
                                 <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
-                                    <dt className="font-serif text-base text-aubergine-dark">{{ de: 'Mo–Do', en: 'Mon–Thu' }[locale]}</dt>
-                                    <dd>08:00 – 18:00</dd>
-                                    <dt className="font-serif text-base text-aubergine-dark">{{ de: 'Fr', en: 'Fri' }[locale]}</dt>
-                                    <dd>08:00 – 14:00</dd>
-                                    <dt className="font-serif text-base text-aubergine-dark">
-                                        {{ de: 'Sa & So', en: 'Sat & Sun' }[locale]}
-                                    </dt>
-                                    <dd className="text-(--color-brand-charcoal-3)">{{ de: 'geschlossen', en: 'closed' }[locale]}</dd>
+                                    {PRACTICE.hours.map((row) => (
+                                        <Fragment key={row.days.de}>
+                                            <dt className="font-serif text-base text-aubergine-dark">{row.days[locale]}</dt>
+                                            <dd className={row.closed ? 'text-(--color-brand-charcoal-3)' : undefined}>
+                                                {row.time[locale]}
+                                            </dd>
+                                        </Fragment>
+                                    ))}
                                 </dl>
                                 <span className="mt-3 text-sm text-(--color-brand-charcoal-3)">
                                     {
@@ -187,12 +188,12 @@ function KontaktPage() {
                     {/* Maps deep-links */}
                     <div className="mt-8 flex flex-row flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" asChild>
-                            <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+                            <a href={PRACTICE.maps.google} target="_blank" rel="noopener noreferrer">
                                 {{ de: 'Google Maps öffnen', en: 'Open Google Maps' }[locale]}
                             </a>
                         </Button>
                         <Button variant="brand-outline" asChild>
-                            <a href={APPLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+                            <a href={PRACTICE.maps.apple} target="_blank" rel="noopener noreferrer">
                                 {{ de: 'Apple Maps öffnen', en: 'Open Apple Maps' }[locale]}
                             </a>
                         </Button>
@@ -201,7 +202,7 @@ function KontaktPage() {
                     {/* Embedded map */}
                     <div className="mt-10 aspect-video overflow-hidden rounded-xl border border-aubergine/10">
                         <iframe
-                            src={MAP_EMBED_URL}
+                            src={PRACTICE.maps.embed}
                             title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen' }[locale]}
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
@@ -255,10 +256,10 @@ function KontaktPage() {
                         </p>
                         <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                             <Button variant="brand" size="lg" asChild>
-                                <a href={`tel:${PRACTICE_PHONE_TEL}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
+                                <a href={`tel:${PRACTICE.phone.tel}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
                             </Button>
                             <Button variant="brand-outline" size="lg" asChild>
-                                <a href={`mailto:${PRACTICE_EMAIL}`}>{{ de: 'E-Mail schreiben', en: 'Send email' }[locale]}</a>
+                                <a href={`mailto:${PRACTICE.email}`}>{{ de: 'E-Mail schreiben', en: 'Send email' }[locale]}</a>
                             </Button>
                         </div>
                     </div>

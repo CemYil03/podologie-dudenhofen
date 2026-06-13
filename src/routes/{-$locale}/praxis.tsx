@@ -2,12 +2,16 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { PackageIcon, ShieldCheckIcon, SparklesIcon } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
+import { SessionBootstrapDocument } from '../../web/graphql/generated';
+import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/praxis')({
+    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({

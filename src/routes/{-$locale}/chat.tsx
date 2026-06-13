@@ -18,7 +18,13 @@ import { AssistantMarkdown } from '../../web/components/AssistantMarkdown';
 import { Spinner } from '../../web/components/base/spinner';
 import { ChatMessage } from '../../web/components/chat-message';
 import type { GqlCChatAssistantInputValue, GqlCChatPageQuery } from '../../web/graphql/generated';
-import { ChatInputCollectionRespondDocument, ChatPageDocument, ChatToolApprovalRespondDocument } from '../../web/graphql/generated';
+import {
+    ChatInputCollectionRespondDocument,
+    ChatPageDocument,
+    ChatToolApprovalRespondDocument,
+    SessionBootstrapDocument,
+} from '../../web/graphql/generated';
+import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
@@ -33,6 +39,7 @@ import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/chat')({
     validateSearch: (search: Record<string, unknown>) => ({ chatId: typeof search.chatId === 'string' ? search.chatId : undefined }),
+    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
     staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);
