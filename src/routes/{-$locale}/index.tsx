@@ -88,7 +88,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     }[locale]
                                 }
                             </p>
-                            <div className="mt-10 flex flex-wrap gap-4">
+                            <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                                 <Button variant="brand" size="lg" asChild>
                                     <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
                                 </Button>
@@ -98,7 +98,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                             </div>
                         </div>
                         <div className="hidden md:block">
-                            <div className="aspect-[4/5] overflow-hidden rounded-xl border border-aubergine/10 shadow-sm">
+                            <div className="aspect-4/5 overflow-hidden rounded-xl border border-aubergine/10 shadow-sm">
                                 <img
                                     src="/podologie-dudenhofen-praxis.jpg"
                                     alt={
@@ -304,13 +304,16 @@ export const Route = createFileRoute('/{-$locale}/')({
                             <Button variant="brand" size="lg" asChild>
                                 <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
                             </Button>
-                            <a
-                                href={`tel:${PRACTICE_PHONE_TEL}`}
+                            <Button
+                                variant="link"
+                                asChild
                                 className="inline-flex items-center gap-2 text-sm text-(--color-brand-charcoal-2) hover:text-aubergine"
                             >
-                                <PhoneIcon className="size-4" aria-hidden />
-                                {PRACTICE_PHONE_HUMAN}
-                            </a>
+                                <a href={`tel:${PRACTICE_PHONE_TEL}`}>
+                                    <PhoneIcon className="size-4" aria-hidden />
+                                    {PRACTICE_PHONE_HUMAN}
+                                </a>
+                            </Button>
                         </div>
                     </div>
                 </section>

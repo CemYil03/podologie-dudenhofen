@@ -205,7 +205,7 @@ function LeistungenPage() {
                         }[locale]
                     }
                 </p>
-                <div className="mt-10 flex flex-wrap gap-4">
+                <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                     <Button variant="brand" size="lg" asChild>
                         <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
                     </Button>
@@ -419,20 +419,23 @@ function LeistungenPage() {
                             }[locale]
                         }
                     </p>
-                    <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                    <div className="mt-8 flex flex-wrap items-center justify-center gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" size="lg" asChild>
                             <Link to="/{-$locale}/kontakt">
                                 <CalendarIcon className="size-4" aria-hidden />
                                 {{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}
                             </Link>
                         </Button>
-                        <a
-                            href={`tel:${PRACTICE_PHONE_TEL}`}
+                        <Button
+                            variant="link"
+                            asChild
                             className="inline-flex items-center gap-2 rounded-full border border-aubergine/20 px-5 py-2.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream"
                         >
-                            <PhoneIcon className="size-4" aria-hidden />
-                            {PRACTICE_PHONE_HUMAN}
-                        </a>
+                            <a href={`tel:${PRACTICE_PHONE_TEL}`}>
+                                <PhoneIcon className="size-4" aria-hidden />
+                                {PRACTICE_PHONE_HUMAN}
+                            </a>
+                        </Button>
                     </div>
                 </div>
             </section>

@@ -47,7 +47,7 @@ function PraxisPage() {
                         }[locale]
                     }
                 </p>
-                <div className="mt-10 flex flex-wrap gap-4">
+                <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                     <Button variant="brand" size="lg" asChild>
                         <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
                     </Button>

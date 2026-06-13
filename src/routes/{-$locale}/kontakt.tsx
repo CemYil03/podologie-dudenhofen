@@ -185,7 +185,7 @@ function KontaktPage() {
                     </p>
 
                     {/* Maps deep-links */}
-                    <div className="mt-8 flex flex-row flex-wrap gap-3">
+                    <div className="mt-8 flex flex-row flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" asChild>
                             <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
                                 {{ de: 'Google Maps öffnen', en: 'Open Google Maps' }[locale]}
@@ -253,7 +253,7 @@ function KontaktPage() {
                                 }[locale]
                             }
                         </p>
-                        <div className="mt-8 flex flex-wrap gap-4">
+                        <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                             <Button variant="brand" size="lg" asChild>
                                 <a href={`tel:${PRACTICE_PHONE_TEL}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
                             </Button>

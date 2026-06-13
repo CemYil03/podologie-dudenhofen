@@ -171,7 +171,7 @@ function KarrierePage() {
                             }[locale]
                         }
                     </p>
-                    <div className="mt-10 flex flex-wrap gap-4">
+                    <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" size="lg" asChild>
                             <Link to="/{-$locale}/kontakt">
                                 {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application' }[locale]}
@@ -312,15 +312,17 @@ function KarrierePage() {
                             </li>
                         ))}
                     </ol>
-                    <div className="mt-12 flex flex-wrap items-center gap-6">
+                    <div className="mt-12 flex flex-wrap items-center gap-3 *:flex-1 sm:*:flex-none">
                         <Button size="lg" asChild className="rounded-full bg-cream px-6 text-aubergine-dark hover:bg-cream/90">
                             <Link to="/{-$locale}/kontakt">
                                 {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application' }[locale]}
                             </Link>
                         </Button>
-                        <a href={`tel:${PRACTICE_PHONE_TEL}`} className="text-cream/80 hover:text-cream">
-                            {{ de: 'oder anrufen', en: 'or call' }[locale]}: {PRACTICE_PHONE_HUMAN}
-                        </a>
+                        <Button variant="link" asChild className="text-cream/80 hover:text-cream">
+                            <a href={`tel:${PRACTICE_PHONE_TEL}`}>
+                                {{ de: 'oder anrufen', en: 'or call' }[locale]}: {PRACTICE_PHONE_HUMAN}
+                            </a>
+                        </Button>
                     </div>
                 </div>
             </section>
