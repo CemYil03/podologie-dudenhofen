@@ -10,8 +10,8 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 // Practice phone — tel: links never include spaces; the display string keeps
 // the German grouping. Keep this in one place: any nav, footer, and contact
 // CTA reads from `PRACTICE_PHONE_*` rather than re-typing it.
-export const PRACTICE_PHONE_HUMAN = '+49 6232 9182842';
-export const PRACTICE_PHONE_TEL = '+4962329182842';
+export const PRACTICE_PHONE_HUMAN = '+49 6232 621064';
+export const PRACTICE_PHONE_TEL = '+496232621064';
 
 type NavItem = {
     to: '/{-$locale}/praxis' | '/{-$locale}/leistungen' | '/{-$locale}/qualifikation' | '/{-$locale}/karriere' | '/{-$locale}/kontakt';
@@ -50,7 +50,7 @@ export function SiteHeader() {
                                     'rounded-full px-3 py-1.5 text-sm font-medium transition-colors',
                                     isActive
                                         ? 'bg-aubergine/10 text-aubergine-dark'
-                                        : 'text-[var(--color-brand-charcoal-2)] hover:bg-aubergine/5 hover:text-aubergine',
+                                        : 'text-(--color-brand-charcoal-2) hover:bg-aubergine/5 hover:text-aubergine',
                                 )}
                             >
                                 {item.label[locale]}

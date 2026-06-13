@@ -163,7 +163,7 @@ function KarrierePage() {
                             }[locale]
                         }
                     </h1>
-                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
                             {
                                 de: 'Wir suchen erfahrene oder gerade ausgebildete Podologinnen und Podologen, die Wert auf saubere Arbeit, gute Hygiene und Zeit für die Patienten legen.',
@@ -203,7 +203,7 @@ function KarrierePage() {
                                     <Icon className="size-6 text-aubergine" aria-hidden />
                                 </div>
                                 <h3 className="mt-5 font-serif text-xl font-semibold text-aubergine-dark">{title[locale]}</h3>
-                                <p className="mt-2 leading-relaxed text-[var(--color-brand-charcoal-2)]">{body[locale]}</p>
+                                <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">{body[locale]}</p>
                             </div>
                         ))}
                     </div>
@@ -227,10 +227,10 @@ function KarrierePage() {
                             <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
                                 {{ de: 'Podologin / Podologe (m/w/d)', en: 'Podiatrist (m/f/d)' }[locale]}
                             </h3>
-                            <p className="mt-2 text-sm tracking-wide text-[var(--color-brand-charcoal-3)] uppercase">
+                            <p className="mt-2 text-sm tracking-wide text-(--color-brand-charcoal-3) uppercase">
                                 {{ de: 'Voraussetzungen', en: 'Requirements' }[locale]}
                             </p>
-                            <ul className="mt-4 space-y-2 text-[var(--color-brand-charcoal-2)]">
+                            <ul className="mt-4 space-y-2 text-(--color-brand-charcoal-2)">
                                 {requirements.map((req) => (
                                     <li key={req.de} className="flex gap-3">
                                         <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-aubergine/60" />
@@ -243,7 +243,7 @@ function KarrierePage() {
                             <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
                                 {{ de: 'Auszubildende (m/w/d)', en: 'Trainees (m/f/d)' }[locale]}
                             </h3>
-                            <p className="mt-4 leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                            <p className="mt-4 leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
                                     {
                                         de: 'Wir bieten gelegentlich Praktikumsplätze für Auszubildende der Podologie an. Schreiben Sie uns gern.',
@@ -272,7 +272,7 @@ function KarrierePage() {
                         {offerings.map((entry) => (
                             <div key={entry.key.de} className="grid gap-2 py-5 sm:grid-cols-[14rem_1fr] sm:gap-8">
                                 <dt className="font-serif text-lg font-semibold text-aubergine-dark">{entry.key[locale]}</dt>
-                                <dd className="leading-relaxed text-[var(--color-brand-charcoal-2)]">{entry.value[locale]}</dd>
+                                <dd className="leading-relaxed text-(--color-brand-charcoal-2)">{entry.value[locale]}</dd>
                             </div>
                         ))}
                     </dl>

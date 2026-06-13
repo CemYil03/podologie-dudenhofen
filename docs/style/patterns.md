@@ -17,9 +17,53 @@ viewport and frosts the content below as it scrolls under.
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
-│  Podologie Dudenhofen                              DE  EN     │
+│  Podologie Dudenhofen        +49 …       [Deutsch ▾]    ☰    │
 └───────────────────────────────────────────────────────────────┘
 ```
+
+## Language switcher
+
+A pill-shaped dropdown trigger that mirrors the phone CTA next to it, so the two right-side controls read as one coordinated pair. The
+trigger collapses to the two-letter locale code on small viewports and shows the full language name (in its own language) from `md:` up. The
+menu uses the [dropdown surface](#dropdown--popover-surface) convention.
+
+- **Component:** [`LanguageSwitcher`](../../src/web/components/LanguageSwitcher.tsx)
+- **Trigger shape:** `rounded-full border border-aubergine/20`, `text-aubergine`, hover fills `bg-aubergine text-cream` — same hairline +
+  hover treatment as the header phone CTA in [`SiteHeader`](../../src/web/components/SiteHeader.tsx).
+- **Mobile vs desktop label:** `DE` (mono, uppercase) below `md:`, `Deutsch` from `md:` up. The locale code only earns its keep when there's
+  no room for the name; once there is, it adds nothing.
+- **Native name in own language:** "Deutsch" / "English". A visitor who picked the wrong locale should be able to find their way back
+  without having to read the current one.
+- **Active item:** marked with a `CheckIcon` in `text-aubergine` and `font-medium` label — never with color alone.
+- **No flags.** Flags name countries, not languages, and Windows renders flag emojis as letter-pair fallbacks. The mono locale code reads
+  the same on every platform.
+
+```
+trigger (mobile)   [DE ▾]
+trigger (md+)      [Deutsch ▾]
+
+menu
+┌──────────────────┐
+│  Deutsch      ✓ │
+│  English         │
+└──────────────────┘
+```
+
+## Dropdown / popover surface
+
+Default surface for any `DropdownMenu`, `Popover`, or `HoverCard` content rendered on top of the page. Keeps the cream-on-cream rhythm even
+when the menu floats above blush or aubergine-dark sections.
+
+| Layer            | Token                           |
+| ---------------- | ------------------------------- |
+| Background       | `bg-cream`                      |
+| Border           | `border border-aubergine/10`    |
+| Item text        | `text-aubergine-dark`           |
+| Item hover/focus | `bg-aubergine/10`               |
+| Active indicator | `CheckIcon` in `text-aubergine` |
+
+Reach for these classes via the wrapping `className` on `DropdownMenuContent` / `PopoverContent`; don't fork the base components in
+`src/web/components/base/`.
 
 ## Section eyebrow + rule
 

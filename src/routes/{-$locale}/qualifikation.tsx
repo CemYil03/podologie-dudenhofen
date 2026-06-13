@@ -40,7 +40,7 @@ function QualifikationPage() {
                         }[locale]
                     }
                 </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                     {
                         {
                             de: 'Zwei Qualifikationen — eine staatlich geregelte Ausbildung und eine zusätzliche Heilkunde-Erlaubnis — bedeuten für Sie: schonend, fundiert und im rechtlich vollen Umfang behandelt.',
@@ -67,7 +67,7 @@ function QualifikationPage() {
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                 {{ de: 'Was ist Podologie?', en: 'What is podiatry?' }[locale]}
                             </h2>
-                            <div className="mt-8 grid gap-4 text-[var(--color-brand-charcoal-2)]">
+                            <div className="mt-8 grid gap-4 text-(--color-brand-charcoal-2)">
                                 <p>
                                     {
                                         {
@@ -90,7 +90,7 @@ function QualifikationPage() {
                             <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
                                 {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
                             </h3>
-                            <ul className="mt-4 grid gap-3 text-sm text-[var(--color-brand-charcoal-2)]">
+                            <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
                                 <li className="flex gap-3">
                                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
                                     <span>{{ de: 'Geregelt nach Podologengesetz', en: 'Governed by the Podiatrists Act' }[locale]}</span>
@@ -137,7 +137,7 @@ function QualifikationPage() {
                                     }[locale]
                                 }
                             </h2>
-                            <div className="mt-8 grid gap-4 text-[var(--color-brand-charcoal-2)]">
+                            <div className="mt-8 grid gap-4 text-(--color-brand-charcoal-2)">
                                 <p>
                                     {
                                         {
@@ -160,7 +160,7 @@ function QualifikationPage() {
                             <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
                                 {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
                             </h3>
-                            <ul className="mt-4 grid gap-3 text-sm text-[var(--color-brand-charcoal-2)]">
+                            <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
                                 <li className="flex gap-3">
                                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
                                     <span>
@@ -300,7 +300,7 @@ function QualifikationPage() {
                         }[locale]
                     }
                 </h2>
-                <p className="mx-auto mt-6 max-w-2xl text-[var(--color-brand-charcoal-2)]">
+                <p className="mx-auto mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
                     {
                         {
                             de: 'Vereinbaren Sie einen Termin oder werfen Sie zuerst einen Blick in die Räume und die Ausstattung.',

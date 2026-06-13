@@ -80,7 +80,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     }[locale]
                                 }
                             </h1>
-                            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
                                     {
                                         de: 'Eine kleine, ruhige Praxis für Podologie und alles, was geübte Hände und Zeit braucht. Diabetisches Fußsyndrom, Nagelkorrekturen, Hornhautprobleme — schonend, fachlich fundiert, im rechtlich vollen Umfang.',
@@ -135,7 +135,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                         <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">
                                             {service.title[locale]}
                                         </h3>
-                                        <p className="mt-2 text-[var(--color-brand-charcoal-2)]">{service.body[locale]}</p>
+                                        <p className="mt-2 text-(--color-brand-charcoal-2)">{service.body[locale]}</p>
                                     </div>
                                 );
                             })}
@@ -160,7 +160,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 }[locale]
                             }
                         </h2>
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                             {
                                 {
                                     de: 'Bevor Sie anrufen — fragen Sie unseren Assistenten. Er hilft bei den häufigsten Fragen rund um Behandlungen, Verordnungen und den ersten Termin.',

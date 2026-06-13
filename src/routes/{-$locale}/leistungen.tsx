@@ -197,7 +197,7 @@ function LeistungenPage() {
                         }[locale]
                     }
                 </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                     {
                         {
                             de: 'Medizinische Fußpflege mit Kassenzulassung — von Hornhaut und Hühneraugen bis zum diabetischen Fußsyndrom und Nagelkorrektur-Spangen.',
@@ -222,7 +222,7 @@ function LeistungenPage() {
                     <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                         {{ de: 'Brauche ich einen Podologen?', en: 'Do I need a podiatrist?' }[locale]}
                     </h2>
-                    <p className="mt-4 max-w-2xl text-[var(--color-brand-charcoal-2)]">
+                    <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                         {
                             {
                                 de: 'Wenn einer der folgenden Punkte auf Sie zutrifft, lohnt sich ein Termin in der podologischen Praxis.',
@@ -243,13 +243,13 @@ function LeistungenPage() {
                                         <Icon className="size-5" aria-hidden />
                                     </div>
                                     <h3 className="mt-4 font-serif text-lg font-semibold text-aubergine-dark">{item.heading[locale]}</h3>
-                                    <p className="mt-2 text-sm leading-relaxed text-[var(--color-brand-charcoal-2)]">{item.body[locale]}</p>
+                                    <p className="mt-2 text-sm leading-relaxed text-(--color-brand-charcoal-2)">{item.body[locale]}</p>
                                 </div>
                             );
                         })}
                     </div>
 
-                    <p className="mt-10 max-w-3xl text-sm text-[var(--color-brand-charcoal-4)]">
+                    <p className="mt-10 max-w-3xl text-sm text-(--color-brand-charcoal-4)">
                         {
                             {
                                 de: 'Im Zweifel: rufen Sie an — wir sagen ehrlich, ob ein Termin sinnvoll ist. ',
@@ -274,7 +274,7 @@ function LeistungenPage() {
                     <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                         {{ de: 'Unser Leistungsangebot', en: 'What we offer' }[locale]}
                     </h2>
-                    <p className="mt-4 max-w-2xl text-[var(--color-brand-charcoal-2)]">
+                    <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                         {
                             {
                                 de: 'Jede Behandlung beginnt mit einem Gespräch — wir schauen, was Ihre Füße brauchen, und nehmen uns die Zeit dafür.',
@@ -295,7 +295,7 @@ function LeistungenPage() {
                                         <Icon className="size-5" aria-hidden />
                                     </div>
                                     <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">{service.heading[locale]}</h3>
-                                    <p className="mt-2 leading-relaxed text-[var(--color-brand-charcoal-2)]">{service.body[locale]}</p>
+                                    <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">{service.body[locale]}</p>
                                 </article>
                             );
                         })}
@@ -315,7 +315,7 @@ function LeistungenPage() {
                             }[locale]
                         }
                     </h2>
-                    <p className="mt-4 max-w-2xl text-[var(--color-brand-charcoal-2)]">
+                    <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                         {
                             {
                                 de: 'Damit wir gut vorbereitet sind und der Termin entspannt verläuft.',
@@ -335,7 +335,7 @@ function LeistungenPage() {
                                 </span>
                                 <div>
                                     <h3 className="font-serif text-lg font-semibold text-aubergine-dark">{item.heading[locale]}</h3>
-                                    <p className="mt-1 text-[var(--color-brand-charcoal-2)]">{item.body[locale]}</p>
+                                    <p className="mt-1 text-(--color-brand-charcoal-2)">{item.body[locale]}</p>
                                 </div>
                             </li>
                         ))}
@@ -360,7 +360,7 @@ function LeistungenPage() {
                                 <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
                                     {{ de: 'Kassenleistung', en: 'Statutory insurance' }[locale]}
                                 </h3>
-                                <p className="mt-2 leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                                <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
                                     {
                                         {
                                             de: 'Bei diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten — wir rechnen direkt ab.',
@@ -379,7 +379,7 @@ function LeistungenPage() {
                                 <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
                                     {{ de: 'Selbstzahler', en: 'Self-payers' }[locale]}
                                 </h3>
-                                <p className="mt-2 leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                                <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
                                     {
                                         {
                                             de: 'Privat und ohne Verordnung gerne nach Leistung — konkrete Preise nennen wir Ihnen am Telefon.',
@@ -411,7 +411,7 @@ function LeistungenPage() {
                             }[locale]
                         }
                     </h2>
-                    <p className="mx-auto mt-4 max-w-xl text-[var(--color-brand-charcoal-2)]">
+                    <p className="mx-auto mt-4 max-w-xl text-(--color-brand-charcoal-2)">
                         {
                             {
                                 de: 'Schreiben Sie uns über das Kontaktformular — oder rufen Sie kurz an, wenn es schneller gehen soll.',

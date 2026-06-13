@@ -39,7 +39,7 @@ function PraxisPage() {
                         }[locale]
                     }
                 </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                     {
                         {
                             de: 'Bei mir wird immer nur eine Patientin oder ein Patient behandelt — mit Zeit, geübten Händen und sauber aufbereitetem Instrumentarium.',
@@ -80,7 +80,7 @@ function PraxisPage() {
                             loading="lazy"
                             className="w-full rounded-xl border border-aubergine/10 object-cover shadow-sm"
                         />
-                        <div className="grid gap-4 text-[var(--color-brand-charcoal-2)]">
+                        <div className="grid gap-4 text-(--color-brand-charcoal-2)">
                             <p>
                                 {
                                     {
@@ -133,7 +133,7 @@ function PraxisPage() {
                             loading="lazy"
                             className="w-full rounded-xl border border-aubergine/10 object-cover shadow-sm"
                         />
-                        <div className="grid gap-4 text-[var(--color-brand-charcoal-2)]">
+                        <div className="grid gap-4 text-(--color-brand-charcoal-2)">
                             <p>
                                 {
                                     {
