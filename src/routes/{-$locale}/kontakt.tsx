@@ -86,6 +86,14 @@ function KontaktPage() {
                                         }[locale]
                                     }
                                 </span>
+                                <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
+                                    {
+                                        {
+                                            de: 'Wenn wir gerade nicht ans Telefon gehen können, rufen wir zurück — bitte unterdrücken Sie Ihre Rufnummer nicht, oder versuchen Sie es etwas später noch einmal.',
+                                            en: 'If we can\'t pick up, we\'ll call you back — please don\'t withhold your number, or try again a little later.',
+                                        }[locale]
+                                    }
+                                </span>
                             </div>
                         </div>
 

@@ -6,15 +6,20 @@ import {
     BugIcon,
     CalendarIcon,
     ClipboardCheckIcon,
+    CompassIcon,
     CreditCardIcon,
     FileTextIcon,
-    HomeIcon,
+    FootprintsIcon,
+    HandIcon,
+    MessageCircleIcon,
     PhoneIcon,
     PillIcon,
     ScissorsIcon,
     ShieldCheckIcon,
     SparklesIcon,
     StethoscopeIcon,
+    TargetIcon,
+    WrenchIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '../../web/components/base/button';
@@ -104,54 +109,137 @@ function LeistungenPage() {
         },
     ] as const;
 
-    const services = [
+    const serviceGroups = [
         {
-            icon: StethoscopeIcon,
-            heading: { de: 'Medizinische Fußpflege', en: 'Medical foot care' },
+            heading: { de: 'Untersuchung & Beratung', en: 'Examination & advice' },
             body: {
-                de: 'Hornhautabtrag, Nagelpflege und gezielte Behandlung von Druckstellen — fachlich und in Ruhe.',
-                en: 'Callus removal, nail care and targeted treatment of pressure points — careful and unhurried.',
+                de: 'Wir schauen erst — und entscheiden dann gemeinsam, was sinnvoll ist.',
+                en: 'We look first — and decide together what makes sense.',
             },
+            items: [
+                {
+                    icon: StethoscopeIcon,
+                    heading: { de: 'Fußuntersuchung', en: 'Foot examination' },
+                    body: {
+                        de: 'Befund von Haut, Nägeln und Druckstellen — als Grundlage für jede weitere Behandlung.',
+                        en: 'Assessment of skin, nails and pressure points — the basis for every further treatment.',
+                    },
+                },
+                {
+                    icon: MessageCircleIcon,
+                    heading: { de: 'Beratung bei Fußproblemen', en: 'Advice on foot problems' },
+                    body: {
+                        de: 'Wir hören zu und ordnen ein — was selbst zu pflegen ist und wann eine ärztliche Abklärung sinnvoll ist.',
+                        en: 'We listen and put things in context — what to care for yourself and when to see a doctor.',
+                    },
+                },
+                {
+                    icon: HandIcon,
+                    heading: { de: 'Sensibilitätstests', en: 'Sensitivity tests' },
+                    body: {
+                        de: 'Prüfung des Berührungs- und Druckempfindens — wichtig bei Diabetes oder Neuropathie.',
+                        en: 'Testing of touch and pressure perception — important with diabetes or neuropathy.',
+                    },
+                },
+                {
+                    icon: CompassIcon,
+                    heading: { de: 'Ganganalysen', en: 'Gait analysis' },
+                    body: {
+                        de: 'Ein Blick auf Ihren Gang zeigt, wo Belastung entsteht — und worauf eine Behandlung achten sollte.',
+                        en: 'A look at your gait reveals where load builds up — and what a treatment should account for.',
+                    },
+                },
+                {
+                    icon: FootprintsIcon,
+                    heading: { de: 'Einlagenberatung', en: 'Insole advice' },
+                    body: {
+                        de: 'Wir schauen mit Ihnen, ob Einlagen sinnvoll sind, und arbeiten dafür mit Orthopädieschuhtechnikern zusammen.',
+                        en: 'We look at whether insoles make sense and work with orthopedic shoe technicians for the fitting.',
+                    },
+                },
+            ],
         },
         {
-            icon: ShieldCheckIcon,
-            heading: { de: 'Diabetisches Fußsyndrom', en: 'Diabetic foot syndrome' },
+            heading: { de: 'Nägel', en: 'Nails' },
             body: {
-                de: 'Schonende Behandlung nach ärztlicher Verordnung. Direkte Abrechnung mit der gesetzlichen Krankenkasse.',
-                en: 'Gentle treatment with a medical prescription. Direct billing with statutory health insurance.',
+                de: 'Schneiden, korrigieren, wiederaufbauen — was die Nägel gerade brauchen.',
+                en: 'Cutting, correcting, rebuilding — whatever the nails need right now.',
             },
+            items: [
+                {
+                    icon: ScissorsIcon,
+                    heading: { de: 'Nagelbearbeitung', en: 'Nail care' },
+                    body: {
+                        de: 'Fachgerechtes Kürzen und Formen der Nägel — auch bei verdickten oder schwer zu schneidenden Nägeln.',
+                        en: 'Professional trimming and shaping of nails — including thickened or hard-to-cut nails.',
+                    },
+                },
+                {
+                    icon: BandageIcon,
+                    heading: { de: 'Nagelkorrekturen', en: 'Nail corrections' },
+                    body: {
+                        de: 'Spangen bei eingewachsenen oder verformten Nägeln — individuell angepasst und regelmäßig kontrolliert.',
+                        en: 'Braces for ingrown or deformed nails — fitted individually and reviewed at follow-ups.',
+                    },
+                },
+                {
+                    icon: WrenchIcon,
+                    heading: { de: 'Nagelprothetik', en: 'Nail prosthetics' },
+                    body: {
+                        de: 'Künstlicher Nagelaufbau bei beschädigten oder fehlenden Nägeln — als Schutz und für ein gepflegtes Aussehen.',
+                        en: 'Artificial nail reconstruction for damaged or missing nails — for protection and a tidy appearance.',
+                    },
+                },
+            ],
         },
         {
-            icon: BandageIcon,
-            heading: { de: 'Nagelkorrektur-Spangen', en: 'Nail-correction braces' },
+            heading: { de: 'Haut', en: 'Skin' },
             body: {
-                de: 'Bei eingewachsenen oder verformten Nägeln. Die Spange wird individuell angepasst und regelmäßig kontrolliert.',
-                en: 'For ingrown or deformed nails. Each brace is fitted individually and reviewed at follow-up visits.',
+                de: 'Hornhaut, Hühneraugen, Warzen, Pilz — gezielte Behandlung der Stellen, die drücken oder stören.',
+                en: 'Calluses, corns, warts, fungus — targeted treatment of the spots that press or bother you.',
             },
-        },
-        {
-            icon: PillIcon,
-            heading: { de: 'Pilzinfektionen', en: 'Fungal infections' },
-            body: {
-                de: 'Behandlung von Nagel- und Hautmykosen — mit klarer Anleitung für die Pflege zu Hause.',
-                en: 'Treatment of nail and skin mycoses — with clear guidance for at-home care.',
-            },
-        },
-        {
-            icon: SparklesIcon,
-            heading: { de: 'Hühneraugen, Schwielen, Druckstellen', en: 'Corns, calluses, pressure points' },
-            body: {
-                de: 'Gezielte Entlastung schmerzhafter Stellen, damit Sie wieder beschwerdefrei laufen können.',
-                en: 'Targeted relief of painful spots so you can walk comfortably again.',
-            },
-        },
-        {
-            icon: HomeIcon,
-            heading: { de: 'Hausbesuche', en: 'Home visits' },
-            body: {
-                de: 'Auf Anfrage, im Umkreis Dudenhofen, Speyer und Schifferstadt — wenn der Weg in die Praxis nicht möglich ist.',
-                en: "On request, around Dudenhofen, Speyer and Schifferstadt — when getting to the practice isn't possible.",
-            },
+            items: [
+                {
+                    icon: SparklesIcon,
+                    heading: { de: 'Hornhautabtragung', en: 'Callus removal' },
+                    body: {
+                        de: 'Schonendes Abtragen verdickter Hautstellen — gezielt dort, wo es drückt oder schmerzt.',
+                        en: 'Gentle removal of thickened skin — targeted at the spots that press or hurt.',
+                    },
+                },
+                {
+                    icon: TargetIcon,
+                    heading: { de: 'Entfernen von Hühneraugen', en: 'Corn removal' },
+                    body: {
+                        de: 'Schmerzhafte Hornhautkegel werden vorsichtig ausgelöst — und die Ursache mitbedacht.',
+                        en: 'Painful corns are carefully removed — and the underlying cause is taken into account.',
+                    },
+                },
+                {
+                    icon: ShieldCheckIcon,
+                    heading: { de: 'Druck- und Reibungsschutz', en: 'Pressure and friction protection' },
+                    body: {
+                        de: 'Polster und Schutzverbände entlasten gereizte Stellen, bis sie abgeheilt sind.',
+                        en: 'Pads and protective dressings relieve irritated areas until they have healed.',
+                    },
+                },
+                {
+                    icon: BugIcon,
+                    heading: { de: 'Warzenbehandlungen', en: 'Wart treatments' },
+                    body: {
+                        de: 'Behandlung von Dornwarzen am Fuß — geduldig und konsequent über mehrere Termine.',
+                        en: 'Treatment of plantar warts on the foot — patient and consistent over several visits.',
+                    },
+                },
+                {
+                    icon: PillIcon,
+                    heading: { de: 'Pilzbehandlung', en: 'Fungal treatment' },
+                    body: {
+                        de: 'Behandlung von Nagel- und Hautmykosen — mit klarer Anleitung für die Pflege zu Hause.',
+                        en: 'Treatment of nail and skin mycoses — with clear guidance for at-home care.',
+                    },
+                },
+            ],
         },
     ] as const;
 
@@ -309,22 +397,34 @@ function LeistungenPage() {
                         }
                     </p>
 
-                    <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                        {services.map((service) => {
-                            const Icon = service.icon;
-                            return (
-                                <article
-                                    key={service.heading.de}
-                                    className="rounded-xl border border-aubergine/10 bg-cream p-6 transition hover:-translate-y-0.5 hover:border-gold"
-                                >
-                                    <div className="flex size-11 items-center justify-center rounded-lg bg-blush text-aubergine">
-                                        <Icon className="size-5" aria-hidden />
-                                    </div>
-                                    <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">{service.heading[locale]}</h3>
-                                    <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">{service.body[locale]}</p>
-                                </article>
-                            );
-                        })}
+                    <div className="mt-12 space-y-14">
+                        {serviceGroups.map((group) => (
+                            <div key={group.heading.de}>
+                                <h3 className="font-serif text-2xl font-semibold text-aubergine-dark">{group.heading[locale]}</h3>
+                                <p className="mt-2 max-w-2xl text-sm text-(--color-brand-charcoal-2)">{group.body[locale]}</p>
+                                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                    {group.items.map((service) => {
+                                        const Icon = service.icon;
+                                        return (
+                                            <article
+                                                key={service.heading.de}
+                                                className="rounded-xl border border-aubergine/10 bg-cream p-6 transition hover:-translate-y-0.5 hover:border-gold"
+                                            >
+                                                <div className="flex size-11 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                                    <Icon className="size-5" aria-hidden />
+                                                </div>
+                                                <h4 className="mt-4 font-serif text-lg font-semibold text-aubergine-dark">
+                                                    {service.heading[locale]}
+                                                </h4>
+                                                <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
+                                                    {service.body[locale]}
+                                                </p>
+                                            </article>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
