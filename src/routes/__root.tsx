@@ -18,14 +18,8 @@ export const Route = createRootRoute({
                 charSet: 'utf-8',
             },
             {
-                // `viewport-fit=cover` lets the page extend behind iOS Safari's
-                // notch / home indicator, which is also what makes the
-                // `env(safe-area-inset-*)` CSS variables resolve to non-zero
-                // values. Without it, fixed full-screen elements (e.g. the
-                // mobile nav sheet) leave a strip of body background visible
-                // behind the dynamic toolbar.
                 name: 'viewport',
-                content: 'width=device-width, initial-scale=1, viewport-fit=cover',
+                content: 'width=device-width, initial-scale=1',
             },
         ],
         links: [

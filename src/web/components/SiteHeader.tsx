@@ -77,15 +77,7 @@ export function SiteHeader() {
                                 <MenuIcon className="size-5" />
                             </Button>
                         </SheetTrigger>
-                        {/*
-                         * iOS Safari quirk: with the dynamic toolbar, `inset-y-0 h-full`
-                         * can leave a strip of body background visible below the sheet.
-                         * `h-[100dvh]` pins the sheet to the dynamic viewport so its
-                         * cream background covers the full screen, and we pad the inner
-                         * content with `env(safe-area-inset-bottom)` so the call CTA
-                         * stays clear of the home indicator.
-                         */}
-                        <SheetContent side="right" className="h-[100dvh] bg-cream pb-[env(safe-area-inset-bottom)]">
+                        <SheetContent side="right" className="bg-cream">
                             <SheetHeader>
                                 <SheetTitle className="font-serif text-aubergine-dark">
                                     {{ de: 'Navigation', en: 'Navigation' }[locale]}
