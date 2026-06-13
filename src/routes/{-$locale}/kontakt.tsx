@@ -133,6 +133,14 @@ function KontaktPage() {
                                     <br />
                                     {PRACTICE.address.postcode} {PRACTICE.address.city}
                                 </address>
+                                <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
+                                    {
+                                        {
+                                            de: 'Eingang in der Ernst-Reuter-Straße (Eckhaus).',
+                                            en: 'Entrance on Ernst-Reuter-Straße (corner building).',
+                                        }[locale]
+                                    }
+                                </span>
                             </div>
                         </div>
 
@@ -212,23 +220,23 @@ function KontaktPage() {
 
                     <div className="mt-12 grid gap-8 md:grid-cols-2">
                         <div>
+                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'Parkmöglichkeiten', en: 'Parking' }[locale]}</h3>
+                            <p className="mt-3 text-(--color-brand-charcoal-2)">
+                                {
+                                    {
+                                        de: 'Kostenlose Straßenparkplätze gibt es in der Ernst-Reuter-Straße direkt vor dem Praxiseingang sowie auf der gegenüberliegenden Straßenseite. Der Zugang ist barrierefrei — auch mit Gehhilfe oder Rollstuhl.',
+                                        en: 'Free street parking is available on Ernst-Reuter-Straße directly outside the entrance and on the opposite side of the street. Access is step-free, including with a walking aid or wheelchair.',
+                                    }[locale]
+                                }
+                            </p>
+                        </div>
+                        <div>
                             <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'ÖPNV', en: 'Public transport' }[locale]}</h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
                                     {
                                         de: 'Zwei Bushaltestellen liegen wenige Minuten zu Fuß entfernt: „Speyerer Straße" und „Boligweg" in Dudenhofen. Aus Speyer fahren regelmäßig die Linien 591 und 507.',
                                         en: 'Two bus stops are a few minutes\' walk away: "Speyerer Straße" and "Boligweg" in Dudenhofen. From Speyer, lines 591 and 507 run regularly.',
-                                    }[locale]
-                                }
-                            </p>
-                        </div>
-                        <div>
-                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'Parkmöglichkeiten', en: 'Parking' }[locale]}</h3>
-                            <p className="mt-3 text-(--color-brand-charcoal-2)">
-                                {
-                                    {
-                                        de: 'Direkt vor der Praxis stehen kostenlose Straßenparkplätze zur Verfügung. Der Zugang zur Praxis ist barrierefrei.',
-                                        en: 'Free street parking is available right outside the practice. Access to the practice is step-free.',
                                     }[locale]
                                 }
                             </p>
