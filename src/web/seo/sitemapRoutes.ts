@@ -23,15 +23,9 @@ export interface SitemapPath {
 
 export const SITEMAP_PATHS: ReadonlyArray<SitemapPath> = [
     { path: '/', changefreq: 'weekly', priority: 1.0 },
-    { path: '/therapeutin', changefreq: 'monthly', priority: 0.8 },
-    { path: '/podologie', changefreq: 'monthly', priority: 0.8 },
-    { path: '/heilpraktiker-podologie', changefreq: 'monthly', priority: 0.8 },
-    { path: '/praxis', changefreq: 'monthly', priority: 0.7 },
+    { path: '/praxis', changefreq: 'monthly', priority: 0.8 },
     { path: '/leistungen', changefreq: 'monthly', priority: 0.9 },
-    { path: '/hygiene', changefreq: 'monthly', priority: 0.6 },
-    { path: '/podologie-urkunde', changefreq: 'yearly', priority: 0.4 },
-    { path: '/heilpraktiker-urkunde', changefreq: 'yearly', priority: 0.4 },
+    { path: '/qualifikation', changefreq: 'monthly', priority: 0.7 },
+    { path: '/karriere', changefreq: 'monthly', priority: 0.5 },
     { path: '/kontakt', changefreq: 'monthly', priority: 0.9 },
-    { path: '/anfahrt', changefreq: 'monthly', priority: 0.7 },
-    { path: '/terms', changefreq: 'yearly', priority: 0.3 },
 ];

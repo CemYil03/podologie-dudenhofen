@@ -1,4 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { PackageIcon, ShieldCheckIcon, SparklesIcon } from 'lucide-react';
+import { Button } from '../../web/components/base/button';
+import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { useLocale } from '../../web/hooks/useLocale';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
@@ -10,8 +13,8 @@ export const Route = createFileRoute('/{-$locale}/praxis')({
         return seoMeta({
             title: { de: 'Praxis', en: 'Practice' }[locale],
             description: {
-                de: 'Einblicke in die Räume und Ausstattung der Podologie-Praxis in Dudenhofen.',
-                en: 'A look at the rooms and equipment of the podiatry practice in Dudenhofen.',
+                de: 'Podologie Dudenhofen — barrierefreie Räume, Therapeutin Annette Yilmaz und Hygiene nach RKI-Empfehlung.',
+                en: 'Podologie Dudenhofen — barrier-free rooms, podiatrist Annette Yilmaz and hygiene to RKI standard.',
             }[locale],
             path: '/praxis',
             locale,
@@ -23,9 +26,228 @@ export const Route = createFileRoute('/{-$locale}/praxis')({
 
 function PraxisPage() {
     const locale = useLocale();
+
     return (
-        <main className="p-8">
-            <h1 className="text-2xl font-bold">{{ de: 'Praxis', en: 'Practice' }[locale]}</h1>
+        <main>
+            <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
+                <SectionEyebrow>{{ de: 'Praxis', en: 'Practice' }[locale]}</SectionEyebrow>
+                <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
+                    {
+                        {
+                            de: 'Eine ruhige Praxis in Dudenhofen — Räume, Therapeutin, Hygiene.',
+                            en: 'A calm practice in Dudenhofen — rooms, therapist, hygiene.',
+                        }[locale]
+                    }
+                </h1>
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-brand-charcoal-2)]">
+                    {
+                        {
+                            de: 'Bei mir wird immer nur eine Patientin oder ein Patient behandelt — mit Zeit, geübten Händen und sauber aufbereitetem Instrumentarium.',
+                            en: 'Only one patient is treated at a time — with time, trained hands and properly reprocessed instruments.',
+                        }[locale]
+                    }
+                </p>
+                <div className="mt-10 flex flex-wrap gap-4">
+                    <Button variant="brand" size="lg" asChild>
+                        <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
+                    </Button>
+                    <Button variant="brand-outline" size="lg" asChild>
+                        <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services' }[locale]}</Link>
+                    </Button>
+                </div>
+            </section>
+
+            <section id="raeume" className="scroll-mt-20 bg-blush">
+                <div className="mx-auto max-w-5xl px-6 py-20">
+                    <SectionEyebrow>{{ de: 'Räume', en: 'Rooms' }[locale]}</SectionEyebrow>
+                    <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                        {
+                            {
+                                de: 'Barrierefrei, ruhig, gut belüftet.',
+                                en: 'Barrier-free, calm and well-ventilated.',
+                            }[locale]
+                        }
+                    </h2>
+                    <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:items-start">
+                        <img
+                            src="/podologie-dudenhofen-praxis.jpg"
+                            alt={
+                                {
+                                    de: 'Behandlungsraum der Podologie-Praxis Dudenhofen mit Behandlungsstuhl und Lampe.',
+                                    en: 'Treatment room of the Dudenhofen podiatry practice with treatment chair and lamp.',
+                                }[locale]
+                            }
+                            loading="lazy"
+                            className="w-full rounded-xl border border-aubergine/10 object-cover shadow-sm"
+                        />
+                        <div className="grid gap-4 text-[var(--color-brand-charcoal-2)]">
+                            <p>
+                                {
+                                    {
+                                        de: 'Die Praxis ist ebenerdig und barrierefrei zugänglich — auch mit Rollator oder Rollstuhl. Behandelt wird im Liegen oder Sitzen, je nachdem, was Ihnen angenehmer ist.',
+                                        en: 'The practice is on ground level and barrier-free — accessible with a walker or wheelchair. Treatment takes place lying down or seated, whichever is more comfortable for you.',
+                                    }[locale]
+                                }
+                            </p>
+                            <p>
+                                {
+                                    {
+                                        de: 'Es ist immer nur eine Patientin oder ein Patient zur Zeit im Raum. Kein Wartezimmer-Trubel, keine parallelen Behandlungen — die Zeit gehört Ihnen.',
+                                        en: 'Only one patient is in the room at a time. No busy waiting room, no parallel treatments — the time is yours.',
+                                    }[locale]
+                                }
+                            </p>
+                            <p>
+                                {
+                                    {
+                                        de: 'Der Raum ist gut belüftet und mit medizinischer Behandlungseinheit, Lupenleuchte und Absaugung ausgestattet. Alles, was für eine saubere podologische Behandlung gebraucht wird — nicht mehr, nicht weniger.',
+                                        en: 'The room is well-ventilated and equipped with a medical treatment unit, magnifying lamp and suction. Everything a clean podiatric treatment requires — no more, no less.',
+                                    }[locale]
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="therapeutin" className="scroll-mt-20">
+                <div className="mx-auto max-w-5xl px-6 py-20">
+                    <SectionEyebrow>{{ de: 'Therapeutin', en: 'Therapist' }[locale]}</SectionEyebrow>
+                    <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                        {
+                            {
+                                de: 'Annette Yilmaz — Podologin und sektorale Heilpraktikerin.',
+                                en: 'Annette Yilmaz — podiatrist and sectoral Heilpraktiker.',
+                            }[locale]
+                        }
+                    </h2>
+                    <div className="mt-10 grid gap-10 lg:grid-cols-[2fr_3fr] lg:items-start">
+                        <img
+                            src="/podologie-dudenhofen-annette-yilmaz.jpg"
+                            alt={
+                                {
+                                    de: 'Annette Yilmaz, Podologin in Dudenhofen.',
+                                    en: 'Annette Yilmaz, podiatrist in Dudenhofen.',
+                                }[locale]
+                            }
+                            loading="lazy"
+                            className="w-full rounded-xl border border-aubergine/10 object-cover shadow-sm"
+                        />
+                        <div className="grid gap-4 text-[var(--color-brand-charcoal-2)]">
+                            <p>
+                                {
+                                    {
+                                        de: 'Im Jahr 2008 habe ich meine erste Ausbildung im Bereich der kosmetischen Fußpflege gemacht. Schnell wurde klar, dass mir der medizinische Teil — Diabetes, eingewachsene Nägel, Druckstellen — fehlt, um meine Patientinnen und Patienten vollständig betreuen zu können.',
+                                        en: 'I trained in cosmetic foot-care in 2008. It quickly became clear that the medical side — diabetes, ingrown nails, pressure points — was what I needed in order to look after my patients fully.',
+                                    }[locale]
+                                }
+                            </p>
+                            <p>
+                                {
+                                    {
+                                        de: 'Daraufhin habe ich die dreijährige Ausbildung an einer Podologie-Schule absolviert und mit dem Staatsexamen abgeschlossen. Am 02.09.2017 habe ich die Prüfung zum sektoralen Heilpraktiker für Podologie bestanden, anerkannt am 22.03.2022 in Rheinland-Pfalz.',
+                                        en: 'I then completed the three-year programme at a podiatry school with the German state examination. On 02.09.2017 I passed the examination for the sectoral Heilpraktiker for podiatry, recognised on 22.03.2022 in Rhineland-Palatinate.',
+                                    }[locale]
+                                }
+                            </p>
+                            <p>
+                                {
+                                    {
+                                        de: 'Als Podologin mit Kassenzulassung besuche ich regelmäßig Fortbildungen — zu Diabetischem Fußsyndrom, Nagelkorrektur-Spangen und neuen Materialien. So bleiben Behandlungen auf dem aktuellen Stand.',
+                                        en: 'As an accredited podiatrist I attend continuing-education courses regularly — on diabetic foot syndrome, nail-correction braces and new materials. This keeps treatments up to current standards.',
+                                    }[locale]
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hygiene" className="scroll-mt-20 bg-aubergine-dark">
+                <div className="mx-auto max-w-5xl px-6 py-20">
+                    <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-gold">
+                            {{ de: 'Hygiene', en: 'Hygiene' }[locale]}
+                        </span>
+                        <span aria-hidden className="h-px flex-1 bg-gold/40" />
+                    </div>
+                    <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-cream sm:text-4xl">
+                        {
+                            {
+                                de: 'Sauberes Arbeiten — sichtbar und nachvollziehbar.',
+                                en: 'Clean work — visible and verifiable.',
+                            }[locale]
+                        }
+                    </h2>
+                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-cream/80">
+                        {
+                            {
+                                de: 'Hygiene ist in einer podologischen Praxis kein Marketing-Punkt, sondern Grundlage. Drei Bereiche, die bei mir verbindlich geregelt sind:',
+                                en: 'Hygiene in a podiatry practice is not a marketing point — it is the baseline. Three areas that are firmly set in my practice:',
+                            }[locale]
+                        }
+                    </p>
+                    <div className="mt-12 grid gap-8 sm:grid-cols-3">
+                        <div>
+                            <ShieldCheckIcon className="h-8 w-8 text-gold" strokeWidth={1.5} />
+                            <h3 className="mt-4 font-serif text-xl font-semibold text-cream">
+                                {
+                                    {
+                                        de: 'Aufbereitung der Instrumente',
+                                        en: 'Instrument reprocessing',
+                                    }[locale]
+                                }
+                            </h3>
+                            <p className="mt-3 text-sm leading-relaxed text-cream/80">
+                                {
+                                    {
+                                        de: 'Thermische Desinfektion und anschließende Sterilisation nach den Empfehlungen des Robert Koch-Instituts. Jedes Instrument verlässt die Aufbereitung verpackt und gekennzeichnet.',
+                                        en: 'Thermal disinfection followed by sterilisation in line with the Robert Koch Institute recommendations. Every instrument leaves reprocessing sealed and labelled.',
+                                    }[locale]
+                                }
+                            </p>
+                        </div>
+                        <div>
+                            <SparklesIcon className="h-8 w-8 text-gold" strokeWidth={1.5} />
+                            <h3 className="mt-4 font-serif text-xl font-semibold text-cream">
+                                {
+                                    {
+                                        de: 'Flächendesinfektion',
+                                        en: 'Surface disinfection',
+                                    }[locale]
+                                }
+                            </h3>
+                            <p className="mt-3 text-sm leading-relaxed text-cream/80">
+                                {
+                                    {
+                                        de: 'Behandlungseinheit, Liege und Kontaktflächen werden zwischen jedem Patienten mit VAH-gelisteten Mitteln desinfiziert — mit ausreichender Einwirkzeit.',
+                                        en: 'The treatment unit, couch and contact surfaces are disinfected between every patient with VAH-listed agents — with the proper contact time.',
+                                    }[locale]
+                                }
+                            </p>
+                        </div>
+                        <div>
+                            <PackageIcon className="h-8 w-8 text-gold" strokeWidth={1.5} />
+                            <h3 className="mt-4 font-serif text-xl font-semibold text-cream">
+                                {
+                                    {
+                                        de: 'Einmal-Materialien',
+                                        en: 'Single-use materials',
+                                    }[locale]
+                                }
+                            </h3>
+                            <p className="mt-3 text-sm leading-relaxed text-cream/80">
+                                {
+                                    {
+                                        de: 'Schleifkörper, Skalpellklingen, Tupfer und Handschuhe sind Einmal-Material und werden nach jeder Behandlung verworfen — überall dort, wo es medizinisch sinnvoll ist.',
+                                        en: 'Burrs, scalpel blades, swabs and gloves are single-use and discarded after every treatment — wherever this is medically appropriate.',
+                                    }[locale]
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     );
 }
