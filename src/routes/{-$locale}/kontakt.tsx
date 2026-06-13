@@ -215,8 +215,8 @@ function KontaktPage() {
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
                                     {
-                                        de: 'Die Bushaltestelle „Dudenhofen Mitte" liegt wenige Minuten zu Fuß entfernt; aus Speyer fährt regelmäßig die Linie X.',
-                                        en: 'The "Dudenhofen Mitte" bus stop is a few minutes\' walk away; line X runs regularly from Speyer.',
+                                        de: 'Zwei Bushaltestellen liegen wenige Minuten zu Fuß entfernt: „Speyerer Straße" und „Boligweg" in Dudenhofen. Aus Speyer fahren regelmäßig die Linien 591 und 507.',
+                                        en: 'Two bus stops are a few minutes\' walk away: "Speyerer Straße" and "Boligweg" in Dudenhofen. From Speyer, lines 591 and 507 run regularly.',
                                     }[locale]
                                 }
                             </p>
