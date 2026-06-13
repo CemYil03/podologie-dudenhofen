@@ -156,9 +156,8 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 
 - [ ] **Project identity pass.** Replace remaining template placeholders: HTML `<title>` in `src/routes/__root.tsx`, favicon set, theme
       tokens in `src/styles.css`, 404 copy. Re-grep for `Project name`, `TanStack App`, `example.com` after each change.
-- [x] **Static content pages.** `/`, `/praxis`, `/leistungen`, `/qualifikation`, `/karriere`, `/kontakt` shipped with full bilingual copy on
-      2026-06-13. Still missing: `/impressum`, `/datenschutz` — these need the practice owner / their lawyer's copy before they can be
-      built.
+- [x] **Static content pages.** `/`, `/praxis`, `/leistungen`, `/qualifikation`, `/karriere`, `/kontakt`, `/impressum`, `/datenschutz`
+      shipped with full bilingual copy. Owner / lawyer review of the legal pages still pending — see "Launch checklist" below.
 - [x] **Home page.** Services-led hero, 3 service highlights, AI-assistant entry card with three suggested questions, opening hours + map,
       dark credential strip, final CTA. Bilingual.
 - [ ] **Contact form.** Single form on `/kontakt`: name, contact (phone or email), preferred-callback window, free-text reason. Submits via
@@ -172,8 +171,12 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 - [ ] **Schema.org `LocalBusiness` / `MedicalBusiness` JSON-LD** on the home page (name, address, geo, opening hours, telephone,
       `priceRange`, image, sameAs).
 - [ ] **Legal pages reviewed by the practice owner / their lawyer.** Imprint and privacy must be accurate before public launch.
-- [ ] **Cookie / consent banner — only if needed.** If we ship without third-party trackers (preferred), no banner is required for the
-      strictly-functional `locale` and `sessionId` cookies. Re-evaluate when analytics are added.
+- [ ] **Cookie / consent banner — not required.** This build sets only strictly-necessary cookies — `sessionId` and `locale` (see
+      [`docs/features/legal-pages.md`](./features/legal-pages.md)) — both exempt under § 25 Abs. 2 Nr. 2 TTDSG. Re-evaluate when analytics
+      or any third-party tracking is added.
+- [ ] **Terms of service — not required.** A practice that doesn't sell or book online doesn't need website ToS; the treatment relationship
+      is a Behandlungsvertrag formed in person (§§ 630a ff. BGB). Reconsider only if the site grows an online shop, paid online booking,
+      user accounts, or hosted user content.
 - [ ] **Production env in Coolify.** `DATABASE_URL`, `sessionCookieName`, `sessionCookieSecure=true`, `WEB_PAGE_URL`,
       `GOOGLE_GENERATIVE_AI_API_KEY` (if AI assistant ships at launch), email provider keys.
 - [ ] **DNS cutover plan.** See "Launch checklist" below.
@@ -261,3 +264,9 @@ _(Move shipped roadmap items here with a one-line note + PR link. Prepend the da
   centralized as `PRACTICE_PHONE_HUMAN` / `PRACTICE_PHONE_TEL` in `SiteHeader.tsx`.
 - 2026-06-13 — Practice details confirmed by the owner and locked into code: Annette Yilmaz, Speyerer Straße 60, 67373 Dudenhofen, +49 6232
   621064, podologie.annette@gmail.com, Mo–Do 08–18 / Fr 08–14. Mirrored in the "Practice details" table above.
+- 2026-06-13 — Legal pages shipped: `/impressum` (§ 5 TMG, including Berufsbezeichnung + Aufsichtsbehörde + Versicherer) and `/datenschutz`
+  (Art. 13 GDPR, covering server logs, the two strictly-necessary cookies, the embedded Google Maps iframe, and the Gemini-backed chat
+  assistant). Adapted from the legacy Jimdo content; technical specifics rewritten to match this build. Decision: no Terms of Service (no
+  online sale or booking — Behandlungsvertrag in person, §§ 630a ff. BGB) and no cookie banner (only strictly-necessary cookies, exempt
+  under § 25 Abs. 2 Nr. 2 TTDSG). Quiet site-wide footer (`SiteFooter`) added with `© Annette Yilmaz · Impressum · Datenschutz`. See
+  [`docs/features/legal-pages.md`](./features/legal-pages.md). Owner / lawyer review still pending before launch.

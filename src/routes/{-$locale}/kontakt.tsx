@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
 import { Fragment } from 'react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
@@ -226,6 +226,18 @@ function KontaktPage() {
                             className="h-full w-full border-0"
                         />
                     </div>
+                    <p className="mt-3 text-xs text-(--color-brand-charcoal-3)">
+                        {
+                            {
+                                de: 'Die eingebettete Karte lädt Inhalte von Google. Wenn Sie das vermeiden möchten, nutzen Sie die Schaltflächen oben — Details in der ',
+                                en: 'The embedded map loads content from Google. If you would rather avoid that, use the buttons above — details in our ',
+                            }[locale]
+                        }
+                        <Link to="/{-$locale}/datenschutz" className="text-aubergine hover:underline">
+                            {{ de: 'Datenschutzerklärung', en: 'privacy policy' }[locale]}
+                        </Link>
+                        .
+                    </p>
 
                     <div className="mt-12 grid gap-8 md:grid-cols-2">
                         <div>

@@ -1,0 +1,8 @@
+query DatenschutzPage {
+    currentSession {
+        sessionId
+        user {
+            name
+        }
+    }
+}

@@ -28,4 +28,6 @@ export const SITEMAP_PATHS: ReadonlyArray<SitemapPath> = [
     { path: '/qualifikation', changefreq: 'monthly', priority: 0.7 },
     { path: '/karriere', changefreq: 'monthly', priority: 0.5 },
     { path: '/kontakt', changefreq: 'monthly', priority: 0.9 },
+    { path: '/impressum', changefreq: 'yearly', priority: 0.3 },
+    { path: '/datenschutz', changefreq: 'yearly', priority: 0.3 },
 ];

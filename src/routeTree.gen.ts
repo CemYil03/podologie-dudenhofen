@@ -18,6 +18,8 @@ import { Route as Char123LocaleChar125PraxisRouteImport } from './routes/{-$loca
 import { Route as Char123LocaleChar125LeistungenRouteImport } from './routes/{-$locale}/leistungen'
 import { Route as Char123LocaleChar125KontaktRouteImport } from './routes/{-$locale}/kontakt'
 import { Route as Char123LocaleChar125KarriereRouteImport } from './routes/{-$locale}/karriere'
+import { Route as Char123LocaleChar125ImpressumRouteImport } from './routes/{-$locale}/impressum'
+import { Route as Char123LocaleChar125DatenschutzRouteImport } from './routes/{-$locale}/datenschutz'
 import { Route as Char123LocaleChar125ChatRouteImport } from './routes/{-$locale}/chat'
 import { Route as ApiStreamRouteImport } from './routes/api/stream'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
@@ -76,6 +78,18 @@ const Char123LocaleChar125KarriereRoute =
     path: '/karriere',
     getParentRoute: () => Char123LocaleChar125Route,
   } as any)
+const Char123LocaleChar125ImpressumRoute =
+  Char123LocaleChar125ImpressumRouteImport.update({
+    id: '/impressum',
+    path: '/impressum',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125DatenschutzRoute =
+  Char123LocaleChar125DatenschutzRouteImport.update({
+    id: '/datenschutz',
+    path: '/datenschutz',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const Char123LocaleChar125ChatRoute =
   Char123LocaleChar125ChatRouteImport.update({
     id: '/chat',
@@ -118,6 +132,8 @@ export interface FileRoutesByFullPath {
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
   '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
+  '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
+  '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
   '/{-$locale}/kontakt': typeof Char123LocaleChar125KontaktRoute
   '/{-$locale}/leistungen': typeof Char123LocaleChar125LeistungenRoute
@@ -134,6 +150,8 @@ export interface FileRoutesByTo {
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
   '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
+  '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
+  '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
   '/{-$locale}/kontakt': typeof Char123LocaleChar125KontaktRoute
   '/{-$locale}/leistungen': typeof Char123LocaleChar125LeistungenRoute
@@ -152,6 +170,8 @@ export interface FileRoutesById {
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
   '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
+  '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
+  '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
   '/{-$locale}/kontakt': typeof Char123LocaleChar125KontaktRoute
   '/{-$locale}/leistungen': typeof Char123LocaleChar125LeistungenRoute
@@ -171,6 +191,8 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/stream'
     | '/{-$locale}/chat'
+    | '/{-$locale}/datenschutz'
+    | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
     | '/{-$locale}/kontakt'
     | '/{-$locale}/leistungen'
@@ -187,6 +209,8 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/stream'
     | '/{-$locale}/chat'
+    | '/{-$locale}/datenschutz'
+    | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
     | '/{-$locale}/kontakt'
     | '/{-$locale}/leistungen'
@@ -204,6 +228,8 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/stream'
     | '/{-$locale}/chat'
+    | '/{-$locale}/datenschutz'
+    | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
     | '/{-$locale}/kontakt'
     | '/{-$locale}/leistungen'
@@ -289,6 +315,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125KarriereRouteImport
       parentRoute: typeof Char123LocaleChar125Route
     }
+    '/{-$locale}/impressum': {
+      id: '/{-$locale}/impressum'
+      path: '/impressum'
+      fullPath: '/{-$locale}/impressum'
+      preLoaderRoute: typeof Char123LocaleChar125ImpressumRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/datenschutz': {
+      id: '/{-$locale}/datenschutz'
+      path: '/datenschutz'
+      fullPath: '/{-$locale}/datenschutz'
+      preLoaderRoute: typeof Char123LocaleChar125DatenschutzRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/{-$locale}/chat': {
       id: '/{-$locale}/chat'
       path: '/chat'
@@ -336,6 +376,8 @@ declare module '@tanstack/react-router' {
 
 interface Char123LocaleChar125RouteChildren {
   Char123LocaleChar125ChatRoute: typeof Char123LocaleChar125ChatRoute
+  Char123LocaleChar125DatenschutzRoute: typeof Char123LocaleChar125DatenschutzRoute
+  Char123LocaleChar125ImpressumRoute: typeof Char123LocaleChar125ImpressumRoute
   Char123LocaleChar125KarriereRoute: typeof Char123LocaleChar125KarriereRoute
   Char123LocaleChar125KontaktRoute: typeof Char123LocaleChar125KontaktRoute
   Char123LocaleChar125LeistungenRoute: typeof Char123LocaleChar125LeistungenRoute
@@ -346,6 +388,8 @@ interface Char123LocaleChar125RouteChildren {
 
 const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
   Char123LocaleChar125ChatRoute: Char123LocaleChar125ChatRoute,
+  Char123LocaleChar125DatenschutzRoute: Char123LocaleChar125DatenschutzRoute,
+  Char123LocaleChar125ImpressumRoute: Char123LocaleChar125ImpressumRoute,
   Char123LocaleChar125KarriereRoute: Char123LocaleChar125KarriereRoute,
   Char123LocaleChar125KontaktRoute: Char123LocaleChar125KontaktRoute,
   Char123LocaleChar125LeistungenRoute: Char123LocaleChar125LeistungenRoute,

@@ -713,9 +713,17 @@ export type GqlCChatUpdatesSubscription = {
         | { __typename: 'ChatUpdateTurnEnded'; generationId: string };
 };
 
+export type GqlCDatenschutzPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCDatenschutzPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
 export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCImpressumPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCImpressumPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
 export type GqlCKarrierePageQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -2369,6 +2377,39 @@ export const ChatUpdatesDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCChatUpdatesSubscription, GqlCChatUpdatesSubscriptionVariables>;
+export const DatenschutzPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'DatenschutzPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCDatenschutzPageQuery, GqlCDatenschutzPageQueryVariables>;
 export const HomePageDocument = {
     kind: 'Document',
     definitions: [
@@ -2402,6 +2443,39 @@ export const HomePageDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCHomePageQuery, GqlCHomePageQueryVariables>;
+export const ImpressumPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'ImpressumPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCImpressumPageQuery, GqlCImpressumPageQueryVariables>;
 export const KarrierePageDocument = {
     kind: 'Document',
     definitions: [
