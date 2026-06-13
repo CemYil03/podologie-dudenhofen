@@ -103,7 +103,7 @@ export function SiteHeader() {
                             <div className="mt-auto border-t border-aubergine/10 p-4">
                                 <a
                                     href={`tel:${PRACTICE_PHONE_TEL}`}
-                                    className="flex items-center gap-2 rounded-full bg-aubergine px-4 py-3 text-sm font-medium text-cream"
+                                    className="flex items-center justify-center gap-2 rounded-full bg-aubergine px-4 py-3 text-sm font-medium text-cream"
                                 >
                                     <PhoneIcon className="size-4" aria-hidden />
                                     <span>{PRACTICE_PHONE_HUMAN}</span>
