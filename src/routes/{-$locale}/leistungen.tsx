@@ -16,6 +16,7 @@ import {
     SparklesIcon,
     StethoscopeIcon,
 } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { LeistungenPageDocument } from '../../web/graphql/generated';
@@ -24,7 +25,10 @@ import { useLocale } from '../../web/hooks/useLocale';
 import { PRACTICE } from '../../web/practice';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
+import { cn } from '../../web/utils/cn';
 import { localeFromParam } from '../../web/utils/locale';
+
+type PatientType = 'kasse' | 'privat';
 
 export const Route = createFileRoute('/{-$locale}/leistungen')({
     loader: () => routeLoaderGraphqlClient(LeistungenPageDocument)(),
@@ -47,6 +51,7 @@ export const Route = createFileRoute('/{-$locale}/leistungen')({
 
 function LeistungenPage() {
     const locale = useLocale();
+    const [patientType, setPatientType] = useState<PatientType>('kasse');
 
     const checklist = [
         {
@@ -150,21 +155,7 @@ function LeistungenPage() {
         },
     ] as const;
 
-    const bringList = [
-        {
-            heading: { de: 'Versichertenkarte', en: 'Insurance card' },
-            body: {
-                de: 'Bei gesetzlich Versicherten — wir lesen sie beim ersten Termin ein.',
-                en: 'For patients with statutory insurance — we scan it at your first visit.',
-            },
-        },
-        {
-            heading: { de: 'Ärztliche Verordnung', en: 'Medical prescription' },
-            body: {
-                de: 'Falls vorhanden. Bei Diabetes wird sie meist von der Hausarztpraxis ausgestellt.',
-                en: 'If you have one. With diabetes it is usually issued by your GP practice.',
-            },
-        },
+    const bringListShared = [
         {
             heading: { de: 'Liste der aktuellen Medikamente', en: 'Current medication list' },
             body: {
@@ -187,6 +178,37 @@ function LeistungenPage() {
             },
         },
     ] as const;
+
+    const bringListKasse = [
+        {
+            heading: { de: 'Versichertenkarte', en: 'Insurance card' },
+            body: {
+                de: 'Wir lesen sie beim ersten Termin ein und rechnen direkt mit Ihrer Krankenkasse ab.',
+                en: 'We scan it at your first visit and bill directly with your statutory insurance.',
+            },
+        },
+        {
+            heading: { de: 'Ärztliche Verordnung', en: 'Medical prescription' },
+            body: {
+                de: 'Bei Diabetes oder vergleichbaren Diagnosen wird sie meist von der Hausarztpraxis ausgestellt.',
+                en: 'For diabetes or comparable diagnoses it is usually issued by your GP practice.',
+            },
+        },
+        ...bringListShared,
+    ] as const;
+
+    const bringListPrivat = [
+        {
+            heading: { de: 'Keine Verordnung nötig', en: 'No prescription needed' },
+            body: {
+                de: 'Sie können direkt einen Termin vereinbaren — wir rechnen privat nach Leistung ab.',
+                en: 'You can book directly — we bill privately, by service.',
+            },
+        },
+        ...bringListShared,
+    ] as const;
+
+    const bringList = patientType === 'kasse' ? bringListKasse : bringListPrivat;
 
     return (
         <main>
@@ -319,31 +341,82 @@ function LeistungenPage() {
                             }[locale]
                         }
                     </h2>
-                    <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
+
+                    <p className="mt-4 max-w-2xl text-sm font-medium text-aubergine">
                         {
                             {
-                                de: 'Damit wir gut vorbereitet sind und der Termin entspannt verläuft.',
-                                en: 'So we can prepare well and your visit stays relaxed.',
+                                de: 'Das hängt davon ab, ob Sie Kassen- oder Privatpatient*in sind:',
+                                en: 'It depends on whether you have statutory insurance or pay privately:',
                             }[locale]
                         }
                     </p>
-
-                    <ol className="mt-10 grid max-w-3xl gap-5">
-                        {bringList.map((item, index) => (
-                            <li key={item.heading.de} className="flex gap-4">
-                                <span
-                                    className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-aubergine font-serif text-sm font-semibold text-cream"
-                                    aria-hidden
+                    <div
+                        role="tablist"
+                        aria-label={{ de: 'Patientenart', en: 'Patient type' }[locale]}
+                        className="mt-3 inline-flex rounded-full border border-aubergine/20 bg-cream p-1"
+                    >
+                        {(
+                            [
+                                { value: 'kasse', label: { de: 'Kassenpatient*in', en: 'Statutory insurance' } },
+                                { value: 'privat', label: { de: 'Privatpatient*in / Selbstzahler*in', en: 'Private / self-payer' } },
+                            ] as const
+                        ).map((option) => {
+                            const active = patientType === option.value;
+                            return (
+                                <button
+                                    key={option.value}
+                                    type="button"
+                                    role="tab"
+                                    id={`patient-tab-${option.value}`}
+                                    aria-selected={active}
+                                    aria-controls={`patient-panel-${option.value}`}
+                                    onClick={() => setPatientType(option.value)}
+                                    className={cn(
+                                        'rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5',
+                                        active ? 'bg-aubergine text-cream' : 'text-aubergine/70 hover:text-aubergine',
+                                    )}
                                 >
-                                    {index + 1}
-                                </span>
-                                <div>
-                                    <h3 className="font-serif text-lg font-semibold text-aubergine-dark">{item.heading[locale]}</h3>
-                                    <p className="mt-1 text-(--color-brand-charcoal-2)">{item.body[locale]}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
+                                    {option.label[locale]}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <div
+                        key={patientType}
+                        role="tabpanel"
+                        id={`patient-panel-${patientType}`}
+                        aria-labelledby={`patient-tab-${patientType}`}
+                    >
+                        <p className="mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
+                            {patientType === 'kasse'
+                                ? {
+                                      de: 'Für Kassenpatient*innen — damit wir Ihre Verordnung sauber abrechnen können.',
+                                      en: 'For statutory-insurance patients — so we can bill your prescription cleanly.',
+                                  }[locale]
+                                : {
+                                      de: 'Für Privatpatient*innen — damit der Termin entspannt verläuft.',
+                                      en: 'For private patients — so your visit stays relaxed.',
+                                  }[locale]}
+                        </p>
+
+                        <ol className="mt-8 grid max-w-3xl gap-5">
+                            {bringList.map((item, index) => (
+                                <li key={item.heading.de} className="flex gap-4">
+                                    <span
+                                        className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-aubergine font-serif text-sm font-semibold text-cream"
+                                        aria-hidden
+                                    >
+                                        {index + 1}
+                                    </span>
+                                    <div>
+                                        <h3 className="font-serif text-lg font-semibold text-aubergine-dark">{item.heading[locale]}</h3>
+                                        <p className="mt-1 text-(--color-brand-charcoal-2)">{item.body[locale]}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
                 </div>
             </section>
 
@@ -355,51 +428,77 @@ function LeistungenPage() {
                         {{ de: 'Kosten und Krankenkasse', en: 'Costs and insurance' }[locale]}
                     </h2>
 
-                    <div className="mt-10 grid max-w-3xl gap-8">
-                        <div className="flex gap-4">
-                            <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
-                                <ClipboardCheckIcon className="size-5" aria-hidden />
-                            </div>
-                            <div>
-                                <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                    {{ de: 'Kassenleistung', en: 'Statutory insurance' }[locale]}
-                                </h3>
-                                <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
-                                    {
+                    <div key={patientType} className="mt-10 grid max-w-3xl gap-8">
+                        {patientType === 'kasse' ? (
+                            <div className="flex gap-4">
+                                <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                    <ClipboardCheckIcon className="size-5" aria-hidden />
+                                </div>
+                                <div>
+                                    <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
+                                        {{ de: 'Kassenleistung', en: 'Statutory insurance' }[locale]}
+                                    </h3>
+                                    <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
                                         {
-                                            de: 'Bei diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten — wir rechnen direkt ab.',
-                                            en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the costs — we bill directly.',
-                                        }[locale]
-                                    }
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-4">
-                            <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
-                                <CreditCardIcon className="size-5" aria-hidden />
-                            </div>
-                            <div>
-                                <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                    {{ de: 'Selbstzahler', en: 'Self-payers' }[locale]}
-                                </h3>
-                                <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
-                                    {
+                                            {
+                                                de: 'Bei diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten — wir rechnen direkt ab.',
+                                                en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the costs — we bill directly.',
+                                            }[locale]
+                                        }
+                                    </p>
+                                    <button
+                                        type="button"
+                                        onClick={() => setPatientType('privat')}
+                                        className="mt-3 text-sm text-aubergine underline-offset-4 hover:underline"
+                                    >
                                         {
-                                            de: 'Privat und ohne Verordnung gerne nach Leistung — konkrete Preise nennen wir Ihnen am Telefon.',
-                                            en: 'Private and without a prescription, billed by service — we share specific prices over the phone.',
-                                        }[locale]
-                                    }
-                                </p>
-                                <a
-                                    href={`tel:${PRACTICE.phone.tel}`}
-                                    className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-aubergine underline-offset-4 hover:underline"
-                                >
-                                    <PhoneIcon className="size-4" aria-hidden />
-                                    {PRACTICE.phone.human}
-                                </a>
+                                            {
+                                                de: 'Privat ohne Verordnung? Hier wechseln →',
+                                                en: 'Private without prescription? Switch here →',
+                                            }[locale]
+                                        }
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="flex gap-4">
+                                <div className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg bg-blush text-aubergine">
+                                    <CreditCardIcon className="size-5" aria-hidden />
+                                </div>
+                                <div>
+                                    <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
+                                        {{ de: 'Selbstzahler', en: 'Self-payers' }[locale]}
+                                    </h3>
+                                    <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
+                                        {
+                                            {
+                                                de: 'Privat und ohne Verordnung gerne nach Leistung — konkrete Preise nennen wir Ihnen am Telefon.',
+                                                en: 'Private and without a prescription, billed by service — we share specific prices over the phone.',
+                                            }[locale]
+                                        }
+                                    </p>
+                                    <a
+                                        href={`tel:${PRACTICE.phone.tel}`}
+                                        className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-aubergine underline-offset-4 hover:underline"
+                                    >
+                                        <PhoneIcon className="size-4" aria-hidden />
+                                        {PRACTICE.phone.human}
+                                    </a>
+                                    <button
+                                        type="button"
+                                        onClick={() => setPatientType('kasse')}
+                                        className="mt-3 block text-sm text-aubergine underline-offset-4 hover:underline"
+                                    >
+                                        {
+                                            {
+                                                de: 'Mit ärztlicher Verordnung? Hier wechseln →',
+                                                en: 'With a medical prescription? Switch here →',
+                                            }[locale]
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

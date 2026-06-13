@@ -250,6 +250,82 @@ function PraxisPage() {
                             </p>
                         </div>
                     </div>
+
+                    <div className="mt-20">
+                        <h3 className="max-w-3xl font-serif text-2xl leading-tight font-semibold text-cream sm:text-3xl">
+                            {
+                                {
+                                    de: 'Instrumentenaufbereitung — Schritt für Schritt.',
+                                    en: 'Instrument reprocessing — step by step.',
+                                }[locale]
+                            }
+                        </h3>
+                        <p className="mt-4 max-w-2xl leading-relaxed text-cream/80">
+                            {
+                                {
+                                    de: 'Jedes Instrument durchläuft denselben dreistufigen Prozess. Die Geräte stehen direkt in der Praxis — nichts wird ausgelagert.',
+                                    en: 'Every instrument goes through the same three-stage process. The equipment lives in the practice itself — nothing is outsourced.',
+                                }[locale]
+                            }
+                        </p>
+                        <ol className="mt-10 grid gap-8 md:grid-cols-3">
+                            {[
+                                {
+                                    src: '/instrumentenaufbereitung/thermodesinfektor.jpg',
+                                    title: { de: 'Thermodesinfektor', en: 'Thermal disinfector' },
+                                    alt: {
+                                        de: 'Thermodesinfektor zur Reinigung und Desinfektion der Instrumente.',
+                                        en: 'Thermal disinfector for cleaning and disinfecting instruments.',
+                                    },
+                                    body: {
+                                        de: 'Reinigung und thermische Desinfektion der Instrumente. Jeder Vorgang wird automatisch dokumentiert.',
+                                        en: 'Instruments are cleaned and thermally disinfected. Every cycle is automatically logged.',
+                                    },
+                                },
+                                {
+                                    src: '/instrumentenaufbereitung/folienschweissgeraet.jpg',
+                                    title: { de: 'Folienschweißgerät', en: 'Pouch sealer' },
+                                    alt: {
+                                        de: 'Folienschweißgerät zum Verpacken der Instrumente in Sterilisationsfolie.',
+                                        en: 'Pouch sealer used to package instruments in sterilisation film.',
+                                    },
+                                    body: {
+                                        de: 'Die getrockneten Instrumente werden in Sterilisationsfolie verpackt und eingeschweißt.',
+                                        en: 'Once dried, the instruments are packed into sterilisation pouches and sealed.',
+                                    },
+                                },
+                                {
+                                    src: '/instrumentenaufbereitung/autoclave.jpg',
+                                    title: { de: 'Autoklav', en: 'Autoclave' },
+                                    alt: {
+                                        de: 'Autoklav zur Sterilisation der verpackten Instrumente.',
+                                        en: 'Autoclave used to sterilise the sealed instruments.',
+                                    },
+                                    body: {
+                                        de: 'Die verpackten Instrumente werden sterilisiert und mit Datum und Chargennummer beschriftet.',
+                                        en: 'The sealed instruments are sterilised and labelled with date and batch number.',
+                                    },
+                                },
+                            ].map((step, index) => (
+                                <li key={step.src}>
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-gold">
+                                            {String(index + 1).padStart(2, '0')}
+                                        </span>
+                                        <span aria-hidden className="h-px flex-1 bg-gold/30" />
+                                    </div>
+                                    <img
+                                        src={step.src}
+                                        alt={step.alt[locale]}
+                                        loading="lazy"
+                                        className="mt-4 aspect-[4/3] w-full rounded-xl border border-cream/15 object-cover shadow-sm"
+                                    />
+                                    <h4 className="mt-5 font-serif text-lg font-semibold text-cream">{step.title[locale]}</h4>
+                                    <p className="mt-2 text-sm leading-relaxed text-cream/80">{step.body[locale]}</p>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
                 </div>
             </section>
         </main>
