@@ -86,7 +86,7 @@
         "@graphql-codegen/typescript": "^6.0.2",
         "@graphql-codegen/typescript-operations": "^6.0.3",
         "@graphql-codegen/typescript-resolvers": "^6.0.2",
-        "@rsbuild/core": "^2.0.12",
+        "@rsbuild/core": "^2.0.13",
         "@storybook/addon-docs": "^10.4.4",
         "@storybook/builder-vite": "^10.4.4",
         "@storybook/react-vite": "^10.4.4",
