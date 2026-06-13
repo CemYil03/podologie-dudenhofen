@@ -155,7 +155,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                         <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {
                                 {
-                                    de: 'Brauche ich überhaupt einen Podologen?',
+                                    de: 'Brauche ich überhaupt eine podologische Behandlung?',
                                     en: 'Do I really need a podiatrist?',
                                 }[locale]
                             }

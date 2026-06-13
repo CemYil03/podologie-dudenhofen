@@ -141,7 +141,7 @@ function QualifikationPage() {
                                 <p>
                                     {
                                         {
-                                            de: 'Die sektorale Heilpraktiker-Erlaubnis erweitert den rechtlichen Rahmen über die reine Podologie hinaus: Behandlungen, die sonst nur Ärzten oder vollumfänglichen Heilpraktikern vorbehalten sind, dürfen im Bereich der Podologie eigenständig durchgeführt werden.',
+                                            de: 'Die sektorale Heilpraktiker-Erlaubnis erweitert den rechtlichen Rahmen über die reine Podologie hinaus: Behandlungen, die sonst nur ärztlich oder von vollumfänglichen Heilpraktikerinnen und Heilpraktikern durchgeführt werden dürfen, sind im Bereich der Podologie eigenständig möglich.',
                                             en: 'The sectoral Heilpraktiker licence extends the legal scope beyond podiatry alone: treatments otherwise reserved for physicians or full Heilpraktiker may be carried out independently within the podiatric field.',
                                         }[locale]
                                     }

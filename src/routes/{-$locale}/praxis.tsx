@@ -220,7 +220,7 @@ function PraxisPage() {
                             <p className="mt-3 text-sm leading-relaxed text-cream/80">
                                 {
                                     {
-                                        de: 'Behandlungseinheit, Liege und Kontaktflächen werden zwischen jedem Patienten mit VAH-gelisteten Mitteln desinfiziert — mit ausreichender Einwirkzeit.',
+                                        de: 'Behandlungseinheit, Liege und Kontaktflächen werden zwischen jeder Behandlung mit VAH-gelisteten Mitteln desinfiziert — mit ausreichender Einwirkzeit.',
                                         en: 'The treatment unit, couch and contact surfaces are disinfected between every patient with VAH-listed agents — with the proper contact time.',
                                     }[locale]
                                 }

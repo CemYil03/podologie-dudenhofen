@@ -31,7 +31,7 @@ function KarrierePage() {
     const valueCards = [
         {
             icon: ClockIcon,
-            title: { de: 'Zeit pro Patient', en: 'Time per patient' },
+            title: { de: 'Zeit pro Behandlung', en: 'Time per treatment' },
             body: {
                 de: 'Keine 20-Minuten-Termine. Wir nehmen uns die Zeit, die der Fuß braucht.',
                 en: 'No 20-minute slots. We take the time each foot actually needs.',
@@ -69,7 +69,7 @@ function KarrierePage() {
             en: 'State-recognised qualification as a podiatrist',
         },
         {
-            de: 'Sicheres Arbeiten mit Diabetikern (DFS)',
+            de: 'Sicheres Arbeiten beim diabetischen Fußsyndrom (DFS)',
             en: 'Confident treatment of patients with diabetic foot syndrome (DFS)',
         },
         {
@@ -117,9 +117,9 @@ function KarrierePage() {
             },
         },
         {
-            key: { de: 'Patientenstamm', en: 'Patient base' },
+            key: { de: 'Stammkundschaft', en: 'Patient base' },
             value: {
-                de: 'Gewachsen, viele Stammkunden, Hausbesuche im Umkreis',
+                de: 'Gewachsene Stammkundschaft, Hausbesuche im Umkreis',
                 en: 'Established, many regulars, house calls in the surrounding area',
             },
         },
@@ -166,7 +166,7 @@ function KarrierePage() {
                     <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
                             {
-                                de: 'Wir suchen erfahrene oder gerade ausgebildete Podologinnen und Podologen, die Wert auf saubere Arbeit, gute Hygiene und Zeit für die Patienten legen.',
+                                de: 'Wir suchen erfahrene oder gerade ausgebildete Podologinnen und Podologen, die Wert auf saubere Arbeit, gute Hygiene und Zeit für die Patientinnen und Patienten legen.',
                                 en: 'We are looking for experienced or newly qualified podiatrists who care about clean work, good hygiene and time for the patient.',
                             }[locale]
                         }

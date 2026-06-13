@@ -157,8 +157,8 @@ function LeistungenPage() {
         {
             heading: { de: 'Ärztliche Verordnung', en: 'Medical prescription' },
             body: {
-                de: 'Falls vorhanden. Diabetiker bekommen sie meist vom Hausarzt.',
-                en: 'If you have one. Diabetic patients usually receive it from their GP.',
+                de: 'Falls vorhanden. Bei Diabetes wird sie meist von der Hausarztpraxis ausgestellt.',
+                en: 'If you have one. With diabetes it is usually issued by your GP practice.',
             },
         },
         {
@@ -215,12 +215,12 @@ function LeistungenPage() {
                 </div>
             </section>
 
-            {/* Brauche ich einen Podologen? */}
-            <section id="brauche-ich-podologen" className="scroll-mt-20">
+            {/* Brauche ich eine podologische Behandlung? */}
+            <section id="brauche-ich-eine-behandlung" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <SectionEyebrow>{{ de: 'Orientierung', en: 'Orientation' }[locale]}</SectionEyebrow>
                     <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                        {{ de: 'Brauche ich einen Podologen?', en: 'Do I need a podiatrist?' }[locale]}
+                        {{ de: 'Brauche ich eine podologische Behandlung?', en: 'Do I need a podiatry appointment?' }[locale]}
                     </h2>
                     <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                         {

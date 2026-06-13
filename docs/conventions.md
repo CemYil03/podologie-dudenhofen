@@ -159,6 +159,32 @@ export async function orderCreate(db: Database, input: OrderInput): Promise<GqlS
 
 npm only. The `engines` field in `package.json` enforces this — pnpm and yarn are blocked.
 
+## German Copy — Gender-Neutral Language
+
+All German user-facing copy in this site uses gender-neutral language. The generic masculine (e.g. _einen Podologen_, _Patienten_,
+_Diabetiker_, _Mitarbeiter_) is not used to refer to mixed or unspecified groups.
+
+When writing or editing German strings (route files, SEO descriptions, alt text, agent prompts, anything a visitor reads), pick the first
+option from this list that fits — earlier options are preferred because they remove the question entirely:
+
+1. **Rephrase to an abstract noun or activity.** Almost always possible. The cleanest fix and the one to reach for first.
+   - _Brauche ich einen Podologen?_ → _Brauche ich eine podologische Behandlung?_
+   - _Zeit pro Patient_ → _Zeit pro Behandlung_
+   - _zwischen jedem Patienten_ → _zwischen jeder Behandlung_
+   - _Sicheres Arbeiten mit Diabetikern_ → _Sicheres Arbeiten bei Diabetes / beim diabetischen Fußsyndrom_
+   - _viele Stammkunden_ → _eine gewachsene Stammkundschaft_
+2. **Use the paired form** (_Patientinnen und Patienten_, _Podologinnen und Podologen_) when a personal noun cannot be avoided. Always full
+   words — no Binnen-I, no asterisk, no colon, no slash inside running prose. The site's voice is calm and editorial; pair forms read
+   cleanly there.
+3. **Use _(m/w/d)_** only in formal job-posting headings where it is the legally established convention (e.g. _Podologin / Podologe
+   (m/w/d)_). Do not sprinkle it through body copy.
+
+Annette is a single named person — referring to _her_ specifically as _Podologin_ / _Heilpraktikerin_ is correct and stays. The rule is
+about generic references to groups or roles, not about the practice owner.
+
+The English copy follows the standard inclusive-language conventions of the language (e.g. _podiatrist_, _patient_) — it does not need a
+paired form because English nouns aren't grammatically gendered.
+
 ## SEO
 
 Every public page route MUST set `head: ({ params }) => seoMeta({ ... })` using the helper at `src/web/seo/seoMeta.ts`. Pages that are
