@@ -50,26 +50,74 @@ Non-goals (for now): online booking with a calendar, payments, patient portal, m
 
 ---
 
+## Practice details
+
+Confirmed by the practice owner; mirrored in code via `PRACTICE_PHONE_HUMAN` / `PRACTICE_PHONE_TEL` (in
+[`src/web/components/SiteHeader.tsx`](../src/web/components/SiteHeader.tsx)) and a `PRACTICE_EMAIL` constant in
+[`src/routes/{-$locale}/kontakt.tsx`](../src/routes/{-$locale}/kontakt.tsx). When any of these change, update both the code constants and
+this section.
+
+| Field         | Value                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| Practitioner  | Annette Yilmaz                                                                                  |
+| Address       | Speyerer Straße 60, 67373 Dudenhofen                                                            |
+| Phone         | +49 6232 621064                                                                                 |
+| Email         | podologie.annette@gmail.com                                                                     |
+| Opening hours | Mo–Do 08:00–18:00, Fr 08:00–14:00, Sa & So geschlossen                                          |
+| Bus stops     | "Speyerer Straße" and "Boligweg" (Dudenhofen)                                                   |
+| Bus lines     | 591 and 507 from Speyer                                                                         |
+| Photo, room   | `public/podologie-dudenhofen-praxis.jpg`                                                        |
+| Photo, person | `public/podologie-dudenhofen-annette-yilmaz.jpg`                                                |
+| Urkunde       | `public/podologie-urkunde.png` (Podologie only — HP-Urkunde not yet digitized; shown in person) |
+
+---
+
 ## Content Inventory
 
 The site launches with these pages. Every page is bilingual unless marked otherwise.
 
-| Route                                        | Purpose                                                                                          | Priority |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------- |
-| `/` (Home)                                   | Hook + 2–3 service highlights + opening hours + map + contact CTA + (later) AI assistant entry   | P0       |
-| `/therapeutin` (Therapist)                   | Practitioner bio, Werdegang, Behandlungsansatz                                                   | P0       |
-| `/podologie` (Podiatry)                      | What podiatry is, when it's the right next step                                                  | P0       |
-| `/heilpraktiker-podologie` (HP for Podiatry) | Scope of the Heilpraktiker für Podologie qualification and what it adds                          | P0       |
-| `/praxis` (Practice)                         | Rooms and equipment of the practice                                                              | P0       |
-| `/leistungen` (Services)                     | Catalog: medizinische Fußpflege, Nagelkorrektur-Spangen, diabetisches Fußsyndrom, Hausbesuche, … | P0       |
-| `/hygiene` (Hygiene)                         | Aufbereitung der Instrumente, Flächendesinfektion, Patientenschutz                               | P0       |
-| `/podologie-urkunde` (Podiatry Cert.)        | Staatliche Urkunde — Nachweis der Podologie-Qualifikation                                        | P1       |
-| `/heilpraktiker-urkunde` (HP Cert.)          | Erlaubnisurkunde Heilpraktiker für Podologie                                                     | P1       |
-| `/kontakt` (Contact)                         | Phone, email, address, map, contact / appointment-request form                                   | P0       |
-| `/anfahrt` (Directions)                      | Map, ÖPNV-Anbindung, Parkmöglichkeiten                                                           | P0       |
-| `/impressum` (Imprint)                       | Legal imprint — required by §5 TMG                                                               | P0       |
-| `/datenschutz` (Privacy)                     | Privacy policy — required by GDPR                                                                | P0       |
-| `/barrierefreiheit` (Accessibility)          | Accessibility statement (BFSG / EU 2025)                                                         | P1       |
+| Route                               | Purpose                                                                                                                                                                                                             | Priority |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `/` (Home)                          | Services-led hero + 3 service highlights + AI-assistant entry card + opening hours + map + dark credential strip + contact CTA                                                                                      | P0       |
+| `/praxis` (Practice)                | Long-scroll page with anchored sections `#raeume`, `#therapeutin`, `#hygiene` — replaces the legacy `/therapeutin` and `/hygiene` pages                                                                             | P0       |
+| `/leistungen` (Services)            | `#brauche-ich-podologen` checklist · `#leistungen` service cards · `#was-bringe-ich-mit` (first-appointment list) · `#kosten` (insurance vs self-payer)                                                             | P0       |
+| `/qualifikation` (Credentials)      | `#podologie` · `#heilpraktiker` · `#urkunden` (renders `podologie-urkunde.png` inline; HP-Urkunde mentioned, shown in person) — replaces legacy `/podologie`, `/heilpraktiker-podologie` and both `*-urkunde` pages | P0       |
+| `/karriere` (Careers)               | Initiativbewerbung surface for other Podologen/Podologinnen — values, role description, application path                                                                                                            | P0       |
+| `/kontakt` (Contact)                | Phone, email, address, hours · `#anfahrt` with Google Maps + Apple Maps deep-links + embedded map + ÖPNV + parking · contact CTA card — absorbs the legacy `/anfahrt` page                                          | P0       |
+| `/impressum` (Imprint)              | Legal imprint — required by §5 TMG                                                                                                                                                                                  | P0       |
+| `/datenschutz` (Privacy)            | Privacy policy — required by GDPR                                                                                                                                                                                   | P0       |
+| `/barrierefreiheit` (Accessibility) | Accessibility statement (BFSG / EU 2025)                                                                                                                                                                            | P1       |
+
+The top-level navigation in [`SiteHeader`](../src/web/components/SiteHeader.tsx) shows five items: Praxis · Leistungen · Qualifikation ·
+Karriere · Kontakt. Legal pages live in the footer only.
+
+### Anchors that must not change
+
+The chat assistant will deep-link into these — renaming the section IDs is a breaking change for assistant answers:
+
+- `/praxis#raeume`, `/praxis#therapeutin`, `/praxis#hygiene`
+- `/leistungen#brauche-ich-podologen`, `/leistungen#leistungen`, `/leistungen#was-bringe-ich-mit`, `/leistungen#kosten`
+- `/qualifikation#podologie`, `/qualifikation#heilpraktiker`, `/qualifikation#urkunden`
+- `/karriere#was-uns-ausmacht`, `/karriere#wen-wir-suchen`, `/karriere#was-wir-bieten`, `/karriere#bewerbung`
+- `/kontakt#kontaktdaten`, `/kontakt#anfahrt`, `/kontakt#anfrage`
+
+### Legacy → new redirect map
+
+The Jimdo site exposed nine top-level slugs. The 301 map for cutover:
+
+| Legacy URL                 | Target                         |
+| -------------------------- | ------------------------------ |
+| `/`                        | `/`                            |
+| `/therapeutin`             | `/praxis#therapeutin`          |
+| `/podologie`               | `/qualifikation#podologie`     |
+| `/heilpraktiker-podologie` | `/qualifikation#heilpraktiker` |
+| `/praxis`                  | `/praxis#raeume`               |
+| `/leistungen`              | `/leistungen`                  |
+| `/hygiene`                 | `/praxis#hygiene`              |
+| `/podologie-urkunde`       | `/qualifikation#urkunden`      |
+| `/heilpraktiker-urkunde`   | `/qualifikation#urkunden`      |
+| `/kontakt`                 | `/kontakt`                     |
+| `/anfahrt`                 | `/kontakt#anfahrt`             |
 
 URL-slug rule: German slugs are canonical and shared across both locales. The router's `{-$locale}` segment exposes them at `/<slug>` for
 German and `/en/<slug>` for English; the in-page copy translates per `useLocale()`. See
@@ -108,13 +156,15 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 
 - [ ] **Project identity pass.** Replace remaining template placeholders: HTML `<title>` in `src/routes/__root.tsx`, favicon set, theme
       tokens in `src/styles.css`, 404 copy. Re-grep for `Project name`, `TanStack App`, `example.com` after each change.
-- [ ] **Static content pages.** Build out `/therapeutin`, `/podologie`, `/heilpraktiker-podologie`, `/praxis`, `/leistungen`, `/hygiene`,
-      `/podologie-urkunde`, `/heilpraktiker-urkunde`, `/kontakt`, `/anfahrt`, `/impressum`, `/datenschutz` with real copy provided by the
-      practice owner. Both locales. (Routes scaffolded with seoMeta + bilingual `<h1>` placeholders — fill in body content next.)
-- [ ] **Home page.** Hook, services-overview, opening hours, map, primary CTA. Bilingual.
+- [x] **Static content pages.** `/`, `/praxis`, `/leistungen`, `/qualifikation`, `/karriere`, `/kontakt` shipped with full bilingual copy on
+      2026-06-13. Still missing: `/impressum`, `/datenschutz` — these need the practice owner / their lawyer's copy before they can be
+      built.
+- [x] **Home page.** Services-led hero, 3 service highlights, AI-assistant entry card with three suggested questions, opening hours + map,
+      dark credential strip, final CTA. Bilingual.
 - [ ] **Contact form.** Single form on `/kontakt`: name, contact (phone or email), preferred-callback window, free-text reason. Submits via
       a GraphQL mutation, sends an email via a transactional provider (decision pending — Postmark / Resend / SES), stores a row for audit.
-      **No PHI in the form** — patients should not type diagnoses; we collect intent only.
+      **No PHI in the form** — patients should not type diagnoses; we collect intent only. Page currently shows a placeholder card with
+      direct call/email buttons until this lands.
 - [ ] **Email transport.** Pick a provider, add the env var, wire `serverRuntime.mailer.send()`, add the contact-form integration test.
 - [ ] **SEO.** Every public page has `seoMeta()` with German + English copy and is in `SITEMAP_PATHS`. Verify `/sitemap.xml` and
       `/robots.txt` look correct against `WEB_PAGE_URL=https://podologie-dudenhofen.de`. Set up Google Search Console for both
@@ -130,13 +180,15 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 
 ### P1 — Pre-cutover, can ship after first deploy
 
-- [ ] **AI assistant on landing page.** A floating widget that answers the top-of-funnel questions ("Übernimmt die gesetzliche Krankenkasse
-      das?", "Macht ihr Hausbesuche?", "Wie läuft der erste Termin?"). Grounded in a structured FAQ blob; explicitly hands off to the
-      contact form for anything booking-shaped. Conservative system prompt: never gives medical advice, never guesses prices, falls back to
-      "Bitte rufen Sie uns an" with the phone number when uncertain. The chat foundation in `docs/architecture/chat.md` is the starting
-      point; we'll likely simplify it (no input collections, no tool approvals) for this surface and document the slimmed-down variant in
-      `docs/features/landing-assistant.md`.
-- [ ] **`/preise` page.** Self-payer price list + insurance handling explainer.
+- [ ] **AI assistant on landing page.** An inline card on `/` (not a floating widget — the home page already has the suggested-question card
+      linking to `/{-$locale}/chat`) that answers the top-of-funnel questions ("Übernimmt die gesetzliche Krankenkasse das?", "Macht ihr
+      Hausbesuche?", "Wie läuft der erste Termin?"). Grounded in a structured FAQ blob; explicitly hands off to the contact form for
+      anything booking-shaped. Conservative system prompt: never gives medical advice, never guesses prices, falls back to "Bitte rufen Sie
+      uns an" with the phone number when uncertain. The chat surface itself (`/chat`) needs its system prompt scoped — it currently uses the
+      generic shell. Source of truth for FAQ answers should be the same blob the static `/leistungen#brauche-ich-podologen` and
+      `#was-bringe-ich-mit` sections render from.
+- [ ] **`/preise` page.** Self-payer price list + insurance handling explainer. Currently `/leistungen#kosten` covers the explainer; a price
+      table is owner-pending.
 - [ ] **`/faq` page.** Seeded from the AI assistant transcripts and the practice owner's most-asked phone questions.
 - [ ] **OG images.** Per-page Open Graph image generation via the existing server-side rendering pipeline
       ([`docs/architecture/server-side-rendering.md`](./architecture/server-side-rendering.md)).
@@ -179,11 +231,12 @@ Track unresolved product/legal/operational questions here. Resolve and remove ra
 
 - [ ] Email provider for the contact form (Postmark / Resend / SES)?
 - [ ] Logo / wordmark — exists or needs design?
-- [ ] Hero photograph — bespoke or licensed?
+- [ ] Hero photograph — bespoke or licensed? (`podologie-dudenhofen-praxis.jpg` is in place as the home + `/praxis#raeume` photo.)
 - [ ] AI assistant at launch, or post-launch?
 - [ ] Practice owner's preference on a cookie/consent banner if we add analytics?
-- [ ] What does the legacy Jimdo URL set look like? (export needed for the 301 map.)
+- [ ] What does the legacy Jimdo URL set look like? (export needed for the 301 map — see "Legacy → new redirect map" above.)
 - [ ] Does the practice have an existing Google Business Profile? If yes, who owns it — we need to claim or transfer it.
+- [ ] Heilpraktiker-Urkunde digitization — currently mentioned on `/qualifikation#urkunden` as "shown in person". Worth scanning?
 
 ---
 
@@ -198,3 +251,13 @@ _(Move shipped roadmap items here with a one-line note + PR link. Prepend the da
 - 2026-06-12 — Brand design system foundations landed: aubergine-led palette, Fraunces / Source Sans 3 / JetBrains Mono self-hosted, pill
   button variants, `SectionEyebrow` component, home page retrofitted as the reference implementation. See
   [`docs/style/colors.md`](./style/colors.md), [`typography.md`](./style/typography.md), [`patterns.md`](./style/patterns.md).
+- 2026-06-13 — Information architecture collapsed from 11 thin pages to 6 long-scroll pages. Top-level nav reduced to Praxis · Leistungen ·
+  Qualifikation · Karriere · Kontakt; therapist bio moved to `/praxis#therapeutin`; both Urkunden consolidated into
+  `/qualifikation#urkunden`; `/anfahrt` absorbed into `/kontakt#anfahrt`. New `/karriere` page added for Initiativbewerbungen. Deleted:
+  `anfahrt`, `heilpraktiker-podologie`, `heilpraktiker-urkunde`, `hygiene`, `podologie-urkunde`, `podologie`, `therapeutin`, `terms`. New:
+  `qualifikation`, `karriere`. Sitemap and the stub redirect map updated. See "Legacy → new redirect map" above.
+- 2026-06-13 — Static content pages built with full bilingual copy: `/`, `/praxis`, `/leistungen`, `/qualifikation`, `/karriere`,
+  `/kontakt`. `SiteHeader` rebuilt with desktop nav, mobile sheet, active-state pill, and a persistent header `tel:` link. Phone number
+  centralized as `PRACTICE_PHONE_HUMAN` / `PRACTICE_PHONE_TEL` in `SiteHeader.tsx`.
+- 2026-06-13 — Practice details confirmed by the owner and locked into code: Annette Yilmaz, Speyerer Straße 60, 67373 Dudenhofen, +49 6232
+  621064, podologie.annette@gmail.com, Mo–Do 08–18 / Fr 08–14. Mirrored in the "Practice details" table above.
