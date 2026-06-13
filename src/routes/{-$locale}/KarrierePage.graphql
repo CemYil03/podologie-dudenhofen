@@ -1,0 +1,8 @@
+query KarrierePage {
+    currentSession {
+        sessionId
+        user {
+            name
+        }
+    }
+}

@@ -1,5 +1,0 @@
-query SessionBootstrap {
-    currentSession {
-        sessionId
-    }
-}

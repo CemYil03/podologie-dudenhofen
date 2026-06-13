@@ -1,0 +1,8 @@
+query QualifikationPage {
+    currentSession {
+        sessionId
+        user {
+            name
+        }
+    }
+}

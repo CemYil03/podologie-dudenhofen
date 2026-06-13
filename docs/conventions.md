@@ -84,6 +84,11 @@ If a comment paraphrases what the next line does, delete the comment and fix the
 - Application-specific components live directly in `src/web/components/`.
 - Use the `cn()` utility from `src/web/utils/cn.ts` for conditional class merging.
 
+## Practice Constants
+
+Site-wide practice facts (name, person, email, phone, address, hours, map URLs) live in `src/web/practice.ts` — never re-declare phone,
+email, address, or hours inline.
+
 ## Brand Colors and Fonts
 
 The site has a small, opinionated brand palette and a three-font system. Tokens live in `src/styles.css` and are exposed as Tailwind
@@ -104,7 +109,9 @@ credential blocks) are documented in `docs/style/patterns.md`.
   and guards/.
 - Union and interface `__resolveType` declarations go in `src/server/graphql/extensions.ts` via module augmentation.
 - Client-side `.graphql` operation files go alongside their route or component: `src/routes/**/*.graphql` or
-  `src/web/components/**/*.graphql`.
+  `src/web/components/**/*.graphql`. Each route owns a `<Name>Page.graphql` file with a no-variable query named `<Name>Page` whose selection
+  set always includes `currentSession { sessionId }`; the route's loader runs that query so first-visit SSR mints a session cookie via
+  `sessionUpsert()`.
 
 ## Commands (Database Writes)
 

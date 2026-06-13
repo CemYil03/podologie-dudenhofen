@@ -351,6 +351,10 @@ export type GqlCUserUpdate = {
     name: Scalars['String']['input'];
 };
 
+export type GqlCChatRouteQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCChatRouteQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
 export type GqlCChatMessageGenerationFragment = {
     modelId: string;
     inputTokens: number | null;
@@ -713,9 +717,25 @@ export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
-export type GqlCSessionBootstrapQueryVariables = Exact<{ [key: string]: never }>;
+export type GqlCKarrierePageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GqlCSessionBootstrapQuery = { currentSession: { sessionId: string } };
+export type GqlCKarrierePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCKontaktPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCKontaktPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCLeistungenPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCLeistungenPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCPraxisPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCPraxisPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCQualifikationPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCQualifikationPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
 export const ChatMessageGenerationFragmentDoc = {
     kind: 'Document',
@@ -1116,6 +1136,39 @@ export const ChatMessageFieldsFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<GqlCChatMessageFieldsFragment, unknown>;
+export const ChatRouteDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'ChatRoute' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCChatRouteQuery, GqlCChatRouteQueryVariables>;
 export const ChatPageDocument = {
     kind: 'Document',
     definitions: [
@@ -2349,23 +2402,168 @@ export const HomePageDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCHomePageQuery, GqlCHomePageQueryVariables>;
-export const SessionBootstrapDocument = {
+export const KarrierePageDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'SessionBootstrap' },
+            name: { kind: 'Name', value: 'KarrierePage' },
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'currentSession' },
-                        selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'sessionId' } }] },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
                     },
                 ],
             },
         },
     ],
-} as unknown as DocumentNode<GqlCSessionBootstrapQuery, GqlCSessionBootstrapQueryVariables>;
+} as unknown as DocumentNode<GqlCKarrierePageQuery, GqlCKarrierePageQueryVariables>;
+export const KontaktPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'KontaktPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCKontaktPageQuery, GqlCKontaktPageQueryVariables>;
+export const LeistungenPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'LeistungenPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCLeistungenPageQuery, GqlCLeistungenPageQueryVariables>;
+export const PraxisPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'PraxisPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCPraxisPageQuery, GqlCPraxisPageQueryVariables>;
+export const QualifikationPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'QualifikationPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCQualifikationPageQuery, GqlCQualifikationPageQueryVariables>;

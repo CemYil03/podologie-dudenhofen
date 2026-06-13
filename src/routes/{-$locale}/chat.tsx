@@ -21,8 +21,8 @@ import type { GqlCChatAssistantInputValue, GqlCChatPageQuery } from '../../web/g
 import {
     ChatInputCollectionRespondDocument,
     ChatPageDocument,
+    ChatRouteDocument,
     ChatToolApprovalRespondDocument,
-    SessionBootstrapDocument,
 } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { seoMeta } from '../../web/seo/seoMeta';
@@ -39,7 +39,7 @@ import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/chat')({
     validateSearch: (search: Record<string, unknown>) => ({ chatId: typeof search.chatId === 'string' ? search.chatId : undefined }),
-    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    loader: () => routeLoaderGraphqlClient(ChatRouteDocument)(),
     staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);

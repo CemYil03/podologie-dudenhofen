@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { SessionBootstrapDocument } from '../../web/graphql/generated';
+import { LeistungenPageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
 import { PRACTICE } from '../../web/practice';
@@ -27,7 +27,7 @@ import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/leistungen')({
-    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    loader: () => routeLoaderGraphqlClient(LeistungenPageDocument)(),
     staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);

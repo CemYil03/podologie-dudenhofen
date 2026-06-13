@@ -1,0 +1,8 @@
+query KontaktPage {
+    currentSession {
+        sessionId
+        user {
+            name
+        }
+    }
+}

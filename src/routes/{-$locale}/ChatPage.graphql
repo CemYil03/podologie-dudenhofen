@@ -3,6 +3,19 @@
 # `<ChatMessage />` component needs; matches the union shape in
 # `docs/architecture/chat.md`.
 
+# Route-level loader query. The `ChatPage` query below is keyed by `$chatId`
+# and only fires once the URL has one; the empty state (`/chat` with no
+# `chatId`) needs its own no-variables loader so first-visit deep links still
+# mint a session — see `docs/architecture/route-session-bootstrap.md`.
+query ChatRoute {
+    currentSession {
+        sessionId
+        user {
+            name
+        }
+    }
+}
+
 fragment ChatMessageGeneration on ChatMessageGeneration {
     modelId
     inputTokens

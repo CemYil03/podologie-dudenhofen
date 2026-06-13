@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ClockIcon, GraduationCapIcon, HandshakeIcon, ShieldCheckIcon } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { SessionBootstrapDocument } from '../../web/graphql/generated';
+import { KarrierePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
 import { PRACTICE } from '../../web/practice';
@@ -11,7 +11,7 @@ import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/karriere')({
-    loader: () => routeLoaderGraphqlClient(SessionBootstrapDocument)(),
+    loader: () => routeLoaderGraphqlClient(KarrierePageDocument)(),
     staleTime: 0,
     head: ({ params }) => {
         const locale = localeFromParam(params);

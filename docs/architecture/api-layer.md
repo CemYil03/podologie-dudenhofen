@@ -157,6 +157,11 @@ During SSR, the original client request's cookies are forwarded to the internal 
 GraphQL endpoint (e.g., new session creation) are propagated back to the SSR response using `response.headers.getSetCookie()` (iterates each
 cookie individually to avoid corruption from comma-joining).
 
+This handover is what makes anonymous-session creation work for first-time visitors. A page route with no GraphQL loader never reaches
+`/api/graphql` during SSR and therefore leaves the visitor without a session cookie. To prevent that, every public page under
+`src/routes/{-$locale}/` owns a `<Name>Page.graphql` document whose query selects `currentSession { sessionId }` and is wired as the route's
+loader.
+
 ### Header Forwarding
 
 The server path forwards an explicit allowlist of client headers to the internal GraphQL request:

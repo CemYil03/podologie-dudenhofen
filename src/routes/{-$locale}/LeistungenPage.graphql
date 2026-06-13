@@ -1,0 +1,8 @@
+query LeistungenPage {
+    currentSession {
+        sessionId
+        user {
+            name
+        }
+    }
+}
