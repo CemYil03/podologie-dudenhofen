@@ -85,12 +85,55 @@ export type UserCreate = typeof users.$inferInsert;
 // is used only where the GraphQL schema itself is a union of values
 // (`inputs`, `answers`, tool args/result).
 
-export const chats = pgTable('Chats', {
-    chatId: uuid().primaryKey(),
-    title: varchar().notNull().default(''),
-    lastModifiedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-    createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-});
+// Two surfaces share the chat foundation: an anonymous-visitor assistant on
+// the public site and the practice owner's admin assistant. The agent factory
+// is dispatched off `kind` in `chatAssistantTurnRun`; ownership is split
+// across two nullable FKs because visitors have no `User` row at all and the
+// owner sign-in flow (OTP) hasn't landed yet.
+//
+// Application-level invariant (enforced in commands): exactly one of
+// `(sessionId, ownerUserId)` is non-null per row, matching `kind`. The
+// columns stay nullable individually so the OTP flow can populate
+// `ownerUserId` on existing rows without a follow-up migration. See
+// `docs/architecture/chat.md` and `docs/architecture/chat-persistence.md`.
+export const chatKinds = ['visitorAssistant', 'adminAssistant'] as const;
+export type ChatKind = (typeof chatKinds)[number];
+
+export const chats = pgTable(
+    'Chats',
+    {
+        chatId: uuid().primaryKey(),
+        kind: varchar().$type<ChatKind>().notNull(),
+        // Visitor chats are session-scoped — they outlive the session row
+        // (ON DELETE SET NULL) so visitor traffic isn't silently dropped if
+        // we ever clean expired sessions, but they become unreachable from
+        // `chatFindOne` because `guardChatRead` won't match.
+        sessionId: uuid(),
+        // Admin chats are owned by a `User`. Cascade on user delete because
+        // the owner row going away should take their conversations with it.
+        ownerUserId: uuid(),
+        title: varchar().notNull().default(''),
+        lastModifiedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+        createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+    },
+    (table) => [
+        foreignKey({
+            columns: [table.sessionId],
+            foreignColumns: [sessions.sessionId],
+        })
+            .onUpdate('cascade')
+            .onDelete('set null'),
+        foreignKey({
+            columns: [table.ownerUserId],
+            foreignColumns: [users.userId],
+        })
+            .onUpdate('cascade')
+            .onDelete('cascade'),
+        index('Chats_sessionId_lastModifiedAt_idx').on(table.sessionId, table.lastModifiedAt),
+        index('Chats_ownerUserId_lastModifiedAt_idx').on(table.ownerUserId, table.lastModifiedAt),
+        index('Chats_kind_idx').on(table.kind),
+    ],
+);
 
 export type Chat = typeof chats.$inferSelect;
 export type ChatCreate = typeof chats.$inferInsert;

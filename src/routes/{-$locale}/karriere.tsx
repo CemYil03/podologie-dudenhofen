@@ -38,6 +38,19 @@ export const Route = createFileRoute('/{-$locale}/karriere')({
     component: KarrierePage,
 });
 
+// Smooth-scrolls to the `#bewerbung` section. A plain `<Link hash=…>` would
+// only fire when the URL hash actually changes — once the visitor has
+// scrolled away after their first click, the URL still ends in `#bewerbung`
+// and a second click is a no-op. Calling `scrollIntoView` directly avoids
+// that, and honours `prefers-reduced-motion` by falling back to instant
+// scroll.
+function scrollToBewerbung() {
+    const target = document.getElementById('bewerbung');
+    if (!target) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+}
+
 function KarrierePage() {
     const locale = useLocale();
 
@@ -65,10 +78,8 @@ function KarrierePage() {
                             }
                         </p>
                         <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
-                            <Button variant="brand" size="lg" asChild>
-                                <Link to="/{-$locale}/kontakt">
-                                    {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application' }[locale]}
-                                </Link>
+                            <Button variant="brand" size="lg" onClick={scrollToBewerbung}>
+                                {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application' }[locale]}
                             </Button>
                             <Button variant="brand-outline" size="lg" asChild>
                                 <Link to="/{-$locale}/praxis">{{ de: 'Mehr über die Praxis', en: 'More about the practice' }[locale]}</Link>
@@ -237,9 +248,9 @@ function KarrierePage() {
                     </ol>
                     <div className="mt-12 flex flex-wrap items-center gap-3 *:flex-1 sm:*:flex-none">
                         <Button size="lg" asChild className="rounded-full bg-cream px-6 text-aubergine-dark hover:bg-cream/90">
-                            <Link to="/{-$locale}/kontakt">
+                            <a href={`mailto:${PRACTICE.email}`}>
                                 {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application' }[locale]}
-                            </Link>
+                            </a>
                         </Button>
                         <Button variant="link" asChild className="text-cream/80 hover:text-cream">
                             <a href={`tel:${PRACTICE.phone}`}>

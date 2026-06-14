@@ -107,14 +107,14 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
     {
         path: '/',
         sectionId: 'termin',
-        title: { de: 'Termin? Wir rufen zurück.', en: 'Appointment? We will call you back.' },
+        title: { de: 'Termin vereinbaren? Rufen Sie an.', en: 'Want an appointment? Give us a call.' },
         description: {
-            de: 'Schreiben Sie eine kurze Nachricht — wir melden uns innerhalb eines Werktages.',
-            en: 'Send a short message — we get back to you within one working day.',
+            de: 'Am besten während unserer Anrufzeiten Mo–Fr 08:00 – 16:00.',
+            en: 'Best reached during our call hours, Mon–Fri 08:00 – 16:00.',
         },
         keywords: {
-            de: ['termin', 'rückruf', 'kontaktaufnahme', 'anfrage'],
-            en: ['appointment', 'callback', 'request'],
+            de: ['termin', 'anrufen', 'kontaktaufnahme', 'anfrage'],
+            en: ['appointment', 'call', 'request'],
         },
     },
 
@@ -256,12 +256,12 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
         sectionId: 'kontaktdaten',
         title: { de: 'Kontaktdaten', en: 'Contact details' },
         description: {
-            de: 'Telefon, E-Mail, Adresse und Öffnungszeiten auf einen Blick.',
-            en: 'Phone, email, address and opening hours at a glance.',
+            de: 'Telefon, Adresse und Öffnungszeiten auf einen Blick.',
+            en: 'Phone, address and opening hours at a glance.',
         },
         keywords: {
-            de: ['telefon', 'e-mail', 'email', 'adresse', 'öffnungszeiten', 'sprechzeiten'],
-            en: ['phone', 'email', 'address', 'opening hours'],
+            de: ['telefon', 'adresse', 'öffnungszeiten', 'sprechzeiten'],
+            en: ['phone', 'address', 'opening hours'],
         },
     },
     {
@@ -282,12 +282,12 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
         sectionId: 'anfrage',
         title: { de: 'Terminanfrage', en: 'Appointment request' },
         description: {
-            de: 'Termin vereinbaren — kurze Nachricht, Rückruf innerhalb eines Werktages.',
-            en: 'Arrange an appointment — short message, callback within one working day.',
+            de: 'Termine vereinbaren wir am Telefon — Anrufzeiten Mo–Fr 08:00 – 16:00.',
+            en: 'Appointments are arranged by phone — call hours Mon–Fri 08:00 – 16:00.',
         },
         keywords: {
-            de: ['terminanfrage', 'rückruf', 'nachricht', 'anfrage'],
-            en: ['appointment request', 'callback', 'message', 'enquiry'],
+            de: ['terminanfrage', 'anrufen', 'telefon', 'anfrage'],
+            en: ['appointment request', 'call', 'phone', 'enquiry'],
         },
     },
 
@@ -324,8 +324,8 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
             en: 'Sectoral Heilpraktiker permit for podiatry, recognised in Rhineland-Palatinate.',
         },
         keywords: {
-            de: ['heilpraktiker', 'sektoral', 'rheinland-pfalz', 'erlaubnis'],
-            en: ['heilpraktiker', 'sectoral', 'rhineland-palatinate', 'permit'],
+            de: ['heilpraktiker', 'sektoral', 'rheinland-pfalz', 'erlaubnis', 'überweisung', 'privatversicherung', 'rechnung'],
+            en: ['heilpraktiker', 'sectoral', 'rhineland-palatinate', 'permit', 'referral', 'private insurance', 'invoice'],
         },
     },
     {

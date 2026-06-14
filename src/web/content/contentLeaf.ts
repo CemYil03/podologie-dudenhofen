@@ -1,6 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
+import type { Locale } from '../utils/locale';
 
-export type LocaleString = { de: string; en: string };
+export type LocaleString = Record<Locale, string>;
 
 /**
  * A single searchable card on a page. The `id` doubles as the DOM element id
@@ -13,5 +14,5 @@ export type ContentLeaf = {
     icon?: LucideIcon;
     heading: LocaleString;
     body: LocaleString;
-    keywords?: { de: ReadonlyArray<string>; en: ReadonlyArray<string> };
+    keywords?: Record<Locale, ReadonlyArray<string>>;
 };

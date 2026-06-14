@@ -7,7 +7,7 @@ export function ChatMessageToolCallView({ message }: { message: GqlCChatMessageT
         <MessageRow side="system">
             <div
                 data-slot="chat-message-tool-call"
-                className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground"
+                className="inline-flex items-center gap-2 rounded-full border border-aubergine/15 bg-blush/60 px-3 py-1 text-xs text-(--color-brand-charcoal-3)"
             >
                 <HammerIcon aria-hidden />
                 <span>

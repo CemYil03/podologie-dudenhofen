@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { chatMessages, chatMessagesToolApprovalRequest, chatMessagesToolApprovalResponse, chatMessagesToolCall, chats } from '../db/schema';
 import { commandSetup, testDb } from '../test/commandTestUtils';
-import type { GqlSChatAssistantOptions, GqlSUserMutation } from '../graphql/generated';
+import type { GqlSChatAssistantOptions } from '../graphql/generated';
 import { chatToolApprovalRespond } from './chatToolApprovalRespond';
 
 // `chatAssistantTurnRun` calls Gemini, which we don't want to hit from a unit
@@ -26,9 +26,10 @@ const streamingAssistantOptions: GqlSChatAssistantOptions = {
     requireToolCallApprovals: true,
 };
 
-// Seeds a chat with a pending `toolApprovalRequest` and returns the ids the
-// test needs to drive `chatToolApprovalRespond`. The session+user come from
-// `commandSetup.withUser`; everything chat-shaped lives here.
+// Seeds an admin chat with a pending `toolApprovalRequest` and returns the
+// ids the test needs to drive `chatToolApprovalRespond`. The session+user
+// come from `commandSetup.withUser` and own the chat so `guardChatWrite`
+// passes.
 async function seedApprovalRequest(toolName: string, toolArgs: object) {
     const setup = await commandSetup.withUser();
     const chatId = crypto.randomUUID();
@@ -36,7 +37,7 @@ async function seedApprovalRequest(toolName: string, toolArgs: object) {
     const approvalId = `approval-${crypto.randomUUID()}`;
     const toolCallId = `tc-${crypto.randomUUID()}`;
 
-    await testDb.insert(chats).values({ chatId });
+    await testDb.insert(chats).values({ chatId, kind: 'adminAssistant', ownerUserId: setup.user.userId });
     await testDb.insert(chatMessages).values({
         chatMessageId: requestMessageId,
         chatId,
@@ -50,8 +51,7 @@ async function seedApprovalRequest(toolName: string, toolArgs: object) {
         toolArgs,
     });
 
-    const parent: GqlSUserMutation = { userId: setup.user.userId } as GqlSUserMutation;
-    return { ...setup, parent, chatId, requestMessageId, approvalId, toolCallId };
+    return { ...setup, chatId, requestMessageId, approvalId, toolCallId };
 }
 
 describe('chatToolApprovalRespond', () => {
@@ -61,7 +61,6 @@ describe('chatToolApprovalRespond', () => {
 
         // Act
         const result = await chatToolApprovalRespond(
-            seed.parent,
             { approvalId: seed.approvalId, approved: true, assistantOptions: streamingAssistantOptions },
             seed.requestingSession,
             seed.serverRuntime,
@@ -108,7 +107,6 @@ describe('chatToolApprovalRespond', () => {
 
         // Act
         const result = await chatToolApprovalRespond(
-            seed.parent,
             { approvalId: seed.approvalId, approved: false, assistantOptions: streamingAssistantOptions },
             seed.requestingSession,
             seed.serverRuntime,
@@ -147,7 +145,6 @@ describe('chatToolApprovalRespond', () => {
 
         // Act
         const result = await chatToolApprovalRespond(
-            seed.parent,
             { approvalId: seed.approvalId, approved: false, reason, assistantOptions: streamingAssistantOptions },
             seed.requestingSession,
             seed.serverRuntime,
@@ -181,7 +178,6 @@ describe('chatToolApprovalRespond', () => {
         // Arrange — first attempt carries a reason.
         const seed = await seedApprovalRequest('writeToConsole', { message: 'one-shot' });
         await chatToolApprovalRespond(
-            seed.parent,
             { approvalId: seed.approvalId, approved: true, reason: 'looks fine', assistantOptions: stubAssistantOptions },
             seed.requestingSession,
             seed.serverRuntime,
@@ -189,7 +185,6 @@ describe('chatToolApprovalRespond', () => {
 
         // Act — second attempt with different fields
         const second = await chatToolApprovalRespond(
-            seed.parent,
             { approvalId: seed.approvalId, approved: false, reason: 'changed my mind', assistantOptions: stubAssistantOptions },
             seed.requestingSession,
             seed.serverRuntime,
@@ -209,11 +204,10 @@ describe('chatToolApprovalRespond', () => {
 
     it('returns null for an unknown approvalId without writing any rows', async () => {
         // Arrange
-        const { serverRuntime, requestingSession, user } = await commandSetup.withUser();
+        const { serverRuntime, requestingSession } = await commandSetup.withUser();
 
         // Act
         const result = await chatToolApprovalRespond(
-            { userId: user.userId } as GqlSUserMutation,
             { approvalId: 'does-not-exist', approved: true, assistantOptions: stubAssistantOptions },
             requestingSession,
             serverRuntime,

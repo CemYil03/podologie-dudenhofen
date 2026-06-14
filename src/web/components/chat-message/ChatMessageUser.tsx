@@ -27,7 +27,7 @@ export function ChatMessageUserView({ message }: { message: GqlCChatMessageUser 
                     </div>
                 ) : null}
                 {message.body.length > 0 ? <div className="whitespace-pre-wrap wrap-break-word">{message.body}</div> : null}
-                <Timestamp iso={message.createdAt} />
+                <Timestamp iso={message.createdAt} className="text-cream/70" />
             </Bubble>
             {hasAttachments ? (
                 <ChatAttachmentPreviewDialog

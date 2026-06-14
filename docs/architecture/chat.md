@@ -14,6 +14,67 @@ Persistence and LLM replay are out of scope here — see [Chat Persistence](./ch
 A polymorphic `ChatMessage` union lives in `src/server/graphql/schema.graphqls` and is consumed by every chat surface in the app. The rest
 of this doc walks each piece of the union and the rules that hold across them.
 
+### Two surfaces share one foundation
+
+The site runs two chat surfaces today, both built on the same union, persistence model, streaming pipeline, and tool-approval flow:
+
+- **`visitorAssistant`** — the public-website assistant. Backed by
+  [`agentVisitorAssistant`](../../src/server/agents/agentVisitorAssistant.ts). Reachable from any session, including anonymous visitors with
+  no `User` row. Scope: top-of-funnel Q&A about the practice (services, hours, address, directions, what to bring). Tools: only
+  `promptUserForInput`. The system prompt is grounded in [`podologieFacts.ts`](../../src/server/agents/podologieFacts.ts) — a single TS
+  constant mirroring the "Practice details" section of [`docs/project.md`](../project.md).
+- **`adminAssistant`** — the practice owner's assistant. Backed by [`agentAdminAssistant`](../../src/server/agents/agentAdminAssistant.ts) —
+  same shape as before, just renamed from the generic `agentUserConversation`. Reachable from `/admin/chat`. Today the surface is
+  hard-blocked by `guardAdmin`; an OTP sign-in flow lands later, at which point the route is gated against a real admin claim.
+
+The two agents differ only in their system prompt and `tools` map. The shared `chatAssistantTurnRun` dispatches them off the chat row's
+`kind` discriminator (see "`chats.kind` picks the agent" below).
+
+### `chats.kind` picks the agent
+
+Each `chats` row carries a `kind: ChatKind` column (`visitorAssistant` | `adminAssistant`). The shared turn-runner loads the chat row up
+front and selects the agent factory off `kind`; everything downstream — persistence, streaming, approvals, input collections — is
+surface-agnostic. Adding a third surface is one new `kind`, one new agent file, and one new line in the dispatcher's switch.
+
+Where the `kind` comes from on a brand-new chat is the GraphQL access path, not a request arg — see "Surface is implicit in the access path"
+below. The resolver passes `'visitorAssistant'` or `'adminAssistant'` into `chatMessageCreate` based on whether the call landed on
+`Mutation.chatMessageCreate` or `Mutation.admin.chatMessageCreate`.
+
+Ownership splits across two nullable FKs on `chats`:
+
+- `sessionId` — populated for visitor chats. `ON DELETE SET NULL` so visitor traffic isn't silently dropped if expired sessions are ever
+  swept; the chat survives but becomes unreachable from the read path because `guardChatRead` won't match.
+- `ownerUserId` — populated for admin chats. `ON DELETE CASCADE` because the owner User row going away should take their conversations with
+  it. Nullable today so the OTP sign-in flow can populate the column on already-existing rows without a follow-up migration.
+
+The application-level invariant — exactly one of `(sessionId, ownerUserId)` is non-null per row, matching `kind` — is enforced in
+`chatMessageCreate`, not as a CHECK constraint. See
+[Chat Persistence — UI-shaped source of truth](./chat-persistence.md#ui-shaped-source-of-truth-base-table--per-variant-tables).
+
+### Surface is implicit in the access path
+
+Chat writes hang off two distinct paths on `Mutation`. The surface (visitor vs admin) is not a request arg — it's whichever path the client
+reached:
+
+- **`Mutation.chatMessageCreate`** etc. — public visitor writes. No parent guard. The resolver injects `chatKind = 'visitorAssistant'` into
+  `chatMessageCreate`, so a brand-new chat created here is always a visitor chat owned by the session.
+- **`Mutation.admin.chatMessageCreate`** etc. — admin writes. The parent `Mutation.admin` resolves through `guardAdminMutation`, which
+  throws today (no admin sign-in yet) and will gate on a real admin claim once OTP lands. The resolver injects
+  `chatKind = 'adminAssistant'`, so a brand-new chat created here is always an admin chat owned by the requesting `User`.
+
+Reads mirror the split: admin chats are loaded through `Session.admin.chat(chatId: ID!)`, behind the same `guardAdmin` parent. Visitor chats
+are loaded through the public `Query.chat(chatId: ID!)` field — same `chatFindOne` resolver, same `guardChatRead`, just no parent guard. The
+two paths converge on one read implementation; the per-chat guard distinguishes ownership by `kind` (session cookie for visitor chats,
+`ownerUserId` for admin chats). The visitor's _own_ chat list is exposed at `Session.visitorChats`, filtered structurally to the requesting
+session.
+
+Per-chat ownership is still enforced inside each command via `guardChatWrite`, which loads the chat row and asserts the predicate matching
+its `kind`. `chatFindOne` mirrors the rule via `guardChatRead`. So even if an admin reaches `Mutation.admin.chatMessageCreate(chatId: ...)`
+with another admin's chat id, the per-chat guard still rejects.
+
+`ChatMessageUser.author` and `ChatMessageUserInput.author` are nullable: visitor messages have no `User` row to point at. Admin messages
+always populate the field.
+
 ### The message union
 
 ```graphql
@@ -252,7 +313,10 @@ to what the page query would have re-fetched.
 
 The shared turn-runner `chatAssistantTurnRun` exposes `chatAssistantTurnRunDetached`, which all three write commands use to fire the
 assistant turn on a void promise — the mutation returns as soon as the user-side row is durable, the agent runs detached, and the helper
-bumps `chats.lastModifiedAt` after the turn finishes.
+bumps `chats.lastModifiedAt` after the turn finishes. Immediately after the timestamp bump, if `chats.title` is still empty, the helper also
+calls `chatTitleGenerate` (one short, non-streaming LLM call against `serverRuntime.ai.chatTitleModel()`). The title is best-effort and
+surface-agnostic: every failure mode logs and returns, leaving the column empty so the next turn retries. See
+[Chat Persistence — `chats.title`](./chat-persistence.md) for the column-level rationale.
 
 The client-side buffers in `useChatLiveUpdates` are scoped to a single chat surface. The hook takes the current `chatId` and resets
 `appendedMessages` and `streamingTexts` whenever the surface transitions away from a previously-defined chat (loaded → empty, loaded A →

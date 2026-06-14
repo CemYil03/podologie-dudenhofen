@@ -24,6 +24,13 @@ Guard files follow the pattern `guard{Entity}{Context}`:
 
 - `guardUserSubscription` — validates that the session can subscribe to user updates
 - `guardSessionMutation` — validates that the session can perform session-level mutations
+- `guardChatRead` / `guardChatWrite` — load a chat row and assert the requesting session can read/write it. Visitor chats authorize on
+  `chat.sessionId === requestingSession.sessionId`; admin chats on `chat.ownerUserId === requestingSession.userId`. Throws on mismatch and
+  returns the chat row on success so callers don't re-load it.
+- `guardAdmin` / `guardAdminMutation` — parent guards for `Session.admin` and `Mutation.admin`. Hardcoded to throw today (no admin sign-in
+  flow yet); the seam is the right place to layer the real admin claim once OTP lands. Both helpers return the parent shape (`GqlSAdmin` /
+  `GqlSAdminMutation`) so the resolver wiring is a one-liner. The whole `Admin` and `AdminMutation` subgraphs are therefore unreachable to
+  non-admin sessions today.
 
 ### Key Files
 

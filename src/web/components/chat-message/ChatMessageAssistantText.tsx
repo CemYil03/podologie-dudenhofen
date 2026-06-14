@@ -8,7 +8,7 @@ export function ChatMessageAssistantTextView({ message }: { message: GqlCChatMes
         <div data-slot="chat-message-row" data-side="assistant" className="flex w-full min-w-0 max-w-full">
             <div className="flex w-full min-w-0 max-w-full flex-col gap-1 overflow-x-auto">
                 <AssistantMarkdown text={message.body} />
-                <div className="flex items-center gap-2 text-[11px] opacity-70">
+                <div className="flex items-center gap-2 text-[11px] text-(--color-brand-charcoal-3)">
                     <time dateTime={message.createdAt}>{format(parseISO(message.createdAt), 'HH:mm')}</time>
                     <CopyButton text={message.body} />
                 </div>

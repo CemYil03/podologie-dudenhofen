@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ExternalLinkIcon, PhoneIcon, QuoteIcon, StarIcon } from 'lucide-react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
+import { useVisitorChat } from '../../web/chat/VisitorChatProvider';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
@@ -71,6 +72,7 @@ export const Route = createFileRoute('/{-$locale}/')({
     },
     component() {
         const locale = useLocale();
+        const { openWithMessage } = useVisitorChat();
 
         return (
             <main>
@@ -208,15 +210,15 @@ export const Route = createFileRoute('/{-$locale}/')({
                             <div className="rounded-xl border border-aubergine/10 bg-cream p-6">
                                 <div className="flex flex-col gap-2">
                                     {INDEX_SUGGESTED_QUESTIONS.map((q) => (
-                                        <Link
+                                        <button
                                             key={q.id}
                                             id={q.id}
-                                            to="/{-$locale}/chat"
-                                            search={{ chatId: undefined }}
+                                            type="button"
+                                            onClick={() => void openWithMessage(q.heading[locale])}
                                             className="search-target scroll-mt-20 rounded-md border border-aubergine/20 px-4 py-3 text-left text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
                                         >
                                             {q.heading[locale]}
-                                        </Link>
+                                        </button>
                                     ))}
                                 </div>
                             </div>
@@ -400,13 +402,13 @@ export const Route = createFileRoute('/{-$locale}/')({
                     <div className="mx-auto max-w-5xl px-6 py-20 text-center">
                         <Reveal>
                             <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                {{ de: 'Termin? Wir rufen zurück.', en: 'Appointment? We will call you back.' }[locale]}
+                                {{ de: 'Termin vereinbaren? Rufen Sie an.', en: 'Want an appointment? Give us a call.' }[locale]}
                             </h2>
                             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
                                     {
-                                        de: 'Schreiben Sie eine kurze Nachricht — wir melden uns innerhalb eines Werktages.',
-                                        en: 'Send a short message — we will get back to you within one working day.',
+                                        de: 'Am besten während unserer Anrufzeiten Mo–Fr 08:00 – 16:00.',
+                                        en: 'Best reached during our call hours, Mon–Fri 08:00 – 16:00.',
                                     }[locale]
                                 }
                             </p>

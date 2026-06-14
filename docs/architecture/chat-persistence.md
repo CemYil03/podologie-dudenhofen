@@ -29,11 +29,31 @@ table keyed by the same `chatMessageId`, carrying only its variant-specific colu
 
 ```text
 chats
-  chatId, title, lastModifiedAt, createdAt
+  chatId, kind, sessionId?, ownerUserId?, title, lastModifiedAt, createdAt
 
 chatMessages                                          -- spine
   chatMessageId PK, chatId FK, kind, authorUserId?, createdAt
+```
 
+`chats.kind` is the per-chat surface discriminator (`visitorAssistant` | `adminAssistant`); see
+[Chat — Two surfaces share one foundation](./chat.md#two-surfaces-share-one-foundation). The value is derived from the GraphQL access path
+the write came in on (`Mutation.chatMessageCreate` → `visitorAssistant`; `Mutation.admin.chatMessageCreate` → `adminAssistant`), not from a
+request arg. Ownership splits across two nullable FKs: `sessionId` for visitor chats (`ON DELETE SET NULL`), `ownerUserId` for admin chats
+(`ON DELETE CASCADE`). The application-level invariant — exactly one of the two is non-null per row, matching `kind` — is enforced in
+`chatMessageCreate`, not as a CHECK constraint, so the upcoming OTP sign-in flow can populate `ownerUserId` on already-existing rows without
+a follow-up migration.
+
+`chats.title` defaults to `''` and is populated by `chatTitleGenerate` after the first turn that produces an assistant message —
+`chatAssistantTurnRunDetached` checks the column post-bump and only fires the title call when it's still empty. The call is one-shot
+(`generateText` against `serverRuntime.ai.chatTitleModel()`, no streaming, no tools), best-effort, and surface-agnostic: visitor and admin
+chats use the same path. Failure logs and returns; the next turn retries against the still-empty column. The column is non-nullable because
+every consumer (the visitor empty-state list, the future admin chat-list) wants `String!` rather than threading a "untitled" fallback
+through the type system.
+
+`chatMessages.authorUserId` is already nullable. Visitor messages land with `authorUserId = null` because anonymous visitors have no `User`
+row.
+
+```text
 chatMessagesUser                                      -- 1:1 with spine row
   chatMessageId PK FK, body
 chatMessagesAssistantText

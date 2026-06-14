@@ -29,6 +29,12 @@ export interface ServerRuntime {
     // `serverRuntimeStubCreate` in command tests.
     ai: {
         userConversationModel: () => LanguageModel;
+        // Small one-shot model used by `chatTitleGenerate` to summarize a
+        // freshly-completed chat into a short title. Same provider and
+        // credentials as the conversation model — separated so the cheaper
+        // tier (or a different model) can be picked without touching the
+        // tool-loop agents.
+        chatTitleModel: () => LanguageModel;
     };
     // Server-side rendering capability — drives a singleton headless
     // Chromium against an internal `/server/*` route to produce an image

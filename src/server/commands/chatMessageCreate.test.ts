@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { chatMessageUserAttachments, chatMessages, chatMessagesUser, chats } from '../db/schema';
 import { commandSetup, testDb } from '../test/commandTestUtils';
-import type { GqlSChatAssistantOptions, GqlSUserMutation } from '../graphql/generated';
+import type { GqlSChatAssistantOptions } from '../graphql/generated';
 import { chatAssistantTurnRunDetached } from './chatAssistantTurnRun';
 import { chatMessageCreate } from './chatMessageCreate';
 import { fileUploadCreate } from './fileUploadCreate';
@@ -23,15 +23,16 @@ const streamingAssistantOptions: GqlSChatAssistantOptions = {
 };
 
 describe('chatMessageCreate', () => {
-    it('creates a new chat, persists the user message, and publishes MessageAppended before the assistant turn runs', async () => {
-        // Arrange
+    it('creates a new admin chat, persists the user message, and publishes MessageAppended before the assistant turn runs', async () => {
+        // Arrange — admin surface needs a session with a `userId` so the
+        // chat row can be owned.
         const { serverRuntime, requestingSession, user } = await commandSetup.withUser();
-        const parent: GqlSUserMutation = { userId: user.userId } as GqlSUserMutation;
 
-        // Act
+        // Act — admin path: `chatKind = 'adminAssistant'` is what the
+        // `Mutation.admin.chatMessageCreate` resolver injects.
         const result = await chatMessageCreate(
-            parent,
             { chatId: null, message: 'hello world', assistantOptions: streamingAssistantOptions },
+            'adminAssistant',
             requestingSession,
             serverRuntime,
         );
@@ -50,6 +51,9 @@ describe('chatMessageCreate', () => {
             testDb.select().from(chatMessagesUser).where(eq(chatMessagesUser.chatMessageId, chatMessageId)),
         ]);
         expect(chatRows).toHaveLength(1);
+        expect(chatRows[0]!.kind).toBe('adminAssistant');
+        expect(chatRows[0]!.ownerUserId).toBe(user.userId);
+        expect(chatRows[0]!.sessionId).toBeNull();
         expect(spineRows).toHaveLength(1);
         expect(spineRows[0]!.kind).toBe('user');
         expect(spineRows[0]!.authorUserId).toBe(user.userId);
@@ -74,10 +78,67 @@ describe('chatMessageCreate', () => {
         expect(chatAssistantTurnRunDetached).toHaveBeenCalledTimes(1);
     });
 
+    it('creates a visitor chat from an anonymous session (no userId)', async () => {
+        // Arrange — `commandSetup()` (no `withUser`) gives us a session row
+        // whose `userId` is null. The `requestingSession` fixture also lies
+        // about its `userId` for legacy tests; override that so the visitor
+        // path actually runs as anonymous.
+        const base = await commandSetup();
+        const requestingSession = { ...base.requestingSession, userId: null } as typeof base.requestingSession;
+
+        // Act — visitor path: `chatKind = 'visitorAssistant'` is what the
+        // public `Mutation.chatMessageCreate` resolver injects.
+        const result = await chatMessageCreate(
+            { chatId: null, message: 'hallo', assistantOptions: streamingAssistantOptions },
+            'visitorAssistant',
+            requestingSession,
+            base.serverRuntime,
+        );
+
+        // Assert — visitor chat owned by the session, no user FK; user
+        // message lands with `authorUserId = null`.
+        expect(result).not.toBeNull();
+        const [chatRow] = await testDb.select().from(chats).where(eq(chats.chatId, result!.chatId));
+        expect(chatRow!.kind).toBe('visitorAssistant');
+        expect(chatRow!.sessionId).toBe(requestingSession.sessionId);
+        expect(chatRow!.ownerUserId).toBeNull();
+        const [spineRow] = await testDb.select().from(chatMessages).where(eq(chatMessages.chatMessageId, result!.chatMessageId));
+        expect(spineRow!.authorUserId).toBeNull();
+    });
+
+    it('rejects appending to a chat owned by a different session', async () => {
+        // Arrange — A creates a chat; B tries to send a message into it.
+        const a = await commandSetup.withUser();
+        const b = await commandSetup.withUser();
+        const created = await chatMessageCreate(
+            { chatId: null, message: 'mine', assistantOptions: streamingAssistantOptions },
+            'adminAssistant',
+            a.requestingSession,
+            a.serverRuntime,
+        );
+        expect(created).not.toBeNull();
+        // Reset the mock — we care about whether B's call kicks off a turn.
+        vi.mocked(chatAssistantTurnRunDetached).mockClear();
+
+        // Act — B sends to A's chat. The `chatKind` arg here is irrelevant
+        // for an existing chat (the row's own `kind` wins); pass admin to
+        // mirror what the admin-mutation path would inject.
+        const result = await chatMessageCreate(
+            { chatId: created!.chatId, message: 'borrowed!', assistantOptions: streamingAssistantOptions },
+            'adminAssistant',
+            b.requestingSession,
+            b.serverRuntime,
+        );
+
+        // Assert — `guardChatWrite` rejects; B's send returns null and never
+        // kicks off the assistant turn.
+        expect(result).toBeNull();
+        expect(chatAssistantTurnRunDetached).not.toHaveBeenCalled();
+    });
+
     it('does not publish MessageAppended when no generationId is supplied', async () => {
         // Arrange — no generationId means no live subscriber to push to.
-        const { serverRuntime, requestingSession, user } = await commandSetup.withUser();
-        const parent: GqlSUserMutation = { userId: user.userId } as GqlSUserMutation;
+        const { serverRuntime, requestingSession } = await commandSetup.withUser();
         const noStreamOptions: GqlSChatAssistantOptions = {
             generationId: null,
             requireToolCallApprovals: false,
@@ -85,8 +146,8 @@ describe('chatMessageCreate', () => {
 
         // Act
         const result = await chatMessageCreate(
-            parent,
             { chatId: null, message: 'silent send', assistantOptions: noStreamOptions },
+            'adminAssistant',
             requestingSession,
             serverRuntime,
         );
@@ -101,7 +162,6 @@ describe('chatMessageCreate', () => {
     it('links attachments to the user message and exposes them on the published payload', async () => {
         // Arrange — pre-upload two attachments owned by the seeded user.
         const { serverRuntime, requestingSession, user } = await commandSetup.withUser();
-        const parent: GqlSUserMutation = { userId: user.userId } as GqlSUserMutation;
         const a1 = await fileUploadCreate(testDb, {
             userId: user.userId,
             filename: 'photo.png',
@@ -117,13 +177,13 @@ describe('chatMessageCreate', () => {
 
         // Act
         const result = await chatMessageCreate(
-            parent,
             {
                 chatId: null,
                 message: 'see attached',
                 fileUploadIds: [a1.fileUploadId, a2.fileUploadId],
                 assistantOptions: streamingAssistantOptions,
             },
+            'adminAssistant',
             requestingSession,
             serverRuntime,
         );
@@ -161,7 +221,6 @@ describe('chatMessageCreate', () => {
         // Arrange — file upload owned by user B; user A tries to send it.
         const a = await commandSetup.withUser();
         const b = await commandSetup.withUser();
-        const parentA: GqlSUserMutation = { userId: a.user.userId } as GqlSUserMutation;
         const otherUsersFileUpload = await fileUploadCreate(testDb, {
             userId: b.user.userId,
             filename: 'other.txt',
@@ -172,13 +231,13 @@ describe('chatMessageCreate', () => {
         // Act — A passes B's file-upload id; the command's try/catch should
         // log and return null instead of persisting a half-row.
         const result = await chatMessageCreate(
-            parentA,
             {
                 chatId: null,
                 message: 'borrowed!',
                 fileUploadIds: [otherUsersFileUpload.fileUploadId],
                 assistantOptions: streamingAssistantOptions,
             },
+            'adminAssistant',
             a.requestingSession,
             a.serverRuntime,
         );

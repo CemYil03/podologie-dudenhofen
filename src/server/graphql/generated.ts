@@ -16,9 +16,46 @@ export type Scalars = {
     JSON: { input: unknown; output: unknown };
 };
 
+export interface GqlSAdmin {
+    __typename?: 'Admin';
+    chat: GqlSChat;
+}
+
+export type GqlSAdminChatArgs = {
+    chatId: Scalars['ID']['input'];
+};
+
+export interface GqlSAdminMutation {
+    __typename?: 'AdminMutation';
+    chatInputCollectionRespond?: Maybe<GqlSChatMessageCreateResult>;
+    chatMessageCreate?: Maybe<GqlSChatMessageCreateResult>;
+    chatToolApprovalRespond?: Maybe<GqlSChatMessageCreateResult>;
+}
+
+export type GqlSAdminMutationChatInputCollectionRespondArgs = {
+    answers: Array<GqlSChatMessageUserInputAnswerCreate>;
+    assistantOptions: GqlSChatAssistantOptions;
+    collectionMessageId: Scalars['ID']['input'];
+};
+
+export type GqlSAdminMutationChatMessageCreateArgs = {
+    assistantOptions: GqlSChatAssistantOptions;
+    chatId?: InputMaybe<Scalars['ID']['input']>;
+    fileUploadIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+    message: Scalars['String']['input'];
+};
+
+export type GqlSAdminMutationChatToolApprovalRespondArgs = {
+    approvalId: Scalars['String']['input'];
+    approved: Scalars['Boolean']['input'];
+    assistantOptions: GqlSChatAssistantOptions;
+    reason?: InputMaybe<Scalars['String']['input']>;
+};
+
 export interface GqlSChat {
     __typename?: 'Chat';
     chatId: Scalars['ID']['output'];
+    kind: GqlSChatKind;
     lastModifiedAt: Scalars['DateTime']['output'];
     messages: Array<GqlSChatMessage>;
     title: Scalars['String']['output'];
@@ -122,6 +159,8 @@ export type GqlSChatAssistantOptions = {
     requireToolCallApprovals: Scalars['Boolean']['input'];
 };
 
+export type GqlSChatKind = 'AdminAssistant' | 'VisitorAssistant';
+
 export type GqlSChatMessage =
     | GqlSChatMessageAssistantInputCollection
     | GqlSChatMessageAssistantText
@@ -196,7 +235,7 @@ export interface GqlSChatMessageToolCall {
 export interface GqlSChatMessageUser {
     __typename?: 'ChatMessageUser';
     attachments: Array<GqlSFileUpload>;
-    author: GqlSUser;
+    author?: Maybe<GqlSUser>;
     body: Scalars['String']['output'];
     chatMessageId: Scalars['ID']['output'];
     createdAt: Scalars['DateTime']['output'];
@@ -205,7 +244,7 @@ export interface GqlSChatMessageUser {
 export interface GqlSChatMessageUserInput {
     __typename?: 'ChatMessageUserInput';
     answers: Array<GqlSChatMessageUserInputAnswer>;
-    author: GqlSUser;
+    author?: Maybe<GqlSUser>;
     chatMessageId: Scalars['ID']['output'];
     collectionMessageId: Scalars['ID']['output'];
     createdAt: Scalars['DateTime']['output'];
@@ -257,9 +296,33 @@ export interface GqlSFileUpload {
 
 export interface GqlSMutation {
     __typename?: 'Mutation';
+    admin: GqlSAdminMutation;
+    chatInputCollectionRespond?: Maybe<GqlSChatMessageCreateResult>;
+    chatMessageCreate?: Maybe<GqlSChatMessageCreateResult>;
+    chatToolApprovalRespond?: Maybe<GqlSChatMessageCreateResult>;
     user: GqlSUserMutation;
     userCreate: GqlSMutationResult;
 }
+
+export type GqlSMutationChatInputCollectionRespondArgs = {
+    answers: Array<GqlSChatMessageUserInputAnswerCreate>;
+    assistantOptions: GqlSChatAssistantOptions;
+    collectionMessageId: Scalars['ID']['input'];
+};
+
+export type GqlSMutationChatMessageCreateArgs = {
+    assistantOptions: GqlSChatAssistantOptions;
+    chatId?: InputMaybe<Scalars['ID']['input']>;
+    fileUploadIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+    message: Scalars['String']['input'];
+};
+
+export type GqlSMutationChatToolApprovalRespondArgs = {
+    approvalId: Scalars['String']['input'];
+    approved: Scalars['Boolean']['input'];
+    assistantOptions: GqlSChatAssistantOptions;
+    reason?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type GqlSMutationUserCreateArgs = {
     user: GqlSUserCreate;
@@ -273,19 +336,21 @@ export interface GqlSMutationResult {
 
 export interface GqlSQuery {
     __typename?: 'Query';
+    chat: GqlSChat;
     currentSession: GqlSSession;
 }
 
-export interface GqlSSession {
-    __typename?: 'Session';
-    chat: GqlSChat;
-    sessionId: Scalars['ID']['output'];
-    user?: Maybe<GqlSUser>;
-}
-
-export type GqlSSessionChatArgs = {
+export type GqlSQueryChatArgs = {
     chatId: Scalars['ID']['input'];
 };
+
+export interface GqlSSession {
+    __typename?: 'Session';
+    admin: GqlSAdmin;
+    sessionId: Scalars['ID']['output'];
+    user?: Maybe<GqlSUser>;
+    visitorChats: Array<GqlSChat>;
+}
 
 export interface GqlSSubscription {
     __typename?: 'Subscription';
@@ -309,32 +374,9 @@ export type GqlSUserCreate = {
 
 export interface GqlSUserMutation {
     __typename?: 'UserMutation';
-    chatInputCollectionRespond?: Maybe<GqlSChatMessageCreateResult>;
-    chatMessageCreate?: Maybe<GqlSChatMessageCreateResult>;
-    chatToolApprovalRespond?: Maybe<GqlSChatMessageCreateResult>;
     terminateSessions: GqlSMutationResult;
     userUpdate: GqlSMutationResult;
 }
-
-export type GqlSUserMutationChatInputCollectionRespondArgs = {
-    answers: Array<GqlSChatMessageUserInputAnswerCreate>;
-    assistantOptions: GqlSChatAssistantOptions;
-    collectionMessageId: Scalars['ID']['input'];
-};
-
-export type GqlSUserMutationChatMessageCreateArgs = {
-    assistantOptions: GqlSChatAssistantOptions;
-    chatId?: InputMaybe<Scalars['ID']['input']>;
-    fileUploadIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-    message: Scalars['String']['input'];
-};
-
-export type GqlSUserMutationChatToolApprovalRespondArgs = {
-    approvalId: Scalars['String']['input'];
-    approved: Scalars['Boolean']['input'];
-    assistantOptions: GqlSChatAssistantOptions;
-    reason?: InputMaybe<Scalars['String']['input']>;
-};
 
 export type GqlSUserMutationTerminateSessionsArgs = {
     sessionIds: Array<Scalars['ID']['input']>;
@@ -468,6 +510,8 @@ export type GqlSResolversUnionTypes<_RefType extends Record<string, unknown>> = 
 
 /** Mapping between all available schema types and the resolvers types */
 export type GqlSResolversTypes = ResolversObject<{
+    Admin: ResolverTypeWrapper<Omit<GqlSAdmin, 'chat'> & { chat: GqlSResolversTypes['Chat'] }>;
+    AdminMutation: ResolverTypeWrapper<GqlSAdminMutation>;
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
     Chat: ResolverTypeWrapper<Omit<GqlSChat, 'messages'> & { messages: Array<GqlSResolversTypes['ChatMessage']> }>;
     ChatAssistantInput: ResolverTypeWrapper<GqlSResolversUnionTypes<GqlSResolversTypes>['ChatAssistantInput']>;
@@ -487,6 +531,7 @@ export type GqlSResolversTypes = ResolversObject<{
     ChatAssistantInputValueStringList: ResolverTypeWrapper<GqlSChatAssistantInputValueStringList>;
     ChatAssistantInputValueTime: ResolverTypeWrapper<GqlSChatAssistantInputValueTime>;
     ChatAssistantOptions: GqlSChatAssistantOptions;
+    ChatKind: GqlSChatKind;
     ChatMessage: ResolverTypeWrapper<GqlSResolversUnionTypes<GqlSResolversTypes>['ChatMessage']>;
     ChatMessageAssistantInputCollection: ResolverTypeWrapper<
         Omit<GqlSChatMessageAssistantInputCollection, 'inputs'> & { inputs: Array<GqlSResolversTypes['ChatAssistantInput']> }
@@ -520,7 +565,12 @@ export type GqlSResolversTypes = ResolversObject<{
     Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
     MutationResult: ResolverTypeWrapper<GqlSMutationResult>;
     Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
-    Session: ResolverTypeWrapper<Omit<GqlSSession, 'chat'> & { chat: GqlSResolversTypes['Chat'] }>;
+    Session: ResolverTypeWrapper<
+        Omit<GqlSSession, 'admin' | 'visitorChats'> & {
+            admin: GqlSResolversTypes['Admin'];
+            visitorChats: Array<GqlSResolversTypes['Chat']>;
+        }
+    >;
     String: ResolverTypeWrapper<Scalars['String']['output']>;
     Subscription: ResolverTypeWrapper<Record<PropertyKey, never>>;
     User: ResolverTypeWrapper<GqlSUser>;
@@ -531,6 +581,8 @@ export type GqlSResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type GqlSResolversParentTypes = ResolversObject<{
+    Admin: Omit<GqlSAdmin, 'chat'> & { chat: GqlSResolversParentTypes['Chat'] };
+    AdminMutation: GqlSAdminMutation;
     Boolean: Scalars['Boolean']['output'];
     Chat: Omit<GqlSChat, 'messages'> & { messages: Array<GqlSResolversParentTypes['ChatMessage']> };
     ChatAssistantInput: GqlSResolversUnionTypes<GqlSResolversParentTypes>['ChatAssistantInput'];
@@ -580,7 +632,10 @@ export type GqlSResolversParentTypes = ResolversObject<{
     Mutation: Record<PropertyKey, never>;
     MutationResult: GqlSMutationResult;
     Query: Record<PropertyKey, never>;
-    Session: Omit<GqlSSession, 'chat'> & { chat: GqlSResolversParentTypes['Chat'] };
+    Session: Omit<GqlSSession, 'admin' | 'visitorChats'> & {
+        admin: GqlSResolversParentTypes['Admin'];
+        visitorChats: Array<GqlSResolversParentTypes['Chat']>;
+    };
     String: Scalars['String']['output'];
     Subscription: Record<PropertyKey, never>;
     User: GqlSUser;
@@ -589,11 +644,43 @@ export type GqlSResolversParentTypes = ResolversObject<{
     UserUpdate: GqlSUserUpdate;
 }>;
 
+export type GqlSAdminResolvers<
+    ContextType = any,
+    ParentType extends GqlSResolversParentTypes['Admin'] = GqlSResolversParentTypes['Admin'],
+> = ResolversObject<{
+    chat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSAdminChatArgs, 'chatId'>>;
+}>;
+
+export type GqlSAdminMutationResolvers<
+    ContextType = any,
+    ParentType extends GqlSResolversParentTypes['AdminMutation'] = GqlSResolversParentTypes['AdminMutation'],
+> = ResolversObject<{
+    chatInputCollectionRespond?: Resolver<
+        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
+        ParentType,
+        ContextType,
+        RequireFields<GqlSAdminMutationChatInputCollectionRespondArgs, 'answers' | 'assistantOptions' | 'collectionMessageId'>
+    >;
+    chatMessageCreate?: Resolver<
+        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
+        ParentType,
+        ContextType,
+        RequireFields<GqlSAdminMutationChatMessageCreateArgs, 'assistantOptions' | 'message'>
+    >;
+    chatToolApprovalRespond?: Resolver<
+        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
+        ParentType,
+        ContextType,
+        RequireFields<GqlSAdminMutationChatToolApprovalRespondArgs, 'approvalId' | 'approved' | 'assistantOptions'>
+    >;
+}>;
+
 export type GqlSChatResolvers<
     ContextType = any,
     ParentType extends GqlSResolversParentTypes['Chat'] = GqlSResolversParentTypes['Chat'],
 > = ResolversObject<{
     chatId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
+    kind?: Resolver<GqlSResolversTypes['ChatKind'], ParentType, ContextType>;
     lastModifiedAt?: Resolver<GqlSResolversTypes['DateTime'], ParentType, ContextType>;
     messages?: Resolver<Array<GqlSResolversTypes['ChatMessage']>, ParentType, ContextType>;
     title?: Resolver<GqlSResolversTypes['String'], ParentType, ContextType>;
@@ -857,7 +944,7 @@ export type GqlSChatMessageUserResolvers<
     ParentType extends GqlSResolversParentTypes['ChatMessageUser'] = GqlSResolversParentTypes['ChatMessageUser'],
 > = ResolversObject<{
     attachments?: Resolver<Array<GqlSResolversTypes['FileUpload']>, ParentType, ContextType>;
-    author?: Resolver<GqlSResolversTypes['User'], ParentType, ContextType>;
+    author?: Resolver<Maybe<GqlSResolversTypes['User']>, ParentType, ContextType>;
     body?: Resolver<GqlSResolversTypes['String'], ParentType, ContextType>;
     chatMessageId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
     createdAt?: Resolver<GqlSResolversTypes['DateTime'], ParentType, ContextType>;
@@ -869,7 +956,7 @@ export type GqlSChatMessageUserInputResolvers<
     ParentType extends GqlSResolversParentTypes['ChatMessageUserInput'] = GqlSResolversParentTypes['ChatMessageUserInput'],
 > = ResolversObject<{
     answers?: Resolver<Array<GqlSResolversTypes['ChatMessageUserInputAnswer']>, ParentType, ContextType>;
-    author?: Resolver<GqlSResolversTypes['User'], ParentType, ContextType>;
+    author?: Resolver<Maybe<GqlSResolversTypes['User']>, ParentType, ContextType>;
     chatMessageId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
     collectionMessageId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
     createdAt?: Resolver<GqlSResolversTypes['DateTime'], ParentType, ContextType>;
@@ -947,6 +1034,25 @@ export type GqlSMutationResolvers<
     ContextType = any,
     ParentType extends GqlSResolversParentTypes['Mutation'] = GqlSResolversParentTypes['Mutation'],
 > = ResolversObject<{
+    admin?: Resolver<GqlSResolversTypes['AdminMutation'], ParentType, ContextType>;
+    chatInputCollectionRespond?: Resolver<
+        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
+        ParentType,
+        ContextType,
+        RequireFields<GqlSMutationChatInputCollectionRespondArgs, 'answers' | 'assistantOptions' | 'collectionMessageId'>
+    >;
+    chatMessageCreate?: Resolver<
+        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
+        ParentType,
+        ContextType,
+        RequireFields<GqlSMutationChatMessageCreateArgs, 'assistantOptions' | 'message'>
+    >;
+    chatToolApprovalRespond?: Resolver<
+        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
+        ParentType,
+        ContextType,
+        RequireFields<GqlSMutationChatToolApprovalRespondArgs, 'approvalId' | 'approved' | 'assistantOptions'>
+    >;
     user?: Resolver<GqlSResolversTypes['UserMutation'], ParentType, ContextType>;
     userCreate?: Resolver<GqlSResolversTypes['MutationResult'], ParentType, ContextType, RequireFields<GqlSMutationUserCreateArgs, 'user'>>;
 }>;
@@ -963,6 +1069,7 @@ export type GqlSQueryResolvers<
     ContextType = any,
     ParentType extends GqlSResolversParentTypes['Query'] = GqlSResolversParentTypes['Query'],
 > = ResolversObject<{
+    chat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSQueryChatArgs, 'chatId'>>;
     currentSession?: Resolver<GqlSResolversTypes['Session'], ParentType, ContextType>;
 }>;
 
@@ -970,9 +1077,10 @@ export type GqlSSessionResolvers<
     ContextType = any,
     ParentType extends GqlSResolversParentTypes['Session'] = GqlSResolversParentTypes['Session'],
 > = ResolversObject<{
-    chat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSSessionChatArgs, 'chatId'>>;
+    admin?: Resolver<GqlSResolversTypes['Admin'], ParentType, ContextType>;
     sessionId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
     user?: Resolver<Maybe<GqlSResolversTypes['User']>, ParentType, ContextType>;
+    visitorChats?: Resolver<Array<GqlSResolversTypes['Chat']>, ParentType, ContextType>;
 }>;
 
 export type GqlSSubscriptionResolvers<
@@ -1001,24 +1109,6 @@ export type GqlSUserMutationResolvers<
     ContextType = any,
     ParentType extends GqlSResolversParentTypes['UserMutation'] = GqlSResolversParentTypes['UserMutation'],
 > = ResolversObject<{
-    chatInputCollectionRespond?: Resolver<
-        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
-        ParentType,
-        ContextType,
-        RequireFields<GqlSUserMutationChatInputCollectionRespondArgs, 'answers' | 'assistantOptions' | 'collectionMessageId'>
-    >;
-    chatMessageCreate?: Resolver<
-        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
-        ParentType,
-        ContextType,
-        RequireFields<GqlSUserMutationChatMessageCreateArgs, 'assistantOptions' | 'message'>
-    >;
-    chatToolApprovalRespond?: Resolver<
-        Maybe<GqlSResolversTypes['ChatMessageCreateResult']>,
-        ParentType,
-        ContextType,
-        RequireFields<GqlSUserMutationChatToolApprovalRespondArgs, 'approvalId' | 'approved' | 'assistantOptions'>
-    >;
     terminateSessions?: Resolver<
         GqlSResolversTypes['MutationResult'],
         ParentType,
@@ -1034,6 +1124,8 @@ export type GqlSUserMutationResolvers<
 }>;
 
 export type GqlSResolvers<ContextType = any> = ResolversObject<{
+    Admin?: GqlSAdminResolvers<ContextType>;
+    AdminMutation?: GqlSAdminMutationResolvers<ContextType>;
     Chat?: GqlSChatResolvers<ContextType>;
     ChatAssistantInput?: GqlSChatAssistantInputResolvers<ContextType>;
     ChatAssistantInputBoolean?: GqlSChatAssistantInputBooleanResolvers<ContextType>;
@@ -1092,6 +1184,11 @@ export const GqlSChatAssistantInputValueKindSchema: z.ZodType<
     'Boolean' | 'Date' | 'DateTime' | 'String' | 'StringList' | 'Time',
     'Boolean' | 'Date' | 'DateTime' | 'String' | 'StringList' | 'Time'
 > = z.enum(['Boolean', 'Date', 'DateTime', 'String', 'StringList', 'Time']);
+
+export const GqlSChatKindSchema: z.ZodType<'AdminAssistant' | 'VisitorAssistant', 'AdminAssistant' | 'VisitorAssistant'> = z.enum([
+    'AdminAssistant',
+    'VisitorAssistant',
+]);
 
 export function GqlSChatAssistantOptionsSchema(): z.ZodObject<Properties<GqlSChatAssistantOptions>> {
     return z.object({

@@ -5,24 +5,30 @@ import { chatToolApprovalRespond } from '../commands/chatToolApprovalRespond';
 import { userSessionTerminateMany } from '../commands/userSessionTerminateMany';
 import { userUpdate } from '../commands/userUpdate';
 import type { ServerRuntime } from '../domain/ServerRuntime';
+import { guardAdmin, guardAdminMutation } from '../guards/guardAdmin';
 import { guardUserMutation } from '../guards/guardUserMutation';
 import { guardUserSubscription } from '../guards/guardUserSubscription';
 import { chatFindOne } from '../queries/chatFindOne';
+import { chatsFindBySession } from '../queries/chatsFindBySession';
 import { sessionUserFindOne } from '../queries/sessionUserFindOne';
 import type {
+    GqlSAdminChatArgs,
+    GqlSAdminMutationChatInputCollectionRespondArgs,
+    GqlSAdminMutationChatMessageCreateArgs,
+    GqlSAdminMutationChatToolApprovalRespondArgs,
     GqlSChatAssistantInput,
     GqlSChatAssistantInputValue,
     GqlSChatMessage,
     GqlSChatUpdate,
+    GqlSMutationChatInputCollectionRespondArgs,
+    GqlSMutationChatMessageCreateArgs,
+    GqlSMutationChatToolApprovalRespondArgs,
+    GqlSQueryChatArgs,
     GqlSResolvers,
     GqlSSession,
-    GqlSSessionChatArgs,
     GqlSSubscriptionChatUpdatesArgs,
     GqlSUser,
     GqlSUserMutation,
-    GqlSUserMutationChatInputCollectionRespondArgs,
-    GqlSUserMutationChatMessageCreateArgs,
-    GqlSUserMutationChatToolApprovalRespondArgs,
     GqlSUserMutationTerminateSessionsArgs,
     GqlSUserMutationUserUpdateArgs,
 } from './generated';
@@ -56,7 +62,27 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             user(_session: GqlSSession, __: any, requestingSession: GqlSSession) {
                 return sessionUserFindOne(requestingSession, serverRuntime);
             },
-            chat(_session: GqlSSession, args: GqlSSessionChatArgs, requestingSession: GqlSSession) {
+            // `Session.admin` is gated by `guardAdmin`. Today the guard
+            // throws — there is no admin sign-in yet, so the whole `Admin`
+            // subgraph is unreachable. Once OTP lands the guard returns the
+            // parent shape iff the session carries an admin claim.
+            admin(_session: GqlSSession, __: any, requestingSession: GqlSSession) {
+                return guardAdmin(requestingSession);
+            },
+            // Visitor chat list. Filtered structurally by
+            // `requestingSession.sessionId` inside `chatsFindBySession`, so a
+            // session can only ever list its own visitor chats — no extra
+            // guard. Empty for sessions that have never started a visitor
+            // chat.
+            visitorChats(_session: GqlSSession, __: any, requestingSession: GqlSSession) {
+                return chatsFindBySession(requestingSession, serverRuntime);
+            },
+        },
+        Admin: {
+            // The admin chat read. Per-chat ownership is enforced inside
+            // `chatFindOne` via `guardChatRead`, so a stray admin can't reach
+            // into another admin's chats.
+            chat(_admin: unknown, args: GqlSAdminChatArgs, requestingSession: GqlSSession) {
                 return chatFindOne(args, requestingSession, serverRuntime);
             },
         },
@@ -67,27 +93,36 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             terminateSessions({ userId }: GqlSUserMutation, args: GqlSUserMutationTerminateSessionsArgs, requestingSession: GqlSSession) {
                 return userSessionTerminateMany(userId, args, requestingSession, serverRuntime);
             },
-            chatMessageCreate(parent: GqlSUserMutation, args: GqlSUserMutationChatMessageCreateArgs, requestingSession: GqlSSession) {
-                return chatMessageCreate(parent, args, requestingSession, serverRuntime);
+        },
+        AdminMutation: {
+            // Admin chat writes. The `chatKind` is implicit in the access
+            // path — admin reaches this through `Mutation.admin`, so every
+            // brand-new chat created here is an admin chat.
+            chatMessageCreate(_parent: unknown, args: GqlSAdminMutationChatMessageCreateArgs, requestingSession: GqlSSession) {
+                return chatMessageCreate(args, 'adminAssistant', requestingSession, serverRuntime);
             },
             chatInputCollectionRespond(
-                parent: GqlSUserMutation,
-                args: GqlSUserMutationChatInputCollectionRespondArgs,
+                _parent: unknown,
+                args: GqlSAdminMutationChatInputCollectionRespondArgs,
                 requestingSession: GqlSSession,
             ) {
-                return chatInputCollectionRespond(parent, args, requestingSession, serverRuntime);
+                return chatInputCollectionRespond(args, requestingSession, serverRuntime);
             },
-            chatToolApprovalRespond(
-                parent: GqlSUserMutation,
-                args: GqlSUserMutationChatToolApprovalRespondArgs,
-                requestingSession: GqlSSession,
-            ) {
-                return chatToolApprovalRespond(parent, args, requestingSession, serverRuntime);
+            chatToolApprovalRespond(_parent: unknown, args: GqlSAdminMutationChatToolApprovalRespondArgs, requestingSession: GqlSSession) {
+                return chatToolApprovalRespond(args, requestingSession, serverRuntime);
             },
         },
         Query: {
             currentSession(_: any, __: any, requestingSession: GqlSSession) {
                 return requestingSession;
+            },
+            // Single-chat read shared by both surfaces. Visitor chats reach
+            // this through `Query.chat`; admin chats also resolve through
+            // `Session.admin.chat`. Per-chat ownership is enforced inside
+            // `chatFindOne` via `guardChatRead` — visitor chats key on
+            // `sessionId`, admin chats on `ownerUserId`.
+            chat(_: any, args: GqlSQueryChatArgs, requestingSession: GqlSSession) {
+                return chatFindOne(args, requestingSession, serverRuntime);
             },
         },
         Mutation: {
@@ -96,6 +131,23 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             },
             user(_parent: unknown, __: any, requestingSession: GqlSSession) {
                 return guardUserMutation(requestingSession);
+            },
+            admin(_parent: unknown, __: any, requestingSession: GqlSSession) {
+                return guardAdminMutation(requestingSession);
+            },
+            // Public visitor-chat writes. No parent guard — anonymous
+            // visitors reach the assistant from a session cookie. Per-chat
+            // ownership is enforced inside the command via `guardChatWrite`.
+            // The `chatKind` is fixed to `visitorAssistant` because the
+            // surface is implicit in the access path.
+            chatMessageCreate(_parent: unknown, args: GqlSMutationChatMessageCreateArgs, requestingSession: GqlSSession) {
+                return chatMessageCreate(args, 'visitorAssistant', requestingSession, serverRuntime);
+            },
+            chatInputCollectionRespond(_parent: unknown, args: GqlSMutationChatInputCollectionRespondArgs, requestingSession: GqlSSession) {
+                return chatInputCollectionRespond(args, requestingSession, serverRuntime);
+            },
+            chatToolApprovalRespond(_parent: unknown, args: GqlSMutationChatToolApprovalRespondArgs, requestingSession: GqlSSession) {
+                return chatToolApprovalRespond(args, requestingSession, serverRuntime);
             },
         },
         Subscription: {
@@ -109,10 +161,11 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             },
             chatUpdates: {
                 // Auth is the unguessable `generationId`: only the sender (who
-                // generated the UUID locally) can subscribe meaningfully. Real
-                // chat-level authorization will layer on once chats grow user
-                // ownership — at which point this resolver will guard against
-                // foreign chat access too.
+                // generated the UUID locally) can subscribe meaningfully.
+                // Once chats grow chat-level subscriptions (vs. the per-turn
+                // generationId-keyed shape today), this will additionally
+                // call `guardChatRead` against the chat's `sessionId` /
+                // `ownerUserId`.
                 subscribe(_: any, { generationId }: GqlSSubscriptionChatUpdatesArgs) {
                     return serverRuntime.subscribe.to(`chat-updates:${generationId}`);
                 },

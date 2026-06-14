@@ -3,33 +3,33 @@ import { format, parseISO } from 'date-fns';
 import { ArrowDownIcon } from 'lucide-react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'urql';
-import { toFlatAnswerInput } from '../../web/chat/chatAssistantInputKinds';
-import { ChatComposer } from '../../web/chat/ChatComposer';
-import type { TranscriptMessage } from '../../web/chat/chatTranscript';
+import { toFlatAnswerInput } from '../../../web/chat/chatAssistantInputKinds';
+import { ChatComposer } from '../../../web/chat/ChatComposer';
+import type { TranscriptMessage } from '../../../web/chat/chatTranscript';
 import {
     findLatestCollectionId,
     findPendingApprovalIds,
     findUserInputByCollectionId,
     groupMessagesByDate,
     mergeTranscriptMessages,
-} from '../../web/chat/chatTranscript';
-import { useChatLiveUpdates } from '../../web/chat/useChatLiveUpdates';
-import { AssistantMarkdown } from '../../web/components/AssistantMarkdown';
-import { Spinner } from '../../web/components/base/spinner';
-import { ChatMessage } from '../../web/components/chat-message';
-import type { GqlCChatAssistantInputValue, GqlCChatPageQuery } from '../../web/graphql/generated';
+} from '../../../web/chat/chatTranscript';
+import { useChatLiveUpdates } from '../../../web/chat/useChatLiveUpdates';
+import { AssistantMarkdown } from '../../../web/components/AssistantMarkdown';
+import { Spinner } from '../../../web/components/base/spinner';
+import { ChatMessage } from '../../../web/components/chat-message';
+import type { GqlCChatAssistantInputValue, GqlCChatPageQuery } from '../../../web/graphql/generated';
 import {
     ChatInputCollectionRespondDocument,
     ChatPageDocument,
     ChatRouteDocument,
     ChatToolApprovalRespondDocument,
-} from '../../web/graphql/generated';
-import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
-import { seoMeta } from '../../web/seo/seoMeta';
-import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
-import { localeFromParam } from '../../web/utils/locale';
+} from '../../../web/graphql/generated';
+import { routeLoaderGraphqlClient } from '../../../web/graphql/routeLoaderGraphqlClient';
+import { seoMeta } from '../../../web/seo/seoMeta';
+import { webPageUrlGet } from '../../../web/seo/webPageUrlGet';
+import { localeFromParam } from '../../../web/utils/locale';
 
-// Minimal AI chat surface — see `docs/features/chat.md`. Live updates flow
+// Admin AI chat surface — see `docs/features/chat-admin.md`. Live updates flow
 // exclusively through the `chatUpdates` subscription, owned by
 // `useChatLiveUpdates`. Per-turn state lives at the route level so the
 // subscription survives the empty→loaded handoff after the first send. The
@@ -37,7 +37,7 @@ import { localeFromParam } from '../../web/utils/locale';
 // user-side row is durable, and the assistant streams over the subscription;
 // `ChatUpdateTurnEnded` is the signal that the turn is done.
 
-export const Route = createFileRoute('/{-$locale}/chat')({
+export const Route = createFileRoute('/{-$locale}/admin/chat')({
     validateSearch: (search: Record<string, unknown>) => ({ chatId: typeof search.chatId === 'string' ? search.chatId : undefined }),
     loader: () => routeLoaderGraphqlClient(ChatRouteDocument)(),
     staleTime: 0,
@@ -49,7 +49,7 @@ export const Route = createFileRoute('/{-$locale}/chat')({
                 de: 'Unterhaltung mit dem Assistenten.',
                 en: 'A conversation with the assistant.',
             }[locale],
-            path: '/chat',
+            path: '/admin/chat',
             locale,
             webPageUrl: webPageUrlGet(),
             // Chat is a logged-in, per-session surface — exclude it from
@@ -83,11 +83,11 @@ function ChatEmpty({ live }: { live: ReturnType<typeof useChatLiveUpdates> }) {
     const navigate = useNavigate();
     return (
         <main className="mx-auto grid h-dvh w-full max-w-2xl grid-rows-[1fr_auto] gap-4 p-6">
-            <div className="grid place-items-center text-sm text-muted-foreground">
-                {live.isGenerating ? <Spinner className="size-4 text-muted-foreground" /> : 'Start a new conversation.'}
+            <div className="grid place-items-center text-sm text-(--color-brand-charcoal-3)">
+                {live.isGenerating ? <Spinner className="size-4 text-(--color-brand-charcoal-3)" /> : 'Start a new conversation.'}
             </div>
             <ChatComposer
-                onMessageSent={(newChatId) => navigate({ to: '/{-$locale}/chat', search: { chatId: newChatId } })}
+                onMessageSent={(newChatId) => navigate({ to: '/{-$locale}/admin/chat', search: { chatId: newChatId } })}
                 isLocked={live.isGenerating}
                 beginTurn={live.beginTurn}
                 endTurn={live.endTurn}
@@ -148,14 +148,14 @@ function ChatPage({ chatId, live }: { chatId: string; live: ReturnType<typeof us
     );
 
     const session = data?.currentSession;
-    const chat = session?.chat;
+    const chat = session?.admin.chat;
 
     if (error) {
         return <main className="grid place-items-center p-8 text-sm text-destructive">Failed to load chat: {error.message}</main>;
     }
     if (!chat) {
         return (
-            <main className="grid place-items-center p-8 text-sm text-muted-foreground">
+            <main className="grid place-items-center p-8 text-sm text-(--color-brand-charcoal-3)">
                 <Spinner />
             </main>
         );
@@ -163,9 +163,9 @@ function ChatPage({ chatId, live }: { chatId: string; live: ReturnType<typeof us
 
     return (
         <main className="mx-auto grid h-dvh w-full min-w-0 max-w-2xl grid-rows-[auto_1fr_auto] gap-4 p-6">
-            <header className="flex items-baseline justify-between">
-                <h1 className="text-lg font-semibold">{chat.title || 'New chat'}</h1>
-                {fetching ? <Spinner className="size-3 text-muted-foreground" /> : null}
+            <header className="flex items-baseline justify-between border-b border-aubergine/10 pb-3">
+                <h1 className="font-serif text-xl text-aubergine-dark">{chat.title || 'New chat'}</h1>
+                {fetching ? <Spinner className="size-3 text-(--color-brand-charcoal-3)" /> : null}
             </header>
 
             <ChatTranscript
@@ -190,7 +190,7 @@ function ChatTranscript({
     onCollectionSubmit,
     onApprovalRespond,
 }: {
-    chat: GqlCChatPageQuery['currentSession']['chat'];
+    chat: GqlCChatPageQuery['currentSession']['admin']['chat'];
     appendedMessages: ReadonlyArray<TranscriptMessage>;
     streamingTexts: Readonly<Record<string, string>>;
     onCollectionSubmit: (
@@ -313,7 +313,7 @@ function ChatTranscript({
                     type="button"
                     onClick={jumpToLatest}
                     aria-label="Jump to latest"
-                    className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-input bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-md hover:bg-accent"
+                    className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-aubergine/15 bg-cream px-3 py-1.5 text-xs font-medium text-aubergine-dark shadow-md transition-colors hover:bg-aubergine/10"
                 >
                     <ArrowDownIcon className="size-3.5" />
                     Jump to latest
@@ -325,10 +325,10 @@ function ChatTranscript({
 
 function DateSeparator({ iso }: { iso: string }) {
     return (
-        <div className="flex items-center gap-3 text-[11px] uppercase tracking-wide text-muted-foreground">
-            <span className="h-px flex-1 bg-border" />
+        <div className="flex items-center gap-3 text-[11px] uppercase tracking-wide text-sage">
+            <span className="h-px flex-1 bg-aubergine/15" />
             <time dateTime={iso}>{format(parseISO(iso), 'PP')}</time>
-            <span className="h-px flex-1 bg-border" />
+            <span className="h-px flex-1 bg-aubergine/15" />
         </div>
     );
 }

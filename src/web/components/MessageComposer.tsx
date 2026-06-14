@@ -183,7 +183,15 @@ export function MessageComposer({
             onDragLeave={onDragLeave}
             onDrop={onDrop}
         >
-            <InputGroup className={cn(isDragOver && 'border-ring ring-[3px] ring-ring/50')}>
+            <InputGroup
+                className={cn(
+                    // Brand-aligned focus + drop-zone treatment, matching the
+                    // hairline aubergine/15 border the rest of the surface uses.
+                    'border-aubergine/20 bg-cream',
+                    'has-[[data-slot=input-group-control]:focus-visible]:border-aubergine has-[[data-slot=input-group-control]:focus-visible]:ring-aubergine/30',
+                    isDragOver && 'border-aubergine ring-[3px] ring-aubergine/30',
+                )}
+            >
                 {attachmentsEnabled && hasAttachments ? (
                     <InputGroupAddon align="block-start" className="flex-wrap gap-2">
                         {currentAttachments.map((attachment) => (
@@ -245,7 +253,10 @@ export function MessageComposer({
                         type="submit"
                         variant="default"
                         size="sm"
-                        className={attachmentsEnabled ? undefined : 'ml-auto'}
+                        className={cn(
+                            'bg-aubergine text-cream hover:bg-aubergine-dark focus-visible:ring-aubergine/40',
+                            attachmentsEnabled ? undefined : 'ml-auto',
+                        )}
                         disabled={!canSubmit}
                         aria-label={sendLabel}
                     >

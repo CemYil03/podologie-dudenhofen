@@ -7,7 +7,10 @@ scalar JSON
 
 type ChatMessageUser {
     chatMessageId: ID!
-    author: User!
+    # Nullable because anonymous website visitors have no `User` row — see
+    # `docs/architecture/chat.md` ("Two surfaces share one foundation"). For
+    # admin chats this is always populated.
+    author: User
     body: String!
     # Files the user attached to this message, in send-order. Empty list when
     # the message was a plain-text send. The bytes are not exposed inline —
@@ -174,7 +177,8 @@ type ChatAssistantInputText {
 
 type ChatMessageUserInput {
     chatMessageId: ID!
-    author: User!
+    # Nullable for anonymous visitors — same rationale as `ChatMessageUser.author`.
+    author: User
     collectionMessageId: ID!
     # Real submits carry one entry per answered slot; an empty list signals
     # the row is protocol-only — written by `chatMessageCreate` to close an
@@ -234,8 +238,18 @@ union ChatMessage =
     | ChatMessageToolApprovalResponse
     | ChatMessageAssistantInputCollection
 
+# Two surfaces share the chat foundation. `kind` selects the agent (system
+# prompt + tool set) at turn-run time and drives surface-specific rendering
+# choices on the client (e.g. visitor chats hide attachments). See
+# `docs/architecture/chat.md` ("Two surfaces share one foundation").
+enum ChatKind {
+    VisitorAssistant
+    AdminAssistant
+}
+
 type Chat {
     chatId: ID!
+    kind: ChatKind!
     title: String!
     lastModifiedAt: DateTime!
     # Flat insertion-ordered list. Day-grouping is a render-time concern in the
@@ -260,6 +274,18 @@ type User {
 type Session {
     sessionId: ID!
     user: User
+    admin: Admin!
+    # Visitor-assistant chats owned by this session, most-recent first. Empty
+    # for sessions that have never started a visitor chat. The `messages`
+    # field on each entry is empty — fetch a single chat through `Query.chat`
+    # to materialize its transcript.
+    visitorChats: [Chat!]!
+}
+
+# Admin-scoped read surface. Today carries the admin chat read; future admin
+# fields (chat list, audit log, settings) hang off this same parent so they
+# share one guard.
+type Admin {
     chat(chatId: ID!): Chat!
 }
 
@@ -276,6 +302,9 @@ type ChatMessageCreateResult {
 type UserMutation {
     userUpdate(user: UserUpdate!): MutationResult!
     terminateSessions(sessionIds: [ID!]!): MutationResult!
+}
+
+type AdminMutation {
     chatMessageCreate(chatId: ID, message: String!, fileUploadIds: [ID!], assistantOptions: ChatAssistantOptions!): ChatMessageCreateResult
     chatInputCollectionRespond(
         collectionMessageId: ID!
@@ -324,11 +353,29 @@ input ChatAssistantOptions {
 
 type Query {
     currentSession: Session!
+    # Read a single chat by id. Per-chat ownership is enforced inside the
+    # resolver via `guardChatRead` — the same path admin's `Session.admin.chat`
+    # uses, so visitor chats and admin chats share one entry point.
+    chat(chatId: ID!): Chat!
 }
 
 type Mutation {
     userCreate(user: UserCreate!): MutationResult!
     user: UserMutation!
+    admin: AdminMutation!
+
+    chatMessageCreate(chatId: ID, message: String!, fileUploadIds: [ID!], assistantOptions: ChatAssistantOptions!): ChatMessageCreateResult
+    chatInputCollectionRespond(
+        collectionMessageId: ID!
+        answers: [ChatMessageUserInputAnswerCreate!]!
+        assistantOptions: ChatAssistantOptions!
+    ): ChatMessageCreateResult
+    chatToolApprovalRespond(
+        approvalId: String!
+        approved: Boolean!
+        reason: String
+        assistantOptions: ChatAssistantOptions!
+    ): ChatMessageCreateResult
 }
 
 # --- Chat live updates -------------------------------------------------------

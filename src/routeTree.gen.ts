@@ -20,11 +20,11 @@ import { Route as Char123LocaleChar125KontaktRouteImport } from './routes/{-$loc
 import { Route as Char123LocaleChar125KarriereRouteImport } from './routes/{-$locale}/karriere'
 import { Route as Char123LocaleChar125ImpressumRouteImport } from './routes/{-$locale}/impressum'
 import { Route as Char123LocaleChar125DatenschutzRouteImport } from './routes/{-$locale}/datenschutz'
-import { Route as Char123LocaleChar125ChatRouteImport } from './routes/{-$locale}/chat'
 import { Route as ApiStreamRouteImport } from './routes/api/stream'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
 import { Route as ApiFileUploadsRouteImport } from './routes/api/file-uploads'
+import { Route as Char123LocaleChar125AdminChatRouteImport } from './routes/{-$locale}/admin/chat'
 import { Route as ApiFileUploadsFileUploadIdRouteImport } from './routes/api/file-uploads_.$fileUploadId'
 
 const Char123LocaleChar125Route = Char123LocaleChar125RouteImport.update({
@@ -90,12 +90,6 @@ const Char123LocaleChar125DatenschutzRoute =
     path: '/datenschutz',
     getParentRoute: () => Char123LocaleChar125Route,
   } as any)
-const Char123LocaleChar125ChatRoute =
-  Char123LocaleChar125ChatRouteImport.update({
-    id: '/chat',
-    path: '/chat',
-    getParentRoute: () => Char123LocaleChar125Route,
-  } as any)
 const ApiStreamRoute = ApiStreamRouteImport.update({
   id: '/api/stream',
   path: '/api/stream',
@@ -116,6 +110,12 @@ const ApiFileUploadsRoute = ApiFileUploadsRouteImport.update({
   path: '/api/file-uploads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char123LocaleChar125AdminChatRoute =
+  Char123LocaleChar125AdminChatRouteImport.update({
+    id: '/admin/chat',
+    path: '/admin/chat',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const ApiFileUploadsFileUploadIdRoute =
   ApiFileUploadsFileUploadIdRouteImport.update({
     id: '/api/file-uploads_/$fileUploadId',
@@ -131,7 +131,6 @@ export interface FileRoutesByFullPath {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
-  '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
@@ -141,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/qualifikation': typeof Char123LocaleChar125QualifikationRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
+  '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
 }
 export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
@@ -149,7 +149,6 @@ export interface FileRoutesByTo {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
-  '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
@@ -159,6 +158,7 @@ export interface FileRoutesByTo {
   '/{-$locale}/qualifikation': typeof Char123LocaleChar125QualifikationRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
+  '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,7 +169,6 @@ export interface FileRoutesById {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
-  '/{-$locale}/chat': typeof Char123LocaleChar125ChatRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
@@ -179,6 +178,7 @@ export interface FileRoutesById {
   '/{-$locale}/qualifikation': typeof Char123LocaleChar125QualifikationRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads_/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
+  '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -190,7 +190,6 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
-    | '/{-$locale}/chat'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
@@ -200,6 +199,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/qualifikation'
     | '/{-$locale}/'
     | '/api/file-uploads/$fileUploadId'
+    | '/{-$locale}/admin/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/robots.txt'
@@ -208,7 +208,6 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
-    | '/{-$locale}/chat'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
@@ -218,6 +217,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/qualifikation'
     | '/{-$locale}'
     | '/api/file-uploads/$fileUploadId'
+    | '/{-$locale}/admin/chat'
   id:
     | '__root__'
     | '/robots.txt'
@@ -227,7 +227,6 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
-    | '/{-$locale}/chat'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
@@ -237,6 +236,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/qualifikation'
     | '/{-$locale}/'
     | '/api/file-uploads_/$fileUploadId'
+    | '/{-$locale}/admin/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -329,13 +329,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125DatenschutzRouteImport
       parentRoute: typeof Char123LocaleChar125Route
     }
-    '/{-$locale}/chat': {
-      id: '/{-$locale}/chat'
-      path: '/chat'
-      fullPath: '/{-$locale}/chat'
-      preLoaderRoute: typeof Char123LocaleChar125ChatRouteImport
-      parentRoute: typeof Char123LocaleChar125Route
-    }
     '/api/stream': {
       id: '/api/stream'
       path: '/api/stream'
@@ -364,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiFileUploadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$locale}/admin/chat': {
+      id: '/{-$locale}/admin/chat'
+      path: '/admin/chat'
+      fullPath: '/{-$locale}/admin/chat'
+      preLoaderRoute: typeof Char123LocaleChar125AdminChatRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/api/file-uploads_/$fileUploadId': {
       id: '/api/file-uploads_/$fileUploadId'
       path: '/api/file-uploads/$fileUploadId'
@@ -375,7 +375,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface Char123LocaleChar125RouteChildren {
-  Char123LocaleChar125ChatRoute: typeof Char123LocaleChar125ChatRoute
   Char123LocaleChar125DatenschutzRoute: typeof Char123LocaleChar125DatenschutzRoute
   Char123LocaleChar125ImpressumRoute: typeof Char123LocaleChar125ImpressumRoute
   Char123LocaleChar125KarriereRoute: typeof Char123LocaleChar125KarriereRoute
@@ -384,10 +383,10 @@ interface Char123LocaleChar125RouteChildren {
   Char123LocaleChar125PraxisRoute: typeof Char123LocaleChar125PraxisRoute
   Char123LocaleChar125QualifikationRoute: typeof Char123LocaleChar125QualifikationRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
+  Char123LocaleChar125AdminChatRoute: typeof Char123LocaleChar125AdminChatRoute
 }
 
 const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
-  Char123LocaleChar125ChatRoute: Char123LocaleChar125ChatRoute,
   Char123LocaleChar125DatenschutzRoute: Char123LocaleChar125DatenschutzRoute,
   Char123LocaleChar125ImpressumRoute: Char123LocaleChar125ImpressumRoute,
   Char123LocaleChar125KarriereRoute: Char123LocaleChar125KarriereRoute,
@@ -397,6 +396,7 @@ const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
   Char123LocaleChar125QualifikationRoute:
     Char123LocaleChar125QualifikationRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
+  Char123LocaleChar125AdminChatRoute: Char123LocaleChar125AdminChatRoute,
 }
 
 const Char123LocaleChar125RouteWithChildren =

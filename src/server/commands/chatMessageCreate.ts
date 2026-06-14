@@ -3,6 +3,7 @@ import { chatAssistantTurnRunDetached } from './chatAssistantTurnRun';
 import { chatMessageAppend } from './chatMessageAppend';
 import type {
     ChatCreate,
+    ChatKind,
     ChatMessage,
     ChatMessageCreate as ChatMessageRowCreate,
     ChatMessageUserAttachmentCreate,
@@ -12,16 +13,17 @@ import type {
 } from '../db/schema';
 import { fileUploads, chatMessageUserAttachments, chatMessagesUser, chatMessagesUserInput, chats } from '../db/schema';
 import type { ServerRuntime } from '../domain/ServerRuntime';
-import type {
-    GqlSChatMessageCreateResult,
-    GqlSSession,
-    GqlSUserMutation,
-    GqlSUserMutationChatMessageCreateArgs,
-} from '../graphql/generated';
+import type { GqlSChatMessageCreateResult, GqlSMutationChatMessageCreateArgs, GqlSSession } from '../graphql/generated';
+import { guardChatWrite } from '../guards/guardChatWrite';
 import type { ChatMessageRowJoined } from '../mappers/toGqlChatMessage';
 import { chatMessageRowsLoad } from '../queries/chatMessageRowsLoad';
 
 // Persists the user's message and runs the next assistant turn.
+//
+// The chat surface (visitor vs admin) is implicit in the access path:
+// `Mutation.chatMessageCreate` calls in with `chatKind = 'visitorAssistant'`,
+// `Mutation.admin.chatMessageCreate` with `'adminAssistant'`. Each branch
+// populates exactly one of the two ownership FKs on the new chat row.
 //
 // Each message commits in its own short transaction; after commit the
 // runner publishes a `ChatUpdateMessageAppended` so subscribers see the user
@@ -36,8 +38,8 @@ import { chatMessageRowsLoad } from '../queries/chatMessageRowsLoad';
 // replay whatever's persisted.
 
 export async function chatMessageCreate(
-    { userId }: GqlSUserMutation,
-    { chatId: attemptedChatId, message, fileUploadIds, assistantOptions }: GqlSUserMutationChatMessageCreateArgs,
+    { chatId: attemptedChatId, message, fileUploadIds, assistantOptions }: GqlSMutationChatMessageCreateArgs,
+    chatKind: ChatKind,
     requestingSession: GqlSSession,
     serverRuntime: ServerRuntime,
 ): Promise<GqlSChatMessageCreateResult | null> {
@@ -48,6 +50,7 @@ export async function chatMessageCreate(
         const userMessageId = crypto.randomUUID();
         const now = new Date();
         const { generationId } = assistantOptions;
+        const sessionUserId = requestingSession.userId ?? null;
         // Treat null/undefined the same as an empty list — the GraphQL field
         // is `[ID!]` (nullable list) so URQL emits `null` when the client
         // didn't pass it. Dedupe to keep the join row's unique index happy
@@ -58,7 +61,7 @@ export async function chatMessageCreate(
             chatMessageId: userMessageId,
             chatId,
             kind: 'user',
-            authorUserId: userId,
+            authorUserId: sessionUserId,
             createdAt: now,
         };
 
@@ -67,18 +70,26 @@ export async function chatMessageCreate(
             body: message,
         };
 
+        // Visitors have no `User` row, so they have no `fileUploads.userId`
+        // to match against. Until visitor attachments are designed (a
+        // session-keyed alternative to the user FK), reject any visitor
+        // attachment payload outright instead of half-persisting.
+        if (requestedFileUploadIds.length > 0 && !sessionUserId) {
+            throw new Error('chatMessageCreate: visitor sessions cannot attach files (not implemented)');
+        }
+
         // Validate file-upload ownership BEFORE any writes — a foreign-user id
         // (or a non-existent one) becomes a hard error so the user sees a
         // clear failure instead of a half-persisted message that silently
         // dropped a file.
-        if (requestedFileUploadIds.length > 0) {
+        if (requestedFileUploadIds.length > 0 && sessionUserId) {
             const owned = await serverRuntime.db
                 .select({ fileUploadId: fileUploads.fileUploadId })
                 .from(fileUploads)
-                .where(and(eq(fileUploads.userId, userId), inArray(fileUploads.fileUploadId, requestedFileUploadIds)));
+                .where(and(eq(fileUploads.userId, sessionUserId), inArray(fileUploads.fileUploadId, requestedFileUploadIds)));
             if (owned.length !== requestedFileUploadIds.length) {
                 throw new Error(
-                    `chatMessageCreate: ${requestedFileUploadIds.length - owned.length} of ${requestedFileUploadIds.length} fileUploadId(s) are not owned by user ${userId}`,
+                    `chatMessageCreate: ${requestedFileUploadIds.length - owned.length} of ${requestedFileUploadIds.length} fileUploadId(s) are not owned by user ${sessionUserId}`,
                 );
             }
         }
@@ -89,12 +100,28 @@ export async function chatMessageCreate(
             position,
         }));
 
-        // Phase 2 — Create the chat row up front for new chats. Subscribers
-        // don't observe this commit (no row goes through `chatMessageAppend`),
-        // but the FK from `chatMessages.chatId → chats.chatId` needs the row
-        // present before the user message inserts.
-        if (isNewChat) {
-            const chatInsert: ChatCreate = { chatId, title: '', lastModifiedAt: now, createdAt: now };
+        // Phase 2 — Authorize: existing chat needs a guard match; new chat
+        // seeds the ownership FK from the surface + session.
+        if (!isNewChat) {
+            await guardChatWrite(chatId, requestingSession, serverRuntime);
+        } else {
+            const chatInsert: ChatCreate = {
+                chatId,
+                kind: chatKind,
+                // Visitor chats are session-scoped; admin chats are owned
+                // by a `User`. Each surface populates exactly one of the
+                // two FKs — the other stays null. (See `docs/architecture/
+                // chat-persistence.md` for the application-level invariant.)
+                sessionId: chatKind === 'visitorAssistant' ? requestingSession.sessionId : null,
+                ownerUserId: chatKind === 'adminAssistant' ? sessionUserId : null,
+                title: '',
+                lastModifiedAt: now,
+                createdAt: now,
+            };
+            // Subscribers don't observe this commit (no row goes through
+            // `chatMessageAppend`), but the FK from `chatMessages.chatId →
+            // chats.chatId` needs the row present before the user message
+            // inserts.
             await serverRuntime.db.insert(chats).values(chatInsert);
         }
 
@@ -117,7 +144,7 @@ export async function chatMessageCreate(
                 chatMessageId: skipMessageId,
                 chatId,
                 kind: 'userInput',
-                authorUserId: userId,
+                authorUserId: sessionUserId,
                 createdAt: skipCreatedAt,
             };
             const skipVariant: ChatMessageUserInput = {

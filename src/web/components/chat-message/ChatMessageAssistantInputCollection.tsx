@@ -88,9 +88,14 @@ export function ChatMessageAssistantInputCollectionView({
 
     return (
         <MessageRow side="assistant">
-            <Card className="w-full max-w-md gap-4 py-4" aria-disabled={state !== 'pending'} data-state={state} data-mode={message.mode}>
+            <Card
+                className="w-full max-w-md gap-4 border-aubergine/15 bg-cream py-4 text-charcoal"
+                aria-disabled={state !== 'pending'}
+                data-state={state}
+                data-mode={message.mode}
+            >
                 <CardHeader>
-                    <CardTitle className="text-sm whitespace-pre-wrap">{message.prompt}</CardTitle>
+                    <CardTitle className="text-sm font-semibold whitespace-pre-wrap text-aubergine-dark">{message.prompt}</CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-3">
                     {state === 'pending' && message.mode === 'StepThrough' ? (
@@ -144,8 +149,8 @@ function CollectionAnswerSummary({
                 const answer = answersByInputId.get(slot.inputId);
                 return (
                     <li key={slot.inputId} className="grid gap-0.5">
-                        <span className="text-muted-foreground">{slot.prompt}</span>
-                        <span className={cn('text-foreground', !answer && 'text-muted-foreground/60')}>
+                        <span className="text-(--color-brand-charcoal-3)">{slot.prompt}</span>
+                        <span className={cn('text-charcoal', !answer && 'text-(--color-brand-charcoal-4) italic')}>
                             {answer ? formatAnswerValue(answer) : '—'}
                         </span>
                     </li>
@@ -193,7 +198,7 @@ function CollectionStepThrough({
 
     return (
         <div className="grid gap-3">
-            <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
+            <div className="text-[11px] uppercase tracking-wide text-sage">
                 Step {safeIndex + 1} / {inputs.length}
             </div>
             <ChatAssistantInputSlotView
@@ -236,7 +241,7 @@ function CollectionFooter({
     if (state === 'pending') return <Timestamp iso={promptedAt} />;
     const iso = respondedAt ?? promptedAt;
     return (
-        <div className="mt-1 flex items-center gap-1 text-[11px] opacity-70">
+        <div className="mt-1 flex items-center gap-1 text-[11px] text-(--color-brand-charcoal-3)">
             {state === 'answered' ? <CheckIcon className="size-3" aria-hidden /> : null}
             <span>{state === 'answered' ? 'Answered' : 'Skipped'}</span>
             <span aria-hidden>·</span>
@@ -263,13 +268,13 @@ function ChatAssistantInputSlotView({
         <div
             data-slot="chat-assistant-input-slot"
             data-kind={slot.__typename}
-            className="grid gap-2 rounded-md border bg-background/50 p-3"
+            className="grid gap-2 rounded-md border border-aubergine/10 bg-blush/50 p-3"
         >
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-xs text-(--color-brand-charcoal-3)">
                 <Icon aria-hidden />
                 <span>{label}</span>
             </div>
-            <div className="text-sm">{slot.prompt}</div>
+            <div className="text-sm text-charcoal">{slot.prompt}</div>
             <ChatAssistantInputControl slot={slot} draft={draft} onChange={onChange} />
         </div>
     );
@@ -435,10 +440,10 @@ function MultiSelectControl({
                             }}
                             className={cn(
                                 'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors',
-                                'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50',
+                                'focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-aubergine/30',
                                 isSelected
-                                    ? 'border-primary bg-primary text-primary-foreground'
-                                    : 'border-input bg-background hover:bg-accent hover:text-accent-foreground',
+                                    ? 'border-aubergine bg-aubergine text-cream'
+                                    : 'border-aubergine/20 bg-cream text-aubergine-dark hover:bg-aubergine/10',
                             )}
                         >
                             {isSelected ? <CheckIcon className="size-3" aria-hidden /> : null}

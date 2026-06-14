@@ -1,4 +1,4 @@
-# Operations for the minimal AI chat surface — see `docs/features/chat.md`.
+# Operations for the admin chat surface — see `docs/features/chat-admin.md`.
 # The fragment is the single source of truth for which fields the
 # `<ChatMessage />` component needs; matches the union shape in
 # `docs/architecture/chat.md`.
@@ -158,19 +158,22 @@ query ChatPage($chatId: ID!) {
             userId
             name
         }
-        chat(chatId: $chatId) {
-            chatId
-            title
-            lastModifiedAt
-            messages {
-                ...ChatMessageFields
+        admin {
+            chat(chatId: $chatId) {
+                chatId
+                kind
+                title
+                lastModifiedAt
+                messages {
+                    ...ChatMessageFields
+                }
             }
         }
     }
 }
 
 mutation ChatMessageCreate($chatId: ID, $message: String!, $fileUploadIds: [ID!], $generationId: ID, $requireToolCallApprovals: Boolean!) {
-    user {
+    admin {
         # `assistantOptions` is built inline so the operation doesn't reference the
         # named `ChatAssistantOptions` input type — referencing it makes
         # `typescript-operations` re-emit `GqlCChatAssistantOptions` and clash with
@@ -199,7 +202,7 @@ mutation ChatInputCollectionRespond(
     $generationId: ID
     $requireToolCallApprovals: Boolean!
 ) {
-    user {
+    admin {
         chatInputCollectionRespond(
             collectionMessageId: $collectionMessageId
             answers: $answers
@@ -218,7 +221,7 @@ mutation ChatToolApprovalRespond(
     $generationId: ID
     $requireToolCallApprovals: Boolean!
 ) {
-    user {
+    admin {
         chatToolApprovalRespond(
             approvalId: $approvalId
             approved: $approved

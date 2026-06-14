@@ -1,6 +1,9 @@
 import { Outlet, createFileRoute, notFound, redirect } from '@tanstack/react-router';
 import { createIsomorphicFn } from '@tanstack/react-start';
 import { getRequestHeader, setResponseHeader } from '@tanstack/react-start/server';
+import { VisitorChatLauncher } from '../web/chat/VisitorChatLauncher';
+import { VisitorChatProvider } from '../web/chat/VisitorChatProvider';
+import { VisitorChatSheet } from '../web/chat/VisitorChatSheet';
 import { SiteFooter } from '../web/components/SiteFooter';
 import { SiteHeader } from '../web/components/SiteHeader';
 import { useSearchTargetHighlight } from '../web/hooks/useSearchTargetHighlight';
@@ -42,10 +45,14 @@ export const Route = createFileRoute('/{-$locale}')({
 function LocaleLayout() {
     useSearchTargetHighlight();
     return (
-        <div className="flex min-h-screen flex-col">
-            <SiteHeader />
-            <Outlet />
-            <SiteFooter />
-        </div>
+        <VisitorChatProvider>
+            <div className="flex min-h-screen flex-col">
+                <SiteHeader />
+                <Outlet />
+                <SiteFooter />
+            </div>
+            <VisitorChatLauncher />
+            <VisitorChatSheet />
+        </VisitorChatProvider>
     );
 }

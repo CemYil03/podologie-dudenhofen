@@ -4,12 +4,8 @@ import { chatMessageAppend } from './chatMessageAppend';
 import type { ChatMessageCreate as ChatMessageRowCreate, ChatMessageToolApprovalResponseCreate } from '../db/schema';
 import { chatMessages, chatMessagesToolApprovalRequest, chatMessagesToolApprovalResponse } from '../db/schema';
 import type { ServerRuntime } from '../domain/ServerRuntime';
-import type {
-    GqlSChatMessageCreateResult,
-    GqlSSession,
-    GqlSUserMutation,
-    GqlSUserMutationChatToolApprovalRespondArgs,
-} from '../graphql/generated';
+import type { GqlSChatMessageCreateResult, GqlSMutationChatToolApprovalRespondArgs, GqlSSession } from '../graphql/generated';
+import { guardChatWrite } from '../guards/guardChatWrite';
 
 // Persists the human's Approve/Decline decision in response to a
 // `ChatMessageToolApprovalRequest`, then runs the next assistant turn via the
@@ -23,15 +19,15 @@ import type {
 // job is to durably record the human's decision and kick the next turn off.
 
 export async function chatToolApprovalRespond(
-    _parent: GqlSUserMutation,
-    { approvalId, approved, reason, assistantOptions }: GqlSUserMutationChatToolApprovalRespondArgs,
+    { approvalId, approved, reason, assistantOptions }: GqlSMutationChatToolApprovalRespondArgs,
     requestingSession: GqlSSession,
     serverRuntime: ServerRuntime,
 ): Promise<GqlSChatMessageCreateResult | null> {
     try {
         // Phase 1 — Resolve the approval request and the chat it belongs to.
         // The join verifies the request row exists and is reachable from a
-        // real chat; the cookie session keeps cross-user attempts out.
+        // real chat; `guardChatWrite` then verifies the requesting session
+        // owns that chat.
         const requestRow = await serverRuntime.db
             .select({
                 requestMessageId: chatMessagesToolApprovalRequest.chatMessageId,
@@ -48,6 +44,9 @@ export async function chatToolApprovalRespond(
             serverRuntime.log.error(new Error(`chatToolApprovalRespond: no request row for approvalId=${approvalId}`), requestingSession);
             return null;
         }
+
+        const { chatId } = requestRow;
+        await guardChatWrite(chatId, requestingSession, serverRuntime);
 
         // Refuse if a response already exists. The unique constraint on
         // `chatMessagesToolApprovalResponse.approvalId` would also catch this,
@@ -67,8 +66,6 @@ export async function chatToolApprovalRespond(
             );
             return null;
         }
-
-        const { chatId } = requestRow;
 
         // Phase 2 — Persist the response row. `toModelMessages` replays this
         // on the next turn as the SDK's `tool-approval-response` part; the

@@ -29,17 +29,17 @@ export function ChatMessageToolApprovalRequestView({
 
     return (
         <MessageRow side="system">
-            <Card className="w-full max-w-md gap-2 py-4">
+            <Card className="w-full max-w-md gap-2 border-aubergine/15 bg-cream py-4 text-charcoal">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-sm">
-                        <ShieldCheckIcon aria-hidden />
+                    <CardTitle className="flex items-center gap-2 text-sm text-aubergine-dark">
+                        <ShieldCheckIcon aria-hidden className="text-aubergine" />
                         Approval requested
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-2">
-                    <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <p className="flex items-center gap-2 text-sm text-(--color-brand-charcoal-2)">
                         <span>
-                            The assistant wants to call <code className="font-mono">{message.toolName}</code>.
+                            The assistant wants to call <code className="font-mono text-aubergine-dark">{message.toolName}</code>.
                         </span>
                         <ToolArgumentsButton toolName={message.toolName} args={message.args} />
                     </p>

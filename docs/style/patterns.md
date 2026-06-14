@@ -162,3 +162,49 @@ cream → blush → cream → dark → cream rhythm without competing with the c
 - **Reduced motion + no-JS:** content is shown immediately. See [motion.md](./motion.md#reduced-motion-contract) for the full contract.
 
 The full motion system — durations, easings, the three jobs motion is allowed to do — is documented in [motion.md](./motion.md).
+
+## Chat surfaces
+
+Both chat surfaces — the visitor sheet ([`VisitorChatSheet`](../../src/web/chat/VisitorChatSheet.tsx)) and the admin chat route
+(`src/routes/{-$locale}/admin/chat.tsx`) — share the same brand vocabulary. The chat does not get its own neutral palette: it speaks
+aubergine on cream like the rest of the site.
+
+### Bubbles
+
+| Tone      | Surface                                   | Text            | Notes                                                                          |
+| --------- | ----------------------------------------- | --------------- | ------------------------------------------------------------------------------ |
+| User      | `bg-aubergine`                            | `text-cream`    | Mirrors the primary brand CTA. `rounded-br-sm` "tail" anchors it to the right. |
+| Assistant | `bg-blush` + `border border-aubergine/10` | `text-charcoal` | Reads as page paper, not a generic chip. `rounded-bl-sm` tail on the left.     |
+
+Timestamps under both bubbles use `text-(--color-brand-charcoal-3)` on the assistant side and `text-cream/70` on the user side.
+Implementation lives in [`shared.tsx`](../../src/web/components/chat-message/shared.tsx).
+
+### Cards (input collection / approval request)
+
+Hairline aubergine card on cream — the chat-room equivalent of a [service card](#service-card):
+
+| Layer      | Token                                                                      |
+| ---------- | -------------------------------------------------------------------------- |
+| Background | `bg-cream`                                                                 |
+| Border     | `border border-aubergine/15`                                               |
+| Card title | `font-semibold text-aubergine-dark`                                        |
+| Body text  | `text-charcoal`                                                            |
+| Slot wrap  | `border-aubergine/10` + `bg-blush/50` (so the slot reads against the card) |
+
+### Composer
+
+Wrap the [`MessageComposer`](../../src/web/components/MessageComposer.tsx) in `border-aubergine/20 bg-cream`; focus + drag-over both ramp to
+`border-aubergine` + `ring-aubergine/30`. The Send button is filled aubergine (`bg-aubergine text-cream hover:bg-aubergine-dark`) — same
+colorway as `variant="brand"` but kept inside the input-group's button shape so it doesn't pop out as a pill.
+
+### Transcript chrome
+
+| Element              | Treatment                                                                      |
+| -------------------- | ------------------------------------------------------------------------------ |
+| Date separator       | `text-sage` uppercase mono label flanked by `bg-aubergine/15` hairlines        |
+| Jump-to-latest pill  | `border-aubergine/15 bg-cream text-aubergine-dark`, hover `bg-aubergine/10`    |
+| Empty / loading copy | `text-(--color-brand-charcoal-3)` (use `-2` for emphasized empty-state prose)  |
+| Tool-call chip       | `border-aubergine/15 bg-blush/60 text-(--color-brand-charcoal-3)` rounded-full |
+
+Approved tool-approval responses use a soft sage chip (`bg-sage/15 text-sage`) — sage is the closest "ok, proceed" tone in the palette and
+it stays calm next to the destructive decline chip.

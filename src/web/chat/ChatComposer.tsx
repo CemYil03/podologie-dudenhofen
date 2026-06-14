@@ -14,6 +14,12 @@ type ToolCallApprovalMode = 'auto' | 'manual';
 interface ChatComposerProps {
     /** Optional — undefined means "first send creates a new chat". */
     chatId?: string;
+    /** Show the attachment paperclip + drag-and-drop. Visitor surfaces don't
+     *  yet support attachments (no per-session anonymous file ownership). */
+    enableAttachments?: boolean;
+    /** Show the auto/manual tool-call-approval selector. Visitor surfaces
+     *  have no approval-gated tools today, so the toggle is hidden. */
+    enableApprovalModeSelector?: boolean;
     /** Called with the chatId returned by the mutation. For an existing chat
      *  this is just `chatId`; for a new one it's the freshly-allocated id.
      *  Empty-state callers use it to navigate; loaded-state callers can ignore. */
@@ -29,7 +35,15 @@ interface ChatComposerProps {
     endTurn: () => void;
 }
 
-export function ChatComposer({ chatId, onMessageSent, isLocked, beginTurn, endTurn }: ChatComposerProps) {
+export function ChatComposer({
+    chatId,
+    enableAttachments = true,
+    enableApprovalModeSelector = true,
+    onMessageSent,
+    isLocked,
+    beginTurn,
+    endTurn,
+}: ChatComposerProps) {
     const [draft, setDraft] = useState('');
     // Each composer attachment carries its upload lifecycle. Files are
     // uploaded as soon as they're attached so the eventual send is fast and
@@ -115,7 +129,7 @@ export function ChatComposer({ chatId, onMessageSent, isLocked, beginTurn, endTu
             requireToolCallApprovals: mode === 'manual',
         });
 
-        if (result.error || !result.data?.user.chatMessageCreate) {
+        if (result.error || !result.data?.admin.chatMessageCreate) {
             // Restore the draft so the user doesn't lose their text on a
             // transport failure. We restore the attachment tiles too — they
             // already point at server-side rows (the upload succeeded), so
@@ -129,7 +143,7 @@ export function ChatComposer({ chatId, onMessageSent, isLocked, beginTurn, endTu
         }
         // Don't clear `generationId` on success — the turn is still running
         // detached on the server. The `TurnEnded` event clears it.
-        onMessageSent?.(result.data.user.chatMessageCreate.chatId);
+        onMessageSent?.(result.data.admin.chatMessageCreate.chatId);
     }, [attachments, chatId, draft, mode, onMessageSent, sendMessage, beginTurn, endTurn]);
 
     return (
@@ -140,19 +154,21 @@ export function ChatComposer({ chatId, onMessageSent, isLocked, beginTurn, endTu
             disabled={isLocked}
             busy={isLocked}
             placeholder="Type a message…"
-            attachments={attachments}
-            onAttachmentsAdd={onAttachmentsAdd}
-            onAttachmentRemove={onAttachmentRemove}
+            attachments={enableAttachments ? attachments : undefined}
+            onAttachmentsAdd={enableAttachments ? onAttachmentsAdd : undefined}
+            onAttachmentRemove={enableAttachments ? onAttachmentRemove : undefined}
             addonStart={
-                <Select value={mode} onValueChange={(value) => setMode(value as ToolCallApprovalMode)} disabled={isLocked}>
-                    <SelectTrigger size="sm" aria-label="Tool call approval mode" className="h-7 gap-1 px-2 text-xs">
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="auto">Auto</SelectItem>
-                        <SelectItem value="manual">Manual</SelectItem>
-                    </SelectContent>
-                </Select>
+                enableApprovalModeSelector ? (
+                    <Select value={mode} onValueChange={(value) => setMode(value as ToolCallApprovalMode)} disabled={isLocked}>
+                        <SelectTrigger size="sm" aria-label="Tool call approval mode" className="h-7 gap-1 px-2 text-xs">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="auto">Auto</SelectItem>
+                            <SelectItem value="manual">Manual</SelectItem>
+                        </SelectContent>
+                    </Select>
+                ) : null
             }
         />
     );

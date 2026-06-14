@@ -7,7 +7,18 @@ import type { GqlSSession } from '../graphql/generated';
 import { toolPromptUserForInput } from './toolPromptUserForInput';
 import { toolWriteToConsole } from './toolWriteToConsole';
 
-interface AgentUserConversationOptions {
+// Admin-side assistant. Backs the `adminAssistant` chat surface — the
+// practice-owner-only `/chat` route. Counterpart to `agentVisitorAssistant`,
+// which serves the public website. The two agents share the chat foundation
+// (persistence, streaming, tool-approval flow) and only differ in their
+// system prompt and tool set.
+//
+// Today this surface is reachable but unauthenticated; the OTP sign-in flow
+// will gate it later. Tools include `writeToConsole` as a placeholder for
+// real owner-side actions (calendar lookup, patient note writes, etc.) that
+// will go through the same approval-gated machinery.
+
+interface AgentAdminAssistantOptions {
     assistantOptions: GqlCChatAssistantOptions;
     session: GqlSSession;
     serverRuntime: ServerRuntime;
@@ -22,12 +33,12 @@ interface AgentUserConversationOptions {
     onStepFinish: ToolLoopAgentOnStepFinishCallback<any>;
 }
 
-export async function agentUserConversation({
+export async function agentAdminAssistant({
     assistantOptions,
     session: _session,
     serverRuntime,
     onStepFinish,
-}: AgentUserConversationOptions) {
+}: AgentAdminAssistantOptions) {
     return new ToolLoopAgent({
         // Provider, model id, and API key are bound on the runtime
         // (`serverRuntimeCreate`) so this agent can be exercised against a

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
+import { ClockIcon, MapPinIcon, PhoneCallIcon, PhoneIcon } from 'lucide-react';
 import { Fragment } from 'react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
@@ -57,8 +57,8 @@ function KontaktPage() {
                     <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
                             {
-                                de: 'Rufen Sie uns an oder schreiben Sie eine kurze Nachricht — wir melden uns zeitnah zurück und finden gemeinsam einen passenden Termin.',
-                                en: 'Give us a call or send a short message — we will get back to you promptly and find a time that works.',
+                                de: 'Rufen Sie uns während unserer Anrufzeiten an — wir finden gemeinsam einen passenden Termin.',
+                                en: 'Give us a call during our call hours — we will find a time that works together.',
                             }[locale]
                         }
                     </p>
@@ -92,19 +92,11 @@ function KontaktPage() {
                                     >
                                         {formatPhoneNumber(PRACTICE.phone)}
                                     </a>
-                                    <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
-                                        {
-                                            {
-                                                de: 'Mo–Fr während der Öffnungszeiten',
-                                                en: 'Mon–Fri during opening hours',
-                                            }[locale]
-                                        }
-                                    </span>
                                     <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
                                         {
                                             {
-                                                de: 'Wenn wir gerade nicht ans Telefon gehen können, rufen wir zurück — bitte unterdrücken Sie Ihre Rufnummer nicht, oder versuchen Sie es etwas später noch einmal.',
-                                                en: "If we can't pick up, we'll call you back — please don't withhold your number, or try again a little later.",
+                                                de: 'Am besten erreichbar während unserer Anrufzeiten.',
+                                                en: 'Best reached during our call hours.',
                                             }[locale]
                                         }
                                     </span>
@@ -112,27 +104,31 @@ function KontaktPage() {
                             </div>
                         </Reveal>
 
-                        {/* E-Mail */}
+                        {/* Anrufzeiten */}
                         <Reveal delayMs={80}>
                             <div className="flex gap-4">
                                 <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
-                                    <MailIcon className="size-5 text-aubergine" aria-hidden />
+                                    <PhoneCallIcon className="size-5 text-aubergine" aria-hidden />
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                        {{ de: 'E-Mail', en: 'Email' }[locale]}
+                                        {{ de: 'Anrufzeiten', en: 'Call hours' }[locale]}
                                     </span>
-                                    <a
-                                        href={`mailto:${PRACTICE.email}`}
-                                        className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
-                                    >
-                                        {PRACTICE.email}
-                                    </a>
-                                    <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
+                                    <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
+                                        {PRACTICE.callHours.map((row) => (
+                                            <Fragment key={row.days.de}>
+                                                <dt className="font-serif text-base text-aubergine-dark">{row.days[locale]}</dt>
+                                                <dd className={row.closed ? 'text-(--color-brand-charcoal-3)' : undefined}>
+                                                    {row.time[locale]}
+                                                </dd>
+                                            </Fragment>
+                                        ))}
+                                    </dl>
+                                    <span className="mt-3 text-sm text-(--color-brand-charcoal-3)">
                                         {
                                             {
-                                                de: 'Wir antworten in der Regel innerhalb eines Werktags.',
-                                                en: 'We usually reply within one business day.',
+                                                de: 'Wenn niemand abnimmt, sind wir gerade in Behandlung — bitte versuchen Sie es nach etwa 30 Minuten noch einmal.',
+                                                en: 'If no one picks up we are with a patient — please try again in about 30 minutes.',
                                             }[locale]
                                         }
                                     </span>
@@ -303,17 +299,14 @@ function KontaktPage() {
                             <p className="max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
                                     {
-                                        de: 'Bitte rufen Sie uns für Terminvereinbarungen direkt an oder schreiben Sie eine kurze E-Mail. Ein Online-Formular folgt in Kürze.',
-                                        en: 'For appointments, please call us directly or send a short email. An online form will follow soon.',
+                                        de: 'Bitte rufen Sie uns für Terminvereinbarungen direkt an. Ein Online-Formular folgt in Kürze.',
+                                        en: 'For appointments, please call us directly. An online form will follow soon.',
                                     }[locale]
                                 }
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                                 <Button variant="brand" size="lg" asChild>
                                     <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
-                                </Button>
-                                <Button variant="brand-outline" size="lg" asChild>
-                                    <a href={`mailto:${PRACTICE.email}`}>{{ de: 'E-Mail schreiben', en: 'Send email' }[locale]}</a>
                                 </Button>
                             </div>
                         </div>

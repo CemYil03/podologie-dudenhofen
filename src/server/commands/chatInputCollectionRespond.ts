@@ -9,10 +9,10 @@ import type {
     GqlSChatAssistantInputValueKind,
     GqlSChatMessageCreateResult,
     GqlSChatMessageUserInputAnswerCreate,
+    GqlSMutationChatInputCollectionRespondArgs,
     GqlSSession,
-    GqlSUserMutation,
-    GqlSUserMutationChatInputCollectionRespondArgs,
 } from '../graphql/generated';
+import { guardChatWrite } from '../guards/guardChatWrite';
 
 // Persists a `ChatMessageUserInput` row in response to an assistant input
 // collection, then runs the next assistant turn via the shared detached
@@ -21,15 +21,15 @@ import type {
 // tool-result, so the LLM sees the same turn shape it originally produced.
 
 export async function chatInputCollectionRespond(
-    { userId }: GqlSUserMutation,
-    { collectionMessageId, answers, assistantOptions }: GqlSUserMutationChatInputCollectionRespondArgs,
+    { collectionMessageId, answers, assistantOptions }: GqlSMutationChatInputCollectionRespondArgs,
     requestingSession: GqlSSession,
     serverRuntime: ServerRuntime,
 ): Promise<GqlSChatMessageCreateResult | null> {
     try {
         // Phase 1 — Resolve the chat the collection belongs to. The join
         // double-checks both that the collection exists and that it lives in
-        // a real chat; the cookie session keeps cross-user attempts out.
+        // a real chat; `guardChatWrite` then verifies the requesting session
+        // owns that chat (visitor session match or admin user match).
         const collectionRow = await serverRuntime.db
             .select({ chatId: chatMessages.chatId })
             .from(chatMessagesAssistantInputCollection)
@@ -46,6 +46,8 @@ export async function chatInputCollectionRespond(
             return null;
         }
         const { chatId } = collectionRow;
+
+        await guardChatWrite(chatId, requestingSession, serverRuntime);
 
         // Phase 1.5 — Refuse to write a second userInput for the same
         // collection. The UI rule is that an answered (or skipped) collection
@@ -101,7 +103,9 @@ export async function chatInputCollectionRespond(
             chatMessageId: userInputMessageId,
             chatId,
             kind: 'userInput',
-            authorUserId: userId,
+            // Anonymous visitors have no `userId`; the column is already
+            // nullable on the spine table so the row carries `null` here.
+            authorUserId: requestingSession.userId ?? null,
             createdAt: now,
         };
         const userInputVariant: ChatMessageUserInputCreate = {

@@ -14,7 +14,7 @@ export function ChatMessageToolApprovalResponseView({ message }: { message: GqlC
                     data-approved={message.approved}
                     className={cn(
                         'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs',
-                        message.approved ? 'bg-emerald-500/10 text-emerald-700' : 'bg-destructive/10 text-destructive',
+                        message.approved ? 'bg-sage/15 text-sage' : 'bg-destructive/10 text-destructive',
                     )}
                 >
                     <Icon aria-hidden />
@@ -26,7 +26,10 @@ export function ChatMessageToolApprovalResponseView({ message }: { message: GqlC
                     transcript so the human's reasoning is visible alongside
                     their decision. */}
                 {message.reason ? (
-                    <p data-slot="chat-message-tool-approval-response-reason" className="px-3 text-xs italic text-muted-foreground">
+                    <p
+                        data-slot="chat-message-tool-approval-response-reason"
+                        className="px-3 text-xs italic text-(--color-brand-charcoal-3)"
+                    >
                         “{message.reason}”
                     </p>
                 ) : null}

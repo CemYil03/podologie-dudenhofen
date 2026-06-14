@@ -19,9 +19,46 @@ export type Scalars = {
     JSON: { input: unknown; output: unknown };
 };
 
+export interface GqlCAdmin {
+    __typename?: 'Admin';
+    chat: GqlCChat;
+}
+
+export type GqlCAdminChatArgs = {
+    chatId: Scalars['ID']['input'];
+};
+
+export interface GqlCAdminMutation {
+    __typename?: 'AdminMutation';
+    chatInputCollectionRespond?: Maybe<GqlCChatMessageCreateResult>;
+    chatMessageCreate?: Maybe<GqlCChatMessageCreateResult>;
+    chatToolApprovalRespond?: Maybe<GqlCChatMessageCreateResult>;
+}
+
+export type GqlCAdminMutationChatInputCollectionRespondArgs = {
+    answers: Array<GqlCChatMessageUserInputAnswerCreate>;
+    assistantOptions: GqlCChatAssistantOptions;
+    collectionMessageId: Scalars['ID']['input'];
+};
+
+export type GqlCAdminMutationChatMessageCreateArgs = {
+    assistantOptions: GqlCChatAssistantOptions;
+    chatId?: InputMaybe<Scalars['ID']['input']>;
+    fileUploadIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+    message: Scalars['String']['input'];
+};
+
+export type GqlCAdminMutationChatToolApprovalRespondArgs = {
+    approvalId: Scalars['String']['input'];
+    approved: Scalars['Boolean']['input'];
+    assistantOptions: GqlCChatAssistantOptions;
+    reason?: InputMaybe<Scalars['String']['input']>;
+};
+
 export interface GqlCChat {
     __typename?: 'Chat';
     chatId: Scalars['ID']['output'];
+    kind: GqlCChatKind;
     lastModifiedAt: Scalars['DateTime']['output'];
     messages: Array<GqlCChatMessage>;
     title: Scalars['String']['output'];
@@ -125,6 +162,8 @@ export type GqlCChatAssistantOptions = {
     requireToolCallApprovals: Scalars['Boolean']['input'];
 };
 
+export type GqlCChatKind = 'AdminAssistant' | 'VisitorAssistant';
+
 export type GqlCChatMessage =
     | GqlCChatMessageAssistantInputCollection
     | GqlCChatMessageAssistantText
@@ -199,7 +238,7 @@ export interface GqlCChatMessageToolCall {
 export interface GqlCChatMessageUser {
     __typename?: 'ChatMessageUser';
     attachments: Array<GqlCFileUpload>;
-    author: GqlCUser;
+    author?: Maybe<GqlCUser>;
     body: Scalars['String']['output'];
     chatMessageId: Scalars['ID']['output'];
     createdAt: Scalars['DateTime']['output'];
@@ -208,7 +247,7 @@ export interface GqlCChatMessageUser {
 export interface GqlCChatMessageUserInput {
     __typename?: 'ChatMessageUserInput';
     answers: Array<GqlCChatMessageUserInputAnswer>;
-    author: GqlCUser;
+    author?: Maybe<GqlCUser>;
     chatMessageId: Scalars['ID']['output'];
     collectionMessageId: Scalars['ID']['output'];
     createdAt: Scalars['DateTime']['output'];
@@ -260,9 +299,33 @@ export interface GqlCFileUpload {
 
 export interface GqlCMutation {
     __typename?: 'Mutation';
+    admin: GqlCAdminMutation;
+    chatInputCollectionRespond?: Maybe<GqlCChatMessageCreateResult>;
+    chatMessageCreate?: Maybe<GqlCChatMessageCreateResult>;
+    chatToolApprovalRespond?: Maybe<GqlCChatMessageCreateResult>;
     user: GqlCUserMutation;
     userCreate: GqlCMutationResult;
 }
+
+export type GqlCMutationChatInputCollectionRespondArgs = {
+    answers: Array<GqlCChatMessageUserInputAnswerCreate>;
+    assistantOptions: GqlCChatAssistantOptions;
+    collectionMessageId: Scalars['ID']['input'];
+};
+
+export type GqlCMutationChatMessageCreateArgs = {
+    assistantOptions: GqlCChatAssistantOptions;
+    chatId?: InputMaybe<Scalars['ID']['input']>;
+    fileUploadIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+    message: Scalars['String']['input'];
+};
+
+export type GqlCMutationChatToolApprovalRespondArgs = {
+    approvalId: Scalars['String']['input'];
+    approved: Scalars['Boolean']['input'];
+    assistantOptions: GqlCChatAssistantOptions;
+    reason?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type GqlCMutationUserCreateArgs = {
     user: GqlCUserCreate;
@@ -276,19 +339,21 @@ export interface GqlCMutationResult {
 
 export interface GqlCQuery {
     __typename?: 'Query';
+    chat: GqlCChat;
     currentSession: GqlCSession;
 }
 
-export interface GqlCSession {
-    __typename?: 'Session';
-    chat: GqlCChat;
-    sessionId: Scalars['ID']['output'];
-    user?: Maybe<GqlCUser>;
-}
-
-export type GqlCSessionChatArgs = {
+export type GqlCQueryChatArgs = {
     chatId: Scalars['ID']['input'];
 };
+
+export interface GqlCSession {
+    __typename?: 'Session';
+    admin: GqlCAdmin;
+    sessionId: Scalars['ID']['output'];
+    user?: Maybe<GqlCUser>;
+    visitorChats: Array<GqlCChat>;
+}
 
 export interface GqlCSubscription {
     __typename?: 'Subscription';
@@ -312,32 +377,9 @@ export type GqlCUserCreate = {
 
 export interface GqlCUserMutation {
     __typename?: 'UserMutation';
-    chatInputCollectionRespond?: Maybe<GqlCChatMessageCreateResult>;
-    chatMessageCreate?: Maybe<GqlCChatMessageCreateResult>;
-    chatToolApprovalRespond?: Maybe<GqlCChatMessageCreateResult>;
     terminateSessions: GqlCMutationResult;
     userUpdate: GqlCMutationResult;
 }
-
-export type GqlCUserMutationChatInputCollectionRespondArgs = {
-    answers: Array<GqlCChatMessageUserInputAnswerCreate>;
-    assistantOptions: GqlCChatAssistantOptions;
-    collectionMessageId: Scalars['ID']['input'];
-};
-
-export type GqlCUserMutationChatMessageCreateArgs = {
-    assistantOptions: GqlCChatAssistantOptions;
-    chatId?: InputMaybe<Scalars['ID']['input']>;
-    fileUploadIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-    message: Scalars['String']['input'];
-};
-
-export type GqlCUserMutationChatToolApprovalRespondArgs = {
-    approvalId: Scalars['String']['input'];
-    approved: Scalars['Boolean']['input'];
-    assistantOptions: GqlCChatAssistantOptions;
-    reason?: InputMaybe<Scalars['String']['input']>;
-};
 
 export type GqlCUserMutationTerminateSessionsArgs = {
     sessionIds: Array<Scalars['ID']['input']>;
@@ -350,6 +392,38 @@ export type GqlCUserMutationUserUpdateArgs = {
 export type GqlCUserUpdate = {
     name: Scalars['String']['input'];
 };
+
+export type GqlCDatenschutzPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCDatenschutzPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCImpressumPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCImpressumPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCKarrierePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCKarrierePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCKontaktPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCKontaktPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCLeistungenPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCLeistungenPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCPraxisPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCPraxisPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+
+export type GqlCQualifikationPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCQualifikationPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
 export type GqlCChatRouteQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -443,7 +517,7 @@ type GqlCChatMessageFields_ChatMessageUser_Fragment = {
     chatMessageId: string;
     body: string;
     createdAt: string;
-    author: { userId: string; name: string };
+    author: { userId: string; name: string } | null;
     attachments: Array<{ fileUploadId: string; filename: string; mediaType: string; size: number; url: string }>;
 };
 
@@ -452,7 +526,7 @@ type GqlCChatMessageFields_ChatMessageUserInput_Fragment = {
     chatMessageId: string;
     collectionMessageId: string;
     createdAt: string;
-    author: { userId: string; name: string };
+    author: { userId: string; name: string } | null;
     answers: Array<{
         inputId: string;
         value:
@@ -482,100 +556,103 @@ export type GqlCChatPageQuery = {
     currentSession: {
         sessionId: string;
         user: { userId: string; name: string } | null;
-        chat: {
-            chatId: string;
-            title: string;
-            lastModifiedAt: string;
-            messages: Array<
-                | {
-                      __typename: 'ChatMessageAssistantInputCollection';
-                      chatMessageId: string;
-                      prompt: string;
-                      mode: string;
-                      createdAt: string;
-                      generation: {
-                          modelId: string;
-                          inputTokens: number | null;
-                          outputTokens: number | null;
-                          totalTokens: number | null;
-                          reasoningTokens: number | null;
-                          cachedInputTokens: number | null;
-                      } | null;
-                      inputs: Array<
-                          | { __typename: 'ChatAssistantInputBoolean'; inputId: string; prompt: string }
-                          | { __typename: 'ChatAssistantInputDate'; inputId: string; prompt: string }
-                          | { __typename: 'ChatAssistantInputDateTime'; inputId: string; prompt: string }
-                          | { __typename: 'ChatAssistantInputMultiSelect'; inputId: string; prompt: string; options: Array<string> }
-                          | { __typename: 'ChatAssistantInputSingleSelect'; inputId: string; prompt: string; options: Array<string> }
-                          | { __typename: 'ChatAssistantInputText'; inputId: string; prompt: string }
-                          | { __typename: 'ChatAssistantInputTime'; inputId: string; prompt: string }
-                      >;
-                  }
-                | {
-                      __typename: 'ChatMessageAssistantText';
-                      chatMessageId: string;
-                      body: string;
-                      createdAt: string;
-                      generation: {
-                          modelId: string;
-                          inputTokens: number | null;
-                          outputTokens: number | null;
-                          totalTokens: number | null;
-                          reasoningTokens: number | null;
-                          cachedInputTokens: number | null;
-                      } | null;
-                  }
-                | {
-                      __typename: 'ChatMessageToolApprovalRequest';
-                      chatMessageId: string;
-                      approvalId: string;
-                      toolName: string;
-                      args: unknown;
-                      createdAt: string;
-                      generation: {
-                          modelId: string;
-                          inputTokens: number | null;
-                          outputTokens: number | null;
-                          totalTokens: number | null;
-                          reasoningTokens: number | null;
-                          cachedInputTokens: number | null;
-                      } | null;
-                  }
-                | {
-                      __typename: 'ChatMessageToolApprovalResponse';
-                      chatMessageId: string;
-                      approvalId: string;
-                      approved: boolean;
-                      reason: string | null;
-                      createdAt: string;
-                  }
-                | { __typename: 'ChatMessageToolCall'; chatMessageId: string; toolName: string; args: unknown; createdAt: string }
-                | {
-                      __typename: 'ChatMessageUser';
-                      chatMessageId: string;
-                      body: string;
-                      createdAt: string;
-                      author: { userId: string; name: string };
-                      attachments: Array<{ fileUploadId: string; filename: string; mediaType: string; size: number; url: string }>;
-                  }
-                | {
-                      __typename: 'ChatMessageUserInput';
-                      chatMessageId: string;
-                      collectionMessageId: string;
-                      createdAt: string;
-                      author: { userId: string; name: string };
-                      answers: Array<{
-                          inputId: string;
-                          value:
-                              | { __typename: 'ChatAssistantInputValueBoolean'; boolean: boolean }
-                              | { __typename: 'ChatAssistantInputValueDate'; date: string }
-                              | { __typename: 'ChatAssistantInputValueDateTime'; dateTime: string }
-                              | { __typename: 'ChatAssistantInputValueString'; value: string }
-                              | { __typename: 'ChatAssistantInputValueStringList'; values: Array<string> }
-                              | { __typename: 'ChatAssistantInputValueTime'; time: string };
-                      }>;
-                  }
-            >;
+        admin: {
+            chat: {
+                chatId: string;
+                kind: Schema.GqlCChatKind;
+                title: string;
+                lastModifiedAt: string;
+                messages: Array<
+                    | {
+                          __typename: 'ChatMessageAssistantInputCollection';
+                          chatMessageId: string;
+                          prompt: string;
+                          mode: string;
+                          createdAt: string;
+                          generation: {
+                              modelId: string;
+                              inputTokens: number | null;
+                              outputTokens: number | null;
+                              totalTokens: number | null;
+                              reasoningTokens: number | null;
+                              cachedInputTokens: number | null;
+                          } | null;
+                          inputs: Array<
+                              | { __typename: 'ChatAssistantInputBoolean'; inputId: string; prompt: string }
+                              | { __typename: 'ChatAssistantInputDate'; inputId: string; prompt: string }
+                              | { __typename: 'ChatAssistantInputDateTime'; inputId: string; prompt: string }
+                              | { __typename: 'ChatAssistantInputMultiSelect'; inputId: string; prompt: string; options: Array<string> }
+                              | { __typename: 'ChatAssistantInputSingleSelect'; inputId: string; prompt: string; options: Array<string> }
+                              | { __typename: 'ChatAssistantInputText'; inputId: string; prompt: string }
+                              | { __typename: 'ChatAssistantInputTime'; inputId: string; prompt: string }
+                          >;
+                      }
+                    | {
+                          __typename: 'ChatMessageAssistantText';
+                          chatMessageId: string;
+                          body: string;
+                          createdAt: string;
+                          generation: {
+                              modelId: string;
+                              inputTokens: number | null;
+                              outputTokens: number | null;
+                              totalTokens: number | null;
+                              reasoningTokens: number | null;
+                              cachedInputTokens: number | null;
+                          } | null;
+                      }
+                    | {
+                          __typename: 'ChatMessageToolApprovalRequest';
+                          chatMessageId: string;
+                          approvalId: string;
+                          toolName: string;
+                          args: unknown;
+                          createdAt: string;
+                          generation: {
+                              modelId: string;
+                              inputTokens: number | null;
+                              outputTokens: number | null;
+                              totalTokens: number | null;
+                              reasoningTokens: number | null;
+                              cachedInputTokens: number | null;
+                          } | null;
+                      }
+                    | {
+                          __typename: 'ChatMessageToolApprovalResponse';
+                          chatMessageId: string;
+                          approvalId: string;
+                          approved: boolean;
+                          reason: string | null;
+                          createdAt: string;
+                      }
+                    | { __typename: 'ChatMessageToolCall'; chatMessageId: string; toolName: string; args: unknown; createdAt: string }
+                    | {
+                          __typename: 'ChatMessageUser';
+                          chatMessageId: string;
+                          body: string;
+                          createdAt: string;
+                          author: { userId: string; name: string } | null;
+                          attachments: Array<{ fileUploadId: string; filename: string; mediaType: string; size: number; url: string }>;
+                      }
+                    | {
+                          __typename: 'ChatMessageUserInput';
+                          chatMessageId: string;
+                          collectionMessageId: string;
+                          createdAt: string;
+                          author: { userId: string; name: string } | null;
+                          answers: Array<{
+                              inputId: string;
+                              value:
+                                  | { __typename: 'ChatAssistantInputValueBoolean'; boolean: boolean }
+                                  | { __typename: 'ChatAssistantInputValueDate'; date: string }
+                                  | { __typename: 'ChatAssistantInputValueDateTime'; dateTime: string }
+                                  | { __typename: 'ChatAssistantInputValueString'; value: string }
+                                  | { __typename: 'ChatAssistantInputValueStringList'; values: Array<string> }
+                                  | { __typename: 'ChatAssistantInputValueTime'; time: string };
+                          }>;
+                      }
+                >;
+            };
         };
     };
 };
@@ -588,7 +665,7 @@ export type GqlCChatMessageCreateMutationVariables = Exact<{
     requireToolCallApprovals: boolean;
 }>;
 
-export type GqlCChatMessageCreateMutation = { user: { chatMessageCreate: { chatId: string; chatMessageId: string } | null } };
+export type GqlCChatMessageCreateMutation = { admin: { chatMessageCreate: { chatId: string; chatMessageId: string } | null } };
 
 export type GqlCChatInputCollectionRespondMutationVariables = Exact<{
     collectionMessageId: string;
@@ -598,7 +675,7 @@ export type GqlCChatInputCollectionRespondMutationVariables = Exact<{
 }>;
 
 export type GqlCChatInputCollectionRespondMutation = {
-    user: { chatInputCollectionRespond: { chatId: string; chatMessageId: string } | null };
+    admin: { chatInputCollectionRespond: { chatId: string; chatMessageId: string } | null };
 };
 
 export type GqlCChatToolApprovalRespondMutationVariables = Exact<{
@@ -609,7 +686,7 @@ export type GqlCChatToolApprovalRespondMutationVariables = Exact<{
     requireToolCallApprovals: boolean;
 }>;
 
-export type GqlCChatToolApprovalRespondMutation = { user: { chatToolApprovalRespond: { chatId: string; chatMessageId: string } | null } };
+export type GqlCChatToolApprovalRespondMutation = { admin: { chatToolApprovalRespond: { chatId: string; chatMessageId: string } | null } };
 
 export type GqlCChatUpdatesSubscriptionVariables = Exact<{
     generationId: string;
@@ -689,7 +766,7 @@ export type GqlCChatUpdatesSubscription = {
                         chatMessageId: string;
                         body: string;
                         createdAt: string;
-                        author: { userId: string; name: string };
+                        author: { userId: string; name: string } | null;
                         attachments: Array<{ fileUploadId: string; filename: string; mediaType: string; size: number; url: string }>;
                     }
                   | {
@@ -697,7 +774,7 @@ export type GqlCChatUpdatesSubscription = {
                         chatMessageId: string;
                         collectionMessageId: string;
                         createdAt: string;
-                        author: { userId: string; name: string };
+                        author: { userId: string; name: string } | null;
                         answers: Array<{
                             inputId: string;
                             value:
@@ -713,37 +790,136 @@ export type GqlCChatUpdatesSubscription = {
         | { __typename: 'ChatUpdateTurnEnded'; generationId: string };
 };
 
-export type GqlCDatenschutzPageQueryVariables = Exact<{ [key: string]: never }>;
+export type GqlCVisitorChatMessageCreateMutationVariables = Exact<{
+    chatId?: string | null | undefined;
+    message: string;
+    generationId?: string | null | undefined;
+    requireToolCallApprovals: boolean;
+}>;
 
-export type GqlCDatenschutzPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+export type GqlCVisitorChatMessageCreateMutation = { chatMessageCreate: { chatId: string; chatMessageId: string } | null };
 
-export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
+export type GqlCVisitorChatInputCollectionRespondMutationVariables = Exact<{
+    collectionMessageId: string;
+    answers: Array<Schema.GqlCChatMessageUserInputAnswerCreate> | Schema.GqlCChatMessageUserInputAnswerCreate;
+    generationId?: string | null | undefined;
+    requireToolCallApprovals: boolean;
+}>;
 
-export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+export type GqlCVisitorChatInputCollectionRespondMutation = {
+    chatInputCollectionRespond: { chatId: string; chatMessageId: string } | null;
+};
 
-export type GqlCImpressumPageQueryVariables = Exact<{ [key: string]: never }>;
+export type GqlCVisitorChatListItemFragment = { chatId: string; title: string; lastModifiedAt: string };
 
-export type GqlCImpressumPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+export type GqlCVisitorPreviousChatsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GqlCKarrierePageQueryVariables = Exact<{ [key: string]: never }>;
+export type GqlCVisitorPreviousChatsQuery = {
+    currentSession: { sessionId: string; visitorChats: Array<{ chatId: string; title: string; lastModifiedAt: string }> };
+};
 
-export type GqlCKarrierePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+export type GqlCVisitorChatLoadQueryVariables = Exact<{
+    chatId: string;
+}>;
 
-export type GqlCKontaktPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GqlCKontaktPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
-
-export type GqlCLeistungenPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GqlCLeistungenPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
-
-export type GqlCPraxisPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GqlCPraxisPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
-
-export type GqlCQualifikationPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GqlCQualifikationPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+export type GqlCVisitorChatLoadQuery = {
+    chat: {
+        chatId: string;
+        kind: Schema.GqlCChatKind;
+        title: string;
+        lastModifiedAt: string;
+        messages: Array<
+            | {
+                  __typename: 'ChatMessageAssistantInputCollection';
+                  chatMessageId: string;
+                  prompt: string;
+                  mode: string;
+                  createdAt: string;
+                  generation: {
+                      modelId: string;
+                      inputTokens: number | null;
+                      outputTokens: number | null;
+                      totalTokens: number | null;
+                      reasoningTokens: number | null;
+                      cachedInputTokens: number | null;
+                  } | null;
+                  inputs: Array<
+                      | { __typename: 'ChatAssistantInputBoolean'; inputId: string; prompt: string }
+                      | { __typename: 'ChatAssistantInputDate'; inputId: string; prompt: string }
+                      | { __typename: 'ChatAssistantInputDateTime'; inputId: string; prompt: string }
+                      | { __typename: 'ChatAssistantInputMultiSelect'; inputId: string; prompt: string; options: Array<string> }
+                      | { __typename: 'ChatAssistantInputSingleSelect'; inputId: string; prompt: string; options: Array<string> }
+                      | { __typename: 'ChatAssistantInputText'; inputId: string; prompt: string }
+                      | { __typename: 'ChatAssistantInputTime'; inputId: string; prompt: string }
+                  >;
+              }
+            | {
+                  __typename: 'ChatMessageAssistantText';
+                  chatMessageId: string;
+                  body: string;
+                  createdAt: string;
+                  generation: {
+                      modelId: string;
+                      inputTokens: number | null;
+                      outputTokens: number | null;
+                      totalTokens: number | null;
+                      reasoningTokens: number | null;
+                      cachedInputTokens: number | null;
+                  } | null;
+              }
+            | {
+                  __typename: 'ChatMessageToolApprovalRequest';
+                  chatMessageId: string;
+                  approvalId: string;
+                  toolName: string;
+                  args: unknown;
+                  createdAt: string;
+                  generation: {
+                      modelId: string;
+                      inputTokens: number | null;
+                      outputTokens: number | null;
+                      totalTokens: number | null;
+                      reasoningTokens: number | null;
+                      cachedInputTokens: number | null;
+                  } | null;
+              }
+            | {
+                  __typename: 'ChatMessageToolApprovalResponse';
+                  chatMessageId: string;
+                  approvalId: string;
+                  approved: boolean;
+                  reason: string | null;
+                  createdAt: string;
+              }
+            | { __typename: 'ChatMessageToolCall'; chatMessageId: string; toolName: string; args: unknown; createdAt: string }
+            | {
+                  __typename: 'ChatMessageUser';
+                  chatMessageId: string;
+                  body: string;
+                  createdAt: string;
+                  author: { userId: string; name: string } | null;
+                  attachments: Array<{ fileUploadId: string; filename: string; mediaType: string; size: number; url: string }>;
+              }
+            | {
+                  __typename: 'ChatMessageUserInput';
+                  chatMessageId: string;
+                  collectionMessageId: string;
+                  createdAt: string;
+                  author: { userId: string; name: string } | null;
+                  answers: Array<{
+                      inputId: string;
+                      value:
+                          | { __typename: 'ChatAssistantInputValueBoolean'; boolean: boolean }
+                          | { __typename: 'ChatAssistantInputValueDate'; date: string }
+                          | { __typename: 'ChatAssistantInputValueDateTime'; dateTime: string }
+                          | { __typename: 'ChatAssistantInputValueString'; value: string }
+                          | { __typename: 'ChatAssistantInputValueStringList'; values: Array<string> }
+                          | { __typename: 'ChatAssistantInputValueTime'; time: string };
+                  }>;
+              }
+        >;
+    };
+};
 
 export const ChatMessageGenerationFragmentDoc = {
     kind: 'Document',
@@ -1144,6 +1320,288 @@ export const ChatMessageFieldsFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<GqlCChatMessageFieldsFragment, unknown>;
+export const VisitorChatListItemFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'VisitorChatListItem' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Chat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVisitorChatListItemFragment, unknown>;
+export const DatenschutzPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'DatenschutzPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCDatenschutzPageQuery, GqlCDatenschutzPageQueryVariables>;
+export const HomePageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'HomePage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCHomePageQuery, GqlCHomePageQueryVariables>;
+export const ImpressumPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'ImpressumPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCImpressumPageQuery, GqlCImpressumPageQueryVariables>;
+export const KarrierePageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'KarrierePage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCKarrierePageQuery, GqlCKarrierePageQueryVariables>;
+export const KontaktPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'KontaktPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCKontaktPageQuery, GqlCKontaktPageQueryVariables>;
+export const LeistungenPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'LeistungenPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCLeistungenPageQuery, GqlCLeistungenPageQueryVariables>;
+export const PraxisPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'PraxisPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCPraxisPageQuery, GqlCPraxisPageQueryVariables>;
+export const QualifikationPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'QualifikationPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCQualifikationPageQuery, GqlCQualifikationPageQueryVariables>;
 export const ChatRouteDocument = {
     kind: 'Document',
     definitions: [
@@ -1214,27 +1672,40 @@ export const ChatPageDocument = {
                                 },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'chat' },
-                                    arguments: [
-                                        {
-                                            kind: 'Argument',
-                                            name: { kind: 'Name', value: 'chatId' },
-                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'chatId' } },
-                                        },
-                                    ],
+                                    name: { kind: 'Name', value: 'admin' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
                                             {
                                                 kind: 'Field',
-                                                name: { kind: 'Name', value: 'messages' },
+                                                name: { kind: 'Name', value: 'chat' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'chatId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'chatId' } },
+                                                    },
+                                                ],
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ChatMessageFields' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'messages' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'FragmentSpread',
+                                                                        name: { kind: 'Name', value: 'ChatMessageFields' },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
                                                     ],
                                                 },
                                             },
@@ -1664,7 +2135,7 @@ export const ChatMessageCreateDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'user' },
+                        name: { kind: 'Name', value: 'admin' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
@@ -1769,7 +2240,7 @@ export const ChatInputCollectionRespondDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'user' },
+                        name: { kind: 'Name', value: 'admin' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
@@ -1865,7 +2336,7 @@ export const ChatToolApprovalRespondDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'user' },
+                        name: { kind: 'Name', value: 'admin' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
@@ -2377,13 +2848,180 @@ export const ChatUpdatesDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCChatUpdatesSubscription, GqlCChatUpdatesSubscriptionVariables>;
-export const DatenschutzPageDocument = {
+export const VisitorChatMessageCreateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'VisitorChatMessageCreate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'chatId' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'message' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'generationId' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'chatMessageCreate' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'chatId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'chatId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'message' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'message' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'assistantOptions' },
+                                value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                        {
+                                            kind: 'ObjectField',
+                                            name: { kind: 'Name', value: 'generationId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'generationId' } },
+                                        },
+                                        {
+                                            kind: 'ObjectField',
+                                            name: { kind: 'Name', value: 'requireToolCallApprovals' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVisitorChatMessageCreateMutation, GqlCVisitorChatMessageCreateMutationVariables>;
+export const VisitorChatInputCollectionRespondDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'VisitorChatInputCollectionRespond' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'collectionMessageId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'answers' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: {
+                            kind: 'ListType',
+                            type: {
+                                kind: 'NonNullType',
+                                type: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageUserInputAnswerCreate' } },
+                            },
+                        },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'generationId' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'chatInputCollectionRespond' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'collectionMessageId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'collectionMessageId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'answers' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'answers' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'assistantOptions' },
+                                value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                        {
+                                            kind: 'ObjectField',
+                                            name: { kind: 'Name', value: 'generationId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'generationId' } },
+                                        },
+                                        {
+                                            kind: 'ObjectField',
+                                            name: { kind: 'Name', value: 'requireToolCallApprovals' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVisitorChatInputCollectionRespondMutation, GqlCVisitorChatInputCollectionRespondMutationVariables>;
+export const VisitorPreviousChatsDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'DatenschutzPage' },
+            name: { kind: 'Name', value: 'VisitorPreviousChats' },
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
@@ -2396,10 +3034,10 @@ export const DatenschutzPageDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
+                                    name: { kind: 'Name', value: 'visitorChats' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'VisitorChatListItem' } }],
                                     },
                                 },
                             ],
@@ -2408,31 +3046,61 @@ export const DatenschutzPageDocument = {
                 ],
             },
         },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'VisitorChatListItem' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Chat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
+                ],
+            },
+        },
     ],
-} as unknown as DocumentNode<GqlCDatenschutzPageQuery, GqlCDatenschutzPageQueryVariables>;
-export const HomePageDocument = {
+} as unknown as DocumentNode<GqlCVisitorPreviousChatsQuery, GqlCVisitorPreviousChatsQueryVariables>;
+export const VisitorChatLoadDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'HomePage' },
+            name: { kind: 'Name', value: 'VisitorChatLoad' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'chatId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+                },
+            ],
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
+                        name: { kind: 'Name', value: 'chat' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'chatId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'chatId' } },
+                            },
+                        ],
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'lastModifiedAt' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
+                                    name: { kind: 'Name', value: 'messages' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ChatMessageFields' } }],
                                     },
                                 },
                             ],
@@ -2441,64 +3109,371 @@ export const HomePageDocument = {
                 ],
             },
         },
-    ],
-} as unknown as DocumentNode<GqlCHomePageQuery, GqlCHomePageQueryVariables>;
-export const ImpressumPageDocument = {
-    kind: 'Document',
-    definitions: [
         {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'ImpressumPage' },
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ChatMessageGeneration' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageGeneration' } },
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'modelId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inputTokens' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'outputTokens' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalTokens' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reasoningTokens' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'cachedInputTokens' } },
                 ],
             },
         },
-    ],
-} as unknown as DocumentNode<GqlCImpressumPageQuery, GqlCImpressumPageQueryVariables>;
-export const KarrierePageDocument = {
-    kind: 'Document',
-    definitions: [
         {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'KarrierePage' },
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ChatMessageFields' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessage' } },
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                     {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageUser' } },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'body' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
+                                    name: { kind: 'Name', value: 'author' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'attachments' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fileUploadId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'filename' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mediaType' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageAssistantText' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'body' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'generation' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ChatMessageGeneration' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageToolCall' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'toolName' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'args' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageToolApprovalRequest' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'approvalId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'toolName' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'args' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'generation' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ChatMessageGeneration' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageToolApprovalResponse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'approvalId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'approved' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'reason' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageAssistantInputCollection' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'mode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'generation' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ChatMessageGeneration' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inputs' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputDate' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputDateTime' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputTime' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputSingleSelect' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'options' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputMultiSelect' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'options' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputBoolean' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'ChatAssistantInputText' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'prompt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessageUserInput' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'collectionMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'author' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'answers' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inputId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'value' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: { kind: 'Name', value: 'ChatAssistantInputValueDate' },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'date' } }],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: { kind: 'Name', value: 'ChatAssistantInputValueDateTime' },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'dateTime' } }],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: { kind: 'Name', value: 'ChatAssistantInputValueTime' },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'time' } }],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: { kind: 'Name', value: 'ChatAssistantInputValueString' },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'value' } }],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: { kind: 'Name', value: 'ChatAssistantInputValueStringList' },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'values' } }],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: { kind: 'Name', value: 'ChatAssistantInputValueBoolean' },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'boolean' } }],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
                                     },
                                 },
                             ],
@@ -2508,136 +3483,4 @@ export const KarrierePageDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<GqlCKarrierePageQuery, GqlCKarrierePageQueryVariables>;
-export const KontaktPageDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'KontaktPage' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<GqlCKontaktPageQuery, GqlCKontaktPageQueryVariables>;
-export const LeistungenPageDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'LeistungenPage' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<GqlCLeistungenPageQuery, GqlCLeistungenPageQueryVariables>;
-export const PraxisPageDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'PraxisPage' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<GqlCPraxisPageQuery, GqlCPraxisPageQueryVariables>;
-export const QualifikationPageDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'QualifikationPage' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'currentSession' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'user' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<GqlCQualifikationPageQuery, GqlCQualifikationPageQueryVariables>;
+} as unknown as DocumentNode<GqlCVisitorChatLoadQuery, GqlCVisitorChatLoadQueryVariables>;

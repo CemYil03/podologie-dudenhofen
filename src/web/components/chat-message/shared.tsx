@@ -29,7 +29,14 @@ export function Bubble({ tone, children }: { tone: 'user' | 'assistant'; childre
             data-tone={tone}
             className={cn(
                 'max-w-[80%] rounded-2xl px-4 py-2 text-sm leading-relaxed shadow-sm',
-                tone === 'user' ? 'rounded-br-sm bg-primary text-primary-foreground' : 'rounded-bl-sm bg-muted text-foreground',
+                // Brand bubbles, see docs/style/patterns.md → "Chat bubbles".
+                // User: aubergine-on-cream, mirroring the primary CTA. Assistant:
+                // blush card with a hairline aubergine/10 border, mirroring the
+                // service-card surface so the assistant's voice reads as
+                // "page paper" rather than a neutral grey chip.
+                tone === 'user'
+                    ? 'rounded-br-sm bg-aubergine text-cream'
+                    : 'rounded-bl-sm border border-aubergine/10 bg-blush text-charcoal',
             )}
         >
             {children}
@@ -39,7 +46,7 @@ export function Bubble({ tone, children }: { tone: 'user' | 'assistant'; childre
 
 export function Timestamp({ iso, className }: { iso: string; className?: string }) {
     return (
-        <time dateTime={iso} className={cn('mt-1 block text-[11px] opacity-70', className)}>
+        <time dateTime={iso} className={cn('mt-1 block text-[11px] text-(--color-brand-charcoal-3)', className)}>
             {format(parseISO(iso), 'HH:mm')}
         </time>
     );

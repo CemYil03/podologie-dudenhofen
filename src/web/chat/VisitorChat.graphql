@@ -1,0 +1,72 @@
+# Visitor-surface chat operations — see `docs/features/chat-visitor.md`.
+#
+# These mutations land on the public `Mutation.chatMessageCreate` etc. path,
+# which the resolver layer hardcodes to `chatKind = 'visitorAssistant'`.
+# There's no `admin` wrapper because there's no parent guard — a visitor
+# session is the only capability needed.
+#
+# `ChatMessageFields` is the shared fragment defined alongside the admin
+# chat operations; codegen merges fragments globally, so we reference it by
+# name here and don't duplicate it. Same for `ChatUpdates` — both surfaces
+# subscribe through the existing `ChatUpdatesDocument`.
+
+mutation VisitorChatMessageCreate($chatId: ID, $message: String!, $generationId: ID, $requireToolCallApprovals: Boolean!) {
+    chatMessageCreate(
+        chatId: $chatId
+        message: $message
+        assistantOptions: { generationId: $generationId, requireToolCallApprovals: $requireToolCallApprovals }
+    ) {
+        chatId
+        chatMessageId
+    }
+}
+
+mutation VisitorChatInputCollectionRespond(
+    $collectionMessageId: ID!
+    $answers: [ChatMessageUserInputAnswerCreate!]!
+    $generationId: ID
+    $requireToolCallApprovals: Boolean!
+) {
+    chatInputCollectionRespond(
+        collectionMessageId: $collectionMessageId
+        answers: $answers
+        assistantOptions: { generationId: $generationId, requireToolCallApprovals: $requireToolCallApprovals }
+    ) {
+        chatId
+        chatMessageId
+    }
+}
+
+# Visitor's own previous chats — surfaced in the empty state of the sheet so
+# a returning visitor (same session cookie) can resume any conversation
+# they've started in this session. The list is metadata-only; selecting a
+# chat fires `VisitorChatLoad` to materialize its transcript.
+fragment VisitorChatListItem on Chat {
+    chatId
+    title
+    lastModifiedAt
+}
+
+query VisitorPreviousChats {
+    currentSession {
+        sessionId
+        visitorChats {
+            ...VisitorChatListItem
+        }
+    }
+}
+
+# Single-chat read used when the visitor picks a previous chat to resume.
+# `Query.chat` runs `guardChatRead` server-side; visitor chats key on the
+# session cookie, so a stranger guessing a chatId still fails here.
+query VisitorChatLoad($chatId: ID!) {
+    chat(chatId: $chatId) {
+        chatId
+        kind
+        title
+        lastModifiedAt
+        messages {
+            ...ChatMessageFields
+        }
+    }
+}

@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { chatMessages, chatMessagesAssistantInputCollection, chatMessagesUserInput, chats } from '../db/schema';
 import { commandSetup, testDb } from '../test/commandTestUtils';
-import type { GqlSChatAssistantOptions, GqlSUserMutation } from '../graphql/generated';
+import type { GqlSChatAssistantOptions } from '../graphql/generated';
 import { chatAssistantTurnRunDetached } from './chatAssistantTurnRun';
 import { chatInputCollectionRespond } from './chatInputCollectionRespond';
 
@@ -24,16 +24,17 @@ interface CollectionInputSeed {
     prompt: string;
 }
 
-// Seeds a chat with one open `assistantInputCollection` message. Returns the
-// ids the test needs to drive `chatInputCollectionRespond` and assert on the
-// resulting rows. Uses `commandSetup.withUser` for the session+user; everything
-// chat-shaped is its own concern and lives here.
+// Seeds an admin chat with one open `assistantInputCollection` message.
+// Returns the ids the test needs to drive `chatInputCollectionRespond` and
+// assert on the resulting rows. Uses `commandSetup.withUser` for the
+// session+user so the chat row's `ownerUserId` matches the requesting
+// session — anything else fails through `guardChatWrite`.
 async function seedOpenCollection(input: CollectionInputSeed = { inputId: crypto.randomUUID(), kind: 'Text', prompt: 'When?' }) {
     const setup = await commandSetup.withUser();
     const chatId = crypto.randomUUID();
     const collectionMessageId = crypto.randomUUID();
 
-    await testDb.insert(chats).values({ chatId });
+    await testDb.insert(chats).values({ chatId, kind: 'adminAssistant', ownerUserId: setup.user.userId });
     await testDb.insert(chatMessages).values({
         chatMessageId: collectionMessageId,
         chatId,
@@ -45,8 +46,7 @@ async function seedOpenCollection(input: CollectionInputSeed = { inputId: crypto
         inputs: [input],
     });
 
-    const parent: GqlSUserMutation = { userId: setup.user.userId } as GqlSUserMutation;
-    return { ...setup, parent, chatId, collectionMessageId, inputId: input.inputId };
+    return { ...setup, chatId, collectionMessageId, inputId: input.inputId };
 }
 
 describe('chatInputCollectionRespond', () => {
@@ -56,7 +56,6 @@ describe('chatInputCollectionRespond', () => {
 
         // Act
         const result = await chatInputCollectionRespond(
-            seed.parent,
             {
                 collectionMessageId: seed.collectionMessageId,
                 answers: [{ inputId: seed.inputId, kind: 'String', string: 'Friday' }],
@@ -99,7 +98,6 @@ describe('chatInputCollectionRespond', () => {
 
         // Act
         const result = await chatInputCollectionRespond(
-            seed.parent,
             {
                 collectionMessageId: seed.collectionMessageId,
                 answers: [],
@@ -126,7 +124,6 @@ describe('chatInputCollectionRespond', () => {
         // Arrange — seed and submit a first answer so the collection is closed.
         const seed = await seedOpenCollection();
         const first = await chatInputCollectionRespond(
-            seed.parent,
             {
                 collectionMessageId: seed.collectionMessageId,
                 answers: [{ inputId: seed.inputId, kind: 'String', string: 'Friday' }],
@@ -140,7 +137,6 @@ describe('chatInputCollectionRespond', () => {
 
         // Act — a second submit against the now-answered collection.
         const second = await chatInputCollectionRespond(
-            seed.parent,
             {
                 collectionMessageId: seed.collectionMessageId,
                 answers: [{ inputId: seed.inputId, kind: 'String', string: 'Saturday' }],
@@ -167,7 +163,6 @@ describe('chatInputCollectionRespond', () => {
 
         // Act
         const result = await chatInputCollectionRespond(
-            seed.parent,
             {
                 collectionMessageId: seed.collectionMessageId,
                 answers: [{ inputId: seed.inputId, kind: 'Boolean', boolean: true }],

@@ -1,21 +1,19 @@
-import { eq } from 'drizzle-orm';
-import { chats } from '../db/schema';
 import type { ServerRuntime } from '../domain/ServerRuntime';
-import type { GqlSChat, GqlSSession, GqlSSessionChatArgs } from '../graphql/generated';
+import type { GqlSAdminChatArgs, GqlSChat, GqlSSession } from '../graphql/generated';
+import { guardChatRead } from '../guards/guardChatWrite';
 import { toGqlChat } from '../mappers/toGqlChat';
 import { chatMessageRowsLoad } from './chatMessageRowsLoad';
 
 export async function chatFindOne(
-    { chatId }: GqlSSessionChatArgs,
+    { chatId }: GqlSAdminChatArgs,
     requestingSession: GqlSSession,
     serverRuntime: ServerRuntime,
 ): Promise<GqlSChat> {
     try {
-        const [chat] = await serverRuntime.db.select().from(chats).where(eq(chats.chatId, chatId));
-        if (!chat) {
-            throw new Error('chat not found');
-        }
-
+        // Single load + ownership check. `guardChatRead` returns the row so
+        // we don't re-select it; cross-session reads throw before we hit
+        // `chatMessageRowsLoad`.
+        const chat = await guardChatRead(chatId, requestingSession, serverRuntime);
         const rows = await chatMessageRowsLoad(serverRuntime.db, chatId);
         return toGqlChat(chat, rows);
     } catch (error) {

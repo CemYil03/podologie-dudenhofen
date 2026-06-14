@@ -1,6 +1,7 @@
 import type { JSONValue, LanguageModelUsage, ModelMessage } from 'ai';
 import { eq } from 'drizzle-orm';
-import { agentUserConversation } from '../agents/agentUserConversation';
+import { agentAdminAssistant } from '../agents/agentAdminAssistant';
+import { agentVisitorAssistant } from '../agents/agentVisitorAssistant';
 import { chatAssistantInputCollectionInputSchema } from '../agents/toolPromptUserForInput';
 import type { ChatAssistantInputCollectionInput } from '../agents/toolPromptUserForInput';
 import type { ChatAssistantInputSlot } from '../db/chatPayloadTypes';
@@ -12,6 +13,7 @@ import {
     chats,
 } from '../db/schema';
 import type {
+    ChatKind,
     ChatMessageAssistantInputCollectionCreate,
     ChatMessageAssistantTextCreate,
     ChatMessageCreate as ChatMessageRowCreate,
@@ -23,6 +25,7 @@ import type { GqlSChatAssistantOptions, GqlSSession } from '../graphql/generated
 import { toModelMessages } from '../mappers/toModelMessages';
 import { chatMessageRowsLoad } from '../queries/chatMessageRowsLoad';
 import { chatMessageAppend } from './chatMessageAppend';
+import { chatTitleGenerate } from './chatTitleGenerate';
 
 // Shared turn-runner: builds the agent, streams or generates, persists every
 // tool call (with the `promptUserForInput` branch that becomes an input
@@ -87,6 +90,7 @@ function stepGenerationMeta(step: { usage: LanguageModelUsage; model: { modelId:
 
 interface ChatAssistantTurnRunOptions {
     chatId: string;
+    chatKind: ChatKind;
     coreMessages: ModelMessage[];
     requestingSession: GqlSSession;
     assistantOptions: GqlSChatAssistantOptions;
@@ -95,6 +99,7 @@ interface ChatAssistantTurnRunOptions {
 
 async function chatAssistantTurnRun({
     chatId,
+    chatKind,
     coreMessages,
     requestingSession,
     assistantOptions,
@@ -110,6 +115,7 @@ async function chatAssistantTurnRun({
     try {
         await runAgentTurn({
             chatId,
+            chatKind,
             coreMessages,
             requestingSession,
             assistantOptions,
@@ -166,15 +172,30 @@ export function chatAssistantTurnRunDetached({
 }: ChatAssistantTurnRunDetachedOptions): void {
     void (async () => {
         try {
+            // Single round-trip for the chat row — `kind` picks the agent
+            // factory and the row is needed anyway to bump
+            // `lastModifiedAt` after the turn finishes.
+            const [chat] = await serverRuntime.db.select().from(chats).where(eq(chats.chatId, chatId));
+            if (!chat) throw new Error(`chatAssistantTurnRunDetached: chat ${chatId} not found`);
+
             const coreMessages = toModelMessages(await chatMessageRowsLoad(serverRuntime.db, chatId));
             await chatAssistantTurnRun({
                 chatId,
+                chatKind: chat.kind,
                 coreMessages,
                 requestingSession,
                 assistantOptions,
                 serverRuntime,
             });
             await serverRuntime.db.update(chats).set({ lastModifiedAt: new Date() }).where(eq(chats.chatId, chatId));
+            // Backfill the title once per chat — only the first turn that
+            // produces something fills the row, every subsequent turn skips
+            // here. `chatTitleGenerate` is best-effort: any failure logs and
+            // returns; the next turn will retry against the still-empty
+            // column.
+            if (chat.title === '') {
+                await chatTitleGenerate(chatId, serverRuntime);
+            }
         } catch (turnError) {
             serverRuntime.log.error(turnError, requestingSession);
         }
@@ -185,6 +206,7 @@ export function chatAssistantTurnRunDetached({
 // can wrap it in the `TurnEnded` publish without nesting indentation.
 async function runAgentTurn({
     chatId,
+    chatKind,
     coreMessages,
     requestingSession,
     assistantOptions,
@@ -200,7 +222,11 @@ async function runAgentTurn({
     // closure-blind narrowing of a plain `let`-bound `null`. Empty when the
     // turn produced no steps at all (e.g. an immediate agent throw).
     const lastStepGeneration: { value: StepGenerationMeta | null } = { value: null };
-    const agent = await agentUserConversation({
+    // Pick the agent factory for this chat's surface. Both factories share
+    // the same options shape and `onStepFinish` contract — only the system
+    // prompt and the `tools` map differ.
+    const agentFactory = chatKind === 'visitorAssistant' ? agentVisitorAssistant : agentAdminAssistant;
+    const agent = await agentFactory({
         session: requestingSession,
         serverRuntime,
         assistantOptions,

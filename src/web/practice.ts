@@ -21,6 +21,12 @@ export const PRACTICE = {
         { days: { de: 'Fr', en: 'Fri' }, time: { de: '08:00 – 14:00', en: '08:00 – 14:00' }, closed: false },
         { days: { de: 'Sa & So', en: 'Sat & Sun' }, time: { de: 'geschlossen', en: 'closed' }, closed: true },
     ],
+    // Phone-staffed window — narrower than `hours` because the practice
+    // can't answer the phone during treatments later in the day.
+    callHours: [
+        { days: { de: 'Mo–Fr', en: 'Mon–Fri' }, time: { de: '08:00 – 16:00', en: '08:00 – 16:00' }, closed: false },
+        { days: { de: 'Sa & So', en: 'Sat & Sun' }, time: { de: 'geschlossen', en: 'closed' }, closed: true },
+    ],
     maps: {
         embed: 'https://www.google.com/maps?q=Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen&output=embed',
         google: 'https://www.google.com/maps/dir/53.5542316,9.9152351/Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen',

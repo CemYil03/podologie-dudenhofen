@@ -51,6 +51,10 @@ export function serverRuntimeCreate(): ServerRuntime {
             // place. Swapping models (or adding a second LLM for a specific
             // flow) is a single edit on this object.
             userConversationModel: () => google('gemini-2.5-flash'),
+            // Title generation is one-shot, no streaming, no tools — same
+            // provider for now; a smaller/faster model can drop in here
+            // without touching call sites.
+            chatTitleModel: () => google('gemini-2.5-flash'),
         },
         browser: {
             // The renderer is a long-lived singleton inside `browserCapture`;
