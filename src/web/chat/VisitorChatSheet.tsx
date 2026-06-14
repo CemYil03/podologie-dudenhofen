@@ -13,7 +13,9 @@ import { Spinner } from '../components/base/spinner';
 import { ChatMessage } from '../components/chat-message';
 import type { GqlCChatAssistantInputValue, GqlCVisitorChatListItemFragment } from '../graphql/generated';
 import { VisitorChatInputCollectionRespondDocument, VisitorPreviousChatsDocument } from '../graphql/generated';
+import { useIsMobile } from '../hooks/use-mobile';
 import { useLocale } from '../hooks/useLocale';
+import { useVisualViewport } from '../hooks/useVisualViewport';
 import { DATE_FNS_LOCALE } from '../utils/dateFnsLocale';
 
 // The visitor chat overlay — see `docs/features/chat-visitor.md`.
@@ -42,6 +44,20 @@ export function VisitorChatSheet() {
     useEffect(() => {
         if (!isOpen) setIsExpanded(false);
     }, [isOpen]);
+
+    // Mobile keyboard fit. The sheet is portal-mounted with `inset-y-0 h-full`,
+    // which sizes against the layout viewport — that does not shrink when
+    // iOS Safari's soft keyboard appears, so the browser auto-scrolls the
+    // focused textarea into view and drags the header off the top. Driving
+    // the sheet's height + top from `window.visualViewport` while open keeps
+    // the header pinned at the top of the visible area, lets the transcript
+    // shrink in the middle, and parks the composer just above the keyboard.
+    // Desktop keeps the original `h-full` layout — the expand toggle still
+    // needs the sheet to fill the layout viewport.
+    const isMobile = useIsMobile();
+    const visualViewport = useVisualViewport();
+    const mobileViewportStyle =
+        isMobile && isOpen && visualViewport ? { height: visualViewport.height, top: visualViewport.offsetTop } : undefined;
 
     // Visitor's own previous chats — surfaced in the empty state. Pause
     // while the sheet is closed so we don't run the query on every page-load
@@ -85,6 +101,7 @@ export function VisitorChatSheet() {
                         ? 'flex w-full flex-col gap-0 border-l border-aubergine/15 bg-cream p-0 sm:max-w-none'
                         : 'flex w-full flex-col gap-0 border-l border-aubergine/15 bg-cream p-0 sm:max-w-md'
                 }
+                style={mobileViewportStyle}
                 aria-describedby="visitor-chat-disclaimer"
             >
                 <button

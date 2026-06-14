@@ -96,6 +96,12 @@ On `sm` and up the sheet header carries an expand toggle (Lucide `Maximize2`/`Mi
 flip the sheet to full-screen for a longer transcript and back. The toggle is hidden under `sm` (the sheet is already full-width on phones)
 and resets to the default size every time the sheet closes.
 
+On phones the sheet's height + top track `window.visualViewport` while it is open
+([`useVisualViewport`](../../src/web/hooks/useVisualViewport.ts)). The default `inset-y-0 h-full` sizing is against the layout viewport,
+which on iOS Safari does not shrink when the soft keyboard appears — so without this override the browser auto-scrolls the focused textarea
+into view and drags the header off the top. Driving the sheet from the visual viewport keeps the header pinned to the top of the visible
+area, lets the transcript shrink in the middle, and parks the composer flush above the keyboard.
+
 ## Implementation pointers
 
 | Concern                                   | Where                                                                                                                       |
