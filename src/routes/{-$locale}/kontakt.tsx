@@ -56,7 +56,11 @@ function KontaktPage() {
                 <Reveal>
                     <SectionEyebrow>{{ de: 'Kontakt', en: 'Contact', ru: 'Контакты', ar: 'التواصل' }[locale]}</SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
-                        {{ de: 'So erreichen Sie uns.', en: 'How to reach us.', ru: 'Как с нами связаться.', ar: 'كيف تتواصلون معنا.' }[locale]}
+                        {
+                            { de: 'So erreichen Sie uns.', en: 'How to reach us.', ru: 'Как с нами связаться.', ar: 'كيف تتواصلون معنا.' }[
+                                locale
+                            ]
+                        }
                     </h1>
                     <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
@@ -75,7 +79,9 @@ function KontaktPage() {
             <section id="kontaktdaten" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Kontaktdaten', en: 'Contact details', ru: 'Контактные данные', ar: 'بيانات التواصل' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>
+                            {{ de: 'Kontaktdaten', en: 'Contact details', ru: 'Контактные данные', ar: 'بيانات التواصل' }[locale]}
+                        </SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {{ de: 'Auf einen Blick.', en: 'At a glance.', ru: 'Кратко.', ar: 'لمحة سريعة.' }[locale]}
                         </h2>
@@ -120,7 +126,14 @@ function KontaktPage() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                        {{ de: 'Anrufzeiten', en: 'Call hours', ru: 'Часы приёма звонков', ar: 'ساعات استقبال المكالمات' }[locale]}
+                                        {
+                                            {
+                                                de: 'Anrufzeiten',
+                                                en: 'Call hours',
+                                                ru: 'Часы приёма звонков',
+                                                ar: 'ساعات استقبال المكالمات',
+                                            }[locale]
+                                        }
                                     </span>
                                     <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
                                         {PRACTICE.callHours.map((row) => (
@@ -220,9 +233,18 @@ function KontaktPage() {
             <section id="anfahrt" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Anfahrt', en: 'How to find us', ru: 'Как добраться', ar: 'كيفية الوصول' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>
+                            {{ de: 'Anfahrt', en: 'How to find us', ru: 'Как добраться', ar: 'كيفية الوصول' }[locale]}
+                        </SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Mitten in Dudenhofen, gut zu erreichen.', en: 'In the heart of Dudenhofen, easy to reach.', ru: 'В центре Dudenhofen, удобный подъезд.', ar: 'في قلب Dudenhofen، يسهل الوصول إليها.' }[locale]}
+                            {
+                                {
+                                    de: 'Mitten in Dudenhofen, gut zu erreichen.',
+                                    en: 'In the heart of Dudenhofen, easy to reach.',
+                                    ru: 'В центре Dudenhofen, удобный подъезд.',
+                                    ar: 'في قلب Dudenhofen، يسهل الوصول إليها.',
+                                }[locale]
+                            }
                         </h2>
                         <p className="mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
                             {
@@ -239,12 +261,23 @@ function KontaktPage() {
                         <div className="mt-8 flex flex-row flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                             <Button variant="brand" asChild>
                                 <a href={PRACTICE.maps.google} target="_blank" rel="noopener noreferrer">
-                                    {{ de: 'Google Maps öffnen', en: 'Open Google Maps', ru: 'Открыть Google Maps', ar: 'فتح Google Maps' }[locale]}
+                                    {
+                                        {
+                                            de: 'Google Maps öffnen',
+                                            en: 'Open Google Maps',
+                                            ru: 'Открыть Google Maps',
+                                            ar: 'فتح Google Maps',
+                                        }[locale]
+                                    }
                                 </a>
                             </Button>
                             <Button variant="brand-outline" asChild>
                                 <a href={PRACTICE.maps.apple} target="_blank" rel="noopener noreferrer">
-                                    {{ de: 'Apple Maps öffnen', en: 'Open Apple Maps', ru: 'Открыть Apple Maps', ar: 'فتح Apple Maps' }[locale]}
+                                    {
+                                        { de: 'Apple Maps öffnen', en: 'Open Apple Maps', ru: 'Открыть Apple Maps', ar: 'فتح Apple Maps' }[
+                                            locale
+                                        ]
+                                    }
                                 </a>
                             </Button>
                         </div>
@@ -255,7 +288,14 @@ function KontaktPage() {
                         <div className="mt-10 aspect-video overflow-hidden rounded-xl border border-aubergine/10">
                             <iframe
                                 src={PRACTICE.maps.embed}
-                                title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen', ru: 'Карта: Podologie Dudenhofen', ar: 'الخريطة: Podologie Dudenhofen' }[locale]}
+                                title={
+                                    {
+                                        de: 'Karte: Podologie Dudenhofen',
+                                        en: 'Map: Podologie Dudenhofen',
+                                        ru: 'Карта: Podologie Dudenhofen',
+                                        ar: 'الخريطة: Podologie Dudenhofen',
+                                    }[locale]
+                                }
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                                 className="h-full w-full border-0"
@@ -271,7 +311,14 @@ function KontaktPage() {
                                 }[locale]
                             }
                             <Link to="/{-$locale}/datenschutz" className="text-aubergine hover:underline">
-                                {{ de: 'Datenschutzerklärung', en: 'privacy policy', ru: 'политике конфиденциальности', ar: 'سياسة الخصوصية' }[locale]}
+                                {
+                                    {
+                                        de: 'Datenschutzerklärung',
+                                        en: 'privacy policy',
+                                        ru: 'политике конфиденциальности',
+                                        ar: 'سياسة الخصوصية',
+                                    }[locale]
+                                }
                             </Link>
                             .
                         </p>
@@ -279,7 +326,9 @@ function KontaktPage() {
 
                     <div className="mt-12 grid gap-8 md:grid-cols-2">
                         <Reveal>
-                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'Parkmöglichkeiten', en: 'Parking', ru: 'Парковка', ar: 'مواقف السيارات' }[locale]}</h3>
+                            <h3 className="font-serif text-xl text-aubergine-dark">
+                                {{ de: 'Parkmöglichkeiten', en: 'Parking', ru: 'Парковка', ar: 'مواقف السيارات' }[locale]}
+                            </h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
                                     {
@@ -292,7 +341,9 @@ function KontaktPage() {
                             </p>
                         </Reveal>
                         <Reveal delayMs={120}>
-                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'ÖPNV', en: 'Public transport', ru: 'Общественный транспорт', ar: 'النقل العام' }[locale]}</h3>
+                            <h3 className="font-serif text-xl text-aubergine-dark">
+                                {{ de: 'ÖPNV', en: 'Public transport', ru: 'Общественный транспорт', ar: 'النقل العام' }[locale]}
+                            </h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
                                     {
@@ -312,7 +363,9 @@ function KontaktPage() {
             <section id="anfrage" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Terminanfrage', en: 'Appointment request', ru: 'Запрос на приём', ar: 'طلب موعد' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>
+                            {{ de: 'Terminanfrage', en: 'Appointment request', ru: 'Запрос на приём', ar: 'طلب موعد' }[locale]}
+                        </SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {{ de: 'Termin vereinbaren.', en: 'Book an appointment.', ru: 'Записаться на приём.', ar: 'حجز موعد.' }[locale]}
                         </h2>
@@ -330,7 +383,9 @@ function KontaktPage() {
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                                 <Button variant="brand" size="lg" asChild>
-                                    <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now', ru: 'Позвонить сейчас', ar: 'اتّصلوا الآن' }[locale]}</a>
+                                    <a href={`tel:${PRACTICE.phone}`}>
+                                        {{ de: 'Jetzt anrufen', en: 'Call now', ru: 'Позвонить сейчас', ar: 'اتّصلوا الآن' }[locale]}
+                                    </a>
                                 </Button>
                             </div>
                         </div>

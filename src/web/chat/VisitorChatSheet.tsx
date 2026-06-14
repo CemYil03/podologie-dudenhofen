@@ -70,9 +70,10 @@ export function VisitorChatSheet() {
                 answers: flatAnswers,
                 generationId,
                 requireToolCallApprovals: false,
+                locale,
             });
         },
-        [respondToCollection, live],
+        [respondToCollection, live, locale],
     );
 
     return (
@@ -101,7 +102,14 @@ export function VisitorChatSheet() {
                 </button>
                 <SheetHeader className="border-b border-aubergine/15 bg-cream">
                     <SheetTitle className="font-serif text-lg text-aubergine-dark">
-                        {{ de: 'Fragen an unseren Assistenten', en: 'Ask our assistant', ru: 'Вопросы нашему ассистенту', ar: 'اسأل مساعدنا' }[locale]}
+                        {
+                            {
+                                de: 'Fragen an unseren Assistenten',
+                                en: 'Ask our assistant',
+                                ru: 'Вопросы нашему ассистенту',
+                                ar: 'اسأل مساعدنا',
+                            }[locale]
+                        }
                     </SheetTitle>
                     <SheetDescription id="visitor-chat-disclaimer" className="text-xs text-(--color-brand-charcoal-3)">
                         {
@@ -125,7 +133,9 @@ export function VisitorChatSheet() {
                             onCollectionSubmit={onCollectionSubmit}
                         />
                     )}
-                    <VisitorChatComposer placeholder={{ de: 'Frage eingeben…', en: 'Type your question…', ru: 'Введите вопрос…', ar: 'اكتب سؤالك…' }[locale]} />
+                    <VisitorChatComposer
+                        placeholder={{ de: 'Frage eingeben…', en: 'Type your question…', ru: 'Введите вопрос…', ar: 'اكتب سؤالك…' }[locale]}
+                    />
                 </div>
             </SheetContent>
         </Sheet>
@@ -148,13 +158,20 @@ function EmptyState({
                   ru: 'Задайте любой вопрос о процедурах, направлениях или вашем первом приёме.',
                   ar: 'اسأل عن العلاجات أو الوصفات الطبية أو زيارتك الأولى.',
               }[locale]
-            : { de: 'Oder stellen Sie eine neue Frage.', en: 'Or ask a new question.', ru: 'Или задайте новый вопрос.', ar: 'أو اطرح سؤالًا جديدًا.' }[locale];
+            : {
+                  de: 'Oder stellen Sie eine neue Frage.',
+                  en: 'Or ask a new question.',
+                  ru: 'Или задайте новый вопрос.',
+                  ar: 'أو اطرح سؤالًا جديدًا.',
+              }[locale];
 
     return (
         <div className="flex flex-1 flex-col gap-4 text-sm text-(--color-brand-charcoal-2)">
             {previousChats.length > 0 ? (
                 <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-wide text-sage">{{ de: 'Frühere Chats', en: 'Previous chats', ru: 'Прошлые чаты', ar: 'محادثات سابقة' }[locale]}</p>
+                    <p className="text-xs uppercase tracking-wide text-sage">
+                        {{ de: 'Frühere Chats', en: 'Previous chats', ru: 'Прошлые чаты', ar: 'محادثات سابقة' }[locale]}
+                    </p>
                     <ul className="flex flex-col gap-2">
                         {previousChats.map((chat) => (
                             <li key={chat.chatId}>
@@ -282,7 +299,9 @@ function ChatTranscript({
                 <button
                     type="button"
                     onClick={jumpToLatest}
-                    aria-label={{ de: 'Zum neuesten Beitrag', en: 'Jump to latest', ru: 'Перейти к последнему', ar: 'الانتقال إلى الأحدث' }[locale]}
+                    aria-label={
+                        { de: 'Zum neuesten Beitrag', en: 'Jump to latest', ru: 'Перейти к последнему', ar: 'الانتقال إلى الأحدث' }[locale]
+                    }
                     className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-aubergine/15 bg-cream px-3 py-1.5 text-xs font-medium text-aubergine-dark shadow-md transition-colors hover:bg-aubergine/10"
                 >
                     <ArrowDownIcon className="size-3.5" />

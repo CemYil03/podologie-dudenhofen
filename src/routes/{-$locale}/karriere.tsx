@@ -87,10 +87,26 @@ function KarrierePage() {
                         </p>
                         <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                             <Button variant="brand" size="lg" onClick={scrollToBewerbung}>
-                                {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application', ru: 'Отправить инициативную заявку', ar: 'إرسال طلب تقدّم تلقائي' }[locale]}
+                                {
+                                    {
+                                        de: 'Initiativbewerbung senden',
+                                        en: 'Send unsolicited application',
+                                        ru: 'Отправить инициативную заявку',
+                                        ar: 'إرسال طلب تقدّم تلقائي',
+                                    }[locale]
+                                }
                             </Button>
                             <Button variant="brand-outline" size="lg" asChild>
-                                <Link to="/{-$locale}/praxis">{{ de: 'Mehr über die Praxis', en: 'More about the practice', ru: 'Подробнее о практике', ar: 'المزيد عن العيادة' }[locale]}</Link>
+                                <Link to="/{-$locale}/praxis">
+                                    {
+                                        {
+                                            de: 'Mehr über die Praxis',
+                                            en: 'More about the practice',
+                                            ru: 'Подробнее о практике',
+                                            ar: 'المزيد عن العيادة',
+                                        }[locale]
+                                    }
+                                </Link>
                             </Button>
                         </div>
                     </Reveal>
@@ -101,7 +117,9 @@ function KarrierePage() {
             <section id="was-uns-ausmacht" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Was uns ausmacht', en: 'What sets us apart', ru: 'Что нас отличает', ar: 'ما يميّزنا' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>
+                            {{ de: 'Was uns ausmacht', en: 'What sets us apart', ru: 'Что нас отличает', ar: 'ما يميّزنا' }[locale]}
+                        </SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {
                                 {
@@ -144,7 +162,9 @@ function KarrierePage() {
             <section id="wen-wir-suchen" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Wen wir suchen', en: "Who we're looking for", ru: 'Кого мы ищем', ar: 'من نبحث عنه' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>
+                            {{ de: 'Wen wir suchen', en: "Who we're looking for", ru: 'Кого мы ищем', ar: 'من نبحث عنه' }[locale]}
+                        </SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {
                                 {
@@ -160,7 +180,14 @@ function KarrierePage() {
                         <Reveal>
                             <div className="h-full rounded-xl border border-aubergine/10 bg-cream p-6">
                                 <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                    {{ de: 'Podologin / Podologe (m/w/d)', en: 'Podiatrist (m/f/d)', ru: 'Подолог (м/ж/д)', ar: 'أخصائي/ـة عناية بالقدم (ذكر/أنثى/متنوع)' }[locale]}
+                                    {
+                                        {
+                                            de: 'Podologin / Podologe (m/w/d)',
+                                            en: 'Podiatrist (m/f/d)',
+                                            ru: 'Подолог (м/ж/д)',
+                                            ar: 'أخصائي/ـة عناية بالقدم (ذكر/أنثى/متنوع)',
+                                        }[locale]
+                                    }
                                 </h3>
                                 <p className="mt-2 text-sm tracking-wide text-(--color-brand-charcoal-3) uppercase">
                                     {{ de: 'Voraussetzungen', en: 'Requirements', ru: 'Требования', ar: 'المتطلبات' }[locale]}
@@ -178,7 +205,14 @@ function KarrierePage() {
                         <Reveal delayMs={80}>
                             <div className="h-full rounded-xl border border-aubergine/10 bg-cream p-6">
                                 <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                    {{ de: 'Auszubildende (m/w/d)', en: 'Trainees (m/f/d)', ru: 'Стажёры (м/ж/д)', ar: 'المتدربون (ذكر/أنثى/متنوع)' }[locale]}
+                                    {
+                                        {
+                                            de: 'Auszubildende (m/w/d)',
+                                            en: 'Trainees (m/f/d)',
+                                            ru: 'Стажёры (м/ж/д)',
+                                            ar: 'المتدربون (ذكر/أنثى/متنوع)',
+                                        }[locale]
+                                    }
                                 </h3>
                                 <p className="mt-4 leading-relaxed text-(--color-brand-charcoal-2)">
                                     {
@@ -200,7 +234,9 @@ function KarrierePage() {
             <section id="was-wir-bieten" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Was wir bieten', en: 'What we offer', ru: 'Что мы предлагаем', ar: 'ما نقدّمه' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>
+                            {{ de: 'Was wir bieten', en: 'What we offer', ru: 'Что мы предлагаем', ar: 'ما نقدّمه' }[locale]}
+                        </SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {
                                 {
@@ -267,12 +303,20 @@ function KarrierePage() {
                     <div className="mt-12 flex flex-wrap items-center gap-3 *:flex-1 sm:*:flex-none">
                         <Button size="lg" asChild className="rounded-full bg-cream px-6 text-aubergine-dark hover:bg-cream/90">
                             <a href={`mailto:${PRACTICE.email}`}>
-                                {{ de: 'Initiativbewerbung senden', en: 'Send unsolicited application', ru: 'Отправить инициативную заявку', ar: 'إرسال طلب تقدّم تلقائي' }[locale]}
+                                {
+                                    {
+                                        de: 'Initiativbewerbung senden',
+                                        en: 'Send unsolicited application',
+                                        ru: 'Отправить инициативную заявку',
+                                        ar: 'إرسال طلب تقدّم تلقائي',
+                                    }[locale]
+                                }
                             </a>
                         </Button>
                         <Button variant="link" asChild className="text-cream/80 hover:text-cream">
                             <a href={`tel:${PRACTICE.phone}`}>
-                                {{ de: 'oder anrufen', en: 'or call', ru: 'или позвонить', ar: 'أو الاتصال' }[locale]}: {formatPhoneNumber(PRACTICE.phone)}
+                                {{ de: 'oder anrufen', en: 'or call', ru: 'или позвонить', ar: 'أو الاتصال' }[locale]}:{' '}
+                                {formatPhoneNumber(PRACTICE.phone)}
                             </a>
                         </Button>
                     </div>

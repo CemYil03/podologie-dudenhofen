@@ -76,8 +76,7 @@ function DatenschutzPage() {
                     }
                 </p>
                 <p className="mt-2 text-sm text-(--color-brand-charcoal-3)">
-                    {{ de: 'Stand', en: 'Last updated', ru: 'Дата редакции', ar: 'آخر تحديث' }[locale]}:{' '}
-                    {POLICY_VERSION[locale]}
+                    {{ de: 'Stand', en: 'Last updated', ru: 'Дата редакции', ar: 'آخر تحديث' }[locale]}: {POLICY_VERSION[locale]}
                 </p>
             </section>
 
@@ -177,11 +176,7 @@ function DatenschutzPage() {
 
                     <Block
                         id="block-4-cookies"
-                        heading={
-                            { de: '4. Cookies', en: '4. Cookies', ru: '4. Файлы cookie', ar: '4. ملفات تعريف الارتباط' }[
-                                locale
-                            ]
-                        }
+                        heading={{ de: '4. Cookies', en: '4. Cookies', ru: '4. Файлы cookie', ar: '4. ملفات تعريف الارتباط' }[locale]}
                     >
                         <p>
                             {
@@ -427,11 +422,7 @@ function DatenschutzPage() {
 
                     <Block
                         id="block-10-rechte"
-                        heading={
-                            { de: '10. Ihre Rechte', en: '10. Your rights', ru: '10. Ваши права', ar: '10. حقوقكم' }[
-                                locale
-                            ]
-                        }
+                        heading={{ de: '10. Ihre Rechte', en: '10. Your rights', ru: '10. Ваши права', ar: '10. حقوقكم' }[locale]}
                     >
                         <p>
                             {
@@ -639,8 +630,7 @@ function DatenschutzPage() {
                             }
                         </p>
                         <p className="mt-3 text-sm text-(--color-brand-charcoal-3)">
-                            {{ de: 'Stand', en: 'Last updated', ru: 'Дата редакции', ar: 'آخر تحديث' }[locale]}:{' '}
-                            {POLICY_VERSION[locale]}
+                            {{ de: 'Stand', en: 'Last updated', ru: 'Дата редакции', ar: 'آخر تحديث' }[locale]}: {POLICY_VERSION[locale]}
                         </p>
                     </Block>
                 </div>

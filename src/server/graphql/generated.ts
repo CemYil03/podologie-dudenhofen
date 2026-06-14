@@ -156,6 +156,7 @@ export interface GqlSChatAssistantInputValueTime {
 
 export type GqlSChatAssistantOptions = {
     generationId?: InputMaybe<Scalars['ID']['input']>;
+    locale?: InputMaybe<Scalars['String']['input']>;
     requireToolCallApprovals: Scalars['Boolean']['input'];
 };
 
@@ -1193,6 +1194,7 @@ export const GqlSChatKindSchema: z.ZodType<'AdminAssistant' | 'VisitorAssistant'
 export function GqlSChatAssistantOptionsSchema(): z.ZodObject<Properties<GqlSChatAssistantOptions>> {
     return z.object({
         generationId: z.string().nullish(),
+        locale: z.string().nullish(),
         requireToolCallApprovals: z.boolean(),
     });
 }

@@ -74,6 +74,8 @@ describe('seoMeta', () => {
             expect.arrayContaining([
                 expect.objectContaining({ rel: 'alternate', hrefLang: 'de', href: 'https://example.com/terms' }),
                 expect.objectContaining({ rel: 'alternate', hrefLang: 'en', href: 'https://example.com/en/terms' }),
+                expect.objectContaining({ rel: 'alternate', hrefLang: 'ru', href: 'https://example.com/ru/terms' }),
+                expect.objectContaining({ rel: 'alternate', hrefLang: 'ar', href: 'https://example.com/ar/terms' }),
                 expect.objectContaining({ rel: 'alternate', hrefLang: 'x-default', href: 'https://example.com/terms' }),
             ]),
         );

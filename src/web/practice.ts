@@ -17,15 +17,35 @@ export const PRACTICE = {
         city: 'Dudenhofen',
     },
     hours: [
-        { days: { de: 'Mo–Do', en: 'Mon–Thu' }, time: { de: '08:00 – 18:00', en: '08:00 – 18:00' }, closed: false },
-        { days: { de: 'Fr', en: 'Fri' }, time: { de: '08:00 – 14:00', en: '08:00 – 14:00' }, closed: false },
-        { days: { de: 'Sa & So', en: 'Sat & Sun' }, time: { de: 'geschlossen', en: 'closed' }, closed: true },
+        {
+            days: { de: 'Mo–Do', en: 'Mon–Thu', ru: 'Пн–Чт', ar: 'الإثنين–الخميس' },
+            time: { de: '08:00 – 18:00', en: '08:00 – 18:00', ru: '08:00 – 18:00', ar: '08:00 – 18:00' },
+            closed: false,
+        },
+        {
+            days: { de: 'Fr', en: 'Fri', ru: 'Пт', ar: 'الجمعة' },
+            time: { de: '08:00 – 14:00', en: '08:00 – 14:00', ru: '08:00 – 14:00', ar: '08:00 – 14:00' },
+            closed: false,
+        },
+        {
+            days: { de: 'Sa & So', en: 'Sat & Sun', ru: 'Сб и Вс', ar: 'السبت والأحد' },
+            time: { de: 'geschlossen', en: 'closed', ru: 'закрыто', ar: 'مغلق' },
+            closed: true,
+        },
     ],
     // Phone-staffed window — narrower than `hours` because the practice
     // can't answer the phone during treatments later in the day.
     callHours: [
-        { days: { de: 'Mo–Fr', en: 'Mon–Fri' }, time: { de: '08:00 – 16:00', en: '08:00 – 16:00' }, closed: false },
-        { days: { de: 'Sa & So', en: 'Sat & Sun' }, time: { de: 'geschlossen', en: 'closed' }, closed: true },
+        {
+            days: { de: 'Mo–Fr', en: 'Mon–Fri', ru: 'Пн–Пт', ar: 'الإثنين–الجمعة' },
+            time: { de: '08:00 – 16:00', en: '08:00 – 16:00', ru: '08:00 – 16:00', ar: '08:00 – 16:00' },
+            closed: false,
+        },
+        {
+            days: { de: 'Sa & So', en: 'Sat & Sun', ru: 'Сб и Вс', ar: 'السبت والأحد' },
+            time: { de: 'geschlossen', en: 'closed', ru: 'закрыто', ar: 'مغلق' },
+            closed: true,
+        },
     ],
     maps: {
         embed: 'https://www.google.com/maps?q=Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen&output=embed',

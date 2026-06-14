@@ -4,7 +4,7 @@ export const DEFAULT_LOCALE: Locale = 'de';
 
 // Locales whose script is right-to-left. Drives the `<html dir>` attribute in
 // the root document and the `rtl:` Tailwind variant in directional UI bits.
-export const RTL_LOCALES: ReadonlyArray<Locale> = ['ar'];
+const RTL_LOCALES: ReadonlyArray<Locale> = ['ar'];
 
 export function isRtlLocale(locale: Locale): boolean {
     return RTL_LOCALES.includes(locale);

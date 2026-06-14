@@ -10,11 +10,11 @@
 # name here and don't duplicate it. Same for `ChatUpdates` — both surfaces
 # subscribe through the existing `ChatUpdatesDocument`.
 
-mutation VisitorChatMessageCreate($chatId: ID, $message: String!, $generationId: ID, $requireToolCallApprovals: Boolean!) {
+mutation VisitorChatMessageCreate($chatId: ID, $message: String!, $generationId: ID, $requireToolCallApprovals: Boolean!, $locale: String) {
     chatMessageCreate(
         chatId: $chatId
         message: $message
-        assistantOptions: { generationId: $generationId, requireToolCallApprovals: $requireToolCallApprovals }
+        assistantOptions: { generationId: $generationId, requireToolCallApprovals: $requireToolCallApprovals, locale: $locale }
     ) {
         chatId
         chatMessageId
@@ -26,11 +26,12 @@ mutation VisitorChatInputCollectionRespond(
     $answers: [ChatMessageUserInputAnswerCreate!]!
     $generationId: ID
     $requireToolCallApprovals: Boolean!
+    $locale: String
 ) {
     chatInputCollectionRespond(
         collectionMessageId: $collectionMessageId
         answers: $answers
-        assistantOptions: { generationId: $generationId, requireToolCallApprovals: $requireToolCallApprovals }
+        assistantOptions: { generationId: $generationId, requireToolCallApprovals: $requireToolCallApprovals, locale: $locale }
     ) {
         chatId
         chatMessageId

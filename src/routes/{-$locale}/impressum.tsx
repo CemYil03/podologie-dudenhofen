@@ -41,7 +41,9 @@ function ImpressumPage() {
         <main>
             {/* Hero — cream */}
             <section id="hero" className="mx-auto max-w-3xl scroll-mt-20 px-6 pt-16 pb-12">
-                <SectionEyebrow>{{ de: 'Rechtliches', en: 'Legal', ru: 'Правовая информация', ar: 'الشؤون القانونية' }[locale]}</SectionEyebrow>
+                <SectionEyebrow>
+                    {{ de: 'Rechtliches', en: 'Legal', ru: 'Правовая информация', ar: 'الشؤون القانونية' }[locale]}
+                </SectionEyebrow>
                 <h1 className="mt-6 font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                     {{ de: 'Impressum', en: 'Imprint', ru: 'Выходные данные', ar: 'بيانات الناشر' }[locale]}
                 </h1>
@@ -60,7 +62,17 @@ function ImpressumPage() {
             {/* Body */}
             <section className="mx-auto max-w-3xl px-6 pb-24">
                 <div className="space-y-12 leading-relaxed text-(--color-brand-charcoal-2)">
-                    <Block id="block-tmg" heading={{ de: 'Angaben gemäß § 5 TMG', en: 'Information under § 5 TMG', ru: 'Сведения согласно § 5 TMG', ar: 'بيانات وفقًا للمادة 5 من قانون TMG' }[locale]}>
+                    <Block
+                        id="block-tmg"
+                        heading={
+                            {
+                                de: 'Angaben gemäß § 5 TMG',
+                                en: 'Information under § 5 TMG',
+                                ru: 'Сведения согласно § 5 TMG',
+                                ar: 'بيانات وفقًا للمادة 5 من قانون TMG',
+                            }[locale]
+                        }
+                    >
                         <address className="not-italic">
                             {PRACTICE.person}
                             <br />
@@ -74,12 +86,26 @@ function ImpressumPage() {
                         </address>
                     </Block>
 
-                    <Block id="block-steuer" heading={{ de: 'Steuerliche Angaben', en: 'Tax details', ru: 'Налоговые сведения', ar: 'البيانات الضريبية' }[locale]}>
+                    <Block
+                        id="block-steuer"
+                        heading={
+                            { de: 'Steuerliche Angaben', en: 'Tax details', ru: 'Налоговые сведения', ar: 'البيانات الضريبية' }[locale]
+                        }
+                    >
                         <dl className="grid grid-cols-[10rem_1fr] gap-y-1">
-                            <dt className="font-medium text-aubergine-dark">{{ de: 'Steuernummer', en: 'Tax number', ru: 'Налоговый номер', ar: 'الرقم الضريبي' }[locale]}</dt>
+                            <dt className="font-medium text-aubergine-dark">
+                                {{ de: 'Steuernummer', en: 'Tax number', ru: 'Налоговый номер', ar: 'الرقم الضريبي' }[locale]}
+                            </dt>
                             <dd>41/196/711/00</dd>
                             <dt className="font-medium text-aubergine-dark">
-                                {{ de: 'Institutionskennzeichen', en: 'Institution code (IK)', ru: 'Institutionskennzeichen (код учреждения IK)', ar: 'رمز المؤسسة Institutionskennzeichen (IK)' }[locale]}
+                                {
+                                    {
+                                        de: 'Institutionskennzeichen',
+                                        en: 'Institution code (IK)',
+                                        ru: 'Institutionskennzeichen (код учреждения IK)',
+                                        ar: 'رمز المؤسسة Institutionskennzeichen (IK)',
+                                    }[locale]
+                                }
                             </dt>
                             <dd>390700267</dd>
                         </dl>
@@ -87,13 +113,17 @@ function ImpressumPage() {
 
                     <Block id="block-kontakt" heading={{ de: 'Kontakt', en: 'Contact', ru: 'Контакты', ar: 'التواصل' }[locale]}>
                         <dl className="grid grid-cols-[10rem_1fr] gap-y-1">
-                            <dt className="font-medium text-aubergine-dark">{{ de: 'Telefon', en: 'Phone', ru: 'Телефон', ar: 'الهاتف' }[locale]}</dt>
+                            <dt className="font-medium text-aubergine-dark">
+                                {{ de: 'Telefon', en: 'Phone', ru: 'Телефон', ar: 'الهاتف' }[locale]}
+                            </dt>
                             <dd>
                                 <a href={`tel:${PRACTICE.phone}`} className="text-aubergine hover:underline">
                                     {formatPhoneNumber(PRACTICE.phone)}
                                 </a>
                             </dd>
-                            <dt className="font-medium text-aubergine-dark">{{ de: 'E-Mail', en: 'Email', ru: 'Эл. почта', ar: 'البريد الإلكتروني' }[locale]}</dt>
+                            <dt className="font-medium text-aubergine-dark">
+                                {{ de: 'E-Mail', en: 'Email', ru: 'Эл. почта', ar: 'البريد الإلكتروني' }[locale]}
+                            </dt>
                             <dd>
                                 <a href={`mailto:${PRACTICE.email}`} className="text-aubergine hover:underline">
                                     {PRACTICE.email}
@@ -135,7 +165,15 @@ function ImpressumPage() {
                         </p>
                         <p className="mt-4">
                             <span className="font-medium text-aubergine-dark">
-                                {{ de: 'Berufsrechtliche Regelungen', en: 'Applicable regulations', ru: 'Применимые нормативные акты', ar: 'اللوائح المعمول بها' }[locale]}:
+                                {
+                                    {
+                                        de: 'Berufsrechtliche Regelungen',
+                                        en: 'Applicable regulations',
+                                        ru: 'Применимые нормативные акты',
+                                        ar: 'اللوائح المعمول بها',
+                                    }[locale]
+                                }
+                                :
                             </span>{' '}
                             {
                                 {
@@ -157,7 +195,17 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block id="block-aufsicht" heading={{ de: 'Zuständige Aufsichtsbehörde', en: 'Supervisory authority', ru: 'Компетентный надзорный орган', ar: 'الجهة الرقابية المختصة' }[locale]}>
+                    <Block
+                        id="block-aufsicht"
+                        heading={
+                            {
+                                de: 'Zuständige Aufsichtsbehörde',
+                                en: 'Supervisory authority',
+                                ru: 'Компетентный надзорный орган',
+                                ar: 'الجهة الرقابية المختصة',
+                            }[locale]
+                        }
+                    >
                         <address className="not-italic">
                             Gesundheitsamt Rhein-Pfalz-Kreis
                             <br />
@@ -179,10 +227,24 @@ function ImpressumPage() {
 
                     <Block
                         id="block-haftpflicht"
-                        heading={{ de: 'Berufshaftpflichtversicherung', en: 'Professional liability insurance', ru: 'Профессиональное страхование ответственности', ar: 'تأمين المسؤولية المهنية' }[locale]}
+                        heading={
+                            {
+                                de: 'Berufshaftpflichtversicherung',
+                                en: 'Professional liability insurance',
+                                ru: 'Профессиональное страхование ответственности',
+                                ar: 'تأمين المسؤولية المهنية',
+                            }[locale]
+                        }
                     >
                         <p className="mb-2 font-medium text-aubergine-dark">
-                            {{ de: 'Name und Sitz des Versicherers', en: 'Insurer', ru: 'Наименование и местонахождение страховщика', ar: 'اسم شركة التأمين ومقرّها' }[locale]}
+                            {
+                                {
+                                    de: 'Name und Sitz des Versicherers',
+                                    en: 'Insurer',
+                                    ru: 'Наименование и местонахождение страховщика',
+                                    ar: 'اسم شركة التأمين ومقرّها',
+                                }[locale]
+                            }
                         </p>
                         <address className="not-italic">
                             Versicherungskammer Bayern
@@ -192,12 +254,24 @@ function ImpressumPage() {
                             80530 {{ de: 'München', en: 'Munich', ru: 'Мюнхен', ar: 'ميونخ' }[locale]}
                         </address>
                         <p className="mt-3">
-                            <span className="font-medium text-aubergine-dark">{{ de: 'Geltungsraum', en: 'Coverage area', ru: 'Территория действия', ar: 'نطاق التغطية' }[locale]}:</span>{' '}
+                            <span className="font-medium text-aubergine-dark">
+                                {{ de: 'Geltungsraum', en: 'Coverage area', ru: 'Территория действия', ar: 'نطاق التغطية' }[locale]}:
+                            </span>{' '}
                             {{ de: 'Deutschland', en: 'Germany', ru: 'Германия', ar: 'ألمانيا' }[locale]}
                         </p>
                     </Block>
 
-                    <Block id="block-streit" heading={{ de: 'Streitschlichtung', en: 'Online dispute resolution', ru: 'Разрешение споров', ar: 'تسوية النزاعات عبر الإنترنت' }[locale]}>
+                    <Block
+                        id="block-streit"
+                        heading={
+                            {
+                                de: 'Streitschlichtung',
+                                en: 'Online dispute resolution',
+                                ru: 'Разрешение споров',
+                                ar: 'تسوية النزاعات عبر الإنترنت',
+                            }[locale]
+                        }
+                    >
                         <p>
                             {
                                 {
@@ -229,7 +303,17 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block id="block-haftung-inhalte" heading={{ de: 'Haftung für Inhalte', en: 'Liability for content', ru: 'Ответственность за содержание', ar: 'المسؤولية عن المحتوى' }[locale]}>
+                    <Block
+                        id="block-haftung-inhalte"
+                        heading={
+                            {
+                                de: 'Haftung für Inhalte',
+                                en: 'Liability for content',
+                                ru: 'Ответственность за содержание',
+                                ar: 'المسؤولية عن المحتوى',
+                            }[locale]
+                        }
+                    >
                         <p>
                             {
                                 {
@@ -252,7 +336,17 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block id="block-haftung-links" heading={{ de: 'Haftung für Links', en: 'Liability for links', ru: 'Ответственность за ссылки', ar: 'المسؤولية عن الروابط' }[locale]}>
+                    <Block
+                        id="block-haftung-links"
+                        heading={
+                            {
+                                de: 'Haftung für Links',
+                                en: 'Liability for links',
+                                ru: 'Ответственность за ссылки',
+                                ar: 'المسؤولية عن الروابط',
+                            }[locale]
+                        }
+                    >
                         <p>
                             {
                                 {
@@ -275,7 +369,10 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block id="block-urheberrecht" heading={{ de: 'Urheberrecht', en: 'Copyright', ru: 'Авторское право', ar: 'حقوق المؤلف' }[locale]}>
+                    <Block
+                        id="block-urheberrecht"
+                        heading={{ de: 'Urheberrecht', en: 'Copyright', ru: 'Авторское право', ar: 'حقوق المؤلف' }[locale]}
+                    >
                         <p>
                             {
                                 {
@@ -298,7 +395,10 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block id="block-bildnachweise" heading={{ de: 'Bildnachweise', en: 'Image credits', ru: 'Источники изображений', ar: 'مصادر الصور' }[locale]}>
+                    <Block
+                        id="block-bildnachweise"
+                        heading={{ de: 'Bildnachweise', en: 'Image credits', ru: 'Источники изображений', ar: 'مصادر الصور' }[locale]}
+                    >
                         <p>
                             {
                                 {

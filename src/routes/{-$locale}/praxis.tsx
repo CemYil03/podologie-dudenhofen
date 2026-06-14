@@ -70,10 +70,14 @@ function PraxisPage() {
                     </p>
                     <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" size="lg" asChild>
-                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Запросить приём', ar: 'طلب موعد' }[locale]}</Link>
+                            <Link to="/{-$locale}/kontakt">
+                                {{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Запросить приём', ar: 'طلب موعد' }[locale]}
+                            </Link>
                         </Button>
                         <Button variant="brand-outline" size="lg" asChild>
-                            <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services', ru: 'Посмотреть услуги', ar: 'عرض الخدمات' }[locale]}</Link>
+                            <Link to="/{-$locale}/leistungen">
+                                {{ de: 'Leistungen ansehen', en: 'View services', ru: 'Посмотреть услуги', ar: 'عرض الخدمات' }[locale]}
+                            </Link>
                         </Button>
                     </div>
                 </Reveal>

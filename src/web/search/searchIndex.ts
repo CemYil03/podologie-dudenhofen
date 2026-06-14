@@ -1,5 +1,4 @@
-import type { ContentLeaf } from '../content/contentLeaf';
-import type { LocaleString } from '../content/contentLeaf';
+import type { ContentLeaf, LocaleString } from '../content/contentLeaf';
 import {
     LEISTUNGEN_BRING_LIST_KASSE,
     LEISTUNGEN_BRING_LIST_PRIVAT,

@@ -349,6 +349,11 @@ input ChatMessageUserInputAnswerCreate {
 input ChatAssistantOptions {
     generationId: ID
     requireToolCallApprovals: Boolean!
+    # BCP-47 locale tag for the visitor's UI language. The visitor agent
+    # uses it to pick the response language. Optional — when omitted the
+    # agent falls back to its default behaviour (German with English
+    # fallback). Admin chat ignores it.
+    locale: String
 }
 
 type Query {

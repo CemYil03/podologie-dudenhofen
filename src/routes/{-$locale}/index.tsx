@@ -44,7 +44,12 @@ export const Route = createFileRoute('/{-$locale}/')({
             // short and plain-text; Google strips HTML in most contexts.
             faq: [
                 {
-                    question: { de: 'Brauche ich eine Verordnung?', en: 'Do I need a prescription?', ru: 'Нужно ли мне направление?', ar: 'هل أحتاج إلى وصفة طبية؟' }[locale],
+                    question: {
+                        de: 'Brauche ich eine Verordnung?',
+                        en: 'Do I need a prescription?',
+                        ru: 'Нужно ли мне направление?',
+                        ar: 'هل أحتاج إلى وصفة طبية؟',
+                    }[locale],
                     answer: {
                         de: 'Eine ärztliche Verordnung benötigen Sie für Kassenleistungen — typisch bei Diabetischem Fußsyndrom oder vergleichbaren Diagnosen. Privat- und Selbstzahler*innen können auch ohne Verordnung einen Termin vereinbaren.',
                         en: 'You need a medical prescription for statutory-insurance treatment — typically for diabetic foot syndrome or comparable diagnoses. Private patients and self-payers can book without a prescription.',
@@ -53,7 +58,12 @@ export const Route = createFileRoute('/{-$locale}/')({
                     }[locale],
                 },
                 {
-                    question: { de: 'Was bringe ich zum ersten Termin mit?', en: 'What should I bring to the first appointment?', ru: 'Что взять с собой на первый приём?', ar: 'ماذا أُحضر معي إلى الموعد الأول؟' }[locale],
+                    question: {
+                        de: 'Was bringe ich zum ersten Termin mit?',
+                        en: 'What should I bring to the first appointment?',
+                        ru: 'Что взять с собой на первый приём?',
+                        ar: 'ماذا أُحضر معي إلى الموعد الأول؟',
+                    }[locale],
                     answer: {
                         de: 'Versichertenkarte, ärztliche Verordnung (falls vorhanden), eine Liste der aktuellen Medikamente, bequeme Schuhe und etwas Zeit — der erste Termin dauert ca. 60 Minuten.',
                         en: 'Insurance card, medical prescription (if you have one), a list of your current medication, comfortable shoes, and a little time — the first appointment takes about 60 minutes.',
@@ -62,7 +72,12 @@ export const Route = createFileRoute('/{-$locale}/')({
                     }[locale],
                 },
                 {
-                    question: { de: 'Übernimmt meine Krankenkasse das?', en: 'Will my health insurance cover this?', ru: 'Покроет ли это моя страховая компания?', ar: 'هل يغطي تأميني الصحي تكاليف العلاج؟' }[locale],
+                    question: {
+                        de: 'Übernimmt meine Krankenkasse das?',
+                        en: 'Will my health insurance cover this?',
+                        ru: 'Покроет ли это моя страховая компания?',
+                        ar: 'هل يغطي تأميني الصحي تكاليف العلاج؟',
+                    }[locale],
                     answer: {
                         de: 'Bei Diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten. Wir rechnen direkt mit der Kasse ab.',
                         en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the cost. We bill the fund directly.',
@@ -71,7 +86,12 @@ export const Route = createFileRoute('/{-$locale}/')({
                     }[locale],
                 },
                 {
-                    question: { de: 'Was zahle ich als Kassenpatient*in?', en: 'What will I pay as a statutory patient?', ru: 'Сколько я плачу как пациент обязательного страхования?', ar: 'كم أدفع كمريض تأمين قانوني؟' }[locale],
+                    question: {
+                        de: 'Was zahle ich als Kassenpatient*in?',
+                        en: 'What will I pay as a statutory patient?',
+                        ru: 'Сколько я плачу как пациент обязательного страхования?',
+                        ar: 'كم أدفع كمريض تأمين قانوني؟',
+                    }[locale],
                     answer: {
                         de: 'Eine einmalige Rezeptgebühr von 10 € pro Verordnung sowie 10 % gesetzlichen Eigenanteil je Behandlung. Bei Befreiung bringen Sie bitte den Befreiungsausweis mit.',
                         en: 'A one-off €10 prescription fee plus a 10% statutory co-payment per treatment. If you are exempt, please bring your exemption certificate.',
@@ -92,7 +112,16 @@ export const Route = createFileRoute('/{-$locale}/')({
                 <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                     <div className="grid gap-12 md:grid-cols-2 md:items-center">
                         <Reveal>
-                            <SectionEyebrow>{{ de: 'Praxis für Podologie', en: 'Practice for podiatry', ru: 'Практика подологии', ar: 'عيادة علم الأقدام' }[locale]}</SectionEyebrow>
+                            <SectionEyebrow>
+                                {
+                                    {
+                                        de: 'Praxis für Podologie',
+                                        en: 'Practice for podiatry',
+                                        ru: 'Практика подологии',
+                                        ar: 'عيادة علم الأقدام',
+                                    }[locale]
+                                }
+                            </SectionEyebrow>
                             <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                                 {
                                     {
@@ -115,10 +144,25 @@ export const Route = createFileRoute('/{-$locale}/')({
                             </p>
                             <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                                 <Button variant="brand" size="lg" asChild>
-                                    <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[locale]}</Link>
+                                    <Link to="/{-$locale}/kontakt">
+                                        {
+                                            { de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[
+                                                locale
+                                            ]
+                                        }
+                                    </Link>
                                 </Button>
                                 <Button variant="brand-outline" size="lg" asChild>
-                                    <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services', ru: 'Посмотреть услуги', ar: 'استعراض الخدمات' }[locale]}</Link>
+                                    <Link to="/{-$locale}/leistungen">
+                                        {
+                                            {
+                                                de: 'Leistungen ansehen',
+                                                en: 'View services',
+                                                ru: 'Посмотреть услуги',
+                                                ar: 'استعراض الخدمات',
+                                            }[locale]
+                                        }
+                                    </Link>
                                 </Button>
                             </div>
                         </Reveal>
@@ -158,7 +202,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                         <Reveal>
                             <SectionEyebrow>{{ de: 'Leistungen', en: 'Services', ru: 'Услуги', ar: 'الخدمات' }[locale]}</SectionEyebrow>
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                {{ de: 'Wofür Sie kommen.', en: 'What we do.', ru: 'С чем вы к нам приходите.', ar: 'ما نقوم به من أجلكم.' }[locale]}
+                                {
+                                    {
+                                        de: 'Wofür Sie kommen.',
+                                        en: 'What we do.',
+                                        ru: 'С чем вы к нам приходите.',
+                                        ar: 'ما نقوم به من أجلكم.',
+                                    }[locale]
+                                }
                             </h2>
                         </Reveal>
                         <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
@@ -190,7 +241,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 to="/{-$locale}/leistungen"
                                 className="group inline-flex items-center gap-1 font-medium text-aubergine hover:underline"
                             >
-                                {{ de: 'Alle Leistungen ansehen', en: 'View all services', ru: 'Посмотреть все услуги', ar: 'استعراض جميع الخدمات' }[locale]}
+                                {
+                                    {
+                                        de: 'Alle Leistungen ansehen',
+                                        en: 'View all services',
+                                        ru: 'Посмотреть все услуги',
+                                        ar: 'استعراض جميع الخدمات',
+                                    }[locale]
+                                }
                                 <span
                                     aria-hidden
                                     className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
@@ -263,21 +321,36 @@ export const Route = createFileRoute('/{-$locale}/')({
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <div className="grid gap-12 md:grid-cols-2 md:items-start">
                             <Reveal>
-                                <SectionEyebrow>{{ de: 'Öffnungszeiten', en: 'Opening hours', ru: 'Часы работы', ar: 'ساعات العمل' }[locale]}</SectionEyebrow>
+                                <SectionEyebrow>
+                                    {{ de: 'Öffnungszeiten', en: 'Opening hours', ru: 'Часы работы', ar: 'ساعات العمل' }[locale]}
+                                </SectionEyebrow>
                                 <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                    {{ de: 'Wir sind für Sie da.', en: 'We are here for you.', ru: 'Мы здесь для вас.', ar: 'نحن في خدمتكم.' }[locale]}
+                                    {
+                                        {
+                                            de: 'Wir sind für Sie da.',
+                                            en: 'We are here for you.',
+                                            ru: 'Мы здесь для вас.',
+                                            ar: 'نحن في خدمتكم.',
+                                        }[locale]
+                                    }
                                 </h2>
                                 <dl className="mt-8 space-y-2 text-(--color-brand-charcoal-2)">
                                     <div className="flex justify-between gap-6 border-b border-aubergine/10 py-2">
-                                        <dt className="font-medium text-charcoal">{{ de: 'Mo–Do', en: 'Mon–Thu', ru: 'Пн–Чт', ar: 'الإثنين–الخميس' }[locale]}</dt>
+                                        <dt className="font-medium text-charcoal">
+                                            {{ de: 'Mo–Do', en: 'Mon–Thu', ru: 'Пн–Чт', ar: 'الإثنين–الخميس' }[locale]}
+                                        </dt>
                                         <dd>08:00 – 18:00</dd>
                                     </div>
                                     <div className="flex justify-between gap-6 border-b border-aubergine/10 py-2">
-                                        <dt className="font-medium text-charcoal">{{ de: 'Fr', en: 'Fri', ru: 'Пт', ar: 'الجمعة' }[locale]}</dt>
+                                        <dt className="font-medium text-charcoal">
+                                            {{ de: 'Fr', en: 'Fri', ru: 'Пт', ar: 'الجمعة' }[locale]}
+                                        </dt>
                                         <dd>08:00 – 14:00</dd>
                                     </div>
                                     <div className="flex justify-between gap-6 border-b border-aubergine/10 py-2">
-                                        <dt className="font-medium text-charcoal">{{ de: 'Sa & So', en: 'Sat & Sun', ru: 'Сб и Вс', ar: 'السبت والأحد' }[locale]}</dt>
+                                        <dt className="font-medium text-charcoal">
+                                            {{ de: 'Sa & So', en: 'Sat & Sun', ru: 'Сб и Вс', ar: 'السبت والأحد' }[locale]}
+                                        </dt>
                                         <dd>{{ de: 'geschlossen', en: 'closed', ru: 'закрыто', ar: 'مغلق' }[locale]}</dd>
                                     </div>
                                 </dl>
@@ -291,7 +364,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 <a
                                     href={`tel:${PRACTICE.phone}`}
                                     className="mt-6 inline-flex items-center gap-2 font-serif text-2xl text-aubergine transition-transform duration-150 ease-out hover:underline active:scale-[0.98]"
-                                    aria-label={{ de: 'Praxis anrufen', en: 'Call the practice', ru: 'Позвонить в практику', ar: 'الاتصال بالعيادة' }[locale]}
+                                    aria-label={
+                                        {
+                                            de: 'Praxis anrufen',
+                                            en: 'Call the practice',
+                                            ru: 'Позвонить в практику',
+                                            ar: 'الاتصال بالعيادة',
+                                        }[locale]
+                                    }
                                 >
                                     <PhoneIcon className="size-5" aria-hidden />
                                     {formatPhoneNumber(PRACTICE.phone)}
@@ -301,7 +381,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 <div className="aspect-square overflow-hidden rounded-xl border border-aubergine/10">
                                     <iframe
                                         src={PRACTICE.maps.embed}
-                                        title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen', ru: 'Карта: Podologie Dudenhofen', ar: 'خريطة: Podologie Dudenhofen' }[locale]}
+                                        title={
+                                            {
+                                                de: 'Karte: Podologie Dudenhofen',
+                                                en: 'Map: Podologie Dudenhofen',
+                                                ru: 'Карта: Podologie Dudenhofen',
+                                                ar: 'خريطة: Podologie Dudenhofen',
+                                            }[locale]
+                                        }
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
                                         className="h-full w-full border-0"
@@ -313,7 +400,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                         hash="anfahrt"
                                         className="group inline-flex items-center gap-1 font-medium text-aubergine hover:underline"
                                     >
-                                        {{ de: 'Anfahrt & Kontakt', en: 'Directions & contact', ru: 'Как добраться и контакты', ar: 'الوصول والتواصل' }[locale]}
+                                        {
+                                            {
+                                                de: 'Anfahrt & Kontakt',
+                                                en: 'Directions & contact',
+                                                ru: 'Как добраться и контакты',
+                                                ar: 'الوصول والتواصل',
+                                            }[locale]
+                                        }
                                         <span
                                             aria-hidden
                                             className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
@@ -367,7 +461,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 hash="urkunden"
                                 className="inline-flex items-center font-medium text-gold hover:underline"
                             >
-                                {{ de: 'Mehr zur Qualifikation →', en: 'More on credentials →', ru: 'Подробнее о квалификации →', ar: 'المزيد عن المؤهلات →' }[locale]}
+                                {
+                                    {
+                                        de: 'Mehr zur Qualifikation →',
+                                        en: 'More on credentials →',
+                                        ru: 'Подробнее о квалификации →',
+                                        ar: 'المزيد عن المؤهلات →',
+                                    }[locale]
+                                }
                             </Link>
                         </div>
                     </div>
@@ -379,7 +480,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                         <Reveal>
                             <SectionEyebrow>{{ de: 'Stimmen', en: 'Voices', ru: 'Отзывы', ar: 'آراء' }[locale]}</SectionEyebrow>
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                {{ de: 'Stimmen aus der Praxis.', en: 'Voices from the practice.', ru: 'Отзывы из практики.', ar: 'آراء من العيادة.' }[locale]}
+                                {
+                                    {
+                                        de: 'Stimmen aus der Praxis.',
+                                        en: 'Voices from the practice.',
+                                        ru: 'Отзывы из практики.',
+                                        ar: 'آراء من العيادة.',
+                                    }[locale]
+                                }
                             </h2>
                         </Reveal>
                         <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
@@ -401,7 +509,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                             <div
                                 className="flex items-center justify-center gap-1"
                                 role="img"
-                                aria-label={{ de: 'Bewertungen auf Google', en: 'Reviews on Google', ru: 'Отзывы на Google', ar: 'التقييمات على Google' }[locale]}
+                                aria-label={
+                                    {
+                                        de: 'Bewertungen auf Google',
+                                        en: 'Reviews on Google',
+                                        ru: 'Отзывы на Google',
+                                        ar: 'التقييمات على Google',
+                                    }[locale]
+                                }
                             >
                                 {Array.from({ length: 5 }, (_, index) => (
                                     <StarIcon key={index} className="size-5 fill-yellow-400 text-yellow-400" aria-hidden />
@@ -413,7 +528,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 rel="noopener noreferrer"
                                 className="group mt-4 inline-flex items-center gap-1.5 font-medium text-aubergine hover:underline"
                             >
-                                {{ de: 'Alle Bewertungen auf Google ansehen', en: 'View all reviews on Google', ru: 'Посмотреть все отзывы на Google', ar: 'استعراض جميع التقييمات على Google' }[locale]}
+                                {
+                                    {
+                                        de: 'Alle Bewertungen auf Google ansehen',
+                                        en: 'View all reviews on Google',
+                                        ru: 'Посмотреть все отзывы на Google',
+                                        ar: 'استعراض جميع التقييمات على Google',
+                                    }[locale]
+                                }
                                 <ExternalLinkIcon
                                     className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5"
                                     aria-hidden
@@ -428,7 +550,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                     <div className="mx-auto max-w-5xl px-6 py-20 text-center">
                         <Reveal>
                             <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                {{ de: 'Termin vereinbaren? Rufen Sie an.', en: 'Want an appointment? Give us a call.', ru: 'Хотите записаться на приём? Позвоните нам.', ar: 'هل تودون حجز موعد؟ اتصلوا بنا.' }[locale]}
+                                {
+                                    {
+                                        de: 'Termin vereinbaren? Rufen Sie an.',
+                                        en: 'Want an appointment? Give us a call.',
+                                        ru: 'Хотите записаться на приём? Позвоните нам.',
+                                        ar: 'هل تودون حجز موعد؟ اتصلوا بنا.',
+                                    }[locale]
+                                }
                             </h2>
                             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
@@ -442,7 +571,13 @@ export const Route = createFileRoute('/{-$locale}/')({
                             </p>
                             <div className="mt-10 flex flex-col items-center gap-4">
                                 <Button variant="brand" size="lg" asChild>
-                                    <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[locale]}</Link>
+                                    <Link to="/{-$locale}/kontakt">
+                                        {
+                                            { de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[
+                                                locale
+                                            ]
+                                        }
+                                    </Link>
                                 </Button>
                                 <Button
                                     variant="link"

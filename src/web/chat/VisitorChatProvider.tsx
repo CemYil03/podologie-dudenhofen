@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 import type { ReactNode } from 'react';
 import { useClient, useMutation } from 'urql';
 import { VisitorChatLoadDocument, VisitorChatMessageCreateDocument } from '../graphql/generated';
+import { useLocale } from '../hooks/useLocale';
 import type { TranscriptMessage } from './chatTranscript';
 import { useChatLiveUpdates } from './useChatLiveUpdates';
 import type { ChatLiveUpdates } from './useChatLiveUpdates';
@@ -66,6 +67,7 @@ export function VisitorChatProvider({ children }: { children: ReactNode }) {
     const live = useChatLiveUpdates(chatId);
     const [, sendMutation] = useMutation(VisitorChatMessageCreateDocument);
     const urqlClient = useClient();
+    const locale = useLocale();
 
     // The mutation's `chatId` argument has to follow the freshly-allocated id
     // even when state hasn't re-rendered yet — two `sendMessage` calls fired
@@ -86,6 +88,8 @@ export function VisitorChatProvider({ children }: { children: ReactNode }) {
                 // Visitor agent has no approval-gated tools today, but the
                 // mutation requires the flag — auto is the only sensible value.
                 requireToolCallApprovals: false,
+                // The visitor agent uses this to choose the response language.
+                locale,
             });
             if (result.error || !result.data?.chatMessageCreate) {
                 live.endTurn();
@@ -97,7 +101,7 @@ export function VisitorChatProvider({ children }: { children: ReactNode }) {
                 setChatId(next);
             }
         },
-        [live, sendMutation],
+        [live, sendMutation, locale],
     );
 
     const openWithMessage = useCallback(

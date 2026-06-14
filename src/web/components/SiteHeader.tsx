@@ -44,7 +44,10 @@ export function SiteHeader() {
                 </Link>
 
                 {/* Desktop nav */}
-                <nav aria-label={{ de: 'Hauptnavigation', en: 'Main navigation', ru: 'Основная навигация', ar: 'التنقل الرئيسي' }[locale]} className="hidden items-center gap-1 lg:flex">
+                <nav
+                    aria-label={{ de: 'Hauptnavigation', en: 'Main navigation', ru: 'Основная навигация', ar: 'التنقل الرئيسي' }[locale]}
+                    className="hidden items-center gap-1 lg:flex"
+                >
                     {NAV_ITEMS.map((item) => {
                         const isActive = location.pathname.endsWith(item.to.replace('/{-$locale}', ''));
                         return (
@@ -77,7 +80,9 @@ export function SiteHeader() {
                     <a
                         href={`tel:${PRACTICE.phone}`}
                         className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex"
-                        aria-label={{ de: 'Praxis anrufen', en: 'Call the practice', ru: 'Позвонить в практику', ar: 'الاتصال بالعيادة' }[locale]}
+                        aria-label={
+                            { de: 'Praxis anrufen', en: 'Call the practice', ru: 'Позвонить в практику', ar: 'الاتصال بالعيادة' }[locale]
+                        }
                     >
                         <PhoneIcon className="size-4" aria-hidden />
                         <span>{formatPhoneNumber(PRACTICE.phone)}</span>
@@ -102,7 +107,12 @@ export function SiteHeader() {
                                     {{ de: 'Navigation', en: 'Navigation', ru: 'Навигация', ar: 'التنقل' }[locale]}
                                 </SheetTitle>
                             </SheetHeader>
-                            <nav aria-label={{ de: 'Hauptnavigation', en: 'Main navigation', ru: 'Основная навигация', ar: 'التنقل الرئيسي' }[locale]} className="flex flex-col gap-1 px-4">
+                            <nav
+                                aria-label={
+                                    { de: 'Hauptnavigation', en: 'Main navigation', ru: 'Основная навигация', ar: 'التنقل الرئيسي' }[locale]
+                                }
+                                className="flex flex-col gap-1 px-4"
+                            >
                                 <SheetClose asChild>
                                     <button
                                         type="button"

@@ -159,6 +159,7 @@ export interface GqlCChatAssistantInputValueTime {
 
 export type GqlCChatAssistantOptions = {
     generationId?: InputMaybe<Scalars['ID']['input']>;
+    locale?: InputMaybe<Scalars['String']['input']>;
     requireToolCallApprovals: Scalars['Boolean']['input'];
 };
 
@@ -795,6 +796,7 @@ export type GqlCVisitorChatMessageCreateMutationVariables = Exact<{
     message: string;
     generationId?: string | null | undefined;
     requireToolCallApprovals: boolean;
+    locale?: string | null | undefined;
 }>;
 
 export type GqlCVisitorChatMessageCreateMutation = { chatMessageCreate: { chatId: string; chatMessageId: string } | null };
@@ -804,6 +806,7 @@ export type GqlCVisitorChatInputCollectionRespondMutationVariables = Exact<{
     answers: Array<Schema.GqlCChatMessageUserInputAnswerCreate> | Schema.GqlCChatMessageUserInputAnswerCreate;
     generationId?: string | null | undefined;
     requireToolCallApprovals: boolean;
+    locale?: string | null | undefined;
 }>;
 
 export type GqlCVisitorChatInputCollectionRespondMutation = {
@@ -2876,6 +2879,11 @@ export const VisitorChatMessageCreateDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'locale' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -2909,6 +2917,11 @@ export const VisitorChatMessageCreateDocument = {
                                             kind: 'ObjectField',
                                             name: { kind: 'Name', value: 'requireToolCallApprovals' },
                                             value: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
+                                        },
+                                        {
+                                            kind: 'ObjectField',
+                                            name: { kind: 'Name', value: 'locale' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'locale' } },
                                         },
                                     ],
                                 },
@@ -2964,6 +2977,11 @@ export const VisitorChatInputCollectionRespondDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'locale' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -2997,6 +3015,11 @@ export const VisitorChatInputCollectionRespondDocument = {
                                             kind: 'ObjectField',
                                             name: { kind: 'Name', value: 'requireToolCallApprovals' },
                                             value: { kind: 'Variable', name: { kind: 'Name', value: 'requireToolCallApprovals' } },
+                                        },
+                                        {
+                                            kind: 'ObjectField',
+                                            name: { kind: 'Name', value: 'locale' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'locale' } },
                                         },
                                     ],
                                 },

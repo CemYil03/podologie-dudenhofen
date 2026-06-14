@@ -48,7 +48,9 @@ function QualifikationPage() {
             {/* 1. Hero — cream */}
             <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
-                    <SectionEyebrow>{{ de: 'Qualifikation', en: 'Credentials', ru: 'Квалификация', ar: 'المؤهلات' }[locale]}</SectionEyebrow>
+                    <SectionEyebrow>
+                        {{ de: 'Qualifikation', en: 'Credentials', ru: 'Квалификация', ar: 'المؤهلات' }[locale]}
+                    </SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                         {
                             {
@@ -71,10 +73,14 @@ function QualifikationPage() {
                     </p>
                     <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" size="lg" asChild>
-                            <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services', ru: 'Посмотреть услуги', ar: 'عرض الخدمات' }[locale]}</Link>
+                            <Link to="/{-$locale}/leistungen">
+                                {{ de: 'Leistungen ansehen', en: 'View services', ru: 'Посмотреть услуги', ar: 'عرض الخدمات' }[locale]}
+                            </Link>
                         </Button>
                         <Button variant="brand-outline" size="lg" asChild>
-                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[locale]}</Link>
+                            <Link to="/{-$locale}/kontakt">
+                                {{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[locale]}
+                            </Link>
                         </Button>
                     </div>
                 </Reveal>
@@ -85,9 +91,18 @@ function QualifikationPage() {
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <div className="grid gap-12 md:grid-cols-[1fr_20rem]">
                         <Reveal>
-                            <SectionEyebrow>{{ de: 'Podologie', en: 'Podiatry', ru: 'Подология', ar: 'علاج القدم' }[locale]}</SectionEyebrow>
+                            <SectionEyebrow>
+                                {{ de: 'Podologie', en: 'Podiatry', ru: 'Подология', ar: 'علاج القدم' }[locale]}
+                            </SectionEyebrow>
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                {{ de: 'Was ist Podologie?', en: 'What is podiatry?', ru: 'Что такое подология?', ar: 'ما هو علاج القدم؟' }[locale]}
+                                {
+                                    {
+                                        de: 'Was ist Podologie?',
+                                        en: 'What is podiatry?',
+                                        ru: 'Что такое подология?',
+                                        ar: 'ما هو علاج القدم؟',
+                                    }[locale]
+                                }
                             </h2>
                             <div className="mt-8 grid gap-4 text-(--color-brand-charcoal-2)">
                                 <p>
@@ -192,7 +207,9 @@ function QualifikationPage() {
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <div className="grid gap-12 md:grid-cols-[1fr_20rem]">
                         <Reveal>
-                            <SectionEyebrow>{{ de: 'Heilpraktiker', en: 'Heilpraktiker', ru: 'Heilpraktiker', ar: 'Heilpraktiker' }[locale]}</SectionEyebrow>
+                            <SectionEyebrow>
+                                {{ de: 'Heilpraktiker', en: 'Heilpraktiker', ru: 'Heilpraktiker', ar: 'Heilpraktiker' }[locale]}
+                            </SectionEyebrow>
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                 {
                                     {
@@ -292,7 +309,9 @@ function QualifikationPage() {
             <section id="urkunden" className="scroll-mt-20 bg-aubergine-dark text-cream">
                 <div className="mx-auto max-w-5xl px-6 py-20 text-center">
                     <div className="mx-auto max-w-2xl">
-                        <SectionEyebrow className="text-gold">{{ de: 'Urkunden', en: 'Certificates', ru: 'Документы', ar: 'الشهادات' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow className="text-gold">
+                            {{ de: 'Urkunden', en: 'Certificates', ru: 'Документы', ar: 'الشهادات' }[locale]}
+                        </SectionEyebrow>
                         <div className="mt-6 flex items-center justify-center gap-3">
                             <BadgeCheckIcon className="h-7 w-7 text-gold" strokeWidth={1.75} />
                             <h2 className="font-serif text-3xl leading-tight font-semibold text-cream sm:text-4xl">
@@ -362,7 +381,9 @@ function QualifikationPage() {
                     </div>
 
                     <div className="mx-auto mt-12 max-w-2xl text-left">
-                        <h3 className="font-serif text-xl font-semibold text-cream">{{ de: 'Zertifikate', en: 'Certificates', ru: 'Сертификаты', ar: 'الشهادات' }[locale]}</h3>
+                        <h3 className="font-serif text-xl font-semibold text-cream">
+                            {{ de: 'Zertifikate', en: 'Certificates', ru: 'Сертификаты', ar: 'الشهادات' }[locale]}
+                        </h3>
                         <dl className="mt-6 grid gap-5 border-t border-gold/20 pt-6">
                             <div className="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6">
                                 <dt className="font-medium text-cream">
@@ -375,7 +396,16 @@ function QualifikationPage() {
                                         }[locale]
                                     }
                                 </dt>
-                                <dd className="text-sm text-cream/80">{{ de: 'Bundesweit gültig', en: 'Valid nationwide', ru: 'Действительно по всей Германии', ar: 'صالح في جميع أنحاء ألمانيا' }[locale]}</dd>
+                                <dd className="text-sm text-cream/80">
+                                    {
+                                        {
+                                            de: 'Bundesweit gültig',
+                                            en: 'Valid nationwide',
+                                            ru: 'Действительно по всей Германии',
+                                            ar: 'صالح في جميع أنحاء ألمانيا',
+                                        }[locale]
+                                    }
+                                </dd>
                             </div>
                             <div className="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6 border-t border-gold/10 pt-5">
                                 <dt className="font-medium text-cream">
@@ -442,10 +472,21 @@ function QualifikationPage() {
                     </p>
                     <div className="mt-10 flex flex-wrap justify-center gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" size="lg" asChild>
-                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[locale]}</Link>
+                            <Link to="/{-$locale}/kontakt">
+                                {{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Записаться на приём', ar: 'طلب موعد' }[locale]}
+                            </Link>
                         </Button>
                         <Button variant="brand-outline" size="lg" asChild>
-                            <Link to="/{-$locale}/praxis">{{ de: 'Mehr zur Praxis', en: 'More about the practice', ru: 'Подробнее о практике', ar: 'مزيد عن العيادة' }[locale]}</Link>
+                            <Link to="/{-$locale}/praxis">
+                                {
+                                    {
+                                        de: 'Mehr zur Praxis',
+                                        en: 'More about the practice',
+                                        ru: 'Подробнее о практике',
+                                        ar: 'مزيد عن العيادة',
+                                    }[locale]
+                                }
+                            </Link>
                         </Button>
                     </div>
                 </Reveal>
