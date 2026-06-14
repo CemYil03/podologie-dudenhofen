@@ -117,7 +117,7 @@ export function SiteHeader() {
                                     <button
                                         type="button"
                                         onClick={openSearch}
-                                        className="flex items-center gap-2 rounded-md px-3 py-3 text-left text-base font-medium text-aubergine-dark hover:bg-aubergine/10"
+                                        className="flex items-center gap-2 rounded-md px-3 py-3 text-start text-base font-medium text-aubergine-dark hover:bg-aubergine/10"
                                     >
                                         <SearchIcon className="size-4" aria-hidden />
                                         {{ de: 'Suchen', en: 'Search', ru: 'Поиск', ar: 'بحث' }[locale]}

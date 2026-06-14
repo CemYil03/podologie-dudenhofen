@@ -238,9 +238,9 @@ export function MessageComposer({
                                 type="button"
                                 variant="ghost"
                                 size="icon-sm"
-                                // ml-auto on the first of the right-group so addonStart
-                                // children stay left-aligned regardless of how many.
-                                className="ml-auto"
+                                // ms-auto on the first of the inline-end group so addonStart
+                                // children stay inline-start aligned regardless of how many.
+                                className="ms-auto"
                                 disabled={inputsLocked}
                                 aria-label="Attach files"
                                 onClick={() => fileInputRef.current?.click()}
@@ -255,12 +255,12 @@ export function MessageComposer({
                         size="sm"
                         className={cn(
                             'bg-aubergine text-cream hover:bg-aubergine-dark focus-visible:ring-aubergine/40',
-                            attachmentsEnabled ? undefined : 'ml-auto',
+                            attachmentsEnabled ? undefined : 'ms-auto',
                         )}
                         disabled={!canSubmit}
                         aria-label={sendLabel}
                     >
-                        {busy ? <Spinner /> : <SendIcon />}
+                        {busy ? <Spinner /> : <SendIcon className="rtl:rotate-180" />}
                         {sendLabel}
                     </InputGroupButton>
                 </InputGroupAddon>
@@ -321,7 +321,7 @@ function AttachmentPreview({
                 aria-label={`Remove ${file.name}`}
                 disabled={disabled}
                 onClick={onRemove}
-                className="absolute -top-1.5 -right-1.5 grid size-4 place-items-center rounded-full bg-foreground text-background shadow-sm hover:bg-foreground/90 disabled:opacity-50 cursor-pointer"
+                className="absolute -top-1.5 -end-1.5 grid size-4 place-items-center rounded-full bg-foreground text-background shadow-sm hover:bg-foreground/90 disabled:opacity-50 cursor-pointer"
             >
                 <XIcon className="size-3" />
             </button>

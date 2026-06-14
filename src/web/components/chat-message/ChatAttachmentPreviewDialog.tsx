@@ -114,7 +114,7 @@ export function ChatAttachmentPreviewDialog({ open, onOpenChange, attachments, i
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="grid max-h-[90vh] grid-rows-[auto_1fr_auto] gap-4 sm:max-w-3xl">
-                <div className="flex min-w-0 flex-col gap-1 pr-8">
+                <div className="flex min-w-0 flex-col gap-1 pe-8">
                     <DialogTitle className="truncate text-base">{current.filename}</DialogTitle>
                     <DialogDescription className="text-xs">
                         {current.mediaType} · {formatBytes(current.size)}
@@ -134,9 +134,9 @@ export function ChatAttachmentPreviewDialog({ open, onOpenChange, attachments, i
                                 size="icon"
                                 aria-label="Previous attachment"
                                 onClick={goPrev}
-                                className="absolute top-1/2 left-2 -translate-y-1/2 shadow-md"
+                                className="absolute top-1/2 start-2 -translate-y-1/2 shadow-md"
                             >
-                                <ChevronLeftIcon />
+                                <ChevronLeftIcon className="rtl:rotate-180" />
                             </Button>
                             <Button
                                 type="button"
@@ -144,9 +144,9 @@ export function ChatAttachmentPreviewDialog({ open, onOpenChange, attachments, i
                                 size="icon"
                                 aria-label="Next attachment"
                                 onClick={goNext}
-                                className="absolute top-1/2 right-2 -translate-y-1/2 shadow-md"
+                                className="absolute top-1/2 end-2 -translate-y-1/2 shadow-md"
                             >
-                                <ChevronRightIcon />
+                                <ChevronRightIcon className="rtl:rotate-180" />
                             </Button>
                         </>
                     ) : null}

@@ -380,7 +380,7 @@ function QualifikationPage() {
                         </figure>
                     </div>
 
-                    <div className="mx-auto mt-12 max-w-2xl text-left">
+                    <div className="mx-auto mt-12 max-w-2xl text-start">
                         <h3 className="font-serif text-xl font-semibold text-cream">
                             {{ de: 'Zertifikate', en: 'Certificates', ru: 'Сертификаты', ar: 'الشهادات' }[locale]}
                         </h3>

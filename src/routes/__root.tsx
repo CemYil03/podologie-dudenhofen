@@ -1,5 +1,6 @@
 import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from '@tanstack/react-router';
 import { useEffect } from 'react';
+import { Direction } from 'radix-ui';
 import { Provider as GraphQLClientProvider } from 'urql';
 import sourceSans3LatinWoff2 from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
 import frauncesLatinWoff2 from '@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url';
@@ -112,9 +113,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             </head>
             <body className="font-sans antialiased wrap-anywhere bg-cream text-charcoal">
                 <NavigationProgress />
-                <TooltipProvider>
-                    <GraphQLClientProvider value={urqlClient}>{children}</GraphQLClientProvider>
-                </TooltipProvider>
+                {/* DirectionProvider propagates `dir` into Radix portals
+                 *  (Sheet, Dialog, Popover, Tooltip) which mount outside the
+                 *  React tree and would otherwise miss the `<html dir>` value.
+                 *  Required because we use `tw-animate-css`; see the shadcn
+                 *  RTL docs note on `tw-animate-css`. */}
+                <Direction.DirectionProvider dir={dir}>
+                    <TooltipProvider>
+                        <GraphQLClientProvider value={urqlClient}>{children}</GraphQLClientProvider>
+                    </TooltipProvider>
+                </Direction.DirectionProvider>
                 <Toaster position="bottom-center" richColors />
                 <Scripts />
             </body>

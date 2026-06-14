@@ -213,7 +213,7 @@ function CollectionStepThrough({
                         <ChevronLeftIcon aria-hidden />
                         Back
                     </Button>
-                    <Button type="button" variant="outline" size="sm" onClick={advance} className="ml-auto">
+                    <Button type="button" variant="outline" size="sm" onClick={advance} className="ms-auto">
                         Skip
                     </Button>
                     <Button type="button" size="sm" onClick={advance}>

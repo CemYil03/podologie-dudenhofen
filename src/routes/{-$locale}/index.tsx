@@ -295,7 +295,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                             id={q.id}
                                             type="button"
                                             onClick={() => void openWithMessage(q.heading[locale])}
-                                            className="search-target scroll-mt-20 rounded-md border border-aubergine/20 px-4 py-3 text-left text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
+                                            className="search-target scroll-mt-20 rounded-md border border-aubergine/20 px-4 py-3 text-start text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
                                         >
                                             {q.heading[locale]}
                                         </button>

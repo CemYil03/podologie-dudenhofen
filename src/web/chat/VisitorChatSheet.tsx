@@ -96,7 +96,7 @@ export function VisitorChatSheet() {
                             : { de: 'Chat vergrößern', en: 'Expand chat', ru: 'Развернуть чат', ar: 'توسيع الدردشة' }[locale]
                     }
                     aria-pressed={isExpanded}
-                    className="absolute top-4 right-12 z-10 hidden rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:block"
+                    className="absolute top-4 end-12 z-10 hidden rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:block"
                 >
                     {isExpanded ? <Minimize2Icon className="size-4" /> : <Maximize2Icon className="size-4" />}
                 </button>
@@ -199,7 +199,7 @@ function PreviousChatButton({ chat, onResume }: { chat: GqlCVisitorChatListItemF
         <button
             type="button"
             onClick={() => onResume(chat.chatId)}
-            className="flex w-full flex-col gap-1 rounded-md border border-aubergine/20 px-4 py-3 text-left transition-colors duration-200 ease-out hover:bg-aubergine/5"
+            className="flex w-full flex-col gap-1 rounded-md border border-aubergine/20 px-4 py-3 text-start transition-colors duration-200 ease-out hover:bg-aubergine/5"
         >
             <span className="line-clamp-2 text-sm font-medium text-aubergine">{chat.title || fallbackTitle}</span>
             <span className="text-xs text-(--color-brand-charcoal-3)">{relative}</span>
@@ -260,7 +260,7 @@ function ChatTranscript({
 
     return (
         <div className="relative min-h-0 flex-1">
-            <div ref={scrollRef} onScroll={onScroll} className="flex h-full min-w-0 flex-col gap-4 overflow-y-auto overflow-x-hidden pr-1">
+            <div ref={scrollRef} onScroll={onScroll} className="flex h-full min-w-0 flex-col gap-4 overflow-y-auto overflow-x-hidden pe-1">
                 {groupedMessages.map((group) => (
                     <section key={group.date} className="flex min-w-0 flex-col gap-4">
                         <DateSeparator iso={group.date} />

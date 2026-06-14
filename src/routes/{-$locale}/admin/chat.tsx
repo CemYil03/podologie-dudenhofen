@@ -271,7 +271,7 @@ function ChatTranscript({
              *  layout effect snaps `scrollTop` to bottom, producing the
              *  "starts in the middle, jumps up" flicker the chat had. Vertical
              *  flow stacks from the top with no stretching. */}
-            <div ref={scrollRef} onScroll={onScroll} className="flex h-full min-w-0 flex-col gap-4 overflow-y-auto overflow-x-hidden pr-2">
+            <div ref={scrollRef} onScroll={onScroll} className="flex h-full min-w-0 flex-col gap-4 overflow-y-auto overflow-x-hidden pe-2">
                 {groupedMessages.map((group) => (
                     <section key={group.date} className="flex min-w-0 flex-col gap-4">
                         <DateSeparator iso={group.date} />
