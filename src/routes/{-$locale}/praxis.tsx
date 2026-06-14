@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { PackageIcon, ShieldCheckIcon, SparklesIcon } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
+import { PRAXIS_HYGIENE_PILLARS, PRAXIS_REPROCESSING_STEPS } from '../../web/content/praxisContent';
 import { PraxisPageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
@@ -34,7 +34,7 @@ function PraxisPage() {
 
     return (
         <main>
-            <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
+            <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
                     <SectionEyebrow>{{ de: 'Praxis', en: 'Practice' }[locale]}</SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
@@ -207,63 +207,16 @@ function PraxisPage() {
                         }
                     </p>
                     <div className="mt-12 grid gap-8 sm:grid-cols-3">
-                        <div>
-                            <ShieldCheckIcon className="h-8 w-8 text-gold" strokeWidth={1.5} />
-                            <h3 className="mt-4 font-serif text-xl font-semibold text-cream">
-                                {
-                                    {
-                                        de: 'Aufbereitung der Instrumente',
-                                        en: 'Instrument reprocessing',
-                                    }[locale]
-                                }
-                            </h3>
-                            <p className="mt-3 text-sm leading-relaxed text-cream/80">
-                                {
-                                    {
-                                        de: 'Thermische Desinfektion und anschließende Sterilisation nach den Empfehlungen des Robert Koch-Instituts. Jedes Instrument verlässt die Aufbereitung verpackt und gekennzeichnet.',
-                                        en: 'Thermal disinfection followed by sterilisation in line with the Robert Koch Institute recommendations. Every instrument leaves reprocessing sealed and labelled.',
-                                    }[locale]
-                                }
-                            </p>
-                        </div>
-                        <div>
-                            <SparklesIcon className="h-8 w-8 text-gold" strokeWidth={1.5} />
-                            <h3 className="mt-4 font-serif text-xl font-semibold text-cream">
-                                {
-                                    {
-                                        de: 'Flächendesinfektion',
-                                        en: 'Surface disinfection',
-                                    }[locale]
-                                }
-                            </h3>
-                            <p className="mt-3 text-sm leading-relaxed text-cream/80">
-                                {
-                                    {
-                                        de: 'Behandlungseinheit, Liege und Kontaktflächen werden zwischen jeder Behandlung mit VAH-gelisteten Mitteln desinfiziert — mit ausreichender Einwirkzeit.',
-                                        en: 'The treatment unit, couch and contact surfaces are disinfected between every patient with VAH-listed agents — with the proper contact time.',
-                                    }[locale]
-                                }
-                            </p>
-                        </div>
-                        <div>
-                            <PackageIcon className="h-8 w-8 text-gold" strokeWidth={1.5} />
-                            <h3 className="mt-4 font-serif text-xl font-semibold text-cream">
-                                {
-                                    {
-                                        de: 'Einmal-Materialien',
-                                        en: 'Single-use materials',
-                                    }[locale]
-                                }
-                            </h3>
-                            <p className="mt-3 text-sm leading-relaxed text-cream/80">
-                                {
-                                    {
-                                        de: 'Schleifkörper, Skalpellklingen, Tupfer und Handschuhe sind Einmal-Material und werden nach jeder Behandlung verworfen — überall dort, wo es medizinisch sinnvoll ist.',
-                                        en: 'Burrs, scalpel blades, swabs and gloves are single-use and discarded after every treatment — wherever this is medically appropriate.',
-                                    }[locale]
-                                }
-                            </p>
-                        </div>
+                        {PRAXIS_HYGIENE_PILLARS.map((pillar) => {
+                            const Icon = pillar.icon!;
+                            return (
+                                <div key={pillar.id} id={pillar.id} className="search-target scroll-mt-20">
+                                    <Icon className="h-8 w-8 text-gold" strokeWidth={1.5} />
+                                    <h3 className="mt-4 font-serif text-xl font-semibold text-cream">{pillar.heading[locale]}</h3>
+                                    <p className="mt-3 text-sm leading-relaxed text-cream/80">{pillar.body[locale]}</p>
+                                </div>
+                            );
+                        })}
                     </div>
 
                     <div className="mt-20">
@@ -284,45 +237,8 @@ function PraxisPage() {
                             }
                         </p>
                         <ol className="mt-10 grid gap-8 md:grid-cols-3">
-                            {[
-                                {
-                                    src: '/instrumentenaufbereitung/thermodesinfektor.jpg',
-                                    title: { de: 'Thermodesinfektor', en: 'Thermal disinfector' },
-                                    alt: {
-                                        de: 'Thermodesinfektor zur Reinigung und Desinfektion der Instrumente.',
-                                        en: 'Thermal disinfector for cleaning and disinfecting instruments.',
-                                    },
-                                    body: {
-                                        de: 'Reinigung und thermische Desinfektion der Instrumente. Jeder Vorgang wird automatisch dokumentiert.',
-                                        en: 'Instruments are cleaned and thermally disinfected. Every cycle is automatically logged.',
-                                    },
-                                },
-                                {
-                                    src: '/instrumentenaufbereitung/folienschweissgeraet.jpg',
-                                    title: { de: 'Folienschweißgerät', en: 'Pouch sealer' },
-                                    alt: {
-                                        de: 'Folienschweißgerät zum Verpacken der Instrumente in Sterilisationsfolie.',
-                                        en: 'Pouch sealer used to package instruments in sterilisation film.',
-                                    },
-                                    body: {
-                                        de: 'Die getrockneten Instrumente werden in Sterilisationsfolie verpackt und eingeschweißt.',
-                                        en: 'Once dried, the instruments are packed into sterilisation pouches and sealed.',
-                                    },
-                                },
-                                {
-                                    src: '/instrumentenaufbereitung/autoclave.jpg',
-                                    title: { de: 'Autoklav', en: 'Autoclave' },
-                                    alt: {
-                                        de: 'Autoklav zur Sterilisation der verpackten Instrumente.',
-                                        en: 'Autoclave used to sterilise the sealed instruments.',
-                                    },
-                                    body: {
-                                        de: 'Die verpackten Instrumente werden sterilisiert und mit Datum und Chargennummer beschriftet.',
-                                        en: 'The sealed instruments are sterilised and labelled with date and batch number.',
-                                    },
-                                },
-                            ].map((step, index) => (
-                                <li key={step.src}>
+                            {PRAXIS_REPROCESSING_STEPS.map((step, index) => (
+                                <li key={step.id} id={step.id} className="search-target scroll-mt-20">
                                     <div className="flex items-center gap-3">
                                         <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-gold">
                                             {String(index + 1).padStart(2, '0')}
@@ -330,12 +246,12 @@ function PraxisPage() {
                                         <span aria-hidden className="h-px flex-1 bg-gold/30" />
                                     </div>
                                     <img
-                                        src={step.src}
-                                        alt={step.alt[locale]}
+                                        src={step.image.src}
+                                        alt={step.image.alt[locale]}
                                         loading="lazy"
                                         className="mt-4 aspect-[4/3] w-full rounded-xl border border-cream/15 object-cover shadow-sm"
                                     />
-                                    <h4 className="mt-5 font-serif text-lg font-semibold text-cream">{step.title[locale]}</h4>
+                                    <h4 className="mt-5 font-serif text-lg font-semibold text-cream">{step.heading[locale]}</h4>
                                     <p className="mt-2 text-sm leading-relaxed text-cream/80">{step.body[locale]}</p>
                                 </li>
                             ))}

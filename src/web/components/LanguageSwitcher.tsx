@@ -46,9 +46,9 @@ export function LanguageSwitcher() {
                 className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-aubergine/20 px-2.5 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:outline-none md:px-3"
             >
                 {/* Mobile: two-letter code only — no room for the full name. */}
-                <span className="font-mono text-xs uppercase tracking-wider md:hidden">{currentLocale}</span>
+                <span className="font-mono text-xs whitespace-nowrap uppercase tracking-wider md:hidden">{currentLocale}</span>
                 {/* Desktop: native language name — collapsing to a code adds nothing once there's room. */}
-                <span className="hidden md:inline">{LOCALE_NATIVE_NAME[currentLocale]}</span>
+                <span className="hidden whitespace-nowrap md:inline">{LOCALE_NATIVE_NAME[currentLocale]}</span>
                 <ChevronDownIcon className="size-3.5 opacity-70" aria-hidden />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="min-w-36 border-aubergine/10 bg-cream">

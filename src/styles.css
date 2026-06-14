@@ -182,3 +182,52 @@
         transition: none;
     }
 }
+
+/*
+ * Search-result highlight. When the URL hash points at an element with the
+ * .search-target class — typically a leaf card the visitor reached via the
+ * site-search dialog — paint a soft gold ring and play a short pulse so they
+ * see what they navigated to. The class lives on every searchable leaf card
+ * (see docs/features/site-search.md), so section-level anchors keep their
+ * plain anchor-scroll behaviour.
+ *
+ * Both effects are driven by `useSearchTargetHighlight`, not by `:target`.
+ * `:target` looks like a perfect fit but breaks in two ways:
+ *  - browsers do not re-evaluate it on `pushState`-driven hash changes, so the
+ *    outline stays glued to the previous match when the visitor searches twice
+ *    on the same page;
+ *  - the pulse fires the moment the hash flips, before smooth-scroll and the
+ *    <Reveal> fade-in finish, so the animation plays out invisibly.
+ * The hook sets `data-search-target-current` on the matched element (drives
+ * the persistent outline, follows hash changes) and `data-search-target-active`
+ * once the card has actually entered the viewport (drives the pulse).
+ *
+ * Reduced motion: the ring stays, the animation drops.
+ */
+@keyframes search-target-pulse {
+    0% {
+        box-shadow: 0 0 0 0 var(--color-brand-gold);
+    }
+    40% {
+        box-shadow: 0 0 0 6px color-mix(in oklab, var(--color-brand-gold) 35%, transparent);
+    }
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-brand-gold) 0%, transparent);
+    }
+}
+
+.search-target[data-search-target-current] {
+    outline: 2px solid var(--color-brand-gold);
+    outline-offset: 2px;
+    border-radius: 0.75rem;
+}
+
+.search-target[data-search-target-active] {
+    animation: search-target-pulse 1.5s ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .search-target[data-search-target-active] {
+        animation: none;
+    }
+}

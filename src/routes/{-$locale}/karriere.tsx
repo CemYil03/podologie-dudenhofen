@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ClockIcon, GraduationCapIcon, HandshakeIcon, ShieldCheckIcon } from 'lucide-react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
+import { KARRIERE_OFFERINGS, KARRIERE_REQUIREMENTS, KARRIERE_STEPS, KARRIERE_VALUE_CARDS } from '../../web/content/karriereContent';
 import { KarrierePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
@@ -33,127 +33,6 @@ export const Route = createFileRoute('/{-$locale}/karriere')({
 
 function KarrierePage() {
     const locale = useLocale();
-
-    const valueCards = [
-        {
-            icon: ClockIcon,
-            title: { de: 'Zeit pro Behandlung', en: 'Time per treatment' },
-            body: {
-                de: 'Keine 20-Minuten-Termine. Wir nehmen uns die Zeit, die der Fuß braucht.',
-                en: 'No 20-minute slots. We take the time each foot actually needs.',
-            },
-        },
-        {
-            icon: ShieldCheckIcon,
-            title: { de: 'Hygiene auf Praxisniveau', en: 'Hygiene at practice level' },
-            body: {
-                de: 'Thermische Desinfektion und Sterilisation der Instrumente nach RKI-Empfehlung.',
-                en: 'Thermal disinfection and sterilisation of instruments following RKI guidelines.',
-            },
-        },
-        {
-            icon: GraduationCapIcon,
-            title: { de: 'Fortbildungen', en: 'Continuing education' },
-            body: {
-                de: 'Wir unterstützen Weiterbildungen aktiv, fachlich und finanziell.',
-                en: 'We actively support further training — both professionally and financially.',
-            },
-        },
-        {
-            icon: HandshakeIcon,
-            title: { de: 'Kollegiales Miteinander', en: 'Collegial atmosphere' },
-            body: {
-                de: 'Kleine Praxis, kurze Wege, ehrliche Absprachen.',
-                en: 'Small practice, short paths, honest agreements.',
-            },
-        },
-    ];
-
-    const requirements: ReadonlyArray<{ de: string; en: string }> = [
-        {
-            de: 'Staatliche Anerkennung als Podologin / Podologe',
-            en: 'State-recognised qualification as a podiatrist',
-        },
-        {
-            de: 'Sicheres Arbeiten beim diabetischen Fußsyndrom (DFS)',
-            en: 'Confident treatment of patients with diabetic foot syndrome (DFS)',
-        },
-        {
-            de: 'Idealerweise Erfahrung mit Nagelkorrektur-Spangen',
-            en: 'Ideally experience with nail-correction braces',
-        },
-        {
-            de: 'Empathischer Umgang mit älteren Patientinnen und Patienten',
-            en: 'Empathetic manner with elderly patients',
-        },
-        {
-            de: 'Deutschkenntnisse auf Konversationsniveau',
-            en: 'Conversational German',
-        },
-    ];
-
-    const offerings: ReadonlyArray<{ key: { de: string; en: string }; value: { de: string; en: string } }> = [
-        {
-            key: { de: 'Anstellung', en: 'Employment' },
-            value: { de: 'Voll- oder Teilzeit, nach Absprache', en: 'Full-time or part-time, by arrangement' },
-        },
-        {
-            key: { de: 'Vergütung', en: 'Compensation' },
-            value: {
-                de: 'Fair, leistungsgerecht, im Gespräch klärbar',
-                en: 'Fair, performance-based, settled in conversation',
-            },
-        },
-        {
-            key: { de: 'Fortbildungsbudget', en: 'Training budget' },
-            value: { de: 'Jährlich, schriftlich vereinbart', en: 'Annual, agreed in writing' },
-        },
-        {
-            key: { de: 'Ausstattung', en: 'Equipment' },
-            value: {
-                de: 'Moderne Behandlungseinheiten, ergonomisches Arbeiten',
-                en: 'Modern treatment units, ergonomic working environment',
-            },
-        },
-        {
-            key: { de: 'Praxisstandort', en: 'Location' },
-            value: {
-                de: 'Dudenhofen bei Speyer, gute Anbindung',
-                en: 'Dudenhofen near Speyer, well connected',
-            },
-        },
-        {
-            key: { de: 'Stammkundschaft', en: 'Patient base' },
-            value: {
-                de: 'Gewachsene Stammkundschaft, Hausbesuche im Umkreis',
-                en: 'Established, many regulars, house calls in the surrounding area',
-            },
-        },
-    ];
-
-    const steps = [
-        {
-            title: { de: 'Schreiben Sie uns', en: 'Get in touch' },
-            body: {
-                de: `Eine kurze Mail oder ein Anruf reicht. Adresse: ${PRACTICE.email}.`,
-                en: `A short email or phone call is enough. Address: ${PRACTICE.email}.`,
-            },
-        },
-        {
-            title: { de: 'Kennenlernen', en: 'Meet in person' },
-            body: {
-                de: 'Wir vereinbaren ein lockeres Gespräch in der Praxis.',
-                en: 'We arrange a relaxed conversation at the practice.',
-            },
-        },
-        {
-            title: { de: 'Probetag', en: 'Trial day' },
-            body: {
-                de: 'Ein bezahlter Probetag — bevor irgendjemand etwas unterschreibt.',
-                en: 'A paid trial day — before anyone signs anything.',
-            },
-        },
-    ];
 
     return (
         <main>
@@ -207,20 +86,28 @@ function KarrierePage() {
                         </h2>
                     </Reveal>
                     <div className="mt-10 grid gap-6 sm:grid-cols-2">
-                        {valueCards.map(({ icon: Icon, title, body }, index) => (
-                            <Reveal key={title.de} delayMs={index * 80}>
-                                <div className="group h-full rounded-xl border border-aubergine/10 bg-cream p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-gold hover:shadow-md">
-                                    <div className="flex size-12 items-center justify-center rounded-lg bg-blush transition-colors duration-300 ease-out group-hover:bg-aubergine">
-                                        <Icon
-                                            className="size-6 text-aubergine transition-colors duration-300 ease-out group-hover:text-cream"
-                                            aria-hidden
-                                        />
+                        {KARRIERE_VALUE_CARDS.map((card, index) => {
+                            const Icon = card.icon!;
+                            return (
+                                <Reveal key={card.id} delayMs={index * 80}>
+                                    <div
+                                        id={card.id}
+                                        className="search-target group h-full scroll-mt-20 rounded-xl border border-aubergine/10 bg-cream p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-gold hover:shadow-md"
+                                    >
+                                        <div className="flex size-12 items-center justify-center rounded-lg bg-blush transition-colors duration-300 ease-out group-hover:bg-aubergine">
+                                            <Icon
+                                                className="size-6 text-aubergine transition-colors duration-300 ease-out group-hover:text-cream"
+                                                aria-hidden
+                                            />
+                                        </div>
+                                        <h3 className="mt-5 font-serif text-xl font-semibold text-aubergine-dark">
+                                            {card.heading[locale]}
+                                        </h3>
+                                        <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">{card.body[locale]}</p>
                                     </div>
-                                    <h3 className="mt-5 font-serif text-xl font-semibold text-aubergine-dark">{title[locale]}</h3>
-                                    <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">{body[locale]}</p>
-                                </div>
-                            </Reveal>
-                        ))}
+                                </Reveal>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -249,10 +136,10 @@ function KarrierePage() {
                                     {{ de: 'Voraussetzungen', en: 'Requirements' }[locale]}
                                 </p>
                                 <ul className="mt-4 space-y-2 text-(--color-brand-charcoal-2)">
-                                    {requirements.map((req) => (
-                                        <li key={req.de} className="flex gap-3">
+                                    {KARRIERE_REQUIREMENTS.map((req) => (
+                                        <li key={req.id} id={req.id} className="search-target flex scroll-mt-20 gap-3">
                                             <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-aubergine/60" />
-                                            <span className="leading-relaxed">{req[locale]}</span>
+                                            <span className="leading-relaxed">{req.heading[locale]}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -292,11 +179,11 @@ function KarrierePage() {
                         </h2>
                     </Reveal>
                     <dl className="mt-10 divide-y divide-aubergine/10 border-y border-aubergine/10">
-                        {offerings.map((entry, index) => (
-                            <Reveal key={entry.key.de} delayMs={index * 80}>
-                                <div className="grid gap-2 py-5 sm:grid-cols-[14rem_1fr] sm:gap-8">
-                                    <dt className="font-serif text-lg font-semibold text-aubergine-dark">{entry.key[locale]}</dt>
-                                    <dd className="leading-relaxed text-(--color-brand-charcoal-2)">{entry.value[locale]}</dd>
+                        {KARRIERE_OFFERINGS.map((entry, index) => (
+                            <Reveal key={entry.id} delayMs={index * 80}>
+                                <div id={entry.id} className="search-target grid scroll-mt-20 gap-2 py-5 sm:grid-cols-[14rem_1fr] sm:gap-8">
+                                    <dt className="font-serif text-lg font-semibold text-aubergine-dark">{entry.heading[locale]}</dt>
+                                    <dd className="leading-relaxed text-(--color-brand-charcoal-2)">{entry.body[locale]}</dd>
                                 </div>
                             </Reveal>
                         ))}
@@ -319,12 +206,16 @@ function KarrierePage() {
                         }
                     </h2>
                     <ol className="mt-10 grid gap-6 md:grid-cols-3">
-                        {steps.map((step, index) => (
-                            <li key={step.title.de} className="rounded-xl border border-gold/30 bg-aubergine-dark p-6">
+                        {KARRIERE_STEPS.map((step, index) => (
+                            <li
+                                key={step.id}
+                                id={step.id}
+                                className="search-target scroll-mt-20 rounded-xl border border-gold/30 bg-aubergine-dark p-6"
+                            >
                                 <div className="flex size-10 items-center justify-center rounded-full border border-gold/50 font-mono text-sm text-gold">
                                     {String(index + 1).padStart(2, '0')}
                                 </div>
-                                <h3 className="mt-5 font-serif text-xl font-semibold text-cream">{step.title[locale]}</h3>
+                                <h3 className="mt-5 font-serif text-xl font-semibold text-cream">{step.heading[locale]}</h3>
                                 <p className="mt-2 leading-relaxed text-cream/80">{step.body[locale]}</p>
                                 {index === 0 ? (
                                     <p className="mt-3 text-sm text-cream/70">

@@ -3,6 +3,7 @@ import { createIsomorphicFn } from '@tanstack/react-start';
 import { getRequestHeader, setResponseHeader } from '@tanstack/react-start/server';
 import { SiteFooter } from '../web/components/SiteFooter';
 import { SiteHeader } from '../web/components/SiteHeader';
+import { useSearchTargetHighlight } from '../web/hooks/useSearchTargetHighlight';
 import { DEFAULT_LOCALE, LOCALES, localeFromAcceptLanguage } from '../web/utils/locale';
 import type { Locale } from '../web/utils/locale';
 
@@ -35,11 +36,16 @@ export const Route = createFileRoute('/{-$locale}')({
             }
         }
     },
-    component: () => (
+    component: LocaleLayout,
+});
+
+function LocaleLayout() {
+    useSearchTargetHighlight();
+    return (
         <div className="flex min-h-screen flex-col">
             <SiteHeader />
             <Outlet />
             <SiteFooter />
         </div>
-    ),
-});
+    );
+}

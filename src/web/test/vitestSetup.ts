@@ -8,3 +8,22 @@ import { cleanup } from '@testing-library/react';
 afterEach(() => {
     cleanup();
 });
+
+// jsdom does not implement ResizeObserver; cmdk (the search-dialog primitive)
+// constructs one on mount. The shim is intentionally inert — the search tests
+// don't rely on resize callbacks firing.
+if (typeof globalThis.ResizeObserver === 'undefined') {
+    globalThis.ResizeObserver = class ResizeObserver {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+    } as unknown as typeof ResizeObserver;
+}
+
+// Radix Dialog calls these during open. jsdom doesn't implement them.
+if (typeof Element.prototype.hasPointerCapture === 'undefined') {
+    Element.prototype.hasPointerCapture = () => false;
+}
+if (typeof Element.prototype.scrollIntoView === 'undefined') {
+    Element.prototype.scrollIntoView = () => {};
+}

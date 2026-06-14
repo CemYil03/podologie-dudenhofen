@@ -35,7 +35,7 @@ function QualifikationPage() {
     return (
         <main>
             {/* 1. Hero — cream */}
-            <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
+            <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
                     <SectionEyebrow>{{ de: 'Qualifikation', en: 'Credentials' }[locale]}</SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
@@ -325,7 +325,7 @@ function QualifikationPage() {
             </section>
 
             {/* 5. Final CTA — cream */}
-            <section className="mx-auto max-w-5xl px-6 py-20 text-center">
+            <section id="termin" className="mx-auto max-w-5xl scroll-mt-20 px-6 py-20 text-center">
                 <Reveal>
                     <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                         {

@@ -17,6 +17,7 @@ docs/
 │   ├── chat-persistence.md       # Chat persistence — DB schema and AI SDK replay
 │   ├── dependency-injection.md   # Dependency injection container
 │   ├── file-storage.md           # Generic file-upload store (Postgres bytea); consumers join by fileUploadId
+│   ├── page-content-modules.md   # Typed leaf-card content extracted from route files; auto-derived search index
 │   ├── seo.md                    # SEO standards — seoMeta() helper, dynamic sitemap.xml, robots.txt
 │   ├── server-side-rendering.md  # Playwright-based UI capture for image/PDF exports
 │   ├── state-synchronization.md  # Client-server state sync via subscriptions

@@ -34,7 +34,7 @@ function ImpressumPage() {
     return (
         <main>
             {/* Hero — cream */}
-            <section className="mx-auto max-w-3xl px-6 pt-16 pb-12">
+            <section id="hero" className="mx-auto max-w-3xl scroll-mt-20 px-6 pt-16 pb-12">
                 <SectionEyebrow>{{ de: 'Rechtliches', en: 'Legal' }[locale]}</SectionEyebrow>
                 <h1 className="mt-6 font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                     {{ de: 'Impressum', en: 'Imprint' }[locale]}
@@ -52,7 +52,7 @@ function ImpressumPage() {
             {/* Body */}
             <section className="mx-auto max-w-3xl px-6 pb-24">
                 <div className="space-y-12 leading-relaxed text-(--color-brand-charcoal-2)">
-                    <Block heading={{ de: 'Angaben gemäß § 5 TMG', en: 'Information under § 5 TMG' }[locale]}>
+                    <Block id="block-tmg" heading={{ de: 'Angaben gemäß § 5 TMG', en: 'Information under § 5 TMG' }[locale]}>
                         <address className="not-italic">
                             {PRACTICE.person}
                             <br />
@@ -66,7 +66,7 @@ function ImpressumPage() {
                         </address>
                     </Block>
 
-                    <Block heading={{ de: 'Steuerliche Angaben', en: 'Tax details' }[locale]}>
+                    <Block id="block-steuer" heading={{ de: 'Steuerliche Angaben', en: 'Tax details' }[locale]}>
                         <dl className="grid grid-cols-[10rem_1fr] gap-y-1">
                             <dt className="font-medium text-aubergine-dark">{{ de: 'Steuernummer', en: 'Tax number' }[locale]}</dt>
                             <dd>41/196/711/00</dd>
@@ -77,7 +77,7 @@ function ImpressumPage() {
                         </dl>
                     </Block>
 
-                    <Block heading={{ de: 'Kontakt', en: 'Contact' }[locale]}>
+                    <Block id="block-kontakt" heading={{ de: 'Kontakt', en: 'Contact' }[locale]}>
                         <dl className="grid grid-cols-[10rem_1fr] gap-y-1">
                             <dt className="font-medium text-aubergine-dark">{{ de: 'Telefon', en: 'Phone' }[locale]}</dt>
                             <dd>
@@ -95,6 +95,7 @@ function ImpressumPage() {
                     </Block>
 
                     <Block
+                        id="block-berufsbezeichnung"
                         heading={
                             {
                                 de: 'Berufsbezeichnung und berufsrechtliche Regelungen',
@@ -140,7 +141,7 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Zuständige Aufsichtsbehörde', en: 'Supervisory authority' }[locale]}>
+                    <Block id="block-aufsicht" heading={{ de: 'Zuständige Aufsichtsbehörde', en: 'Supervisory authority' }[locale]}>
                         <address className="not-italic">
                             Gesundheitsamt Rhein-Pfalz-Kreis
                             <br />
@@ -160,7 +161,10 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Berufshaftpflichtversicherung', en: 'Professional liability insurance' }[locale]}>
+                    <Block
+                        id="block-haftpflicht"
+                        heading={{ de: 'Berufshaftpflichtversicherung', en: 'Professional liability insurance' }[locale]}
+                    >
                         <p className="mb-2 font-medium text-aubergine-dark">
                             {{ de: 'Name und Sitz des Versicherers', en: 'Insurer' }[locale]}
                         </p>
@@ -177,7 +181,7 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Streitschlichtung', en: 'Online dispute resolution' }[locale]}>
+                    <Block id="block-streit" heading={{ de: 'Streitschlichtung', en: 'Online dispute resolution' }[locale]}>
                         <p>
                             {
                                 {
@@ -205,7 +209,7 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Haftung für Inhalte', en: 'Liability for content' }[locale]}>
+                    <Block id="block-haftung-inhalte" heading={{ de: 'Haftung für Inhalte', en: 'Liability for content' }[locale]}>
                         <p>
                             {
                                 {
@@ -224,7 +228,7 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Haftung für Links', en: 'Liability for links' }[locale]}>
+                    <Block id="block-haftung-links" heading={{ de: 'Haftung für Links', en: 'Liability for links' }[locale]}>
                         <p>
                             {
                                 {
@@ -243,7 +247,7 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Urheberrecht', en: 'Copyright' }[locale]}>
+                    <Block id="block-urheberrecht" heading={{ de: 'Urheberrecht', en: 'Copyright' }[locale]}>
                         <p>
                             {
                                 {
@@ -262,7 +266,7 @@ function ImpressumPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: 'Bildnachweise', en: 'Image credits' }[locale]}>
+                    <Block id="block-bildnachweise" heading={{ de: 'Bildnachweise', en: 'Image credits' }[locale]}>
                         <p>
                             {
                                 {
@@ -278,9 +282,9 @@ function ImpressumPage() {
     );
 }
 
-function Block({ heading, children }: { heading: string; children: React.ReactNode }) {
+function Block({ id, heading, children }: { id: string; heading: string; children: React.ReactNode }) {
     return (
-        <section>
+        <section id={id} className="scroll-mt-20">
             <h2 className="font-serif text-2xl font-semibold text-aubergine-dark">{heading}</h2>
             <div className="mt-4">{children}</div>
         </section>

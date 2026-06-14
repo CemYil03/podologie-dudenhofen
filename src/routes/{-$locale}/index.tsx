@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ActivityIcon, AwardIcon, BadgeCheckIcon, PhoneIcon, ShieldCheckIcon, StethoscopeIcon } from 'lucide-react';
+import { PhoneIcon } from 'lucide-react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
+import { INDEX_CREDENTIALS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS } from '../../web/content/indexContent';
 import { HomePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
@@ -31,47 +32,10 @@ export const Route = createFileRoute('/{-$locale}/')({
     component() {
         const locale = useLocale();
 
-        const services = [
-            {
-                icon: StethoscopeIcon,
-                title: { de: 'Medizinische Fußpflege', en: 'Medical foot-care' },
-                body: { de: 'Hornhaut, Nagelpflege, Druckstellen.', en: 'Calluses, nail care, pressure points.' },
-            },
-            {
-                icon: ShieldCheckIcon,
-                title: { de: 'Diabetisches Fußsyndrom', en: 'Diabetic foot syndrome' },
-                body: {
-                    de: 'Behandlung mit Kassenabrechnung nach Verordnung.',
-                    en: 'Treatment billed via statutory insurance with a prescription.',
-                },
-            },
-            {
-                icon: ActivityIcon,
-                title: { de: 'Nagelkorrektur-Spangen', en: 'Nail-correction braces' },
-                body: {
-                    de: 'Bei eingewachsenen oder verformten Nägeln.',
-                    en: 'For ingrown or deformed nails.',
-                },
-            },
-        ] as const;
-
-        const suggestedQuestions = [
-            { de: 'Brauche ich eine Verordnung?', en: 'Do I need a prescription?' },
-            { de: 'Was bringe ich zum ersten Termin mit?', en: 'What should I bring to the first appointment?' },
-            { de: 'Übernimmt meine Krankenkasse das?', en: 'Will my health insurance cover this?' },
-            { de: 'Was zahle ich als Kassenpatient*in?', en: 'What will I pay as a statutory patient?' },
-        ] as const;
-
-        const credentials = [
-            { icon: AwardIcon, label: { de: 'Staatliche Urkunde Podologie', en: 'State certificate in podiatry' } },
-            { icon: BadgeCheckIcon, label: { de: 'Heilpraktikerin für Podologie (RLP)', en: 'Heilpraktiker for podiatry (RLP)' } },
-            { icon: ShieldCheckIcon, label: { de: 'Hygiene nach RKI-Empfehlung', en: 'Hygiene per RKI recommendations' } },
-        ] as const;
-
         return (
             <main>
                 {/* 1. Hero */}
-                <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
+                <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                     <div className="grid gap-12 md:grid-cols-2 md:items-center">
                         <Reveal>
                             <SectionEyebrow>{{ de: 'Praxis für Podologie', en: 'Practice for podiatry' }[locale]}</SectionEyebrow>
@@ -118,7 +82,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 </section>
 
                 {/* 2. Services overview */}
-                <section className="bg-cream">
+                <section id="leistungen-uebersicht" className="scroll-mt-20 bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <Reveal>
                             <SectionEyebrow>{{ de: 'Leistungen', en: 'Services' }[locale]}</SectionEyebrow>
@@ -127,11 +91,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                             </h2>
                         </Reveal>
                         <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-                            {services.map((service, index) => {
-                                const Icon = service.icon;
+                            {INDEX_SERVICES.map((service, index) => {
+                                const Icon = service.icon!;
                                 return (
-                                    <Reveal key={service.title.de} delayMs={index * 80}>
-                                        <div className="group h-full rounded-xl border border-aubergine/10 bg-cream p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-gold hover:shadow-md">
+                                    <Reveal key={service.id} delayMs={index * 80}>
+                                        <div
+                                            id={service.id}
+                                            className="search-target group h-full scroll-mt-20 rounded-xl border border-aubergine/10 bg-cream p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-gold hover:shadow-md"
+                                        >
                                             <div className="flex size-10 items-center justify-center rounded-md bg-blush p-2 transition-colors duration-300 ease-out group-hover:bg-aubergine">
                                                 <Icon
                                                     className="size-5 text-aubergine transition-colors duration-300 ease-out group-hover:text-cream"
@@ -139,7 +106,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                                 />
                                             </div>
                                             <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">
-                                                {service.title[locale]}
+                                                {service.heading[locale]}
                                             </h3>
                                             <p className="mt-2 text-(--color-brand-charcoal-2)">{service.body[locale]}</p>
                                         </div>
@@ -165,7 +132,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 </section>
 
                 {/* 3. Inline AI chat entry card */}
-                <section className="bg-blush">
+                <section id="fragen" className="scroll-mt-20 bg-blush">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <Reveal>
                             <SectionEyebrow>{{ de: 'Fragen?', en: 'Questions?' }[locale]}</SectionEyebrow>
@@ -189,14 +156,15 @@ export const Route = createFileRoute('/{-$locale}/')({
                         <Reveal delayMs={120} className="mx-auto mt-10 max-w-2xl">
                             <div className="rounded-xl border border-aubergine/10 bg-cream p-6">
                                 <div className="flex flex-col gap-2">
-                                    {suggestedQuestions.map((q) => (
+                                    {INDEX_SUGGESTED_QUESTIONS.map((q) => (
                                         <Link
-                                            key={q.de}
+                                            key={q.id}
+                                            id={q.id}
                                             to="/{-$locale}/chat"
                                             search={{ chatId: undefined }}
-                                            className="rounded-md border border-aubergine/20 px-4 py-3 text-left text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
+                                            className="search-target scroll-mt-20 rounded-md border border-aubergine/20 px-4 py-3 text-left text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
                                         >
-                                            {q[locale]}
+                                            {q.heading[locale]}
                                         </Link>
                                     ))}
                                 </div>
@@ -214,7 +182,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 </section>
 
                 {/* 4. Opening hours + map preview + address */}
-                <section className="bg-cream">
+                <section id="oeffnungszeiten" className="scroll-mt-20 bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <div className="grid gap-12 md:grid-cols-2 md:items-start">
                             <Reveal>
@@ -282,7 +250,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 </section>
 
                 {/* 5. Credential strip */}
-                <section className="bg-aubergine-dark text-cream">
+                <section id="qualifikation" className="scroll-mt-20 bg-aubergine-dark text-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <div className="flex items-center gap-3">
                             <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-gold">
@@ -299,12 +267,16 @@ export const Route = createFileRoute('/{-$locale}/')({
                             }
                         </h2>
                         <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
-                            {credentials.map((credential) => {
-                                const Icon = credential.icon;
+                            {INDEX_CREDENTIALS.map((credential) => {
+                                const Icon = credential.icon!;
                                 return (
-                                    <li key={credential.label.de} className="flex items-center gap-3 text-cream/80">
+                                    <li
+                                        key={credential.id}
+                                        id={credential.id}
+                                        className="search-target flex scroll-mt-20 items-center gap-3 text-cream/80"
+                                    >
                                         <Icon className="size-5 text-gold" aria-hidden />
-                                        <span>{credential.label[locale]}</span>
+                                        <span>{credential.heading[locale]}</span>
                                     </li>
                                 );
                             })}
@@ -318,7 +290,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 </section>
 
                 {/* 6. Final CTA */}
-                <section className="bg-cream">
+                <section id="termin" className="scroll-mt-20 bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20 text-center">
                         <Reveal>
                             <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">

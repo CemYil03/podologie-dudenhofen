@@ -41,7 +41,7 @@ function KontaktPage() {
     return (
         <main>
             {/* Hero — cream */}
-            <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
+            <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
                     <SectionEyebrow>{{ de: 'Kontakt', en: 'Contact' }[locale]}</SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">

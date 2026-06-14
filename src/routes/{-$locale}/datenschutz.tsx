@@ -37,7 +37,7 @@ function DatenschutzPage() {
     return (
         <main>
             {/* Hero — cream */}
-            <section className="mx-auto max-w-3xl px-6 pt-16 pb-12">
+            <section id="hero" className="mx-auto max-w-3xl scroll-mt-20 px-6 pt-16 pb-12">
                 <SectionEyebrow>{{ de: 'Rechtliches', en: 'Legal' }[locale]}</SectionEyebrow>
                 <h1 className="mt-6 font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                     {{ de: 'Datenschutzerklärung', en: 'Privacy policy' }[locale]}
@@ -58,7 +58,7 @@ function DatenschutzPage() {
             {/* Body */}
             <section className="mx-auto max-w-3xl px-6 pb-24">
                 <div className="space-y-12 leading-relaxed text-(--color-brand-charcoal-2)">
-                    <Block heading={{ de: '1. Verantwortlicher', en: '1. Controller' }[locale]}>
+                    <Block id="block-1-verantwortlicher" heading={{ de: '1. Verantwortlicher', en: '1. Controller' }[locale]}>
                         <p>
                             {
                                 {
@@ -91,7 +91,10 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '2. Allgemeines zur Datenverarbeitung', en: '2. General principles' }[locale]}>
+                    <Block
+                        id="block-2-allgemeines"
+                        heading={{ de: '2. Allgemeines zur Datenverarbeitung', en: '2. General principles' }[locale]}
+                    >
                         <p>
                             {
                                 {
@@ -102,7 +105,10 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '3. Beim Aufruf der Webseite (Server-Logs)', en: '3. Server logs' }[locale]}>
+                    <Block
+                        id="block-3-server-logs"
+                        heading={{ de: '3. Beim Aufruf der Webseite (Server-Logs)', en: '3. Server logs' }[locale]}
+                    >
                         <p>
                             {
                                 {
@@ -113,7 +119,7 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '4. Cookies', en: '4. Cookies' }[locale]}>
+                    <Block id="block-4-cookies" heading={{ de: '4. Cookies', en: '4. Cookies' }[locale]}>
                         <p>
                             {
                                 {
@@ -157,6 +163,7 @@ function DatenschutzPage() {
                     </Block>
 
                     <Block
+                        id="block-5-kontakt"
                         heading={
                             {
                                 de: '5. Kontaktaufnahme per Telefon und E-Mail',
@@ -190,7 +197,10 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '6. Eingebettete Karte (Google Maps)', en: '6. Embedded map (Google Maps)' }[locale]}>
+                    <Block
+                        id="block-6-google-maps"
+                        heading={{ de: '6. Eingebettete Karte (Google Maps)', en: '6. Embedded map (Google Maps)' }[locale]}
+                    >
                         <p>
                             {
                                 {
@@ -227,7 +237,7 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '7. AI-Assistent (Chat)', en: '7. AI assistant (chat)' }[locale]}>
+                    <Block id="block-7-ai-chat" heading={{ de: '7. AI-Assistent (Chat)', en: '7. AI assistant (chat)' }[locale]}>
                         <p>
                             {
                                 {
@@ -255,6 +265,7 @@ function DatenschutzPage() {
                     </Block>
 
                     <Block
+                        id="block-8-externe-verweise"
                         heading={
                             {
                                 de: '8. Externe Verweise (Telefon, E-Mail, Apple Maps)',
@@ -272,7 +283,10 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '9. Empfänger und Auftragsverarbeiter', en: '9. Recipients and processors' }[locale]}>
+                    <Block
+                        id="block-9-empfaenger"
+                        heading={{ de: '9. Empfänger und Auftragsverarbeiter', en: '9. Recipients and processors' }[locale]}
+                    >
                         <p>
                             {
                                 {
@@ -283,7 +297,7 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '10. Ihre Rechte', en: '10. Your rights' }[locale]}>
+                    <Block id="block-10-rechte" heading={{ de: '10. Ihre Rechte', en: '10. Your rights' }[locale]}>
                         <p>
                             {
                                 {
@@ -381,7 +395,10 @@ function DatenschutzPage() {
                         </p>
                     </Block>
 
-                    <Block heading={{ de: '11. Beschwerderecht', en: '11. Right to lodge a complaint' }[locale]}>
+                    <Block
+                        id="block-11-beschwerderecht"
+                        heading={{ de: '11. Beschwerderecht', en: '11. Right to lodge a complaint' }[locale]}
+                    >
                         <p>
                             {
                                 {
@@ -414,6 +431,7 @@ function DatenschutzPage() {
                     </Block>
 
                     <Block
+                        id="block-12-keine-automatisierung"
                         heading={
                             {
                                 de: '12. Keine automatisierte Entscheidungsfindung',
@@ -432,6 +450,7 @@ function DatenschutzPage() {
                     </Block>
 
                     <Block
+                        id="block-13-aktualisierungen"
                         heading={
                             {
                                 de: '13. Aktualisierungen dieser Erklärung',
@@ -457,9 +476,9 @@ function DatenschutzPage() {
     );
 }
 
-function Block({ heading, children }: { heading: string; children: React.ReactNode }) {
+function Block({ id, heading, children }: { id: string; heading: string; children: React.ReactNode }) {
     return (
-        <section>
+        <section id={id} className="scroll-mt-20">
             <h2 className="font-serif text-2xl font-semibold text-aubergine-dark">{heading}</h2>
             <div className="mt-4">{children}</div>
         </section>
