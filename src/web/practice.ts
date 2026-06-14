@@ -25,5 +25,10 @@ export const PRACTICE = {
         embed: 'https://www.google.com/maps?q=Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen&output=embed',
         google: 'https://www.google.com/maps/dir/53.5542316,9.9152351/Podologie+Annette+Yilmaz,+Speyerer+Str.+60,+67373+Dudenhofen',
         apple: 'https://maps.apple.com/directions?destination=Podologie+Annette+Yilmaz%2C+Speyerer+Stra%C3%9Fe+60+67373+Dudenhofen+Deutschland&destination-place-id=IE4D6102C9A687DCD&mode=driving',
+        // Lands directly on the reviews list for the practice's Google
+        // listing. Place ID and CID were confirmed from the listing's own
+        // embed payload — see docs/features/testimonials.md.
+        reviews: 'https://search.google.com/local/reviews?placeid=ChIJzcTVmG20l0cR7OwkPRBebrY',
     },
+    googlePlaceId: 'ChIJzcTVmG20l0cR7OwkPRBebrY',
 } as const;

@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { PhoneIcon } from 'lucide-react';
+import { ExternalLinkIcon, PhoneIcon, QuoteIcon, StarIcon } from 'lucide-react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
-import { INDEX_CREDENTIALS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS } from '../../web/content/indexContent';
+import { INDEX_CREDENTIALS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS, INDEX_TESTIMONIALS } from '../../web/content/indexContent';
 import { HomePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
@@ -345,7 +345,57 @@ export const Route = createFileRoute('/{-$locale}/')({
                     </div>
                 </section>
 
-                {/* 6. Final CTA */}
+                {/* 6. Testimonials */}
+                <section id="stimmen" className="scroll-mt-20 bg-blush">
+                    <div className="mx-auto max-w-5xl px-6 py-20">
+                        <Reveal>
+                            <SectionEyebrow>{{ de: 'Stimmen', en: 'Voices' }[locale]}</SectionEyebrow>
+                            <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                                {{ de: 'Stimmen aus der Praxis.', en: 'Voices from the practice.' }[locale]}
+                            </h2>
+                        </Reveal>
+                        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                            {INDEX_TESTIMONIALS.map((testimonial, index) => (
+                                <Reveal key={testimonial.id} delayMs={index * 80}>
+                                    <figure className="flex h-full flex-col rounded-xl border border-aubergine/10 bg-cream p-6">
+                                        <QuoteIcon className="size-5 text-aubergine/60" aria-hidden />
+                                        <blockquote className="mt-4 flex-1 text-(--color-brand-charcoal-2)">
+                                            <p>„{testimonial.quote[locale]}“</p>
+                                        </blockquote>
+                                        <figcaption className="mt-4 text-sm font-medium text-aubergine-dark">
+                                            — {testimonial.attribution[locale]}
+                                        </figcaption>
+                                    </figure>
+                                </Reveal>
+                            ))}
+                        </div>
+                        <Reveal className="mt-10 text-center">
+                            <div
+                                className="flex items-center justify-center gap-1"
+                                role="img"
+                                aria-label={{ de: 'Bewertungen auf Google', en: 'Reviews on Google' }[locale]}
+                            >
+                                {Array.from({ length: 5 }, (_, index) => (
+                                    <StarIcon key={index} className="size-5 fill-yellow-400 text-yellow-400" aria-hidden />
+                                ))}
+                            </div>
+                            <a
+                                href={PRACTICE.maps.reviews}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group mt-4 inline-flex items-center gap-1.5 font-medium text-aubergine hover:underline"
+                            >
+                                {{ de: 'Alle Bewertungen auf Google ansehen', en: 'View all reviews on Google' }[locale]}
+                                <ExternalLinkIcon
+                                    className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5"
+                                    aria-hidden
+                                />
+                            </a>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* 7. Final CTA */}
                 <section id="termin" className="scroll-mt-20 bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20 text-center">
                         <Reveal>

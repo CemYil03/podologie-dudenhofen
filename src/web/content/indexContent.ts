@@ -1,5 +1,5 @@
 import { ActivityIcon, AwardIcon, BadgeCheckIcon, ShieldCheckIcon, StethoscopeIcon } from 'lucide-react';
-import type { ContentLeaf } from './contentLeaf';
+import type { ContentLeaf, LocaleString } from './contentLeaf';
 
 export const INDEX_SERVICES: ReadonlyArray<ContentLeaf> = [
     {
@@ -109,5 +109,49 @@ export const INDEX_CREDENTIALS: ReadonlyArray<ContentLeaf> = [
             en: 'Reprocessing of instruments and surfaces per the Robert Koch Institute.',
         },
         keywords: { de: ['hygiene', 'rki', 'robert koch'], en: ['hygiene', 'rki', 'robert koch'] },
+    },
+];
+
+/**
+ * Visitor-experience testimonials. The cards on the home page render these
+ * verbatim — the link below them sends visitors to the live Google reviews.
+ *
+ * Non-negotiable rule — see docs/features/testimonials.md:
+ *
+ * Quotes describe the *visit experience* only (atmosphere, time taken,
+ * explanation, friendliness). They MUST NOT describe medical outcomes
+ * (pain relief, healing, cure) — HWG §11 restricts patient testimonials
+ * in healthcare advertising and outcome claims are the part it bites on.
+ */
+export type IndexTestimonial = {
+    id: string;
+    quote: LocaleString;
+    attribution: LocaleString;
+};
+
+export const INDEX_TESTIMONIALS: ReadonlyArray<IndexTestimonial> = [
+    {
+        id: 'testimonial-1',
+        quote: {
+            de: 'Sehr ruhige Atmosphäre. Es wurde mir alles in Ruhe erklärt, und die Praxis ist auch für ältere Menschen gut zu erreichen.',
+            en: 'A very calm atmosphere. Everything was explained to me without rush, and the practice is easy to reach for older people too.',
+        },
+        attribution: { de: 'Patientenstimme', en: 'Patient comment' },
+    },
+    {
+        id: 'testimonial-2',
+        quote: {
+            de: 'Frau Yilmaz nimmt sich Zeit und arbeitet sehr sorgfältig. Termine waren immer pünktlich.',
+            en: 'Ms Yilmaz takes time and works very carefully. Appointments were always on schedule.',
+        },
+        attribution: { de: 'Patientenstimme', en: 'Patient comment' },
+    },
+    {
+        id: 'testimonial-3',
+        quote: {
+            de: 'Freundlicher Empfang, saubere Räume, persönliche Betreuung. Genau das, was man sich von einer kleinen Praxis wünscht.',
+            en: 'Warm welcome, clean rooms, personal care. Exactly what you would hope for from a small practice.',
+        },
+        attribution: { de: 'Patientenstimme', en: 'Patient comment' },
     },
 ];
