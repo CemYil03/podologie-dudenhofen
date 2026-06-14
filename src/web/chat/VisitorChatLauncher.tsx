@@ -30,7 +30,7 @@ export function VisitorChatLauncher() {
                     ar: 'فتح المساعد',
                 }[locale]
             }
-            className="fixed bottom-6 end-6 z-40 flex size-14 items-center justify-center rounded-full bg-aubergine text-cream shadow-lg transition-transform duration-150 ease-out hover:bg-aubergine-dark hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            className="fixed bottom-4 inset-e-4 sm:bottom-6 sm:inset-e-6 z-40 flex size-14 items-center justify-center rounded-full bg-aubergine text-cream shadow-lg transition-transform duration-150 ease-out hover:bg-aubergine-dark hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
         >
             <MessageCircleIcon className="size-6" aria-hidden />
         </button>
