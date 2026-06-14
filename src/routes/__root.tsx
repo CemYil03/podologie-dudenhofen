@@ -108,7 +108,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <head>
                 <HeadContent />
             </head>
-            <body className="font-sans antialiased wrap-anywhere bg-cream text-charcoal selection:bg-aubergine/25 selection:text-aubergine-dark">
+            <body className="font-sans antialiased wrap-anywhere bg-cream text-charcoal">
                 <NavigationProgress />
                 <TooltipProvider>
                     <GraphQLClientProvider value={urqlClient}>{children}</GraphQLClientProvider>

@@ -128,6 +128,31 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    /*
+     * Text selection colors. Driven by two CSS custom properties so the
+     * closest brand-surface ancestor wins automatically — a cream card
+     * inside a dark section gets the light selection, a brand button on a
+     * cream page gets the dark-surface selection. Adding a new dark
+     * surface utility means adding it to the override list below; nothing
+     * else has to change. See docs/style/colors.md.
+     */
+    :root {
+        --selection-bg: color-mix(in oklab, var(--color-brand-aubergine) 25%, transparent);
+        --selection-fg: var(--color-brand-aubergine-dark);
+    }
+
+    .bg-aubergine,
+    .bg-aubergine-dark,
+    .bg-charcoal {
+        --selection-bg: var(--color-brand-cream);
+        --selection-fg: var(--color-brand-aubergine-dark);
+    }
+
+    ::selection {
+        background-color: var(--selection-bg);
+        color: var(--selection-fg);
+    }
 }
 
 @keyframes nav-progress-grow {

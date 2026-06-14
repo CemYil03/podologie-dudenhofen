@@ -44,6 +44,17 @@ through `@theme inline` (`bg-aubergine`, `text-cream`, `border-gold`, …).
 - Don't re-introduce raw hex values like `bg-[#FBF7F3]` once a token exists. If a new role genuinely needs a new color, add a token first
   and update this document.
 
+## Text selection
+
+`::selection` colors are driven by two CSS custom properties (`--selection-bg`, `--selection-fg`) defined in `src/styles.css`. The default
+on `:root` is a translucent aubergine wash with aubergine-dark text — tuned for the light surfaces (cream, blush, white cards). On dark
+surfaces (`bg-aubergine`, `bg-aubergine-dark`, `bg-charcoal`) the same custom properties are overridden to a cream wash with aubergine-dark
+text, so selected text stays readable on every brand surface.
+
+Because the variables cascade, the closest brand-surface ancestor wins automatically — a cream card nested inside a dark section gets the
+light selection back. **Don't add `selection:*` utilities to individual components**; if you introduce a new dark surface utility, add it to
+the override list in `src/styles.css` instead.
+
 ## Alternatives considered
 
 - **A muted teal palette** (`#0f766e`-led, the original PWA `theme_color`). Read too clinical and didn't differentiate the practice from
