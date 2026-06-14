@@ -117,13 +117,23 @@ function QualifikationPage() {
                                     <li className="flex gap-3">
                                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
                                         <span>
-                                            {{ de: 'Gesundheitsfachberuf nach PodG', en: 'Recognised health-care profession (PodG)' }[locale]}
+                                            {
+                                                {
+                                                    de: 'Gesundheitsfachberuf nach PodG',
+                                                    en: 'Recognised health-care profession (PodG)',
+                                                }[locale]
+                                            }
                                         </span>
                                     </li>
                                     <li className="flex gap-3">
                                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
                                         <span>
-                                            {{ de: 'Geregelt nach Podologengesetz', en: 'Governed by the Podiatrists Act' }[locale]}
+                                            {
+                                                {
+                                                    de: 'Geregelt nach Podologengesetz',
+                                                    en: 'Governed by the Podiatrists Act',
+                                                }[locale]
+                                            }
                                         </span>
                                     </li>
                                     <li className="flex gap-3">
