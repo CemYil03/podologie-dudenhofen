@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ActivityIcon, AwardIcon, BadgeCheckIcon, PhoneIcon, ShieldCheckIcon, StethoscopeIcon } from 'lucide-react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
+import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { HomePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
@@ -72,7 +73,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 {/* 1. Hero */}
                 <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
                     <div className="grid gap-12 md:grid-cols-2 md:items-center">
-                        <div>
+                        <Reveal>
                             <SectionEyebrow>{{ de: 'Praxis für Podologie', en: 'Practice for podiatry' }[locale]}</SectionEyebrow>
                             <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                                 {
@@ -98,8 +99,8 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services' }[locale]}</Link>
                                 </Button>
                             </div>
-                        </div>
-                        <div className="hidden md:block">
+                        </Reveal>
+                        <Reveal delayMs={120} className="hidden md:block">
                             <div className="aspect-4/5 overflow-hidden rounded-xl border border-aubergine/10 shadow-sm">
                                 <img
                                     src="/podologie-dudenhofen-praxis.jpg"
@@ -112,86 +113,103 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     className="h-full w-full object-cover"
                                 />
                             </div>
-                        </div>
+                        </Reveal>
                     </div>
                 </section>
 
                 {/* 2. Services overview */}
                 <section className="bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
-                        <SectionEyebrow>{{ de: 'Leistungen', en: 'Services' }[locale]}</SectionEyebrow>
-                        <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Wofür Sie kommen.', en: 'What we do.' }[locale]}
-                        </h2>
+                        <Reveal>
+                            <SectionEyebrow>{{ de: 'Leistungen', en: 'Services' }[locale]}</SectionEyebrow>
+                            <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                                {{ de: 'Wofür Sie kommen.', en: 'What we do.' }[locale]}
+                            </h2>
+                        </Reveal>
                         <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-                            {services.map((service) => {
+                            {services.map((service, index) => {
                                 const Icon = service.icon;
                                 return (
-                                    <div
-                                        key={service.title.de}
-                                        className="rounded-xl border border-aubergine/10 bg-cream p-6 transition hover:-translate-y-0.5 hover:border-gold"
-                                    >
-                                        <div className="flex size-10 items-center justify-center rounded-md bg-blush p-2">
-                                            <Icon className="size-5 text-aubergine" aria-hidden />
+                                    <Reveal key={service.title.de} delayMs={index * 80}>
+                                        <div className="group h-full rounded-xl border border-aubergine/10 bg-cream p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-gold hover:shadow-md">
+                                            <div className="flex size-10 items-center justify-center rounded-md bg-blush p-2 transition-colors duration-300 ease-out group-hover:bg-aubergine">
+                                                <Icon
+                                                    className="size-5 text-aubergine transition-colors duration-300 ease-out group-hover:text-cream"
+                                                    aria-hidden
+                                                />
+                                            </div>
+                                            <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">
+                                                {service.title[locale]}
+                                            </h3>
+                                            <p className="mt-2 text-(--color-brand-charcoal-2)">{service.body[locale]}</p>
                                         </div>
-                                        <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">
-                                            {service.title[locale]}
-                                        </h3>
-                                        <p className="mt-2 text-(--color-brand-charcoal-2)">{service.body[locale]}</p>
-                                    </div>
+                                    </Reveal>
                                 );
                             })}
                         </div>
-                        <div className="mt-10 text-center">
-                            <Link to="/{-$locale}/leistungen" className="font-medium text-aubergine hover:underline">
-                                {{ de: 'Alle Leistungen ansehen →', en: 'View all services →' }[locale]}
+                        <Reveal className="mt-10 text-center">
+                            <Link
+                                to="/{-$locale}/leistungen"
+                                className="group inline-flex items-center gap-1 font-medium text-aubergine hover:underline"
+                            >
+                                {{ de: 'Alle Leistungen ansehen', en: 'View all services' }[locale]}
+                                <span
+                                    aria-hidden
+                                    className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                                >
+                                    →
+                                </span>
                             </Link>
-                        </div>
+                        </Reveal>
                     </div>
                 </section>
 
                 {/* 3. Inline AI chat entry card */}
                 <section className="bg-blush">
                     <div className="mx-auto max-w-5xl px-6 py-20">
-                        <SectionEyebrow>{{ de: 'Fragen?', en: 'Questions?' }[locale]}</SectionEyebrow>
-                        <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {
+                        <Reveal>
+                            <SectionEyebrow>{{ de: 'Fragen?', en: 'Questions?' }[locale]}</SectionEyebrow>
+                            <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                 {
-                                    de: 'Brauche ich überhaupt eine podologische Behandlung?',
-                                    en: 'Do I really need a podiatrist?',
-                                }[locale]
-                            }
-                        </h2>
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
-                            {
+                                    {
+                                        de: 'Brauche ich überhaupt eine podologische Behandlung?',
+                                        en: 'Do I really need a podiatrist?',
+                                    }[locale]
+                                }
+                            </h2>
+                            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
-                                    de: 'Bevor Sie anrufen — fragen Sie unseren Assistenten. Er hilft bei den häufigsten Fragen rund um Behandlungen, Verordnungen und den ersten Termin.',
-                                    en: 'Before you call — ask our assistant. It helps with the most common questions on treatments, prescriptions, and the first visit.',
-                                }[locale]
-                            }
-                        </p>
-                        <div className="mx-auto mt-10 max-w-2xl rounded-xl border border-aubergine/10 bg-cream p-6">
-                            <div className="flex flex-col gap-2">
-                                {suggestedQuestions.map((q) => (
-                                    <Link
-                                        key={q.de}
-                                        to="/{-$locale}/chat"
-                                        search={{ chatId: undefined }}
-                                        className="rounded-md border border-aubergine/20 px-4 py-3 text-left text-sm text-aubergine hover:bg-aubergine/5"
-                                    >
-                                        {q[locale]}
-                                    </Link>
-                                ))}
+                                    {
+                                        de: 'Bevor Sie anrufen — fragen Sie unseren Assistenten. Er hilft bei den häufigsten Fragen rund um Behandlungen, Verordnungen und den ersten Termin.',
+                                        en: 'Before you call — ask our assistant. It helps with the most common questions on treatments, prescriptions, and the first visit.',
+                                    }[locale]
+                                }
+                            </p>
+                        </Reveal>
+                        <Reveal delayMs={120} className="mx-auto mt-10 max-w-2xl">
+                            <div className="rounded-xl border border-aubergine/10 bg-cream p-6">
+                                <div className="flex flex-col gap-2">
+                                    {suggestedQuestions.map((q) => (
+                                        <Link
+                                            key={q.de}
+                                            to="/{-$locale}/chat"
+                                            search={{ chatId: undefined }}
+                                            className="rounded-md border border-aubergine/20 px-4 py-3 text-left text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
+                                        >
+                                            {q[locale]}
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                        <p className="mt-4 text-center text-xs text-(--color-brand-charcoal-4)">
-                            {
+                            <p className="mt-4 text-center text-xs text-(--color-brand-charcoal-4)">
                                 {
-                                    de: 'Der Assistent gibt keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
-                                    en: 'The assistant does not provide medical advice. For acute concerns, please call us directly.',
-                                }[locale]
-                            }
-                        </p>
+                                    {
+                                        de: 'Der Assistent gibt keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
+                                        en: 'The assistant does not provide medical advice. For acute concerns, please call us directly.',
+                                    }[locale]
+                                }
+                            </p>
+                        </Reveal>
                     </div>
                 </section>
 
@@ -199,7 +217,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                 <section className="bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <div className="grid gap-12 md:grid-cols-2 md:items-start">
-                            <div>
+                            <Reveal>
                                 <SectionEyebrow>{{ de: 'Öffnungszeiten', en: 'Opening hours' }[locale]}</SectionEyebrow>
                                 <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                     {{ de: 'Wir sind für Sie da.', en: 'We are here for you.' }[locale]}
@@ -227,14 +245,14 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 </address>
                                 <a
                                     href={`tel:${PRACTICE.phone}`}
-                                    className="mt-6 inline-flex items-center gap-2 font-serif text-2xl text-aubergine hover:underline"
+                                    className="mt-6 inline-flex items-center gap-2 font-serif text-2xl text-aubergine transition-transform duration-150 ease-out hover:underline active:scale-[0.98]"
                                     aria-label={{ de: 'Praxis anrufen', en: 'Call the practice' }[locale]}
                                 >
                                     <PhoneIcon className="size-5" aria-hidden />
                                     {formatPhoneNumber(PRACTICE.phone)}
                                 </a>
-                            </div>
-                            <div>
+                            </Reveal>
+                            <Reveal delayMs={120}>
                                 <div className="aspect-square overflow-hidden rounded-xl border border-aubergine/10">
                                     <iframe
                                         src={PRACTICE.maps.embed}
@@ -245,11 +263,20 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     />
                                 </div>
                                 <div className="mt-4 text-center">
-                                    <Link to="/{-$locale}/kontakt" className="font-medium text-aubergine hover:underline">
-                                        {{ de: 'Anfahrt & Kontakt →', en: 'Directions & contact →' }[locale]}
+                                    <Link
+                                        to="/{-$locale}/kontakt"
+                                        className="group inline-flex items-center gap-1 font-medium text-aubergine hover:underline"
+                                    >
+                                        {{ de: 'Anfahrt & Kontakt', en: 'Directions & contact' }[locale]}
+                                        <span
+                                            aria-hidden
+                                            className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                                        >
+                                            →
+                                        </span>
                                     </Link>
                                 </div>
-                            </div>
+                            </Reveal>
                         </div>
                     </div>
                 </section>
@@ -293,32 +320,34 @@ export const Route = createFileRoute('/{-$locale}/')({
                 {/* 6. Final CTA */}
                 <section className="bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20 text-center">
-                        <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Termin? Wir rufen zurück.', en: 'Appointment? We will call you back.' }[locale]}
-                        </h2>
-                        <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
-                            {
+                        <Reveal>
+                            <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                                {{ de: 'Termin? Wir rufen zurück.', en: 'Appointment? We will call you back.' }[locale]}
+                            </h2>
+                            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
-                                    de: 'Schreiben Sie eine kurze Nachricht — wir melden uns innerhalb eines Werktages.',
-                                    en: 'Send a short message — we will get back to you within one working day.',
-                                }[locale]
-                            }
-                        </p>
-                        <div className="mt-10 flex flex-col items-center gap-4">
-                            <Button variant="brand" size="lg" asChild>
-                                <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
-                            </Button>
-                            <Button
-                                variant="link"
-                                asChild
-                                className="inline-flex items-center gap-2 text-sm text-(--color-brand-charcoal-2) hover:text-aubergine"
-                            >
-                                <a href={`tel:${PRACTICE.phone}`}>
-                                    <PhoneIcon className="size-4" aria-hidden />
-                                    {formatPhoneNumber(PRACTICE.phone)}
-                                </a>
-                            </Button>
-                        </div>
+                                    {
+                                        de: 'Schreiben Sie eine kurze Nachricht — wir melden uns innerhalb eines Werktages.',
+                                        en: 'Send a short message — we will get back to you within one working day.',
+                                    }[locale]
+                                }
+                            </p>
+                            <div className="mt-10 flex flex-col items-center gap-4">
+                                <Button variant="brand" size="lg" asChild>
+                                    <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
+                                </Button>
+                                <Button
+                                    variant="link"
+                                    asChild
+                                    className="inline-flex items-center gap-2 text-sm text-(--color-brand-charcoal-2) transition-transform duration-150 ease-out hover:text-aubergine active:scale-[0.98]"
+                                >
+                                    <a href={`tel:${PRACTICE.phone}`}>
+                                        <PhoneIcon className="size-4" aria-hidden />
+                                        {formatPhoneNumber(PRACTICE.phone)}
+                                    </a>
+                                </Button>
+                            </div>
+                        </Reveal>
                     </div>
                 </section>
             </main>

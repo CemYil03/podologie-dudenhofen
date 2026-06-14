@@ -102,12 +102,12 @@ primary plus secondary — so the visitor has a clear next step and a softer alt
 Cream background, hairline border, blush icon-wrap, lift + gold border on hover. The gold border is what signals "this card is now active" —
 it's the only place gold appears outside credential blocks.
 
-| Layer           | Token                                                 |
-| --------------- | ----------------------------------------------------- |
-| Card background | `bg-cream`                                            |
-| Card border     | `border border-aubergine/10` (hairline)               |
-| Icon wrap       | `bg-blush` rounded square, aubergine icon stroke      |
-| Hover           | `hover:border-gold hover:-translate-y-0.5 transition` |
+| Layer           | Token                                                                                                                           |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Card background | `bg-cream`                                                                                                                      |
+| Card border     | `border border-aubergine/10` (hairline)                                                                                         |
+| Icon wrap       | `bg-blush` rounded square, aubergine icon stroke; on hover fills `bg-aubergine` with cream icon                                 |
+| Hover           | `hover:-translate-y-0.5 hover:border-gold hover:shadow-md` over 300 ms `ease-out` ([motion.md](./motion.md#service-card-hover)) |
 
 No `ServiceCard` component exists yet — it'll be added when the first page that needs it (`/leistungen`) is built. When that happens, drop
 the component under `src/web/components/ServiceCard.tsx` and update this section to point at it.
@@ -149,3 +149,16 @@ The default rhythm for a long-form content page:
 Pages don't need every step — the home, `/therapeutin`, `/leistungen`, and `/hygiene` will each pick from this set. The order matters when
 more than one is used: cream → blush → cream → dark → cream keeps the visitor moving through the page without the surface ever feeling
 repetitive.
+
+## Scroll-reveal
+
+Section content fades + lifts ~8 px the first time it enters the viewport, then stays put. Used on long-form content pages to reinforce the
+cream → blush → cream → dark → cream rhythm without competing with the content.
+
+- **Component:** [`Reveal`](../../src/web/components/Reveal.tsx)
+- **Usage:** wrap each section's content (eyebrow + heading + body) in a single `Reveal`. For grids of equivalent items (service cards,
+  credential icons), wrap each item in its own `Reveal` with `delayMs={index * 80}` for a brief cascade.
+- **Once only.** The reveal does not re-play on scroll-back.
+- **Reduced motion + no-JS:** content is shown immediately. See [motion.md](./motion.md#reduced-motion-contract) for the full contract.
+
+The full motion system — durations, easings, the three jobs motion is allowed to do — is documented in [motion.md](./motion.md).

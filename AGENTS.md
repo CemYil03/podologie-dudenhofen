@@ -32,21 +32,22 @@ These are non-negotiable. The full details are in `docs/conventions.md`.
 
 ## Architecture at a Glance
 
-| Concern               | Pattern                                                                  | Key Files                                      |
-| --------------------- | ------------------------------------------------------------------------ | ---------------------------------------------- |
-| Server-side structure | CQRS — commands/, queries/, mappers/                                     | `docs/architecture/server-architecture.md`     |
-| Dependency injection  | ServerRuntime container                                                  | `src/server/domain/ServerRuntime.ts`           |
-| Environment variables | Central validated `EnvironmentVariables` — no direct `process.env` reads | `src/server/env/environmentVariablesCreate.ts` |
-| Authentication        | Cookie-based automatic sessions                                          | `src/server/utils/sessionUpsert.ts`            |
-| Authorization         | Guard functions (`guard{Entity}{Ctx}`)                                   | `src/server/guards/`                           |
-| GraphQL               | SDL-first, Apollo Server v5, URQL client                                 | `src/server/graphql/schema.graphqls`           |
-| Real-time             | Subscriptions over SSE, PostgreSQL NOTIFY/LISTEN                         | `src/server/graphql/PubSubPostgres.ts`         |
-| Background jobs       | pg-boss via `serverRuntime.jobs.enqueue()`                               | `docs/architecture/jobs.md`                    |
-| Server-side rendering | Singleton headless Chromium via `serverRuntime.browser.capture()`        | `docs/architecture/server-side-rendering.md`   |
-| SEO                   | `seoMeta()` per page; dynamic `/sitemap.xml` and `/robots.txt`           | `docs/architecture/seo.md`                     |
-| Typography            | Self-hosted Source Sans 3 variable font, bundled via `@fontsource`       | `docs/style/typography.md`                     |
-| Theming               | Single light theme — no dark mode, no `dark:` utilities                  | `docs/style/themes.md`                         |
-| Code generation       | `npm run graphql:generate` — server `GqlS*`, client `GqlC*`              | `codegen.ts`                                   |
+| Concern               | Pattern                                                                       | Key Files                                      |
+| --------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------- |
+| Server-side structure | CQRS — commands/, queries/, mappers/                                          | `docs/architecture/server-architecture.md`     |
+| Dependency injection  | ServerRuntime container                                                       | `src/server/domain/ServerRuntime.ts`           |
+| Environment variables | Central validated `EnvironmentVariables` — no direct `process.env` reads      | `src/server/env/environmentVariablesCreate.ts` |
+| Authentication        | Cookie-based automatic sessions                                               | `src/server/utils/sessionUpsert.ts`            |
+| Authorization         | Guard functions (`guard{Entity}{Ctx}`)                                        | `src/server/guards/`                           |
+| GraphQL               | SDL-first, Apollo Server v5, URQL client                                      | `src/server/graphql/schema.graphqls`           |
+| Real-time             | Subscriptions over SSE, PostgreSQL NOTIFY/LISTEN                              | `src/server/graphql/PubSubPostgres.ts`         |
+| Background jobs       | pg-boss via `serverRuntime.jobs.enqueue()`                                    | `docs/architecture/jobs.md`                    |
+| Server-side rendering | Singleton headless Chromium via `serverRuntime.browser.capture()`             | `docs/architecture/server-side-rendering.md`   |
+| SEO                   | `seoMeta()` per page; dynamic `/sitemap.xml` and `/robots.txt`                | `docs/architecture/seo.md`                     |
+| Typography            | Self-hosted Source Sans 3 variable font, bundled via `@fontsource`            | `docs/style/typography.md`                     |
+| Theming               | Single light theme — no dark mode, no `dark:` utilities                       | `docs/style/themes.md`                         |
+| Motion                | Reveal-on-scroll + restrained hover; `ease-out` only; reduced-motion honoured | `docs/style/motion.md`                         |
+| Code generation       | `npm run graphql:generate` — server `GqlS*`, client `GqlC*`                   | `codegen.ts`                                   |
 
 ## How to Add Things
 

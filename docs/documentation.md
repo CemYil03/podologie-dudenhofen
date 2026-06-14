@@ -21,8 +21,9 @@ docs/
 │   ├── server-side-rendering.md  # Playwright-based UI capture for image/PDF exports
 │   ├── state-synchronization.md  # Client-server state sync via subscriptions
 │   └── server-architecture.md    # Server-side domain logic structure (CQRS)
-├── style/                        # Visual-design decisions (typography, color, theming)
+├── style/                        # Visual-design decisions (typography, color, theming, motion)
 │   ├── colors.md                 # Brand palette — aubergine/cream/blush/sage/gold/charcoal + when-to-use rules
+│   ├── motion.md                 # Motion system — durations, easings, the reveal pattern, reduced-motion contract
 │   ├── patterns.md               # Reusable patterns — pill buttons, section eyebrow + rule, service cards, credential block
 │   ├── typography.md             # Three-font system — Fraunces (display), Source Sans 3 (body), JetBrains Mono (labels)
 │   └── themes.md                 # One theme, light — no dark mode, no toggle

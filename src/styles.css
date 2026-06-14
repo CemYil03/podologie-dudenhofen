@@ -138,3 +138,22 @@
         transform: scaleX(0.9);
     }
 }
+
+/*
+ * Reveal-on-scroll fallback. When scripting is unavailable (search-engine
+ * crawlers without a renderer, JS disabled), [data-reveal] elements would
+ * stay hidden because the IntersectionObserver in <Reveal> never runs and
+ * data-revealed is never set. Show them immediately in that case.
+ *
+ * The `prefers-reduced-motion: reduce` branch is already covered at the
+ * component level via Tailwind's `motion-reduce:` variant — kept here too
+ * as a defense-in-depth in case a consumer renders the unstyled element
+ * outside the component.
+ */
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}

@@ -3,6 +3,7 @@ import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
 import { Fragment } from 'react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
+import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { KontaktPageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
@@ -41,147 +42,159 @@ function KontaktPage() {
         <main>
             {/* Hero — cream */}
             <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
-                <SectionEyebrow>{{ de: 'Kontakt', en: 'Contact' }[locale]}</SectionEyebrow>
-                <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
-                    {{ de: 'So erreichen Sie uns.', en: 'How to reach us.' }[locale]}
-                </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
-                    {
+                <Reveal>
+                    <SectionEyebrow>{{ de: 'Kontakt', en: 'Contact' }[locale]}</SectionEyebrow>
+                    <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
+                        {{ de: 'So erreichen Sie uns.', en: 'How to reach us.' }[locale]}
+                    </h1>
+                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
-                            de: 'Rufen Sie uns an oder schreiben Sie eine kurze Nachricht — wir melden uns zeitnah zurück und finden gemeinsam einen passenden Termin.',
-                            en: 'Give us a call or send a short message — we will get back to you promptly and find a time that works.',
-                        }[locale]
-                    }
-                </p>
+                            {
+                                de: 'Rufen Sie uns an oder schreiben Sie eine kurze Nachricht — wir melden uns zeitnah zurück und finden gemeinsam einen passenden Termin.',
+                                en: 'Give us a call or send a short message — we will get back to you promptly and find a time that works.',
+                            }[locale]
+                        }
+                    </p>
+                </Reveal>
             </section>
 
             {/* Kontaktdaten — cream */}
             <section id="kontaktdaten" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
-                    <SectionEyebrow>{{ de: 'Kontaktdaten', en: 'Contact details' }[locale]}</SectionEyebrow>
-                    <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                        {{ de: 'Auf einen Blick.', en: 'At a glance.' }[locale]}
-                    </h2>
+                    <Reveal>
+                        <SectionEyebrow>{{ de: 'Kontaktdaten', en: 'Contact details' }[locale]}</SectionEyebrow>
+                        <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                            {{ de: 'Auf einen Blick.', en: 'At a glance.' }[locale]}
+                        </h2>
+                    </Reveal>
 
                     <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2">
                         {/* Telefon */}
-                        <div className="flex gap-4">
-                            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
-                                <PhoneIcon className="size-5 text-aubergine" aria-hidden />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                    {{ de: 'Telefon', en: 'Phone' }[locale]}
-                                </span>
-                                <a
-                                    href={`tel:${PRACTICE.phone}`}
-                                    className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
-                                >
-                                    {formatPhoneNumber(PRACTICE.phone)}
-                                </a>
-                                <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
-                                    {
+                        <Reveal delayMs={0}>
+                            <div className="flex gap-4">
+                                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
+                                    <PhoneIcon className="size-5 text-aubergine" aria-hidden />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-medium tracking-wide text-sage uppercase">
+                                        {{ de: 'Telefon', en: 'Phone' }[locale]}
+                                    </span>
+                                    <a
+                                        href={`tel:${PRACTICE.phone}`}
+                                        className="mt-1 inline-flex w-fit font-serif text-2xl text-aubergine transition-[color,transform] duration-150 ease-out hover:text-aubergine-dark active:scale-[0.98]"
+                                    >
+                                        {formatPhoneNumber(PRACTICE.phone)}
+                                    </a>
+                                    <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
                                         {
-                                            de: 'Mo–Fr während der Öffnungszeiten',
-                                            en: 'Mon–Fri during opening hours',
-                                        }[locale]
-                                    }
-                                </span>
-                                <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
-                                    {
+                                            {
+                                                de: 'Mo–Fr während der Öffnungszeiten',
+                                                en: 'Mon–Fri during opening hours',
+                                            }[locale]
+                                        }
+                                    </span>
+                                    <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
                                         {
-                                            de: 'Wenn wir gerade nicht ans Telefon gehen können, rufen wir zurück — bitte unterdrücken Sie Ihre Rufnummer nicht, oder versuchen Sie es etwas später noch einmal.',
-                                            en: "If we can't pick up, we'll call you back — please don't withhold your number, or try again a little later.",
-                                        }[locale]
-                                    }
-                                </span>
+                                            {
+                                                de: 'Wenn wir gerade nicht ans Telefon gehen können, rufen wir zurück — bitte unterdrücken Sie Ihre Rufnummer nicht, oder versuchen Sie es etwas später noch einmal.',
+                                                en: "If we can't pick up, we'll call you back — please don't withhold your number, or try again a little later.",
+                                            }[locale]
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </Reveal>
 
                         {/* E-Mail */}
-                        <div className="flex gap-4">
-                            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
-                                <MailIcon className="size-5 text-aubergine" aria-hidden />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                    {{ de: 'E-Mail', en: 'Email' }[locale]}
-                                </span>
-                                <a
-                                    href={`mailto:${PRACTICE.email}`}
-                                    className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
-                                >
-                                    {PRACTICE.email}
-                                </a>
-                                <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
-                                    {
+                        <Reveal delayMs={80}>
+                            <div className="flex gap-4">
+                                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
+                                    <MailIcon className="size-5 text-aubergine" aria-hidden />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-medium tracking-wide text-sage uppercase">
+                                        {{ de: 'E-Mail', en: 'Email' }[locale]}
+                                    </span>
+                                    <a
+                                        href={`mailto:${PRACTICE.email}`}
+                                        className="mt-1 font-serif text-2xl text-aubergine transition-colors hover:text-aubergine-dark"
+                                    >
+                                        {PRACTICE.email}
+                                    </a>
+                                    <span className="mt-1 text-sm text-(--color-brand-charcoal-3)">
                                         {
-                                            de: 'Wir antworten in der Regel innerhalb eines Werktags.',
-                                            en: 'We usually reply within one business day.',
-                                        }[locale]
-                                    }
-                                </span>
+                                            {
+                                                de: 'Wir antworten in der Regel innerhalb eines Werktags.',
+                                                en: 'We usually reply within one business day.',
+                                            }[locale]
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </Reveal>
 
                         {/* Anschrift */}
-                        <div className="flex gap-4">
-                            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
-                                <MapPinIcon className="size-5 text-aubergine" aria-hidden />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                    {{ de: 'Anschrift', en: 'Address' }[locale]}
-                                </span>
-                                <address className="mt-1 font-serif text-xl text-aubergine-dark not-italic">
-                                    {PRACTICE.name}
-                                    <br />
-                                    {PRACTICE.person}
-                                    <br />
-                                    {PRACTICE.address.street}
-                                    <br />
-                                    {PRACTICE.address.postcode} {PRACTICE.address.city}
-                                </address>
-                                <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
-                                    {
+                        <Reveal delayMs={160}>
+                            <div className="flex gap-4">
+                                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
+                                    <MapPinIcon className="size-5 text-aubergine" aria-hidden />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-medium tracking-wide text-sage uppercase">
+                                        {{ de: 'Anschrift', en: 'Address' }[locale]}
+                                    </span>
+                                    <address className="mt-1 font-serif text-xl text-aubergine-dark not-italic">
+                                        {PRACTICE.name}
+                                        <br />
+                                        {PRACTICE.person}
+                                        <br />
+                                        {PRACTICE.address.street}
+                                        <br />
+                                        {PRACTICE.address.postcode} {PRACTICE.address.city}
+                                    </address>
+                                    <span className="mt-2 text-sm text-(--color-brand-charcoal-3)">
                                         {
-                                            de: 'Eingang in der Ernst-Reuter-Straße (Eckhaus).',
-                                            en: 'Entrance on Ernst-Reuter-Straße (corner building).',
-                                        }[locale]
-                                    }
-                                </span>
+                                            {
+                                                de: 'Eingang in der Ernst-Reuter-Straße (Eckhaus).',
+                                                en: 'Entrance on Ernst-Reuter-Straße (corner building).',
+                                            }[locale]
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </Reveal>
 
                         {/* Öffnungszeiten */}
-                        <div className="flex gap-4">
-                            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
-                                <ClockIcon className="size-5 text-aubergine" aria-hidden />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                    {{ de: 'Öffnungszeiten', en: 'Opening hours' }[locale]}
-                                </span>
-                                <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
-                                    {PRACTICE.hours.map((row) => (
-                                        <Fragment key={row.days.de}>
-                                            <dt className="font-serif text-base text-aubergine-dark">{row.days[locale]}</dt>
-                                            <dd className={row.closed ? 'text-(--color-brand-charcoal-3)' : undefined}>
-                                                {row.time[locale]}
-                                            </dd>
-                                        </Fragment>
-                                    ))}
-                                </dl>
-                                <span className="mt-3 text-sm text-(--color-brand-charcoal-3)">
-                                    {
+                        <Reveal delayMs={240}>
+                            <div className="flex gap-4">
+                                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blush">
+                                    <ClockIcon className="size-5 text-aubergine" aria-hidden />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-medium tracking-wide text-sage uppercase">
+                                        {{ de: 'Öffnungszeiten', en: 'Opening hours' }[locale]}
+                                    </span>
+                                    <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
+                                        {PRACTICE.hours.map((row) => (
+                                            <Fragment key={row.days.de}>
+                                                <dt className="font-serif text-base text-aubergine-dark">{row.days[locale]}</dt>
+                                                <dd className={row.closed ? 'text-(--color-brand-charcoal-3)' : undefined}>
+                                                    {row.time[locale]}
+                                                </dd>
+                                            </Fragment>
+                                        ))}
+                                    </dl>
+                                    <span className="mt-3 text-sm text-(--color-brand-charcoal-3)">
                                         {
-                                            de: 'Termine nach Vereinbarung.',
-                                            en: 'By appointment.',
-                                        }[locale]
-                                    }
-                                </span>
+                                            {
+                                                de: 'Termine nach Vereinbarung.',
+                                                en: 'By appointment.',
+                                            }[locale]
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </Reveal>
                     </div>
                 </div>
             </section>
@@ -189,58 +202,62 @@ function KontaktPage() {
             {/* Anfahrt — blush */}
             <section id="anfahrt" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
-                    <SectionEyebrow>{{ de: 'Anfahrt', en: 'How to find us' }[locale]}</SectionEyebrow>
-                    <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                        {{ de: 'Mitten in Dudenhofen, gut zu erreichen.', en: 'In the heart of Dudenhofen, easy to reach.' }[locale]}
-                    </h2>
-                    <p className="mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
-                        {
+                    <Reveal>
+                        <SectionEyebrow>{{ de: 'Anfahrt', en: 'How to find us' }[locale]}</SectionEyebrow>
+                        <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                            {{ de: 'Mitten in Dudenhofen, gut zu erreichen.', en: 'In the heart of Dudenhofen, easy to reach.' }[locale]}
+                        </h2>
+                        <p className="mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
                             {
-                                de: 'Die Praxis liegt in Dudenhofen bei Speyer und ist gut erreichbar aus Speyer, Schifferstadt und Römerberg — mit dem Auto, dem Bus oder zu Fuß.',
-                                en: 'The practice sits in Dudenhofen near Speyer and is easily reached from Speyer, Schifferstadt and Römerberg — by car, bus or on foot.',
-                            }[locale]
-                        }
-                    </p>
+                                {
+                                    de: 'Die Praxis liegt in Dudenhofen bei Speyer und ist gut erreichbar aus Speyer, Schifferstadt und Römerberg — mit dem Auto, dem Bus oder zu Fuß.',
+                                    en: 'The practice sits in Dudenhofen near Speyer and is easily reached from Speyer, Schifferstadt and Römerberg — by car, bus or on foot.',
+                                }[locale]
+                            }
+                        </p>
 
-                    {/* Maps deep-links */}
-                    <div className="mt-8 flex flex-row flex-wrap gap-3 *:flex-1 sm:*:flex-none">
-                        <Button variant="brand" asChild>
-                            <a href={PRACTICE.maps.google} target="_blank" rel="noopener noreferrer">
-                                {{ de: 'Google Maps öffnen', en: 'Open Google Maps' }[locale]}
-                            </a>
-                        </Button>
-                        <Button variant="brand-outline" asChild>
-                            <a href={PRACTICE.maps.apple} target="_blank" rel="noopener noreferrer">
-                                {{ de: 'Apple Maps öffnen', en: 'Open Apple Maps' }[locale]}
-                            </a>
-                        </Button>
-                    </div>
+                        {/* Maps deep-links */}
+                        <div className="mt-8 flex flex-row flex-wrap gap-3 *:flex-1 sm:*:flex-none">
+                            <Button variant="brand" asChild>
+                                <a href={PRACTICE.maps.google} target="_blank" rel="noopener noreferrer">
+                                    {{ de: 'Google Maps öffnen', en: 'Open Google Maps' }[locale]}
+                                </a>
+                            </Button>
+                            <Button variant="brand-outline" asChild>
+                                <a href={PRACTICE.maps.apple} target="_blank" rel="noopener noreferrer">
+                                    {{ de: 'Apple Maps öffnen', en: 'Open Apple Maps' }[locale]}
+                                </a>
+                            </Button>
+                        </div>
+                    </Reveal>
 
                     {/* Embedded map */}
-                    <div className="mt-10 aspect-video overflow-hidden rounded-xl border border-aubergine/10">
-                        <iframe
-                            src={PRACTICE.maps.embed}
-                            title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen' }[locale]}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            className="h-full w-full border-0"
-                        />
-                    </div>
-                    <p className="mt-3 text-xs text-(--color-brand-charcoal-3)">
-                        {
+                    <Reveal delayMs={120}>
+                        <div className="mt-10 aspect-video overflow-hidden rounded-xl border border-aubergine/10">
+                            <iframe
+                                src={PRACTICE.maps.embed}
+                                title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen' }[locale]}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="h-full w-full border-0"
+                            />
+                        </div>
+                        <p className="mt-3 text-xs text-(--color-brand-charcoal-3)">
                             {
-                                de: 'Die eingebettete Karte lädt Inhalte von Google. Wenn Sie das vermeiden möchten, nutzen Sie die Schaltflächen oben — Details in der ',
-                                en: 'The embedded map loads content from Google. If you would rather avoid that, use the buttons above — details in our ',
-                            }[locale]
-                        }
-                        <Link to="/{-$locale}/datenschutz" className="text-aubergine hover:underline">
-                            {{ de: 'Datenschutzerklärung', en: 'privacy policy' }[locale]}
-                        </Link>
-                        .
-                    </p>
+                                {
+                                    de: 'Die eingebettete Karte lädt Inhalte von Google. Wenn Sie das vermeiden möchten, nutzen Sie die Schaltflächen oben — Details in der ',
+                                    en: 'The embedded map loads content from Google. If you would rather avoid that, use the buttons above — details in our ',
+                                }[locale]
+                            }
+                            <Link to="/{-$locale}/datenschutz" className="text-aubergine hover:underline">
+                                {{ de: 'Datenschutzerklärung', en: 'privacy policy' }[locale]}
+                            </Link>
+                            .
+                        </p>
+                    </Reveal>
 
                     <div className="mt-12 grid gap-8 md:grid-cols-2">
-                        <div>
+                        <Reveal>
                             <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'Parkmöglichkeiten', en: 'Parking' }[locale]}</h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
@@ -250,8 +267,8 @@ function KontaktPage() {
                                     }[locale]
                                 }
                             </p>
-                        </div>
-                        <div>
+                        </Reveal>
+                        <Reveal delayMs={120}>
                             <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'ÖPNV', en: 'Public transport' }[locale]}</h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
@@ -261,7 +278,7 @@ function KontaktPage() {
                                     }[locale]
                                 }
                             </p>
-                        </div>
+                        </Reveal>
                     </div>
                 </div>
             </section>
@@ -269,29 +286,31 @@ function KontaktPage() {
             {/* Anfrage — cream */}
             <section id="anfrage" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
-                    <SectionEyebrow>{{ de: 'Terminanfrage', en: 'Appointment request' }[locale]}</SectionEyebrow>
-                    <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                        {{ de: 'Termin vereinbaren.', en: 'Book an appointment.' }[locale]}
-                    </h2>
+                    <Reveal>
+                        <SectionEyebrow>{{ de: 'Terminanfrage', en: 'Appointment request' }[locale]}</SectionEyebrow>
+                        <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                            {{ de: 'Termin vereinbaren.', en: 'Book an appointment.' }[locale]}
+                        </h2>
 
-                    <div className="mt-10 rounded-2xl border border-aubergine/10 bg-blush/40 p-8 sm:p-10">
-                        <p className="max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
-                            {
+                        <div className="mt-10 rounded-2xl border border-aubergine/10 bg-blush/40 p-8 sm:p-10">
+                            <p className="max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
-                                    de: 'Bitte rufen Sie uns für Terminvereinbarungen direkt an oder schreiben Sie eine kurze E-Mail. Ein Online-Formular folgt in Kürze.',
-                                    en: 'For appointments, please call us directly or send a short email. An online form will follow soon.',
-                                }[locale]
-                            }
-                        </p>
-                        <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
-                            <Button variant="brand" size="lg" asChild>
-                                <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
-                            </Button>
-                            <Button variant="brand-outline" size="lg" asChild>
-                                <a href={`mailto:${PRACTICE.email}`}>{{ de: 'E-Mail schreiben', en: 'Send email' }[locale]}</a>
-                            </Button>
+                                    {
+                                        de: 'Bitte rufen Sie uns für Terminvereinbarungen direkt an oder schreiben Sie eine kurze E-Mail. Ein Online-Formular folgt in Kürze.',
+                                        en: 'For appointments, please call us directly or send a short email. An online form will follow soon.',
+                                    }[locale]
+                                }
+                            </p>
+                            <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
+                                <Button variant="brand" size="lg" asChild>
+                                    <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
+                                </Button>
+                                <Button variant="brand-outline" size="lg" asChild>
+                                    <a href={`mailto:${PRACTICE.email}`}>{{ de: 'E-Mail schreiben', en: 'Send email' }[locale]}</a>
+                                </Button>
+                            </div>
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
             </section>
         </main>

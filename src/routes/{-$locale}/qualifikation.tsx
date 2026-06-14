@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { BadgeCheckIcon } from 'lucide-react';
 import { Button } from '../../web/components/base/button';
+import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { QualifikationPageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
@@ -35,38 +36,40 @@ function QualifikationPage() {
         <main>
             {/* 1. Hero — cream */}
             <section className="mx-auto max-w-5xl px-6 pt-16 pb-20">
-                <SectionEyebrow>{{ de: 'Qualifikation', en: 'Credentials' }[locale]}</SectionEyebrow>
-                <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
-                    {
+                <Reveal>
+                    <SectionEyebrow>{{ de: 'Qualifikation', en: 'Credentials' }[locale]}</SectionEyebrow>
+                    <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                         {
-                            de: 'Staatlich anerkannte Podologin & Heilpraktikerin für Podologie',
-                            en: 'State-licensed podiatrist and Heilpraktiker for podiatry',
-                        }[locale]
-                    }
-                </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
-                    {
+                            {
+                                de: 'Staatlich anerkannte Podologin & Heilpraktikerin für Podologie',
+                                en: 'State-licensed podiatrist and Heilpraktiker for podiatry',
+                            }[locale]
+                        }
+                    </h1>
+                    <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
-                            de: 'Zwei Qualifikationen — eine staatlich geregelte Ausbildung und eine zusätzliche Heilkunde-Erlaubnis — bedeuten für Sie: schonend, fundiert und im rechtlich vollen Umfang behandelt.',
-                            en: 'Two qualifications — a state-regulated training and an additional licence to practise healing — mean for you: gentle, well-founded care within the full legal scope.',
-                        }[locale]
-                    }
-                </p>
-                <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
-                    <Button variant="brand" size="lg" asChild>
-                        <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services' }[locale]}</Link>
-                    </Button>
-                    <Button variant="brand-outline" size="lg" asChild>
-                        <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
-                    </Button>
-                </div>
+                            {
+                                de: 'Zwei Qualifikationen — eine staatlich geregelte Ausbildung und eine zusätzliche Heilkunde-Erlaubnis — bedeuten für Sie: schonend, fundiert und im rechtlich vollen Umfang behandelt.',
+                                en: 'Two qualifications — a state-regulated training and an additional licence to practise healing — mean for you: gentle, well-founded care within the full legal scope.',
+                            }[locale]
+                        }
+                    </p>
+                    <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
+                        <Button variant="brand" size="lg" asChild>
+                            <Link to="/{-$locale}/leistungen">{{ de: 'Leistungen ansehen', en: 'View services' }[locale]}</Link>
+                        </Button>
+                        <Button variant="brand-outline" size="lg" asChild>
+                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
+                        </Button>
+                    </div>
+                </Reveal>
             </section>
 
             {/* 2. Podologie — cream */}
             <section id="podologie" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <div className="grid gap-12 md:grid-cols-[1fr_20rem]">
-                        <div>
+                        <Reveal>
                             <SectionEyebrow>{{ de: 'Podologie', en: 'Podiatry' }[locale]}</SectionEyebrow>
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                 {{ de: 'Was ist Podologie?', en: 'What is podiatry?' }[locale]}
@@ -89,40 +92,44 @@ function QualifikationPage() {
                                     }
                                 </p>
                             </div>
-                        </div>
-                        <aside className="bg-blush rounded-xl border border-aubergine/10 p-6 self-start">
-                            <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
-                                {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
-                            </h3>
-                            <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
-                                <li className="flex gap-3">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
-                                    <span>{{ de: 'Geregelt nach Podologengesetz', en: 'Governed by the Podiatrists Act' }[locale]}</span>
-                                </li>
-                                <li className="flex gap-3">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
-                                    <span>
-                                        {
+                        </Reveal>
+                        <Reveal delayMs={120}>
+                            <aside className="bg-blush rounded-xl border border-aubergine/10 p-6 self-start">
+                                <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
+                                    {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
+                                </h3>
+                                <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
+                                            {{ de: 'Geregelt nach Podologengesetz', en: 'Governed by the Podiatrists Act' }[locale]}
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
                                             {
-                                                de: '3-jährige Ausbildung mit Staatsexamen',
-                                                en: '3-year training with state examination',
-                                            }[locale]
-                                        }
-                                    </span>
-                                </li>
-                                <li className="flex gap-3">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
-                                    <span>
-                                        {
+                                                {
+                                                    de: '3-jährige Ausbildung mit Staatsexamen',
+                                                    en: '3-year training with state examination',
+                                                }[locale]
+                                            }
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
                                             {
-                                                de: 'Kassenabrechnung möglich (mit Verordnung)',
-                                                en: 'Statutory health-insurance billing available (with prescription)',
-                                            }[locale]
-                                        }
-                                    </span>
-                                </li>
-                            </ul>
-                        </aside>
+                                                {
+                                                    de: 'Kassenabrechnung möglich (mit Verordnung)',
+                                                    en: 'Statutory health-insurance billing available (with prescription)',
+                                                }[locale]
+                                            }
+                                        </span>
+                                    </li>
+                                </ul>
+                            </aside>
+                        </Reveal>
                     </div>
                 </div>
             </section>
@@ -131,7 +138,7 @@ function QualifikationPage() {
             <section id="heilpraktiker" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <div className="grid gap-12 md:grid-cols-[1fr_20rem]">
-                        <div>
+                        <Reveal>
                             <SectionEyebrow>{{ de: 'Heilpraktiker', en: 'Heilpraktiker' }[locale]}</SectionEyebrow>
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                 {
@@ -159,47 +166,49 @@ function QualifikationPage() {
                                     }
                                 </p>
                             </div>
-                        </div>
-                        <aside className="bg-cream rounded-xl border border-aubergine/10 p-6 self-start">
-                            <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
-                                {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
-                            </h3>
-                            <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
-                                <li className="flex gap-3">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
-                                    <span>
-                                        {
+                        </Reveal>
+                        <Reveal delayMs={120}>
+                            <aside className="bg-cream rounded-xl border border-aubergine/10 p-6 self-start">
+                                <h3 className="font-serif text-lg font-semibold text-aubergine-dark">
+                                    {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
+                                </h3>
+                                <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
                                             {
-                                                de: 'Sektorale Heilpraktiker-Erlaubnis',
-                                                en: 'Sectoral Heilpraktiker licence',
-                                            }[locale]
-                                        }
-                                    </span>
-                                </li>
-                                <li className="flex gap-3">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
-                                    <span>
-                                        {
+                                                {
+                                                    de: 'Sektorale Heilpraktiker-Erlaubnis',
+                                                    en: 'Sectoral Heilpraktiker licence',
+                                                }[locale]
+                                            }
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
                                             {
-                                                de: 'Anerkannt in Rheinland-Pfalz',
-                                                en: 'Recognised in Rhineland-Palatinate',
-                                            }[locale]
-                                        }
-                                    </span>
-                                </li>
-                                <li className="flex gap-3">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
-                                    <span>
-                                        {
+                                                {
+                                                    de: 'Anerkannt in Rheinland-Pfalz',
+                                                    en: 'Recognised in Rhineland-Palatinate',
+                                                }[locale]
+                                            }
+                                        </span>
+                                    </li>
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
                                             {
-                                                de: 'Erweiterter Behandlungsumfang am Fuß',
-                                                en: 'Extended treatment scope on the foot',
-                                            }[locale]
-                                        }
-                                    </span>
-                                </li>
-                            </ul>
-                        </aside>
+                                                {
+                                                    de: 'Erweiterter Behandlungsumfang am Fuß',
+                                                    en: 'Extended treatment scope on the foot',
+                                                }[locale]
+                                            }
+                                        </span>
+                                    </li>
+                                </ul>
+                            </aside>
+                        </Reveal>
                     </div>
                 </div>
             </section>
@@ -317,30 +326,32 @@ function QualifikationPage() {
 
             {/* 5. Final CTA — cream */}
             <section className="mx-auto max-w-5xl px-6 py-20 text-center">
-                <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                    {
+                <Reveal>
+                    <h2 className="font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                         {
-                            de: 'Lernen Sie die Praxis kennen',
-                            en: 'Get to know the practice',
-                        }[locale]
-                    }
-                </h2>
-                <p className="mx-auto mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
-                    {
+                            {
+                                de: 'Lernen Sie die Praxis kennen',
+                                en: 'Get to know the practice',
+                            }[locale]
+                        }
+                    </h2>
+                    <p className="mx-auto mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
                         {
-                            de: 'Vereinbaren Sie einen Termin oder werfen Sie zuerst einen Blick in die Räume und die Ausstattung.',
-                            en: 'Request an appointment, or take a look at the rooms and equipment first.',
-                        }[locale]
-                    }
-                </p>
-                <div className="mt-10 flex flex-wrap justify-center gap-3 *:flex-1 sm:*:flex-none">
-                    <Button variant="brand" size="lg" asChild>
-                        <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
-                    </Button>
-                    <Button variant="brand-outline" size="lg" asChild>
-                        <Link to="/{-$locale}/praxis">{{ de: 'Mehr zur Praxis', en: 'More about the practice' }[locale]}</Link>
-                    </Button>
-                </div>
+                            {
+                                de: 'Vereinbaren Sie einen Termin oder werfen Sie zuerst einen Blick in die Räume und die Ausstattung.',
+                                en: 'Request an appointment, or take a look at the rooms and equipment first.',
+                            }[locale]
+                        }
+                    </p>
+                    <div className="mt-10 flex flex-wrap justify-center gap-3 *:flex-1 sm:*:flex-none">
+                        <Button variant="brand" size="lg" asChild>
+                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
+                        </Button>
+                        <Button variant="brand-outline" size="lg" asChild>
+                            <Link to="/{-$locale}/praxis">{{ de: 'Mehr zur Praxis', en: 'More about the practice' }[locale]}</Link>
+                        </Button>
+                    </div>
+                </Reveal>
             </section>
         </main>
     );
