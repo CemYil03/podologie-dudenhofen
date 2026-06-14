@@ -98,6 +98,14 @@ function QualifikationPage() {
                                         }[locale]
                                     }
                                 </p>
+                                <p>
+                                    {
+                                        {
+                                            de: 'Damit zählt die Podologie zu den Gesundheitsfachberufen — auf einer Stufe mit Physio- und Ergotherapie.',
+                                            en: 'This places podiatry among the recognised health-care professions — on a par with physiotherapy and occupational therapy.',
+                                        }[locale]
+                                    }
+                                </p>
                             </div>
                         </Reveal>
                         <Reveal delayMs={120}>
@@ -106,6 +114,12 @@ function QualifikationPage() {
                                     {{ de: 'Auf einen Blick', en: 'At a glance' }[locale]}
                                 </h3>
                                 <ul className="mt-4 grid gap-3 text-sm text-(--color-brand-charcoal-2)">
+                                    <li className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
+                                        <span>
+                                            {{ de: 'Gesundheitsfachberuf nach PodG', en: 'Recognised health-care profession (PodG)' }[locale]}
+                                        </span>
+                                    </li>
                                     <li className="flex gap-3">
                                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-aubergine" />
                                         <span>
@@ -169,6 +183,14 @@ function QualifikationPage() {
                                         {
                                             de: 'Konkret: ich darf u.a. eine eigenständige Befunderhebung machen, lokale Anästhetika anwenden und Wunden behandeln — alles streng innerhalb des Fachgebiets.',
                                             en: 'Concretely: I am permitted to make my own clinical assessments, apply local anaesthetics and treat wounds — all strictly within the specialist field.',
+                                        }[locale]
+                                    }
+                                </p>
+                                <p>
+                                    {
+                                        {
+                                            de: 'Für eine Behandlung im Rahmen der sektoralen Heilpraktiker-Erlaubnis ist keine ärztliche Überweisung nötig. Rechnungen können bei privaten Krankenversicherungen eingereicht werden; gesetzliche Kassen übernehmen die Kosten nur in Einzelfällen anteilig.',
+                                            en: 'No medical referral is required for treatments under the sectoral Heilpraktiker licence. Invoices can be submitted to private health insurers; statutory insurers only occasionally cover part of the cost on a case-by-case basis.',
                                         }[locale]
                                     }
                                 </p>
