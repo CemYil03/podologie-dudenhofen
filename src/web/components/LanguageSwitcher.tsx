@@ -6,17 +6,21 @@ import { useLocale } from '../hooks/useLocale';
 import { cn } from '../utils/cn';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './base/dropdown-menu';
 
-// The language is shown in its own language ("Deutsch", "English") so a
-// visitor who landed in the wrong locale can find their way back without
-// having to read the current one.
+// The language is shown in its own language ("Deutsch", "English", "Русский",
+// "العربية") so a visitor who landed in the wrong locale can find their way
+// back without having to read the current one.
 const LOCALE_NATIVE_NAME: Record<Locale, string> = {
     de: 'Deutsch',
     en: 'English',
+    ru: 'Русский',
+    ar: 'العربية',
 };
 
 const TRIGGER_ARIA_LABEL: Record<Locale, string> = {
     de: 'Sprache wechseln',
     en: 'Change language',
+    ru: 'Сменить язык',
+    ar: 'تغيير اللغة',
 };
 
 function setLocaleCookie(locale: Locale) {

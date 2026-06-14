@@ -23,6 +23,8 @@ export const DEFAULT_SHARE_IMAGE_DIMENSIONS = { width: 1200, height: 630 } as co
 export const DEFAULT_SHARE_IMAGE_ALT: Record<Locale, string> = {
     de: 'Podologie Dudenhofen — Praxis von Annette Yilmaz',
     en: 'Podologie Dudenhofen — practice of Annette Yilmaz',
+    ru: 'Podologie Dudenhofen — практика Аннетте Йылмаз',
+    ar: 'Podologie Dudenhofen — عيادة أنيتّه يلماز',
 };
 
 // Maps app locales to the IETF tags Open Graph expects. Add a new entry here
@@ -30,6 +32,8 @@ export const DEFAULT_SHARE_IMAGE_ALT: Record<Locale, string> = {
 export const OG_LOCALE: Record<Locale, string> = {
     de: 'de_DE',
     en: 'en_US',
+    ru: 'ru_RU',
+    ar: 'ar_AR',
 };
 
 // Practice geo coordinates. Sourced from OpenStreetMap (Nominatim) for the

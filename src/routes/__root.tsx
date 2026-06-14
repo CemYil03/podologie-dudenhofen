@@ -10,6 +10,7 @@ import { TooltipProvider } from '../web/components/base/tooltip';
 import { NavigationProgress } from '../web/components/NavigationProgress';
 import { urqlClient } from '../web/graphql/client';
 import { useLocale } from '../web/hooks/useLocale';
+import { isRtlLocale } from '../web/utils/locale';
 
 export const Route = createRootRoute({
     head: () => ({
@@ -102,9 +103,10 @@ function NotFound() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
     const locale = useLocale();
+    const dir = isRtlLocale(locale) ? 'rtl' : 'ltr';
 
     return (
-        <html lang={locale} suppressHydrationWarning>
+        <html lang={locale} dir={dir} suppressHydrationWarning>
             <head>
                 <HeadContent />
             </head>

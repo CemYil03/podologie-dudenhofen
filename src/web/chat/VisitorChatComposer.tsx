@@ -43,7 +43,7 @@ export function VisitorChatComposer({ placeholder }: VisitorChatComposerProps) {
             disabled={live.isGenerating}
             busy={live.isGenerating}
             placeholder={placeholder}
-            sendLabel={{ de: 'Senden', en: 'Send' }[locale]}
+            sendLabel={{ de: 'Senden', en: 'Send', ru: 'Отправить', ar: 'إرسال' }[locale]}
             addonStart={
                 chatId ? (
                     <Tooltip>
@@ -57,13 +57,13 @@ export function VisitorChatComposer({ placeholder }: VisitorChatComposerProps) {
                                 // at a chat the user can no longer see. Once the
                                 // turn ends the button comes back.
                                 disabled={live.isGenerating}
-                                aria-label={{ de: 'Neuen Chat starten', en: 'Start new chat' }[locale]}
+                                aria-label={{ de: 'Neuen Chat starten', en: 'Start new chat', ru: 'Начать новый чат', ar: 'بدء محادثة جديدة' }[locale]}
                                 onClick={() => resetChat()}
                             >
                                 <MessageSquarePlusIcon />
                             </InputGroupButton>
                         </TooltipTrigger>
-                        <TooltipContent side="right">{{ de: 'Neuen Chat starten', en: 'Start new chat' }[locale]}</TooltipContent>
+                        <TooltipContent side="right">{{ de: 'Neuen Chat starten', en: 'Start new chat', ru: 'Начать новый чат', ar: 'بدء محادثة جديدة' }[locale]}</TooltipContent>
                     </Tooltip>
                 ) : null
             }

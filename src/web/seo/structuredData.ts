@@ -16,6 +16,27 @@ import { GEO_COORDINATES } from './seoConstants';
 // homepage version wins on weight, secondary pages reinforce it.
 const PRACTICE_ID_FRAGMENT = '#practice';
 
+const LOCALE_BCP47: Record<Locale, string> = {
+    de: 'de-DE',
+    en: 'en-US',
+    ru: 'ru-RU',
+    ar: 'ar-SA',
+};
+
+const FOUNDER_JOB_TITLE: Record<Locale, string> = {
+    de: 'Podologin · Heilpraktikerin für Podologie',
+    en: 'Podiatrist · Heilpraktiker for podiatry',
+    ru: 'Подолог · Хайльпрактик в области подологии',
+    ar: 'طبيبة أقدام · هايلبراكتيكر في طب الأقدام',
+};
+
+const SERVICES_CATALOG_NAME: Record<Locale, string> = {
+    de: 'Leistungen',
+    en: 'Services',
+    ru: 'Услуги',
+    ar: 'الخدمات',
+};
+
 interface PracticeJsonLdInput {
     webPageUrl: string;
     locale: Locale;
@@ -27,7 +48,7 @@ interface PracticeJsonLdInput {
 // `MedicalProcedure`s so they surface in service-specific local results.
 export function practiceJsonLd(input: PracticeJsonLdInput): object {
     const homeCanonical = canonicalForHome(input.webPageUrl, input.locale);
-    const localeBcp47 = input.locale === 'de' ? 'de-DE' : 'en-US';
+    const localeBcp47 = LOCALE_BCP47[input.locale];
     return {
         '@context': 'https://schema.org',
         '@type': 'MedicalBusiness',
@@ -84,7 +105,7 @@ export function practiceJsonLd(input: PracticeJsonLdInput): object {
         founder: {
             '@type': 'Person',
             name: PRACTICE.person,
-            jobTitle: input.locale === 'de' ? 'Podologin · Heilpraktikerin für Podologie' : 'Podiatrist · Heilpraktiker for podiatry',
+            jobTitle: FOUNDER_JOB_TITLE[input.locale],
         },
         employee: {
             '@type': 'Person',
@@ -94,7 +115,7 @@ export function practiceJsonLd(input: PracticeJsonLdInput): object {
         sameAs: [PRACTICE.maps.google],
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
-            name: input.locale === 'de' ? 'Leistungen' : 'Services',
+            name: SERVICES_CATALOG_NAME[input.locale],
             itemListElement: practiceServices(input.locale).map((service) => ({
                 '@type': 'Offer',
                 itemOffered: {
@@ -108,40 +129,58 @@ export function practiceJsonLd(input: PracticeJsonLdInput): object {
 }
 
 function practiceDescription(locale: Locale): string {
-    return locale === 'de'
-        ? 'Podologische Praxis in Dudenhofen bei Speyer mit Kassenzulassung — medizinische Fußpflege, Nagelkorrektur-Spangen, Behandlung des diabetischen Fußsyndroms, Hornhaut, Hühneraugen, Nagelpilz und Hausbesuche. Heilpraktikerin für Podologie.'
-        : 'Podiatry practice in Dudenhofen near Speyer, accredited with statutory health insurance — medical foot care, nail-correction braces, diabetic foot syndrome treatment, calluses, corns, nail fungus and home visits. Heilpraktiker for podiatry.';
+    return {
+        de: 'Podologische Praxis in Dudenhofen bei Speyer mit Kassenzulassung — medizinische Fußpflege, Nagelkorrektur-Spangen, Behandlung des diabetischen Fußsyndroms, Hornhaut, Hühneraugen, Nagelpilz und Hausbesuche. Heilpraktikerin für Podologie.',
+        en: 'Podiatry practice in Dudenhofen near Speyer, accredited with statutory health insurance — medical foot care, nail-correction braces, diabetic foot syndrome treatment, calluses, corns, nail fungus and home visits. Heilpraktiker for podiatry.',
+        ru: 'Подологическая практика в Дуденхофене под Шпайером, аккредитована государственной медицинской страховкой — медицинский педикюр, ортонихические скобы, лечение диабетической стопы, мозолей, натоптышей, грибка ногтей и выезды на дом. Хайльпрактик в области подологии.',
+        ar: 'عيادة طب الأقدام في دودنهوفن بالقرب من شباير، معتمدة لدى التأمين الصحي القانوني — العناية الطبية بالقدمين، أقواس تصحيح الأظافر، علاج متلازمة القدم السكرية، الجلد المتيبس، الكالو، فطريات الأظافر والزيارات المنزلية. هايلبراكتيكر في طب الأقدام.',
+    }[locale];
 }
 
 function practiceServices(locale: Locale): ReadonlyArray<{ name: string; description: string }> {
-    if (locale === 'de') {
-        return [
+    const catalog: Record<Locale, ReadonlyArray<{ name: string; description: string }>> = {
+        de: [
             { name: 'Medizinische Fußpflege', description: 'Hornhaut, Nagelpflege, Druckstellen — sorgfältig behandelt.' },
-            {
-                name: 'Diabetisches Fußsyndrom',
-                description: 'Behandlung mit Kassenabrechnung nach ärztlicher Verordnung.',
-            },
+            { name: 'Diabetisches Fußsyndrom', description: 'Behandlung mit Kassenabrechnung nach ärztlicher Verordnung.' },
             { name: 'Nagelkorrektur-Spangen', description: 'Bei eingewachsenen oder verformten Nägeln.' },
             { name: 'Nagelprothetik', description: 'Künstlicher Nagelaufbau bei beschädigten Nägeln.' },
             { name: 'Pilzbehandlung', description: 'Behandlung von Nagel- und Hautmykosen am Fuß.' },
             { name: 'Hühneraugen entfernen', description: 'Schmerzhafte Hornhautkegel werden gezielt ausgelöst.' },
             { name: 'Warzenbehandlung', description: 'Geduldige Behandlung von Dornwarzen am Fuß.' },
             { name: 'Hausbesuch', description: 'Podologische Behandlung bei Ihnen zu Hause auf Wunsch.' },
-        ];
-    }
-    return [
-        { name: 'Medical foot care', description: 'Calluses, nail care, pressure points — treated with care.' },
-        {
-            name: 'Diabetic foot syndrome',
-            description: 'Treatment billed via statutory insurance with a prescription.',
-        },
-        { name: 'Nail-correction braces', description: 'For ingrown or deformed nails.' },
-        { name: 'Nail prosthetics', description: 'Artificial nail reconstruction for damaged nails.' },
-        { name: 'Fungal treatment', description: 'Treatment of nail and skin mycoses on the foot.' },
-        { name: 'Corn removal', description: 'Painful corns are carefully removed.' },
-        { name: 'Wart treatment', description: 'Patient treatment of plantar warts on the foot.' },
-        { name: 'Home visit', description: 'Podiatry treatment at your home on request.' },
-    ];
+        ],
+        en: [
+            { name: 'Medical foot care', description: 'Calluses, nail care, pressure points — treated with care.' },
+            { name: 'Diabetic foot syndrome', description: 'Treatment billed via statutory insurance with a prescription.' },
+            { name: 'Nail-correction braces', description: 'For ingrown or deformed nails.' },
+            { name: 'Nail prosthetics', description: 'Artificial nail reconstruction for damaged nails.' },
+            { name: 'Fungal treatment', description: 'Treatment of nail and skin mycoses on the foot.' },
+            { name: 'Corn removal', description: 'Painful corns are carefully removed.' },
+            { name: 'Wart treatment', description: 'Patient treatment of plantar warts on the foot.' },
+            { name: 'Home visit', description: 'Podiatry treatment at your home on request.' },
+        ],
+        ru: [
+            { name: 'Медицинский педикюр', description: 'Мозоли, уход за ногтями, точки давления — бережная обработка.' },
+            { name: 'Синдром диабетической стопы', description: 'Лечение с оплатой через страховку по направлению врача.' },
+            { name: 'Ортонихические скобы', description: 'При вросших или деформированных ногтях.' },
+            { name: 'Протезирование ногтей', description: 'Искусственное восстановление повреждённых ногтей.' },
+            { name: 'Лечение грибка', description: 'Лечение микозов ногтей и кожи стоп.' },
+            { name: 'Удаление натоптышей', description: 'Болезненные мозоли удаляются прицельно.' },
+            { name: 'Лечение бородавок', description: 'Терпеливое лечение подошвенных бородавок.' },
+            { name: 'Визит на дом', description: 'Подологическое лечение у вас дома по желанию.' },
+        ],
+        ar: [
+            { name: 'العناية الطبية بالقدمين', description: 'الجلد المتيبس، العناية بالأظافر، نقاط الضغط — معالجة بعناية.' },
+            { name: 'متلازمة القدم السكرية', description: 'العلاج عبر التأمين القانوني بوصفة طبية.' },
+            { name: 'أقواس تصحيح الأظافر', description: 'للأظافر الغارزة أو المشوّهة.' },
+            { name: 'تركيبات الأظافر الاصطناعية', description: 'إعادة بناء الأظافر التالفة.' },
+            { name: 'علاج الفطريات', description: 'علاج فطريات الأظافر والجلد على القدم.' },
+            { name: 'إزالة الكالو', description: 'إزالة الكالو المؤلم بدقة.' },
+            { name: 'علاج الثآليل', description: 'علاج صبور للثآليل الأخمصية على القدم.' },
+            { name: 'زيارة منزلية', description: 'علاج الأقدام في منزلك عند الطلب.' },
+        ],
+    };
+    return catalog[locale];
 }
 
 export interface BreadcrumbItem {

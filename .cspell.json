@@ -14,7 +14,11 @@
         ".claude",
         "public"
     ],
-    "import": ["@cspell/dict-de-de/cspell-ext.json"],
+    "import": [
+        "@cspell/dict-de-de/cspell-ext.json",
+        "@cspell/dict-ru_ru/cspell-ext.json",
+        "@cspell/dict-ar/cspell-ext.json"
+    ],
     "words": [
         "affordances",
         "anaesthetics",
@@ -160,5 +164,5 @@
         "zodv"
     ],
     // https://cspell.org/docs/dictionaries/
-    "dictionaries": ["typescript", "node", "html", "css", "de-de"]
+    "dictionaries": ["typescript", "node", "html", "css", "de-de", "ru_ru", "ar"]
 }

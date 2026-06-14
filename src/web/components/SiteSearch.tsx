@@ -13,26 +13,36 @@ import type { Locale } from '../utils/locale';
 const PLACEHOLDER: Record<Locale, string> = {
     de: 'Suchen Sie eine Seite, einen Abschnitt oder ein Stichwort…',
     en: 'Search a page, section or keyword…',
+    ru: 'Найдите страницу, раздел или ключевое слово…',
+    ar: 'ابحث عن صفحة أو قسم أو كلمة مفتاحية…',
 };
 
 const PLACEHOLDER_MOBILE: Record<Locale, string> = {
     de: 'Seite oder Stichwort suchen…',
     en: 'Search page or keyword…',
+    ru: 'Поиск страницы или слова…',
+    ar: 'ابحث عن صفحة أو كلمة…',
 };
 
 const EMPTY: Record<Locale, string> = {
     de: 'Keine Treffer.',
     en: 'No results.',
+    ru: 'Ничего не найдено.',
+    ar: 'لا توجد نتائج.',
 };
 
 const TITLE: Record<Locale, string> = {
     de: 'Seitensuche',
     en: 'Site search',
+    ru: 'Поиск по сайту',
+    ar: 'البحث في الموقع',
 };
 
 const DESCRIPTION: Record<Locale, string> = {
     de: 'Durchsuchen Sie alle Seiten und Abschnitte dieser Webseite.',
     en: 'Search every page and section on this site.',
+    ru: 'Поиск по всем страницам и разделам этого сайта.',
+    ar: 'ابحث في جميع صفحات وأقسام هذا الموقع.',
 };
 
 type SiteSearchProps = {

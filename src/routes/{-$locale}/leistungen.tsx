@@ -40,41 +40,51 @@ export const Route = createFileRoute('/{-$locale}/leistungen')({
             title: {
                 de: 'Medizinische Fußpflege & Nagelkorrektur — Leistungen',
                 en: 'Medical foot care & nail correction — services',
+                ru: 'Медицинский педикюр и коррекция ногтей — услуги',
+                ar: 'العناية الطبية بالقدم وتصحيح الأظافر — الخدمات',
             }[locale],
             description: {
                 de: 'Medizinische Fußpflege, Nagelkorrektur-Spangen, Behandlung des diabetischen Fußsyndroms, Pilzinfektionen, Hühneraugen und Hausbesuche — Podologie Dudenhofen mit Krankenkassenzulassung.',
                 en: 'Medical foot care, nail-correction braces, diabetic foot syndrome, fungal infections, corns and home visits — Podologie Dudenhofen, accredited with statutory health insurance.',
+                ru: 'Медицинский педикюр, ортониксические скобы, лечение диабетической стопы, грибковых инфекций, натоптышей и выезды на дом — Podologie Dudenhofen с допуском к работе с больничными кассами.',
+                ar: 'العناية الطبية بالقدم، أقواس تصحيح الأظافر، علاج متلازمة القدم السكرية، الالتهابات الفطرية، الكالو والزيارات المنزلية — Podologie Dudenhofen معتمدة لدى التأمين الصحي القانوني.',
             }[locale],
             path: '/leistungen',
             locale,
             webPageUrl: webPageUrlGet(),
             breadcrumb: [
-                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
-                { name: { de: 'Leistungen', en: 'Services' }[locale], path: '/leistungen' },
+                { name: { de: 'Start', en: 'Home', ru: 'Главная', ar: 'الرئيسية' }[locale], path: '/' },
+                { name: { de: 'Leistungen', en: 'Services', ru: 'Услуги', ar: 'الخدمات' }[locale], path: '/leistungen' },
             ],
             // Mirrors the on-page "Brauche ich eine podologische Behandlung?"
             // checklist plus the cost questions — these are exactly the
             // long-tail informational queries the page should win.
             faq: [
                 {
-                    question: { de: 'Brauche ich eine podologische Behandlung?', en: 'Do I need a podiatry appointment?' }[locale],
+                    question: { de: 'Brauche ich eine podologische Behandlung?', en: 'Do I need a podiatry appointment?', ru: 'Нужна ли мне подологическая процедура?', ar: 'هل أحتاج إلى علاج تقويم القدم؟' }[locale],
                     answer: {
                         de: 'Ein Termin lohnt sich bei anhaltenden Fußschmerzen, Diabetes mit auffälligen Hautstellen, eingewachsenen oder verformten Nägeln, Hornhaut, Hühneraugen, Pilzinfektionen oder einer ärztlichen Verordnung über „podologische Behandlung".',
                         en: 'An appointment is worth considering if you have persistent foot pain, diabetes with skin changes, ingrown or deformed nails, calluses, corns, fungal infections, or a medical prescription for "podiatric treatment".',
+                        ru: 'Запись на приём имеет смысл при стойких болях в стопе, диабете с изменениями кожи, вросших или деформированных ногтях, мозолях, натоптышах, грибковых инфекциях или при наличии врачебного назначения на «подологическое лечение».',
+                        ar: 'يُنصح بحجز موعد في حالات ألم القدم المستمر، أو السكري مع تغيرات جلدية، أو الأظافر الناشبة أو المشوهة، أو الجلد المتيبس، أو الكالو، أو الالتهابات الفطرية، أو وجود وصفة طبية لـ«علاج تقويم القدم».',
                     }[locale],
                 },
                 {
-                    question: { de: 'Was kostet eine podologische Behandlung?', en: 'What does a podiatry treatment cost?' }[locale],
+                    question: { de: 'Was kostet eine podologische Behandlung?', en: 'What does a podiatry treatment cost?', ru: 'Сколько стоит подологическая процедура?', ar: 'ما تكلفة علاج تقويم القدم؟' }[locale],
                     answer: {
                         de: 'Bei Kassenzulassung mit Verordnung übernimmt die gesetzliche Krankenkasse die Kosten — Sie zahlen 10 € Rezeptgebühr je Verordnung und 10 % gesetzlichen Eigenanteil pro Behandlung. Privat- und Selbstzahler*innen rechnen wir nach Leistung ab.',
                         en: 'With a prescription and statutory accreditation, statutory insurance covers the cost — you pay a €10 prescription fee per prescription plus a 10% co-payment per treatment. Private patients and self-payers are billed by service.',
+                        ru: 'При наличии допуска к работе с кассами и врачебного назначения расходы покрывает государственная больничная касса — вы оплачиваете 10 € рецептурного сбора за каждое назначение и 10 % обязательной доплаты за каждую процедуру. Частные и самоплатящие пациенты оплачивают по объёму услуги.',
+                        ar: 'مع الاعتماد لدى التأمين القانوني ووجود وصفة طبية، يغطي التأمين الصحي القانوني التكلفة — تدفعون رسم وصفة قدره 10 يورو لكل وصفة بالإضافة إلى 10٪ مساهمة قانونية لكل جلسة. أما المرضى من القطاع الخاص والذين يدفعون من جيبهم فتُحسب التكلفة بحسب الخدمة.',
                     }[locale],
                 },
                 {
-                    question: { de: 'Bieten Sie Hausbesuche an?', en: 'Do you offer home visits?' }[locale],
+                    question: { de: 'Bieten Sie Hausbesuche an?', en: 'Do you offer home visits?', ru: 'Делаете ли вы выезды на дом?', ar: 'هل تقدمون زيارات منزلية؟' }[locale],
                     answer: {
                         de: 'Ja, Hausbesuche sind nach Absprache möglich. Bei Kassenleistungen gilt der 10-%-Eigenanteil auch für Hauspauschale und Wegegeld.',
                         en: 'Yes, home visits are available by arrangement. For statutory-insurance treatments the 10% co-payment also applies to the home-visit flat fee and travel costs.',
+                        ru: 'Да, выезды на дом возможны по предварительной договорённости. При услугах по линии больничной кассы 10 % доплата распространяется также на фиксированный сбор за выезд и транспортные расходы.',
+                        ar: 'نعم، الزيارات المنزلية متاحة بالتنسيق المسبق. في خدمات التأمين القانوني، تنطبق نسبة المساهمة 10٪ أيضاً على الرسم الثابت للزيارة المنزلية وأجرة التنقل.',
                     }[locale],
                 },
             ],
@@ -94,12 +104,14 @@ function LeistungenPage() {
             {/* Hero */}
             <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
-                    <SectionEyebrow>{{ de: 'Leistungen', en: 'Services' }[locale]}</SectionEyebrow>
+                    <SectionEyebrow>{{ de: 'Leistungen', en: 'Services', ru: 'Услуги', ar: 'الخدمات' }[locale]}</SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
                         {
                             {
                                 de: 'Was wir behandeln — und wann ein Termin sinnvoll ist',
                                 en: 'What we treat — and when an appointment makes sense',
+                                ru: 'Что мы лечим — и когда стоит записаться на приём',
+                                ar: 'ما نعالجه — ومتى يكون حجز الموعد منطقياً',
                             }[locale]
                         }
                     </h1>
@@ -108,15 +120,17 @@ function LeistungenPage() {
                             {
                                 de: 'Medizinische Fußpflege mit Kassenzulassung — von Hornhaut und Hühneraugen bis zum diabetischen Fußsyndrom und Nagelkorrektur-Spangen.',
                                 en: 'Medical foot care with statutory health-insurance accreditation — from calluses and corns to diabetic foot syndrome and nail-correction braces.',
+                                ru: 'Медицинский педикюр с допуском к больничным кассам — от мозолей и натоптышей до диабетической стопы и ортониксических скоб.',
+                                ar: 'العناية الطبية بالقدم باعتماد التأمين الصحي القانوني — من الجلد المتيبس والكالو إلى متلازمة القدم السكرية وأقواس تصحيح الأظافر.',
                             }[locale]
                         }
                     </p>
                     <div className="mt-10 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                         <Button variant="brand" size="lg" asChild>
-                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment' }[locale]}</Link>
+                            <Link to="/{-$locale}/kontakt">{{ de: 'Termin anfragen', en: 'Request appointment', ru: 'Запросить приём', ar: 'طلب موعد' }[locale]}</Link>
                         </Button>
                         <Button variant="brand-outline" size="lg" asChild>
-                            <Link to="/{-$locale}/praxis">{{ de: 'Praxis ansehen', en: 'View the practice' }[locale]}</Link>
+                            <Link to="/{-$locale}/praxis">{{ de: 'Praxis ansehen', en: 'View the practice', ru: 'Посмотреть практику', ar: 'تعرّفوا على العيادة' }[locale]}</Link>
                         </Button>
                     </div>
                 </Reveal>
@@ -126,15 +140,17 @@ function LeistungenPage() {
             <section id="brauche-ich-eine-behandlung" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Orientierung', en: 'Orientation' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Orientierung', en: 'Orientation', ru: 'Ориентир', ar: 'إرشاد' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Brauche ich eine podologische Behandlung?', en: 'Do I need a podiatry appointment?' }[locale]}
+                            {{ de: 'Brauche ich eine podologische Behandlung?', en: 'Do I need a podiatry appointment?', ru: 'Нужна ли мне подологическая процедура?', ar: 'هل أحتاج إلى علاج تقويم القدم؟' }[locale]}
                         </h2>
                         <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                             {
                                 {
                                     de: 'Wenn einer der folgenden Punkte auf Sie zutrifft, lohnt sich ein Termin in der podologischen Praxis.',
                                     en: 'If any of the points below apply to you, a podiatry appointment is worth considering.',
+                                    ru: 'Если хотя бы один из приведённых ниже пунктов касается вас, имеет смысл записаться на приём в подологическую практику.',
+                                    ar: 'إذا كانت إحدى النقاط التالية تنطبق عليكم، فإن حجز موعد في عيادة تقويم القدم يستحق التفكير.',
                                 }[locale]
                             }
                         </p>
@@ -171,6 +187,8 @@ function LeistungenPage() {
                                 {
                                     de: 'Im Zweifel: rufen Sie an — wir sagen ehrlich, ob ein Termin sinnvoll ist. ',
                                     en: "When in doubt: call us — we'll tell you honestly whether an appointment makes sense. ",
+                                    ru: 'В случае сомнений — позвоните: мы честно скажем, имеет ли смысл записываться. ',
+                                    ar: 'عند الشك: اتصلوا بنا — سنخبركم بصراحة إن كان حجز الموعد مناسباً. ',
                                 }[locale]
                             }
                             <a
@@ -189,15 +207,17 @@ function LeistungenPage() {
             <section id="leistungen" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Leistungen', en: 'Services' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Leistungen', en: 'Services', ru: 'Услуги', ar: 'الخدمات' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Unser Leistungsangebot', en: 'What we offer' }[locale]}
+                            {{ de: 'Unser Leistungsangebot', en: 'What we offer', ru: 'Наш спектр услуг', ar: 'مجموعة خدماتنا' }[locale]}
                         </h2>
                         <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                             {
                                 {
                                     de: 'Jede Behandlung beginnt mit einem Gespräch — wir schauen, was Ihre Füße brauchen, und nehmen uns die Zeit dafür.',
                                     en: 'Every treatment starts with a conversation — we look at what your feet need and take the time it takes.',
+                                    ru: 'Каждая процедура начинается с беседы — мы смотрим, что нужно вашим стопам, и не торопимся.',
+                                    ar: 'يبدأ كل علاج بحديث — ننظر إلى ما تحتاجه أقدامكم ونأخذ الوقت اللازم لذلك.',
                                 }[locale]
                             }
                         </p>
@@ -246,12 +266,14 @@ function LeistungenPage() {
             <section id="was-bringe-ich-mit" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Erster Termin', en: 'First appointment' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Erster Termin', en: 'First appointment', ru: 'Первый приём', ar: 'الموعد الأول' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                             {
                                 {
                                     de: 'Was bringe ich zum ersten Termin mit?',
                                     en: 'What to bring to your first appointment',
+                                    ru: 'Что взять с собой на первый приём?',
+                                    ar: 'ماذا أحضر معي إلى الموعد الأول؟',
                                 }[locale]
                             }
                         </h2>
@@ -261,18 +283,20 @@ function LeistungenPage() {
                                 {
                                     de: 'Das hängt davon ab, ob Sie Kassen- oder Privatpatient*in sind:',
                                     en: 'It depends on whether you have statutory insurance or pay privately:',
+                                    ru: 'Это зависит от того, являетесь ли вы пациентом по линии больничной кассы или частным:',
+                                    ar: 'يعتمد ذلك على ما إذا كنتم مؤمَّنين عبر التأمين القانوني أم تدفعون من القطاع الخاص:',
                                 }[locale]
                             }
                         </p>
                         <div
                             role="tablist"
-                            aria-label={{ de: 'Patientenart', en: 'Patient type' }[locale]}
+                            aria-label={{ de: 'Patientenart', en: 'Patient type', ru: 'Тип пациента', ar: 'نوع المريض' }[locale]}
                             className="mt-3 inline-flex rounded-full border border-aubergine/20 bg-cream p-1"
                         >
                             {(
                                 [
-                                    { value: 'kasse', label: { de: 'Kassenpatient*in', en: 'Statutory insurance' } },
-                                    { value: 'privat', label: { de: 'Privatpatient*in / Selbstzahler*in', en: 'Private / self-payer' } },
+                                    { value: 'kasse', label: { de: 'Kassenpatient*in', en: 'Statutory insurance', ru: 'Пациент больничной кассы', ar: 'مريض التأمين القانوني' } },
+                                    { value: 'privat', label: { de: 'Privatpatient*in / Selbstzahler*in', en: 'Private / self-payer', ru: 'Частный пациент / самоплательщик', ar: 'القطاع الخاص / الدفع الذاتي' } },
                                 ] as const
                             ).map((option) => {
                                 const active = patientType === option.value;
@@ -309,10 +333,14 @@ function LeistungenPage() {
                                     ? {
                                           de: 'Für Kassenpatient*innen — damit wir Ihre Verordnung sauber abrechnen können.',
                                           en: 'For statutory-insurance patients — so we can bill your prescription cleanly.',
+                                          ru: 'Для пациентов больничной кассы — чтобы мы могли корректно оформить расчёт по вашему назначению.',
+                                          ar: 'لمرضى التأمين القانوني — لكي نتمكن من تسوية فاتورة وصفتكم بشكل سليم.',
                                       }[locale]
                                     : {
                                           de: 'Für Privatpatient*innen — damit der Termin entspannt verläuft.',
                                           en: 'For private patients — so your visit stays relaxed.',
+                                          ru: 'Для частных пациентов — чтобы приём прошёл спокойно.',
+                                          ar: 'لمرضى القطاع الخاص — لكي يسير الموعد بسلاسة.',
                                       }[locale]}
                             </p>
                         </Reveal>
@@ -341,9 +369,9 @@ function LeistungenPage() {
             <section id="kosten" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Kosten', en: 'Costs' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Kosten', en: 'Costs', ru: 'Стоимость', ar: 'التكاليف' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Kosten und Krankenkasse', en: 'Costs and insurance' }[locale]}
+                            {{ de: 'Kosten und Krankenkasse', en: 'Costs and insurance', ru: 'Стоимость и больничная касса', ar: 'التكاليف والتأمين الصحي' }[locale]}
                         </h2>
                     </Reveal>
 
@@ -357,13 +385,15 @@ function LeistungenPage() {
                                         </div>
                                         <div>
                                             <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                                {{ de: 'Kassenleistung', en: 'Statutory insurance' }[locale]}
+                                                {{ de: 'Kassenleistung', en: 'Statutory insurance', ru: 'Услуга по линии больничной кассы', ar: 'خدمة التأمين القانوني' }[locale]}
                                             </h3>
                                             <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
                                                 {
                                                     {
                                                         de: 'Bei diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten — wir rechnen direkt ab.',
                                                         en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the costs — we bill directly.',
+                                                        ru: 'При диабетической стопе или сопоставимых заболеваниях с врачебным назначением расходы покрывают государственные больничные кассы — мы рассчитываемся напрямую.',
+                                                        ar: 'في حالة متلازمة القدم السكرية أو الحالات المماثلة مع وصفة طبية، يغطي التأمين الصحي القانوني التكاليف — ونقوم بالتسوية مباشرة.',
                                                     }[locale]
                                                 }
                                             </p>
@@ -378,6 +408,8 @@ function LeistungenPage() {
                                                 {
                                                     de: 'Was Sie als Kassenpatient*in selbst zahlen',
                                                     en: 'What you pay yourself as a statutory patient',
+                                                    ru: 'Что вы оплачиваете самостоятельно как пациент больничной кассы',
+                                                    ar: 'ما تدفعونه بأنفسكم بصفتكم مرضى التأمين القانوني',
                                                 }[locale]
                                             }
                                         </h3>
@@ -386,10 +418,12 @@ function LeistungenPage() {
                                                 [
                                                     {
                                                         Icon: EuroIcon,
-                                                        heading: { de: '10 € pro Verordnung', en: '€10 per prescription' },
+                                                        heading: { de: '10 € pro Verordnung', en: '€10 per prescription', ru: '10 € за рецепт', ar: '10 يورو لكل وصفة' },
                                                         body: {
                                                             de: 'Einmalige Rezeptgebühr je Verordnungsblatt — unabhängig davon, wie viele Behandlungen darauf stehen.',
                                                             en: 'A one-off prescription fee per prescription form — regardless of how many treatments are on it.',
+                                                            ru: 'Единоразовый рецептурный сбор за каждый бланк назначения — независимо от количества указанных в нём процедур.',
+                                                            ar: 'رسم وصفة لمرة واحدة لكل ورقة وصفة — بصرف النظر عن عدد الجلسات المدرجة عليها.',
                                                         },
                                                     },
                                                     {
@@ -397,10 +431,14 @@ function LeistungenPage() {
                                                         heading: {
                                                             de: '10 % Eigenanteil je Behandlung',
                                                             en: '10% co-payment per treatment',
+                                                            ru: '10 % доплата за каждую процедуру',
+                                                            ar: '10٪ مساهمة لكل جلسة',
                                                         },
                                                         body: {
                                                             de: 'Gesetzliche Zuzahlung von 10 % der Behandlungskosten — diese rechnen wir direkt mit Ihnen ab.',
                                                             en: 'A statutory co-payment of 10% of the treatment cost — billed directly to you.',
+                                                            ru: 'Обязательная доплата в размере 10 % от стоимости процедуры — рассчитывается напрямую с вами.',
+                                                            ar: 'مساهمة قانونية بنسبة 10٪ من تكلفة الجلسة — تُحسب مباشرة معكم.',
                                                         },
                                                     },
                                                     {
@@ -408,10 +446,14 @@ function LeistungenPage() {
                                                         heading: {
                                                             de: 'Hausbesuch: Eigenanteil auch auf Hauspauschale & Wegegeld',
                                                             en: 'Home visit: co-payment applies to flat fee & travel costs',
+                                                            ru: 'Выезд на дом: доплата также на фиксированный сбор и транспортные расходы',
+                                                            ar: 'الزيارة المنزلية: المساهمة تنطبق على الرسم الثابت وأجرة التنقل',
                                                         },
                                                         body: {
                                                             de: 'Die 10 % gelten nicht nur für die Behandlung, sondern auch für Hauspauschale und Wegegeld.',
                                                             en: 'The 10% applies not only to the treatment itself, but also to the home-visit flat fee and travel costs.',
+                                                            ru: '10 % распространяются не только на саму процедуру, но и на фиксированный сбор за выезд и транспортные расходы.',
+                                                            ar: 'تنطبق نسبة 10٪ ليس فقط على الجلسة نفسها، بل أيضاً على الرسم الثابت للزيارة المنزلية وأجرة التنقل.',
                                                         },
                                                     },
                                                     {
@@ -419,10 +461,14 @@ function LeistungenPage() {
                                                         heading: {
                                                             de: 'Von Zuzahlungen befreit?',
                                                             en: 'Exempt from co-payments?',
+                                                            ru: 'Освобождены от доплат?',
+                                                            ar: 'هل أنتم معفون من المساهمات؟',
                                                         },
                                                         body: {
                                                             de: 'Wenn Ihre Krankenkasse Sie für das laufende Jahr von Zuzahlungen befreit hat, bringen Sie bitte den Befreiungsausweis mit.',
                                                             en: 'If your health-insurance fund has granted you a co-payment exemption for this year, please bring the exemption certificate.',
+                                                            ru: 'Если ваша больничная касса освободила вас от доплат на текущий год, пожалуйста, принесите удостоверение об освобождении.',
+                                                            ar: 'إذا منحتكم جهة التأمين الصحي إعفاءً من المساهمات لهذا العام، يُرجى إحضار شهادة الإعفاء.',
                                                         },
                                                     },
                                                 ] as const
@@ -451,6 +497,8 @@ function LeistungenPage() {
                                             {
                                                 de: 'Privat ohne Verordnung? Hier wechseln',
                                                 en: 'Private without prescription? Switch here',
+                                                ru: 'Частный без назначения? Переключиться здесь',
+                                                ar: 'القطاع الخاص بدون وصفة؟ التبديل هنا',
                                             }[locale]
                                         }
                                         <span
@@ -470,13 +518,15 @@ function LeistungenPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-serif text-xl font-semibold text-aubergine-dark">
-                                            {{ de: 'Selbstzahler', en: 'Self-payers' }[locale]}
+                                            {{ de: 'Selbstzahler', en: 'Self-payers', ru: 'Самоплательщики', ar: 'الدفع الذاتي' }[locale]}
                                         </h3>
                                         <p className="mt-2 leading-relaxed text-(--color-brand-charcoal-2)">
                                             {
                                                 {
                                                     de: 'Privat und ohne Verordnung gerne nach Leistung — konkrete Preise nennen wir Ihnen am Telefon.',
                                                     en: 'Private and without a prescription, billed by service — we share specific prices over the phone.',
+                                                    ru: 'Частно и без назначения — расчёт по услуге; конкретные цены сообщаем по телефону.',
+                                                    ar: 'القطاع الخاص وبدون وصفة، تُحسب التكلفة بحسب الخدمة — نخبركم بالأسعار المحددة عبر الهاتف.',
                                                 }[locale]
                                             }
                                         </p>
@@ -496,6 +546,8 @@ function LeistungenPage() {
                                                 {
                                                     de: 'Mit ärztlicher Verordnung? Hier wechseln',
                                                     en: 'With a medical prescription? Switch here',
+                                                    ru: 'С врачебным назначением? Переключиться здесь',
+                                                    ar: 'مع وصفة طبية؟ التبديل هنا',
                                                 }[locale]
                                             }
                                             <span

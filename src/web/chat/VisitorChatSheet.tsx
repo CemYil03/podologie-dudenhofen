@@ -1,5 +1,4 @@
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
-import { de as deLocale } from 'date-fns/locale';
 import { ArrowDownIcon, Maximize2Icon, Minimize2Icon } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'urql';
@@ -15,6 +14,7 @@ import { ChatMessage } from '../components/chat-message';
 import type { GqlCChatAssistantInputValue, GqlCVisitorChatListItemFragment } from '../graphql/generated';
 import { VisitorChatInputCollectionRespondDocument, VisitorPreviousChatsDocument } from '../graphql/generated';
 import { useLocale } from '../hooks/useLocale';
+import { DATE_FNS_LOCALE } from '../utils/dateFnsLocale';
 
 // The visitor chat overlay — see `docs/features/chat-visitor.md`.
 //
@@ -91,8 +91,8 @@ export function VisitorChatSheet() {
                     onClick={() => setIsExpanded((value) => !value)}
                     aria-label={
                         isExpanded
-                            ? { de: 'Chat verkleinern', en: 'Collapse chat' }[locale]
-                            : { de: 'Chat vergrößern', en: 'Expand chat' }[locale]
+                            ? { de: 'Chat verkleinern', en: 'Collapse chat', ru: 'Свернуть чат', ar: 'تصغير الدردشة' }[locale]
+                            : { de: 'Chat vergrößern', en: 'Expand chat', ru: 'Развернуть чат', ar: 'توسيع الدردشة' }[locale]
                     }
                     aria-pressed={isExpanded}
                     className="absolute top-4 right-12 z-10 hidden rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:block"
@@ -101,13 +101,15 @@ export function VisitorChatSheet() {
                 </button>
                 <SheetHeader className="border-b border-aubergine/15 bg-cream">
                     <SheetTitle className="font-serif text-lg text-aubergine-dark">
-                        {{ de: 'Fragen an unseren Assistenten', en: 'Ask our assistant' }[locale]}
+                        {{ de: 'Fragen an unseren Assistenten', en: 'Ask our assistant', ru: 'Вопросы нашему ассистенту', ar: 'اسأل مساعدنا' }[locale]}
                     </SheetTitle>
                     <SheetDescription id="visitor-chat-disclaimer" className="text-xs text-(--color-brand-charcoal-3)">
                         {
                             {
                                 de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
                                 en: 'Not medical advice. For acute concerns, please call us directly.',
+                                ru: 'Это не медицинская консультация. При острых жалобах, пожалуйста, позвоните нам напрямую.',
+                                ar: 'هذه ليست استشارة طبية. في الحالات العاجلة، يُرجى الاتصال بنا مباشرة.',
                             }[locale]
                         }
                     </SheetDescription>
@@ -123,7 +125,7 @@ export function VisitorChatSheet() {
                             onCollectionSubmit={onCollectionSubmit}
                         />
                     )}
-                    <VisitorChatComposer placeholder={{ de: 'Frage eingeben…', en: 'Type your question…' }[locale]} />
+                    <VisitorChatComposer placeholder={{ de: 'Frage eingeben…', en: 'Type your question…', ru: 'Введите вопрос…', ar: 'اكتب سؤالك…' }[locale]} />
                 </div>
             </SheetContent>
         </Sheet>
@@ -143,14 +145,16 @@ function EmptyState({
             ? {
                   de: 'Stellen Sie eine Frage rund um Behandlungen, Verordnungen oder Ihren ersten Termin.',
                   en: 'Ask anything about treatments, prescriptions, or your first visit.',
+                  ru: 'Задайте любой вопрос о процедурах, направлениях или вашем первом приёме.',
+                  ar: 'اسأل عن العلاجات أو الوصفات الطبية أو زيارتك الأولى.',
               }[locale]
-            : { de: 'Oder stellen Sie eine neue Frage.', en: 'Or ask a new question.' }[locale];
+            : { de: 'Oder stellen Sie eine neue Frage.', en: 'Or ask a new question.', ru: 'Или задайте новый вопрос.', ar: 'أو اطرح سؤالًا جديدًا.' }[locale];
 
     return (
         <div className="flex flex-1 flex-col gap-4 text-sm text-(--color-brand-charcoal-2)">
             {previousChats.length > 0 ? (
                 <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-wide text-sage">{{ de: 'Frühere Chats', en: 'Previous chats' }[locale]}</p>
+                    <p className="text-xs uppercase tracking-wide text-sage">{{ de: 'Frühere Chats', en: 'Previous chats', ru: 'Прошлые чаты', ar: 'محادثات سابقة' }[locale]}</p>
                     <ul className="flex flex-col gap-2">
                         {previousChats.map((chat) => (
                             <li key={chat.chatId}>
@@ -167,13 +171,12 @@ function EmptyState({
 
 function PreviousChatButton({ chat, onResume }: { chat: GqlCVisitorChatListItemFragment; onResume: (chatId: string) => void }) {
     const locale = useLocale();
-    const fallbackTitle = { de: 'Ohne Titel', en: 'Untitled chat' }[locale];
-    // `formatDistanceToNow` is locale-aware; pass the German locale only when
-    // we're rendering DE — `en` is the date-fns default. `addSuffix` produces
-    // "vor 5 Minuten" / "5 minutes ago" which reads naturally next to the title.
+    const fallbackTitle = { de: 'Ohne Titel', en: 'Untitled chat', ru: 'Без названия', ar: 'بدون عنوان' }[locale];
+    // `formatDistanceToNow` is locale-aware — feed it the matching date-fns
+    // locale so output reads naturally in every supported language.
     const relative = formatDistanceToNow(parseISO(chat.lastModifiedAt), {
         addSuffix: true,
-        locale: locale === 'de' ? deLocale : undefined,
+        locale: DATE_FNS_LOCALE[locale],
     });
     return (
         <button
@@ -203,6 +206,7 @@ function ChatTranscript({
         answers: ReadonlyArray<{ inputId: string; value: GqlCChatAssistantInputValue }>,
     ) => void;
 }) {
+    const locale = useLocale();
     const latestCollectionId = findLatestCollectionId(messages);
     const userInputByCollection = findUserInputByCollectionId(messages);
     const groupedMessages = groupMessagesByDate(messages);
@@ -278,11 +282,11 @@ function ChatTranscript({
                 <button
                     type="button"
                     onClick={jumpToLatest}
-                    aria-label="Jump to latest"
+                    aria-label={{ de: 'Zum neuesten Beitrag', en: 'Jump to latest', ru: 'Перейти к последнему', ar: 'الانتقال إلى الأحدث' }[locale]}
                     className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-aubergine/15 bg-cream px-3 py-1.5 text-xs font-medium text-aubergine-dark shadow-md transition-colors hover:bg-aubergine/10"
                 >
                     <ArrowDownIcon className="size-3.5" />
-                    Jump to latest
+                    {{ de: 'Zum neuesten Beitrag', en: 'Jump to latest', ru: 'К последнему', ar: 'الأحدث' }[locale]}
                 </button>
             ) : null}
         </div>

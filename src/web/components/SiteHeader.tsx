@@ -13,15 +13,15 @@ import { SiteSearch } from './SiteSearch';
 
 type NavItem = {
     to: '/{-$locale}/praxis' | '/{-$locale}/leistungen' | '/{-$locale}/qualifikation' | '/{-$locale}/karriere' | '/{-$locale}/kontakt';
-    label: { de: string; en: string };
+    label: { de: string; en: string; ru: string; ar: string };
 };
 
 const NAV_ITEMS: ReadonlyArray<NavItem> = [
-    { to: '/{-$locale}/praxis', label: { de: 'Praxis', en: 'Practice' } },
-    { to: '/{-$locale}/leistungen', label: { de: 'Leistungen', en: 'Services' } },
-    { to: '/{-$locale}/qualifikation', label: { de: 'Qualifikation', en: 'Credentials' } },
-    { to: '/{-$locale}/karriere', label: { de: 'Karriere', en: 'Careers' } },
-    { to: '/{-$locale}/kontakt', label: { de: 'Kontakt', en: 'Contact' } },
+    { to: '/{-$locale}/praxis', label: { de: 'Praxis', en: 'Practice', ru: 'Практика', ar: 'العيادة' } },
+    { to: '/{-$locale}/leistungen', label: { de: 'Leistungen', en: 'Services', ru: 'Услуги', ar: 'الخدمات' } },
+    { to: '/{-$locale}/qualifikation', label: { de: 'Qualifikation', en: 'Credentials', ru: 'Квалификация', ar: 'المؤهلات' } },
+    { to: '/{-$locale}/karriere', label: { de: 'Karriere', en: 'Careers', ru: 'Карьера', ar: 'الوظائف' } },
+    { to: '/{-$locale}/kontakt', label: { de: 'Kontakt', en: 'Contact', ru: 'Контакт', ar: 'اتصل بنا' } },
 ];
 
 export function SiteHeader() {
@@ -44,7 +44,7 @@ export function SiteHeader() {
                 </Link>
 
                 {/* Desktop nav */}
-                <nav aria-label={{ de: 'Hauptnavigation', en: 'Main navigation' }[locale]} className="hidden items-center gap-1 lg:flex">
+                <nav aria-label={{ de: 'Hauptnavigation', en: 'Main navigation', ru: 'Основная навигация', ar: 'التنقل الرئيسي' }[locale]} className="hidden items-center gap-1 lg:flex">
                     {NAV_ITEMS.map((item) => {
                         const isActive = location.pathname.endsWith(item.to.replace('/{-$locale}', ''));
                         return (
@@ -68,16 +68,16 @@ export function SiteHeader() {
                     <button
                         type="button"
                         onClick={openSearch}
-                        aria-label={{ de: 'Seite durchsuchen', en: 'Search the site' }[locale]}
+                        aria-label={{ de: 'Seite durchsuchen', en: 'Search the site', ru: 'Поиск по сайту', ar: 'البحث في الموقع' }[locale]}
                         className="inline-flex items-center gap-2 rounded-full border border-aubergine/20 px-2.5 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:outline-none md:px-3"
                     >
                         <SearchIcon className="size-4" aria-hidden />
-                        <span className="hidden md:inline">{{ de: 'Suchen', en: 'Search' }[locale]}</span>
+                        <span className="hidden md:inline">{{ de: 'Suchen', en: 'Search', ru: 'Поиск', ar: 'بحث' }[locale]}</span>
                     </button>
                     <a
                         href={`tel:${PRACTICE.phone}`}
                         className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex"
-                        aria-label={{ de: 'Praxis anrufen', en: 'Call the practice' }[locale]}
+                        aria-label={{ de: 'Praxis anrufen', en: 'Call the practice', ru: 'Позвонить в практику', ar: 'الاتصال بالعيادة' }[locale]}
                     >
                         <PhoneIcon className="size-4" aria-hidden />
                         <span>{formatPhoneNumber(PRACTICE.phone)}</span>
@@ -91,7 +91,7 @@ export function SiteHeader() {
                                 variant="ghost"
                                 size="icon"
                                 className="lg:hidden"
-                                aria-label={{ de: 'Menü öffnen', en: 'Open menu' }[locale]}
+                                aria-label={{ de: 'Menü öffnen', en: 'Open menu', ru: 'Открыть меню', ar: 'فتح القائمة' }[locale]}
                             >
                                 <MenuIcon className="size-5" />
                             </Button>
@@ -99,10 +99,10 @@ export function SiteHeader() {
                         <SheetContent side="right" className="bg-cream">
                             <SheetHeader>
                                 <SheetTitle className="font-serif text-aubergine-dark">
-                                    {{ de: 'Navigation', en: 'Navigation' }[locale]}
+                                    {{ de: 'Navigation', en: 'Navigation', ru: 'Навигация', ar: 'التنقل' }[locale]}
                                 </SheetTitle>
                             </SheetHeader>
-                            <nav aria-label={{ de: 'Hauptnavigation', en: 'Main navigation' }[locale]} className="flex flex-col gap-1 px-4">
+                            <nav aria-label={{ de: 'Hauptnavigation', en: 'Main navigation', ru: 'Основная навигация', ar: 'التنقل الرئيسي' }[locale]} className="flex flex-col gap-1 px-4">
                                 <SheetClose asChild>
                                     <button
                                         type="button"
@@ -110,7 +110,7 @@ export function SiteHeader() {
                                         className="flex items-center gap-2 rounded-md px-3 py-3 text-left text-base font-medium text-aubergine-dark hover:bg-aubergine/10"
                                     >
                                         <SearchIcon className="size-4" aria-hidden />
-                                        {{ de: 'Suchen', en: 'Search' }[locale]}
+                                        {{ de: 'Suchen', en: 'Search', ru: 'Поиск', ar: 'بحث' }[locale]}
                                     </button>
                                 </SheetClose>
                                 {NAV_ITEMS.map((item) => (

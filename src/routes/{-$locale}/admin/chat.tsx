@@ -44,10 +44,12 @@ export const Route = createFileRoute('/{-$locale}/admin/chat')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Chat', en: 'Chat' }[locale],
+            title: { de: 'Chat', en: 'Chat', ru: 'Чат', ar: 'الدردشة' }[locale],
             description: {
                 de: 'Unterhaltung mit dem Assistenten.',
                 en: 'A conversation with the assistant.',
+                ru: 'Беседа с ассистентом.',
+                ar: 'محادثة مع المساعد.',
             }[locale],
             path: '/admin/chat',
             locale,

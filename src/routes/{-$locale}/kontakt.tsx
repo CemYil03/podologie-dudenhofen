@@ -25,17 +25,21 @@ export const Route = createFileRoute('/{-$locale}/kontakt')({
             title: {
                 de: 'Kontakt & Anfahrt — Speyerer Str. 60, Dudenhofen',
                 en: 'Contact & directions — Speyerer Str. 60, Dudenhofen',
+                ru: 'Контакты и как добраться — Speyerer Str. 60, Dudenhofen',
+                ar: 'التواصل والوصول — Speyerer Str. 60, Dudenhofen',
             }[locale],
             description: {
                 de: `Kontakt zur ${PRACTICE.name} — Telefon ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Öffnungszeiten Mo–Do ${weekdayHours}, Fr ${fridayHours}. Anfahrt aus Speyer, Schifferstadt und Römerberg, Parkplätze direkt vor der Praxis.`,
                 en: `Contact ${PRACTICE.name} — phone ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Opening hours Mon–Thu ${weekdayHours}, Fri ${fridayHours}. Easily reached from Speyer, Schifferstadt and Römerberg with parking right outside the practice.`,
+                ru: `Связь с ${PRACTICE.name} — телефон ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Часы работы: Пн–Чт ${weekdayHours}, Пт ${fridayHours}. Удобный подъезд из Speyer, Schifferstadt и Römerberg, парковка прямо перед практикой.`,
+                ar: `تواصلوا مع ${PRACTICE.name} — الهاتف ${formatPhoneNumber(PRACTICE.phone)}، ${addressLine}. ساعات العمل: الإثنين–الخميس ${weekdayHours}، الجمعة ${fridayHours}. يسهل الوصول من Speyer وSchifferstadt وRömerberg، مع مواقف سيارات أمام العيادة مباشرة.`,
             }[locale],
             path: '/kontakt',
             locale,
             webPageUrl: webPageUrlGet(),
             breadcrumb: [
-                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
-                { name: { de: 'Kontakt', en: 'Contact' }[locale], path: '/kontakt' },
+                { name: { de: 'Start', en: 'Home', ru: 'Главная', ar: 'الرئيسية' }[locale], path: '/' },
+                { name: { de: 'Kontakt', en: 'Contact', ru: 'Контакты', ar: 'التواصل' }[locale], path: '/kontakt' },
             ],
         });
     },
@@ -50,15 +54,17 @@ function KontaktPage() {
             {/* Hero — cream */}
             <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
-                    <SectionEyebrow>{{ de: 'Kontakt', en: 'Contact' }[locale]}</SectionEyebrow>
+                    <SectionEyebrow>{{ de: 'Kontakt', en: 'Contact', ru: 'Контакты', ar: 'التواصل' }[locale]}</SectionEyebrow>
                     <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-tight font-semibold text-aubergine-dark sm:text-5xl">
-                        {{ de: 'So erreichen Sie uns.', en: 'How to reach us.' }[locale]}
+                        {{ de: 'So erreichen Sie uns.', en: 'How to reach us.', ru: 'Как с нами связаться.', ar: 'كيف تتواصلون معنا.' }[locale]}
                     </h1>
                     <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                         {
                             {
                                 de: 'Rufen Sie uns während unserer Anrufzeiten an — wir finden gemeinsam einen passenden Termin.',
                                 en: 'Give us a call during our call hours — we will find a time that works together.',
+                                ru: 'Позвоните нам в часы приёма звонков — вместе подберём удобное время.',
+                                ar: 'اتصلوا بنا خلال ساعات استقبال المكالمات، وسنحدّد معاً موعداً مناسباً.',
                             }[locale]
                         }
                     </p>
@@ -69,9 +75,9 @@ function KontaktPage() {
             <section id="kontaktdaten" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Kontaktdaten', en: 'Contact details' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Kontaktdaten', en: 'Contact details', ru: 'Контактные данные', ar: 'بيانات التواصل' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Auf einen Blick.', en: 'At a glance.' }[locale]}
+                            {{ de: 'Auf einen Blick.', en: 'At a glance.', ru: 'Кратко.', ar: 'لمحة سريعة.' }[locale]}
                         </h2>
                     </Reveal>
 
@@ -84,7 +90,7 @@ function KontaktPage() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                        {{ de: 'Telefon', en: 'Phone' }[locale]}
+                                        {{ de: 'Telefon', en: 'Phone', ru: 'Телефон', ar: 'الهاتف' }[locale]}
                                     </span>
                                     <a
                                         href={`tel:${PRACTICE.phone}`}
@@ -97,6 +103,8 @@ function KontaktPage() {
                                             {
                                                 de: 'Am besten erreichbar während unserer Anrufzeiten.',
                                                 en: 'Best reached during our call hours.',
+                                                ru: 'Лучше всего звонить в часы приёма звонков.',
+                                                ar: 'يُفضَّل الاتصال خلال ساعات استقبال المكالمات.',
                                             }[locale]
                                         }
                                     </span>
@@ -112,7 +120,7 @@ function KontaktPage() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                        {{ de: 'Anrufzeiten', en: 'Call hours' }[locale]}
+                                        {{ de: 'Anrufzeiten', en: 'Call hours', ru: 'Часы приёма звонков', ar: 'ساعات استقبال المكالمات' }[locale]}
                                     </span>
                                     <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
                                         {PRACTICE.callHours.map((row) => (
@@ -129,6 +137,8 @@ function KontaktPage() {
                                             {
                                                 de: 'Wenn niemand abnimmt, sind wir gerade in Behandlung — bitte versuchen Sie es nach etwa 30 Minuten noch einmal.',
                                                 en: 'If no one picks up we are with a patient — please try again in about 30 minutes.',
+                                                ru: 'Если никто не отвечает, значит мы заняты с пациентом — пожалуйста, перезвоните примерно через 30 минут.',
+                                                ar: 'إذا لم يردّ أحد فنحن مشغولون مع مريض — يُرجى المحاولة مرة أخرى بعد نحو 30 دقيقة.',
                                             }[locale]
                                         }
                                     </span>
@@ -144,7 +154,7 @@ function KontaktPage() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                        {{ de: 'Anschrift', en: 'Address' }[locale]}
+                                        {{ de: 'Anschrift', en: 'Address', ru: 'Адрес', ar: 'العنوان' }[locale]}
                                     </span>
                                     <address className="mt-1 font-serif text-xl text-aubergine-dark not-italic">
                                         {PRACTICE.name}
@@ -160,6 +170,8 @@ function KontaktPage() {
                                             {
                                                 de: 'Eingang in der Ernst-Reuter-Straße (Eckhaus).',
                                                 en: 'Entrance on Ernst-Reuter-Straße (corner building).',
+                                                ru: 'Вход с улицы Ernst-Reuter-Straße (угловое здание).',
+                                                ar: 'المدخل من شارع Ernst-Reuter-Straße (المبنى الزاوية).',
                                             }[locale]
                                         }
                                     </span>
@@ -175,7 +187,7 @@ function KontaktPage() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium tracking-wide text-sage uppercase">
-                                        {{ de: 'Öffnungszeiten', en: 'Opening hours' }[locale]}
+                                        {{ de: 'Öffnungszeiten', en: 'Opening hours', ru: 'Часы работы', ar: 'ساعات العمل' }[locale]}
                                     </span>
                                     <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-charcoal">
                                         {PRACTICE.hours.map((row) => (
@@ -192,6 +204,8 @@ function KontaktPage() {
                                             {
                                                 de: 'Termine nach Vereinbarung.',
                                                 en: 'By appointment.',
+                                                ru: 'Приём по предварительной записи.',
+                                                ar: 'المواعيد بحجز مسبق.',
                                             }[locale]
                                         }
                                     </span>
@@ -206,15 +220,17 @@ function KontaktPage() {
             <section id="anfahrt" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Anfahrt', en: 'How to find us' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Anfahrt', en: 'How to find us', ru: 'Как добраться', ar: 'كيفية الوصول' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Mitten in Dudenhofen, gut zu erreichen.', en: 'In the heart of Dudenhofen, easy to reach.' }[locale]}
+                            {{ de: 'Mitten in Dudenhofen, gut zu erreichen.', en: 'In the heart of Dudenhofen, easy to reach.', ru: 'В центре Dudenhofen, удобный подъезд.', ar: 'في قلب Dudenhofen، يسهل الوصول إليها.' }[locale]}
                         </h2>
                         <p className="mt-6 max-w-2xl text-(--color-brand-charcoal-2)">
                             {
                                 {
                                     de: 'Die Praxis liegt in Dudenhofen bei Speyer und ist gut erreichbar aus Speyer, Schifferstadt und Römerberg — mit dem Auto, dem Bus oder zu Fuß.',
                                     en: 'The practice sits in Dudenhofen near Speyer and is easily reached from Speyer, Schifferstadt and Römerberg — by car, bus or on foot.',
+                                    ru: 'Практика находится в Dudenhofen рядом со Speyer и легко достижима из Speyer, Schifferstadt и Römerberg — на автомобиле, автобусе или пешком.',
+                                    ar: 'تقع العيادة في Dudenhofen قرب Speyer ويسهل الوصول إليها من Speyer وSchifferstadt وRömerberg — بالسيارة أو بالحافلة أو سيراً على الأقدام.',
                                 }[locale]
                             }
                         </p>
@@ -223,12 +239,12 @@ function KontaktPage() {
                         <div className="mt-8 flex flex-row flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                             <Button variant="brand" asChild>
                                 <a href={PRACTICE.maps.google} target="_blank" rel="noopener noreferrer">
-                                    {{ de: 'Google Maps öffnen', en: 'Open Google Maps' }[locale]}
+                                    {{ de: 'Google Maps öffnen', en: 'Open Google Maps', ru: 'Открыть Google Maps', ar: 'فتح Google Maps' }[locale]}
                                 </a>
                             </Button>
                             <Button variant="brand-outline" asChild>
                                 <a href={PRACTICE.maps.apple} target="_blank" rel="noopener noreferrer">
-                                    {{ de: 'Apple Maps öffnen', en: 'Open Apple Maps' }[locale]}
+                                    {{ de: 'Apple Maps öffnen', en: 'Open Apple Maps', ru: 'Открыть Apple Maps', ar: 'فتح Apple Maps' }[locale]}
                                 </a>
                             </Button>
                         </div>
@@ -239,7 +255,7 @@ function KontaktPage() {
                         <div className="mt-10 aspect-video overflow-hidden rounded-xl border border-aubergine/10">
                             <iframe
                                 src={PRACTICE.maps.embed}
-                                title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen' }[locale]}
+                                title={{ de: 'Karte: Podologie Dudenhofen', en: 'Map: Podologie Dudenhofen', ru: 'Карта: Podologie Dudenhofen', ar: 'الخريطة: Podologie Dudenhofen' }[locale]}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                                 className="h-full w-full border-0"
@@ -250,10 +266,12 @@ function KontaktPage() {
                                 {
                                     de: 'Die eingebettete Karte lädt Inhalte von Google. Wenn Sie das vermeiden möchten, nutzen Sie die Schaltflächen oben — Details in der ',
                                     en: 'The embedded map loads content from Google. If you would rather avoid that, use the buttons above — details in our ',
+                                    ru: 'Встроенная карта загружает содержимое от Google. Если вы хотите этого избежать, воспользуйтесь кнопками выше — подробности в ',
+                                    ar: 'تُحمِّل الخريطة المضمَّنة محتوى من Google. إذا كنتم تفضّلون تجنّب ذلك فاستخدموا الأزرار أعلاه — التفاصيل في ',
                                 }[locale]
                             }
                             <Link to="/{-$locale}/datenschutz" className="text-aubergine hover:underline">
-                                {{ de: 'Datenschutzerklärung', en: 'privacy policy' }[locale]}
+                                {{ de: 'Datenschutzerklärung', en: 'privacy policy', ru: 'политике конфиденциальности', ar: 'سياسة الخصوصية' }[locale]}
                             </Link>
                             .
                         </p>
@@ -261,23 +279,27 @@ function KontaktPage() {
 
                     <div className="mt-12 grid gap-8 md:grid-cols-2">
                         <Reveal>
-                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'Parkmöglichkeiten', en: 'Parking' }[locale]}</h3>
+                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'Parkmöglichkeiten', en: 'Parking', ru: 'Парковка', ar: 'مواقف السيارات' }[locale]}</h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
                                     {
                                         de: 'Kostenlose Straßenparkplätze gibt es in der Ernst-Reuter-Straße direkt vor dem Praxiseingang sowie auf der gegenüberliegenden Straßenseite. Der Zugang ist barrierefrei — auch mit Gehhilfe oder Rollstuhl.',
                                         en: 'Free street parking is available on Ernst-Reuter-Straße directly outside the entrance and on the opposite side of the street. Access is step-free, including with a walking aid or wheelchair.',
+                                        ru: 'Бесплатные парковочные места на улице Ernst-Reuter-Straße имеются прямо перед входом в практику, а также на противоположной стороне улицы. Доступ без ступеней — в том числе с ходунками или инвалидной коляской.',
+                                        ar: 'تتوفّر مواقف سيارات مجانية على شارع Ernst-Reuter-Straße أمام مدخل العيادة مباشرة وعلى الجهة المقابلة من الشارع. الوصول خالٍ من الدرجات — حتى مع وسيلة مساعدة على المشي أو كرسي متحرك.',
                                     }[locale]
                                 }
                             </p>
                         </Reveal>
                         <Reveal delayMs={120}>
-                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'ÖPNV', en: 'Public transport' }[locale]}</h3>
+                            <h3 className="font-serif text-xl text-aubergine-dark">{{ de: 'ÖPNV', en: 'Public transport', ru: 'Общественный транспорт', ar: 'النقل العام' }[locale]}</h3>
                             <p className="mt-3 text-(--color-brand-charcoal-2)">
                                 {
                                     {
                                         de: 'Zwei Bushaltestellen liegen wenige Minuten zu Fuß entfernt: „Speyerer Straße" und „Boligweg" in Dudenhofen. Aus Speyer fahren regelmäßig die Linien 591 und 507.',
                                         en: 'Two bus stops are a few minutes\' walk away: "Speyerer Straße" and "Boligweg" in Dudenhofen. From Speyer, lines 591 and 507 run regularly.',
+                                        ru: 'В нескольких минутах ходьбы находятся две автобусные остановки: «Speyerer Straße» и «Boligweg» в Dudenhofen. Из Speyer регулярно ходят автобусы линий 591 и 507.',
+                                        ar: 'تبعد محطّتا حافلات بضع دقائق سيراً على الأقدام: «Speyerer Straße» و«Boligweg» في Dudenhofen. ومن Speyer تسير بانتظام الحافلتان 591 و507.',
                                     }[locale]
                                 }
                             </p>
@@ -290,9 +312,9 @@ function KontaktPage() {
             <section id="anfrage" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Terminanfrage', en: 'Appointment request' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Terminanfrage', en: 'Appointment request', ru: 'Запрос на приём', ar: 'طلب موعد' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Termin vereinbaren.', en: 'Book an appointment.' }[locale]}
+                            {{ de: 'Termin vereinbaren.', en: 'Book an appointment.', ru: 'Записаться на приём.', ar: 'حجز موعد.' }[locale]}
                         </h2>
 
                         <div className="mt-10 rounded-2xl border border-aubergine/10 bg-blush/40 p-8 sm:p-10">
@@ -301,12 +323,14 @@ function KontaktPage() {
                                     {
                                         de: 'Bitte rufen Sie uns für Terminvereinbarungen direkt an. Ein Online-Formular folgt in Kürze.',
                                         en: 'For appointments, please call us directly. An online form will follow soon.',
+                                        ru: 'Для записи на приём, пожалуйста, позвоните нам напрямую. Онлайн-форма появится в ближайшее время.',
+                                        ar: 'لحجز المواعيد، يُرجى الاتصال بنا مباشرة. سيتوفّر نموذج إلكتروني قريباً.',
                                     }[locale]
                                 }
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
                                 <Button variant="brand" size="lg" asChild>
-                                    <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now' }[locale]}</a>
+                                    <a href={`tel:${PRACTICE.phone}`}>{{ de: 'Jetzt anrufen', en: 'Call now', ru: 'Позвонить сейчас', ar: 'اتّصلوا الآن' }[locale]}</a>
                                 </Button>
                             </div>
                         </div>
