@@ -26,6 +26,10 @@ export const Route = createFileRoute('/{-$locale}/datenschutz')({
             path: '/datenschutz',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Datenschutz', en: 'Privacy' }[locale], path: '/datenschutz' },
+            ],
         });
     },
     component: DatenschutzPage,

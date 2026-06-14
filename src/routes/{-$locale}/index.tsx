@@ -19,7 +19,13 @@ export const Route = createFileRoute('/{-$locale}/')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Start', en: 'Home' }[locale],
+            // Homepage already names the practice — `noBrandSuffix` skips
+            // the ` — Podologie Dudenhofen` tail so social cards don't
+            // duplicate it.
+            title: {
+                de: 'Podologie & Fußpflege in Dudenhofen bei Speyer — Podologie Dudenhofen',
+                en: 'Podiatry & foot care in Dudenhofen near Speyer — Podologie Dudenhofen',
+            }[locale],
             description: {
                 de: 'Podologie Dudenhofen — kleine podologische Praxis, auch für medizinische Fußpflege, Diabetisches Fußsyndrom und Nagelkorrekturen. Mit Kassenzulassung. Termine nach Vereinbarung.',
                 en: 'Podologie Dudenhofen — a small podiatry practice, also offering medical foot-care, diabetic foot syndrome treatment and nail-correction. Statutory health-insurance accredited. By appointment.',
@@ -27,6 +33,40 @@ export const Route = createFileRoute('/{-$locale}/')({
             path: '/',
             locale,
             webPageUrl: webPageUrlGet(),
+            noBrandSuffix: true,
+            // FAQ rich result on long-tail queries — mirrors the four
+            // suggested questions rendered below the hero. Keep answers
+            // short and plain-text; Google strips HTML in most contexts.
+            faq: [
+                {
+                    question: { de: 'Brauche ich eine Verordnung?', en: 'Do I need a prescription?' }[locale],
+                    answer: {
+                        de: 'Eine ärztliche Verordnung benötigen Sie für Kassenleistungen — typisch bei Diabetischem Fußsyndrom oder vergleichbaren Diagnosen. Privat- und Selbstzahler*innen können auch ohne Verordnung einen Termin vereinbaren.',
+                        en: 'You need a medical prescription for statutory-insurance treatment — typically for diabetic foot syndrome or comparable diagnoses. Private patients and self-payers can book without a prescription.',
+                    }[locale],
+                },
+                {
+                    question: { de: 'Was bringe ich zum ersten Termin mit?', en: 'What should I bring to the first appointment?' }[locale],
+                    answer: {
+                        de: 'Versichertenkarte, ärztliche Verordnung (falls vorhanden), eine Liste der aktuellen Medikamente, bequeme Schuhe und etwas Zeit — der erste Termin dauert ca. 60 Minuten.',
+                        en: 'Insurance card, medical prescription (if you have one), a list of your current medication, comfortable shoes, and a little time — the first appointment takes about 60 minutes.',
+                    }[locale],
+                },
+                {
+                    question: { de: 'Übernimmt meine Krankenkasse das?', en: 'Will my health insurance cover this?' }[locale],
+                    answer: {
+                        de: 'Bei Diabetischem Fußsyndrom oder vergleichbaren Erkrankungen mit ärztlicher Verordnung übernehmen die gesetzlichen Krankenkassen die Kosten. Wir rechnen direkt mit der Kasse ab.',
+                        en: 'For diabetic foot syndrome or comparable conditions with a medical prescription, statutory health insurance covers the cost. We bill the fund directly.',
+                    }[locale],
+                },
+                {
+                    question: { de: 'Was zahle ich als Kassenpatient*in?', en: 'What will I pay as a statutory patient?' }[locale],
+                    answer: {
+                        de: 'Eine einmalige Rezeptgebühr von 10 € pro Verordnung sowie 10 % gesetzlichen Eigenanteil je Behandlung. Bei Befreiung bringen Sie bitte den Befreiungsausweis mit.',
+                        en: 'A one-off €10 prescription fee plus a 10% statutory co-payment per treatment. If you are exempt, please bring your exemption certificate.',
+                    }[locale],
+                },
+            ],
         });
     },
     component() {
@@ -74,6 +114,17 @@ export const Route = createFileRoute('/{-$locale}/')({
                                             en: 'Interior view of the Podologie Dudenhofen practice',
                                         }[locale]
                                     }
+                                    // LCP candidate on the desktop home — explicit
+                                    // dimensions reserve layout, `fetchpriority` lifts
+                                    // it ahead of below-the-fold assets, and
+                                    // `decoding="async"` keeps the main thread free
+                                    // while it paints. The actual file is taller; the
+                                    // 4:5 wrapper crops via `object-cover`, so any
+                                    // ratio whose aspect matches works.
+                                    width={800}
+                                    height={1000}
+                                    fetchPriority="high"
+                                    decoding="async"
                                     className="h-full w-full object-cover"
                                 />
                             </div>
@@ -233,6 +284,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 <div className="mt-4 text-center">
                                     <Link
                                         to="/{-$locale}/kontakt"
+                                        hash="anfahrt"
                                         className="group inline-flex items-center gap-1 font-medium text-aubergine hover:underline"
                                     >
                                         {{ de: 'Anfahrt & Kontakt', en: 'Directions & contact' }[locale]}
@@ -282,7 +334,11 @@ export const Route = createFileRoute('/{-$locale}/')({
                             })}
                         </ul>
                         <div className="mt-10">
-                            <Link to="/{-$locale}/qualifikation" className="inline-flex items-center font-medium text-gold hover:underline">
+                            <Link
+                                to="/{-$locale}/qualifikation"
+                                hash="urkunden"
+                                className="inline-flex items-center font-medium text-gold hover:underline"
+                            >
                                 {{ de: 'Mehr zur Qualifikation →', en: 'More on credentials →' }[locale]}
                             </Link>
                         </div>

@@ -23,6 +23,10 @@ export const Route = createFileRoute('/{-$locale}/impressum')({
             path: '/impressum',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Impressum', en: 'Imprint' }[locale], path: '/impressum' },
+            ],
         });
     },
     component: ImpressumPage,

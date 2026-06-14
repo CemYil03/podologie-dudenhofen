@@ -22,7 +22,10 @@ export const Route = createFileRoute('/{-$locale}/kontakt')({
         const weekdayHours = PRACTICE.hours[0].time[locale];
         const fridayHours = PRACTICE.hours[1].time[locale];
         return seoMeta({
-            title: { de: 'Kontakt', en: 'Contact' }[locale],
+            title: {
+                de: 'Kontakt & Anfahrt — Speyerer Str. 60, Dudenhofen',
+                en: 'Contact & directions — Speyerer Str. 60, Dudenhofen',
+            }[locale],
             description: {
                 de: `Kontakt zur ${PRACTICE.name} — Telefon ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Öffnungszeiten Mo–Do ${weekdayHours}, Fr ${fridayHours}. Anfahrt aus Speyer, Schifferstadt und Römerberg, Parkplätze direkt vor der Praxis.`,
                 en: `Contact ${PRACTICE.name} — phone ${formatPhoneNumber(PRACTICE.phone)}, ${addressLine}. Opening hours Mon–Thu ${weekdayHours}, Fri ${fridayHours}. Easily reached from Speyer, Schifferstadt and Römerberg with parking right outside the practice.`,
@@ -30,6 +33,10 @@ export const Route = createFileRoute('/{-$locale}/kontakt')({
             path: '/kontakt',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Kontakt', en: 'Contact' }[locale], path: '/kontakt' },
+            ],
         });
     },
     component: KontaktPage,

@@ -16,7 +16,10 @@ export const Route = createFileRoute('/{-$locale}/qualifikation')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Qualifikation', en: 'Credentials' }[locale],
+            title: {
+                de: 'Heilpraktikerin für Podologie — Qualifikation',
+                en: 'Heilpraktiker for podiatry — credentials',
+            }[locale],
             description: {
                 de: 'Staatlich anerkannte Podologin und Heilpraktikerin für Podologie — die Qualifikationen hinter der Praxis in Dudenhofen, mit Urkunden zur Einsicht.',
                 en: 'State-licensed podiatrist and Heilpraktiker for podiatry — the qualifications behind the practice in Dudenhofen, with the official certificates on file.',
@@ -24,6 +27,10 @@ export const Route = createFileRoute('/{-$locale}/qualifikation')({
             path: '/qualifikation',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Qualifikation', en: 'Credentials' }[locale], path: '/qualifikation' },
+            ],
         });
     },
     component: QualifikationPage,

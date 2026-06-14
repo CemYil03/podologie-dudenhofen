@@ -16,7 +16,10 @@ export const Route = createFileRoute('/{-$locale}/praxis')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Praxis', en: 'Practice' }[locale],
+            title: {
+                de: 'Podologische Praxis Dudenhofen — Annette Yilmaz',
+                en: 'Podiatry practice Dudenhofen — Annette Yilmaz',
+            }[locale],
             description: {
                 de: 'Podologie Dudenhofen — barrierefreie Räume, Therapeutin Annette Yilmaz und Hygiene nach RKI-Empfehlung.',
                 en: 'Podologie Dudenhofen — barrier-free rooms, podiatrist Annette Yilmaz and hygiene to RKI standard.',
@@ -24,6 +27,10 @@ export const Route = createFileRoute('/{-$locale}/praxis')({
             path: '/praxis',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Praxis', en: 'Practice' }[locale], path: '/praxis' },
+            ],
         });
     },
     component: PraxisPage,

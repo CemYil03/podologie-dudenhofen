@@ -16,6 +16,10 @@ export function environmentVariablesCreate(source: NodeJS.ProcessEnv = process.e
             domainScope: source.sessionCookieDomainScope,
         },
         buildSha: source.BUILD_SHA ?? 'unknown',
+        // Defaults to the boot time so the sitemap's <lastmod> still moves
+        // forward locally; production sets `BUILD_TIME` in the Docker
+        // image so crawlers see the deploy timestamp instead.
+        buildTime: source.BUILD_TIME ?? new Date().toISOString(),
         webPageUrl: source.WEB_PAGE_URL!.replace(/\/$/, ''),
         // Capability-specific — validated by whoever consumes it (see
         // `serverRuntimeCreate`'s Google client wiring), not at boot.

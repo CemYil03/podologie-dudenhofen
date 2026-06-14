@@ -75,6 +75,8 @@ The following environment variables must be configured in the deployment environ
 | `SERVER_TOKEN_SECRET`          | No\*     | HMAC secret signing short-lived server-side render tokens. Required only by features that call `serverRuntime.browser.capture()` against an authenticated `/server/*` route — see [architecture/server-side-rendering.md](./architecture/server-side-rendering.md) |
 | `sessionCookieSecure`          | No       | Set to `"true"` in production to enable Secure + SameSite=None                                                                                                                                                                                                     |
 | `sessionCookieDomainScope`     | No       | Cookie domain scope for cross-subdomain sessions                                                                                                                                                                                                                   |
+| `BUILD_SHA`                    | No       | Commit SHA baked into the Docker image at build time. Surfaced via the `version` field of the health endpoint (`/api/health`) and read through `EnvironmentVariables.buildSha`. Falls back to `"unknown"` when not provided                                        |
+| `BUILD_TIME`                   | No       | ISO 8601 timestamp of the build (`YYYY-MM-DDTHH:MM:SSZ`). Emitted as `<lastmod>` in the dynamic `/sitemap.xml` so crawlers see a fresh date on every deploy. Falls back to the container boot time when not set — see [architecture/seo.md](./architecture/seo.md) |
 
 ### Database Migrations
 

@@ -10,6 +10,7 @@ describe('envCreate', () => {
             sessionCookieSecure: 'true',
             sessionCookieDomainScope: '.example.com',
             BUILD_SHA: 'abc123',
+            BUILD_TIME: '2026-06-14T00:00:00Z',
             WEB_PAGE_URL: 'https://example.com',
         });
 
@@ -21,7 +22,10 @@ describe('envCreate', () => {
                 domainScope: '.example.com',
             },
             buildSha: 'abc123',
+            buildTime: '2026-06-14T00:00:00Z',
             webPageUrl: 'https://example.com',
+            googleGenerativeAiApiKey: undefined,
+            serverTokenSecret: undefined,
         });
     });
 

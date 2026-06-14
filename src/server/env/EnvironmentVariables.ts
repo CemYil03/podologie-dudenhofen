@@ -8,6 +8,12 @@ export interface EnvironmentVariables {
     databaseUrl: string;
     sessionCookie: SessionCookieConfiguration;
     buildSha: string;
+    // ISO 8601 timestamp of the build (`YYYY-MM-DDTHH:MM:SSZ`). Set in CI
+    // / Docker via the `BUILD_TIME` env var. The dynamic sitemap emits this
+    // as `<lastmod>` so crawlers see a fresh date on every deploy. Falls
+    // back to a static date when unset (e.g. local dev) — see
+    // `environmentVariablesCreate`.
+    buildTime: string;
     // Absolute origin of the deployed site (no trailing slash, e.g.
     // `https://example.com`). Single source of truth for SEO concerns —
     // canonical URLs, hreflang alternates, the dynamic sitemap.xml, and the

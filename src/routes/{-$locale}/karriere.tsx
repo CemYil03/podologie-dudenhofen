@@ -18,7 +18,10 @@ export const Route = createFileRoute('/{-$locale}/karriere')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Karriere', en: 'Careers' }[locale],
+            title: {
+                de: 'Karriere — Podologie-Praxis in Dudenhofen',
+                en: 'Careers — podiatry practice in Dudenhofen',
+            }[locale],
             description: {
                 de: 'Stellenangebot und Initiativbewerbung — Podologie Dudenhofen sucht Podologinnen und Podologen mit Anspruch an Qualität und Hygiene.',
                 en: 'Open roles and unsolicited applications — Podologie Dudenhofen is looking for podiatrists who care about quality and hygiene.',
@@ -26,6 +29,10 @@ export const Route = createFileRoute('/{-$locale}/karriere')({
             path: '/karriere',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Karriere', en: 'Careers' }[locale], path: '/karriere' },
+            ],
         });
     },
     component: KarrierePage,

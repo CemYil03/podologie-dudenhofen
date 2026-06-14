@@ -14,11 +14,19 @@
 //
 // Optional `changefreq` and `priority` follow the sitemaps.org spec; both
 // are advisory and most engines now ignore them, so keep them simple.
+//
+// Optional `locales` restricts a path to a subset of the configured
+// locales — use this for transactional / locale-specific pages
+// (`/karriere`, `/impressum`, `/datenschutz`) where the English variant
+// has no real audience. Defaults to all locales when omitted.
+
+import type { Locale } from '../utils/locale';
 
 export interface SitemapPath {
     path: string;
     changefreq?: 'daily' | 'weekly' | 'monthly' | 'yearly';
     priority?: number;
+    locales?: ReadonlyArray<Locale>;
 }
 
 export const SITEMAP_PATHS: ReadonlyArray<SitemapPath> = [
@@ -26,8 +34,12 @@ export const SITEMAP_PATHS: ReadonlyArray<SitemapPath> = [
     { path: '/praxis', changefreq: 'monthly', priority: 0.8 },
     { path: '/leistungen', changefreq: 'monthly', priority: 0.9 },
     { path: '/qualifikation', changefreq: 'monthly', priority: 0.7 },
-    { path: '/karriere', changefreq: 'monthly', priority: 0.5 },
+    // Career, imprint and privacy pages exist primarily in German — the
+    // English variant is kept around for accessibility but doesn't need
+    // its own sitemap entry. The `hreflang` annotation on the German URL
+    // still advertises the English alternate to crawlers.
+    { path: '/karriere', changefreq: 'monthly', priority: 0.5, locales: ['de'] },
     { path: '/kontakt', changefreq: 'monthly', priority: 0.9 },
-    { path: '/impressum', changefreq: 'yearly', priority: 0.3 },
-    { path: '/datenschutz', changefreq: 'yearly', priority: 0.3 },
+    { path: '/impressum', changefreq: 'yearly', priority: 0.3, locales: ['de'] },
+    { path: '/datenschutz', changefreq: 'yearly', priority: 0.3, locales: ['de'] },
 ];

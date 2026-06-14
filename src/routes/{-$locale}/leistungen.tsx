@@ -37,7 +37,10 @@ export const Route = createFileRoute('/{-$locale}/leistungen')({
     head: ({ params }) => {
         const locale = localeFromParam(params);
         return seoMeta({
-            title: { de: 'Leistungen', en: 'Services' }[locale],
+            title: {
+                de: 'Medizinische Fußpflege & Nagelkorrektur — Leistungen',
+                en: 'Medical foot care & nail correction — services',
+            }[locale],
             description: {
                 de: 'Medizinische Fußpflege, Nagelkorrektur-Spangen, Behandlung des diabetischen Fußsyndroms, Pilzinfektionen, Hühneraugen und Hausbesuche — Podologie Dudenhofen mit Krankenkassenzulassung.',
                 en: 'Medical foot care, nail-correction braces, diabetic foot syndrome, fungal infections, corns and home visits — Podologie Dudenhofen, accredited with statutory health insurance.',
@@ -45,6 +48,36 @@ export const Route = createFileRoute('/{-$locale}/leistungen')({
             path: '/leistungen',
             locale,
             webPageUrl: webPageUrlGet(),
+            breadcrumb: [
+                { name: { de: 'Start', en: 'Home' }[locale], path: '/' },
+                { name: { de: 'Leistungen', en: 'Services' }[locale], path: '/leistungen' },
+            ],
+            // Mirrors the on-page "Brauche ich eine podologische Behandlung?"
+            // checklist plus the cost questions — these are exactly the
+            // long-tail informational queries the page should win.
+            faq: [
+                {
+                    question: { de: 'Brauche ich eine podologische Behandlung?', en: 'Do I need a podiatry appointment?' }[locale],
+                    answer: {
+                        de: 'Ein Termin lohnt sich bei anhaltenden Fußschmerzen, Diabetes mit auffälligen Hautstellen, eingewachsenen oder verformten Nägeln, Hornhaut, Hühneraugen, Pilzinfektionen oder einer ärztlichen Verordnung über „podologische Behandlung".',
+                        en: 'An appointment is worth considering if you have persistent foot pain, diabetes with skin changes, ingrown or deformed nails, calluses, corns, fungal infections, or a medical prescription for "podiatric treatment".',
+                    }[locale],
+                },
+                {
+                    question: { de: 'Was kostet eine podologische Behandlung?', en: 'What does a podiatry treatment cost?' }[locale],
+                    answer: {
+                        de: 'Bei Kassenzulassung mit Verordnung übernimmt die gesetzliche Krankenkasse die Kosten — Sie zahlen 10 € Rezeptgebühr je Verordnung und 10 % gesetzlichen Eigenanteil pro Behandlung. Privat- und Selbstzahler*innen rechnen wir nach Leistung ab.',
+                        en: 'With a prescription and statutory accreditation, statutory insurance covers the cost — you pay a €10 prescription fee per prescription plus a 10% co-payment per treatment. Private patients and self-payers are billed by service.',
+                    }[locale],
+                },
+                {
+                    question: { de: 'Bieten Sie Hausbesuche an?', en: 'Do you offer home visits?' }[locale],
+                    answer: {
+                        de: 'Ja, Hausbesuche sind nach Absprache möglich. Bei Kassenleistungen gilt der 10-%-Eigenanteil auch für Hauspauschale und Wegegeld.',
+                        en: 'Yes, home visits are available by arrangement. For statutory-insurance treatments the 10% co-payment also applies to the home-visit flat fee and travel costs.',
+                    }[locale],
+                },
+            ],
         });
     },
     component: LeistungenPage,
