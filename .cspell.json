@@ -14,22 +14,10 @@
         ".claude",
         "public"
     ],
-    "import": [
-        "@cspell/dict-de-de/cspell-ext.json",
-        "@cspell/dict-ru_ru/cspell-ext.json",
-        "@cspell/dict-ar/cspell-ext.json"
-    ],
+    "import": ["@cspell/dict-de-de/cspell-ext.json", "@cspell/dict-ru_ru/cspell-ext.json", "@cspell/dict-ar/cspell-ext.json"],
     "language": "en,de-de,ru-ru,ar",
     "caseSensitive": false,
-    "dictionaries": [
-        "typescript",
-        "node",
-        "html",
-        "css",
-        "de-de",
-        "ru-ru",
-        "ar"
-    ],
+    "dictionaries": ["typescript", "node", "html", "css", "de-de", "ru-ru", "ar"],
     "words": [
         "adresse",
         "affordances",
