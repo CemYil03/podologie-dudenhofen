@@ -1,8 +1,9 @@
-import { format, formatDistanceToNow, parseISO } from 'date-fns';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 import { ArrowDownIcon, InfoIcon, Maximize2Icon, Minimize2Icon } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'urql';
 import { toFlatAnswerInput } from './chatAssistantInputKinds';
+import { formatChatDateSeparatorLabel } from './chatDateSeparatorLabel';
 import type { TranscriptMessage } from './chatTranscript';
 import { findLatestCollectionId, findUserInputByCollectionId, groupMessagesByDate, mergeTranscriptMessages } from './chatTranscript';
 import { useVisitorChat } from './VisitorChatProvider';
@@ -369,10 +370,11 @@ function ChatTranscript({
 }
 
 function DateSeparator({ iso }: { iso: string }) {
+    const locale = useLocale();
     return (
         <div className="flex items-center gap-3 text-[11px] uppercase tracking-wide text-sage">
             <span className="h-px flex-1 bg-aubergine/15" />
-            <time dateTime={iso}>{format(parseISO(iso), 'PP')}</time>
+            <time dateTime={iso}>{formatChatDateSeparatorLabel(iso, locale)}</time>
             <span className="h-px flex-1 bg-aubergine/15" />
         </div>
     );

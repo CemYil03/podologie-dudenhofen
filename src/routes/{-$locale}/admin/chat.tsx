@@ -1,10 +1,10 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { format, parseISO } from 'date-fns';
 import { ArrowDownIcon } from 'lucide-react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'urql';
 import { toFlatAnswerInput } from '../../../web/chat/chatAssistantInputKinds';
 import { ChatComposer } from '../../../web/chat/ChatComposer';
+import { formatChatDateSeparatorLabel } from '../../../web/chat/chatDateSeparatorLabel';
 import type { TranscriptMessage } from '../../../web/chat/chatTranscript';
 import {
     findLatestCollectionId,

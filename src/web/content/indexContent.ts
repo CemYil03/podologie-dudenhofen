@@ -1,5 +1,95 @@
-import { ActivityIcon, AwardIcon, BadgeCheckIcon, ShieldCheckIcon, StethoscopeIcon } from 'lucide-react';
+import {
+    ActivityIcon,
+    AwardIcon,
+    BadgeCheckIcon,
+    HeartHandshakeIcon,
+    HomeIcon,
+    ShieldCheckIcon,
+    SparklesIcon,
+    StethoscopeIcon,
+} from 'lucide-react';
 import type { ContentLeaf, LocaleString } from './contentLeaf';
+
+/**
+ * Three short pillars that preview the Praxis page on the home page. Each
+ * tile links to the matching anchor on `/praxis` (`#raeume`, `#therapeutin`,
+ * `#hygiene`); the `target` field carries that anchor so the route file
+ * doesn't have to repeat the mapping. See
+ * docs/architecture/site-structure.md.
+ */
+export type IndexPraxisPillar = ContentLeaf & { target: string };
+
+export const INDEX_PRAXIS_PILLARS: ReadonlyArray<IndexPraxisPillar> = [
+    {
+        id: 'praxis-pillar-raeume',
+        target: 'raeume',
+        icon: HomeIcon,
+        heading: {
+            de: 'Räume',
+            en: 'Rooms',
+            ru: 'Помещения',
+            ar: 'الغرف',
+        },
+        body: {
+            de: 'Barrierefrei, ruhig, klimatisiert — eine Patientin oder ein Patient zur Zeit.',
+            en: 'Barrier-free, calm and air-conditioned — one patient at a time.',
+            ru: 'Без барьеров, спокойно и с кондиционированием — один пациент за приём.',
+            ar: 'خالية من العوائق، هادئة ومكيّفة — مريض واحد في كل مرة.',
+        },
+        keywords: {
+            de: ['räume', 'barrierefrei', 'rollstuhl', 'rollator', 'klimaanlage'],
+            en: ['rooms', 'barrier-free', 'wheelchair', 'walker', 'air-conditioning'],
+            ru: ['помещения', 'без барьеров', 'инвалидная коляска', 'ходунки', 'кондиционер'],
+            ar: ['الغرف', 'خالية من العوائق', 'كرسي متحرك', 'مشاية', 'تكييف'],
+        },
+    },
+    {
+        id: 'praxis-pillar-therapeutin',
+        target: 'therapeutin',
+        icon: HeartHandshakeIcon,
+        heading: {
+            de: 'Therapeutin',
+            en: 'Therapist',
+            ru: 'Специалист',
+            ar: 'المعالجة',
+        },
+        body: {
+            de: 'Annette Yilmaz — staatlich anerkannte Podologin, Heilpraktikerin für Podologie.',
+            en: 'Annette Yilmaz — state-accredited podiatrist and Heilpraktiker for podiatry.',
+            ru: 'Annette Yilmaz — государственно признанный подолог и Heilpraktiker по подологии.',
+            ar: 'Annette Yilmaz — أخصائية معتمدة من الدولة وHeilpraktiker في علم الأقدام.',
+        },
+        keywords: {
+            de: ['annette yilmaz', 'therapeutin', 'podologin'],
+            en: ['annette yilmaz', 'therapist', 'podiatrist'],
+            ru: ['annette yilmaz', 'специалист', 'подолог'],
+            ar: ['annette yilmaz', 'المعالجة', 'أخصائية الأقدام'],
+        },
+    },
+    {
+        id: 'praxis-pillar-hygiene',
+        target: 'hygiene',
+        icon: SparklesIcon,
+        heading: {
+            de: 'Hygiene',
+            en: 'Hygiene',
+            ru: 'Гигиена',
+            ar: 'النظافة',
+        },
+        body: {
+            de: 'Instrumente und Flächen aufbereitet nach RKI-Empfehlung.',
+            en: 'Instruments and surfaces reprocessed per RKI recommendations.',
+            ru: 'Инструменты и поверхности обрабатываются по рекомендациям RKI.',
+            ar: 'الأدوات والأسطح تتم معالجتها وفق توصيات RKI.',
+        },
+        keywords: {
+            de: ['hygiene', 'rki', 'aufbereitung', 'sauber'],
+            en: ['hygiene', 'rki', 'reprocessing', 'clean'],
+            ru: ['гигиена', 'rki', 'обработка', 'чистота'],
+            ar: ['نظافة', 'rki', 'معالجة', 'تعقيم'],
+        },
+    },
+];
 
 export const INDEX_SERVICES: ReadonlyArray<ContentLeaf> = [
     {

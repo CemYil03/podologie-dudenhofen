@@ -6,7 +6,7 @@ import {
     LEISTUNGEN_SERVICE_GROUPS,
 } from '../content/leistungenContent';
 import { KARRIERE_OFFERINGS, KARRIERE_REQUIREMENTS, KARRIERE_STEPS, KARRIERE_VALUE_CARDS } from '../content/karriereContent';
-import { INDEX_CREDENTIALS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS } from '../content/indexContent';
+import { INDEX_CREDENTIALS, INDEX_PRAXIS_PILLARS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS } from '../content/indexContent';
 import { PRAXIS_HYGIENE_PILLARS, PRAXIS_REPROCESSING_STEPS } from '../content/praxisContent';
 import type { Locale } from '../utils/locale';
 
@@ -56,6 +56,23 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
             en: ['home', 'start', 'practice', 'podiatry', 'dudenhofen'],
             ru: ['главная', 'старт', 'практика', 'подология', 'Dudenhofen'],
             ar: ['الرئيسية', 'بداية', 'عيادة', 'عناية بالقدم', 'Dudenhofen'],
+        },
+    },
+    {
+        path: '/',
+        sectionId: 'praxis-uebersicht',
+        title: { de: 'Praxis — Übersicht', en: 'Practice — overview', ru: 'Практика — обзор', ar: 'العيادة — نظرة عامة' },
+        description: {
+            de: 'Eine ruhige Praxis in Dudenhofen — Räume, Therapeutin, Hygiene auf einen Blick.',
+            en: 'A calm practice in Dudenhofen — rooms, therapist and hygiene at a glance.',
+            ru: 'Спокойная практика в Dudenhofen — помещения, специалист и гигиена кратко.',
+            ar: 'عيادة هادئة في Dudenhofen — الغرف والمعالجة والنظافة بإيجاز.',
+        },
+        keywords: {
+            de: ['praxis', 'übersicht', 'räume', 'therapeutin', 'hygiene', 'barrierefrei'],
+            en: ['practice', 'overview', 'rooms', 'therapist', 'hygiene', 'barrier-free'],
+            ru: ['практика', 'обзор', 'помещения', 'специалист', 'гигиена', 'без барьеров'],
+            ar: ['العيادة', 'نظرة عامة', 'الغرف', 'المعالجة', 'النظافة', 'خالية من العوائق'],
         },
     },
     {
@@ -1184,6 +1201,7 @@ function searchIndexBuild(): ReadonlyArray<SearchEntry> {
     for (const leaf of INDEX_SERVICES) leafEntries.push(leafToEntry('/', leaf));
     for (const leaf of INDEX_SUGGESTED_QUESTIONS) leafEntries.push(leafToEntry('/', leaf));
     for (const leaf of INDEX_CREDENTIALS) leafEntries.push(leafToEntry('/', leaf));
+    for (const leaf of INDEX_PRAXIS_PILLARS) leafEntries.push(leafToEntry('/', leaf));
 
     for (const leaf of PRAXIS_HYGIENE_PILLARS) leafEntries.push(leafToEntry('/praxis', leaf));
     for (const leaf of PRAXIS_REPROCESSING_STEPS) leafEntries.push(leafToEntry('/praxis', leaf));

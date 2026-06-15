@@ -13,6 +13,12 @@ export function SiteFooter() {
                 <span aria-hidden className="text-aubergine/30">
                     ·
                 </span>
+                <Link to="/{-$locale}/karriere" className="hover:text-aubergine hover:underline">
+                    {{ de: 'Karriere', en: 'Careers', ru: 'Карьера', ar: 'الوظائف' }[locale]}
+                </Link>
+                <span aria-hidden className="text-aubergine/30">
+                    ·
+                </span>
                 <Link to="/{-$locale}/impressum" className="hover:text-aubergine hover:underline">
                     {{ de: 'Impressum', en: 'Imprint', ru: 'Выходные данные', ar: 'بيانات الناشر' }[locale]}
                 </Link>

@@ -8,7 +8,13 @@ import { SeasonalBanner } from '../../web/components/SeasonalBanner/SeasonalBann
 import { SeasonalEffect } from '../../web/components/SeasonalEffect/SeasonalEffect';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
 import { VacationBanner } from '../../web/components/VacationBanner';
-import { INDEX_CREDENTIALS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS, INDEX_TESTIMONIALS } from '../../web/content/indexContent';
+import {
+    INDEX_CREDENTIALS,
+    INDEX_PRAXIS_PILLARS,
+    INDEX_SERVICES,
+    INDEX_SUGGESTED_QUESTIONS,
+    INDEX_TESTIMONIALS,
+} from '../../web/content/indexContent';
 import { HomePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
@@ -203,7 +209,73 @@ export const Route = createFileRoute('/{-$locale}/')({
                     </div>
                 </section>
 
-                {/* 2. Services overview */}
+                {/* 2. Praxis overview — three pillars previewing /praxis */}
+                <section id="praxis-uebersicht" className="scroll-mt-20 bg-blush">
+                    <div className="mx-auto max-w-5xl px-6 py-20">
+                        <Reveal>
+                            <SectionEyebrow>{{ de: 'Praxis', en: 'Practice', ru: 'Практика', ar: 'العيادة' }[locale]}</SectionEyebrow>
+                            <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                                {
+                                    {
+                                        de: 'Eine ruhige Praxis — Räume, Therapeutin, Hygiene.',
+                                        en: 'A calm practice — rooms, therapist, hygiene.',
+                                        ru: 'Спокойная практика — помещения, специалист, гигиена.',
+                                        ar: 'عيادة هادئة — الغرف، المعالجة، النظافة.',
+                                    }[locale]
+                                }
+                            </h2>
+                        </Reveal>
+                        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                            {INDEX_PRAXIS_PILLARS.map((pillar, index) => {
+                                const Icon = pillar.icon!;
+                                return (
+                                    <Reveal key={pillar.id} delayMs={index * 80}>
+                                        <Link
+                                            to="/{-$locale}/praxis"
+                                            hash={pillar.target}
+                                            id={pillar.id}
+                                            className="search-target group flex h-full scroll-mt-20 flex-col rounded-xl border border-aubergine/10 bg-cream p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-gold hover:shadow-md"
+                                        >
+                                            <div className="flex size-10 items-center justify-center rounded-md bg-blush p-2 transition-colors duration-300 ease-out group-hover:bg-aubergine">
+                                                <Icon
+                                                    className="size-5 text-aubergine transition-colors duration-300 ease-out group-hover:text-cream"
+                                                    aria-hidden
+                                                />
+                                            </div>
+                                            <h3 className="mt-4 font-serif text-xl font-semibold text-aubergine-dark">
+                                                {pillar.heading[locale]}
+                                            </h3>
+                                            <p className="mt-2 text-(--color-brand-charcoal-2)">{pillar.body[locale]}</p>
+                                        </Link>
+                                    </Reveal>
+                                );
+                            })}
+                        </div>
+                        <Reveal className="mt-10 text-center">
+                            <Link
+                                to="/{-$locale}/praxis"
+                                className="group inline-flex items-center gap-1 font-medium text-aubergine hover:underline"
+                            >
+                                {
+                                    {
+                                        de: 'Mehr zur Praxis',
+                                        en: 'More about the practice',
+                                        ru: 'Подробнее о практике',
+                                        ar: 'المزيد عن العيادة',
+                                    }[locale]
+                                }
+                                <span
+                                    aria-hidden
+                                    className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                                >
+                                    →
+                                </span>
+                            </Link>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* 3. Services overview */}
                 <section id="leistungen-uebersicht" className="scroll-mt-20 bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <Reveal>
@@ -267,8 +339,132 @@ export const Route = createFileRoute('/{-$locale}/')({
                     </div>
                 </section>
 
-                {/* 3. Inline AI chat entry card */}
-                <section id="fragen" className="scroll-mt-20 bg-blush">
+                {/* 4. Credential strip */}
+                <section id="qualifikation" className="scroll-mt-20 bg-aubergine-dark text-cream">
+                    <div className="mx-auto max-w-5xl px-6 py-20">
+                        <div className="flex items-center gap-3">
+                            <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-gold">
+                                {{ de: 'Qualifikation', en: 'Credentials', ru: 'Квалификация', ar: 'المؤهلات' }[locale]}
+                            </span>
+                            <span aria-hidden className="h-px flex-1 bg-gold/40" />
+                        </div>
+                        <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-cream sm:text-4xl">
+                            {
+                                {
+                                    de: 'Staatlich anerkannt. Heilpraktikerin für Podologie.',
+                                    en: 'State-accredited. Heilpraktiker for podiatry.',
+                                    ru: 'Государственно признана. Heilpraktiker по подологии.',
+                                    ar: 'معتمدة من الدولة. Heilpraktiker متخصصة في علم الأقدام.',
+                                }[locale]
+                            }
+                        </h2>
+                        <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
+                            {INDEX_CREDENTIALS.map((credential) => {
+                                const Icon = credential.icon!;
+                                return (
+                                    <li
+                                        key={credential.id}
+                                        id={credential.id}
+                                        className="search-target flex scroll-mt-20 items-center gap-3 text-cream/80"
+                                    >
+                                        <Icon className="size-5 text-gold" aria-hidden />
+                                        <span>{credential.heading[locale]}</span>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <div className="mt-10">
+                            <Link
+                                to="/{-$locale}/qualifikation"
+                                hash="urkunden"
+                                className="inline-flex items-center font-medium text-gold hover:underline"
+                            >
+                                {
+                                    {
+                                        de: 'Mehr zur Qualifikation →',
+                                        en: 'More on credentials →',
+                                        ru: 'Подробнее о квалификации →',
+                                        ar: 'المزيد عن المؤهلات →',
+                                    }[locale]
+                                }
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 5. Testimonials */}
+                <section id="stimmen" className="scroll-mt-20 bg-blush">
+                    <div className="mx-auto max-w-5xl px-6 py-20">
+                        <Reveal>
+                            <SectionEyebrow>{{ de: 'Stimmen', en: 'Voices', ru: 'Отзывы', ar: 'آراء' }[locale]}</SectionEyebrow>
+                            <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
+                                {
+                                    {
+                                        de: 'Stimmen aus der Praxis.',
+                                        en: 'Voices from the practice.',
+                                        ru: 'Отзывы из практики.',
+                                        ar: 'آراء من العيادة.',
+                                    }[locale]
+                                }
+                            </h2>
+                        </Reveal>
+                        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                            {INDEX_TESTIMONIALS.map((testimonial, index) => (
+                                <Reveal key={testimonial.id} delayMs={index * 80}>
+                                    <figure className="flex h-full flex-col rounded-xl border border-aubergine/10 bg-cream p-6">
+                                        <QuoteIcon className="size-5 text-aubergine/60" aria-hidden />
+                                        <blockquote className="mt-4 flex-1 text-(--color-brand-charcoal-2)">
+                                            <p>„{testimonial.quote[locale]}“</p>
+                                        </blockquote>
+                                        <figcaption className="mt-4 text-sm font-medium text-aubergine-dark">
+                                            — {testimonial.attribution[locale]}
+                                        </figcaption>
+                                    </figure>
+                                </Reveal>
+                            ))}
+                        </div>
+                        <Reveal className="mt-10 text-center">
+                            <div
+                                className="flex items-center justify-center gap-1"
+                                role="img"
+                                aria-label={
+                                    {
+                                        de: 'Bewertungen auf Google',
+                                        en: 'Reviews on Google',
+                                        ru: 'Отзывы на Google',
+                                        ar: 'التقييمات على Google',
+                                    }[locale]
+                                }
+                            >
+                                {Array.from({ length: 5 }, (_, index) => (
+                                    <StarIcon key={index} className="size-5 fill-yellow-400 text-yellow-400" aria-hidden />
+                                ))}
+                            </div>
+                            <a
+                                href={PRACTICE.maps.reviews}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group mt-4 inline-flex items-center gap-1.5 font-medium text-aubergine hover:underline"
+                            >
+                                {
+                                    {
+                                        de: 'Alle Bewertungen auf Google ansehen',
+                                        en: 'View all reviews on Google',
+                                        ru: 'Посмотреть все отзывы на Google',
+                                        ar: 'استعراض جميع التقييمات على Google',
+                                    }[locale]
+                                }
+                                <ExternalLinkIcon
+                                    className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5"
+                                    aria-hidden
+                                />
+                            </a>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* 6. Inline AI chat entry — pre-booking objections (extension, no spoke) */}
+                <section id="fragen" className="scroll-mt-20 bg-cream">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <Reveal>
                             <SectionEyebrow>{{ de: 'Fragen?', en: 'Questions?', ru: 'Вопросы?', ar: 'أسئلة؟' }[locale]}</SectionEyebrow>
@@ -294,7 +490,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                             </p>
                         </Reveal>
                         <Reveal delayMs={120} className="mx-auto mt-10 max-w-2xl">
-                            <div className="rounded-xl border border-aubergine/10 bg-cream p-6">
+                            <div className="rounded-xl border border-aubergine/10 bg-blush p-6">
                                 <div className="flex flex-col gap-2">
                                     {INDEX_SUGGESTED_QUESTIONS.map((q) => (
                                         <button
@@ -302,7 +498,7 @@ export const Route = createFileRoute('/{-$locale}/')({
                                             id={q.id}
                                             type="button"
                                             onClick={() => void openWithMessage(q.heading[locale])}
-                                            className="search-target scroll-mt-20 rounded-md border border-aubergine/20 px-4 py-3 text-start text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
+                                            className="search-target scroll-mt-20 rounded-md border border-aubergine/20 bg-cream/60 px-4 py-3 text-start text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
                                         >
                                             {q.heading[locale]}
                                         </button>
@@ -323,8 +519,8 @@ export const Route = createFileRoute('/{-$locale}/')({
                     </div>
                 </section>
 
-                {/* 4. Opening hours + map preview + address */}
-                <section id="oeffnungszeiten" className="scroll-mt-20 bg-cream">
+                {/* 7. Opening hours + map preview + address */}
+                <section id="oeffnungszeiten" className="scroll-mt-20 bg-blush">
                     <div className="mx-auto max-w-5xl px-6 py-20">
                         <div className="grid gap-12 md:grid-cols-2 md:items-start">
                             <Reveal>
@@ -425,130 +621,6 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 </div>
                             </Reveal>
                         </div>
-                    </div>
-                </section>
-
-                {/* 5. Credential strip */}
-                <section id="qualifikation" className="scroll-mt-20 bg-aubergine-dark text-cream">
-                    <div className="mx-auto max-w-5xl px-6 py-20">
-                        <div className="flex items-center gap-3">
-                            <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-gold">
-                                {{ de: 'Qualifikation', en: 'Credentials', ru: 'Квалификация', ar: 'المؤهلات' }[locale]}
-                            </span>
-                            <span aria-hidden className="h-px flex-1 bg-gold/40" />
-                        </div>
-                        <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-cream sm:text-4xl">
-                            {
-                                {
-                                    de: 'Staatlich anerkannt. Heilpraktikerin für Podologie.',
-                                    en: 'State-accredited. Heilpraktiker for podiatry.',
-                                    ru: 'Государственно признана. Heilpraktiker по подологии.',
-                                    ar: 'معتمدة من الدولة. Heilpraktiker متخصصة في علم الأقدام.',
-                                }[locale]
-                            }
-                        </h2>
-                        <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
-                            {INDEX_CREDENTIALS.map((credential) => {
-                                const Icon = credential.icon!;
-                                return (
-                                    <li
-                                        key={credential.id}
-                                        id={credential.id}
-                                        className="search-target flex scroll-mt-20 items-center gap-3 text-cream/80"
-                                    >
-                                        <Icon className="size-5 text-gold" aria-hidden />
-                                        <span>{credential.heading[locale]}</span>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                        <div className="mt-10">
-                            <Link
-                                to="/{-$locale}/qualifikation"
-                                hash="urkunden"
-                                className="inline-flex items-center font-medium text-gold hover:underline"
-                            >
-                                {
-                                    {
-                                        de: 'Mehr zur Qualifikation →',
-                                        en: 'More on credentials →',
-                                        ru: 'Подробнее о квалификации →',
-                                        ar: 'المزيد عن المؤهلات →',
-                                    }[locale]
-                                }
-                            </Link>
-                        </div>
-                    </div>
-                </section>
-
-                {/* 6. Testimonials */}
-                <section id="stimmen" className="scroll-mt-20 bg-blush">
-                    <div className="mx-auto max-w-5xl px-6 py-20">
-                        <Reveal>
-                            <SectionEyebrow>{{ de: 'Stimmen', en: 'Voices', ru: 'Отзывы', ar: 'آراء' }[locale]}</SectionEyebrow>
-                            <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                                {
-                                    {
-                                        de: 'Stimmen aus der Praxis.',
-                                        en: 'Voices from the practice.',
-                                        ru: 'Отзывы из практики.',
-                                        ar: 'آراء من العيادة.',
-                                    }[locale]
-                                }
-                            </h2>
-                        </Reveal>
-                        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-                            {INDEX_TESTIMONIALS.map((testimonial, index) => (
-                                <Reveal key={testimonial.id} delayMs={index * 80}>
-                                    <figure className="flex h-full flex-col rounded-xl border border-aubergine/10 bg-cream p-6">
-                                        <QuoteIcon className="size-5 text-aubergine/60" aria-hidden />
-                                        <blockquote className="mt-4 flex-1 text-(--color-brand-charcoal-2)">
-                                            <p>„{testimonial.quote[locale]}“</p>
-                                        </blockquote>
-                                        <figcaption className="mt-4 text-sm font-medium text-aubergine-dark">
-                                            — {testimonial.attribution[locale]}
-                                        </figcaption>
-                                    </figure>
-                                </Reveal>
-                            ))}
-                        </div>
-                        <Reveal className="mt-10 text-center">
-                            <div
-                                className="flex items-center justify-center gap-1"
-                                role="img"
-                                aria-label={
-                                    {
-                                        de: 'Bewertungen auf Google',
-                                        en: 'Reviews on Google',
-                                        ru: 'Отзывы на Google',
-                                        ar: 'التقييمات على Google',
-                                    }[locale]
-                                }
-                            >
-                                {Array.from({ length: 5 }, (_, index) => (
-                                    <StarIcon key={index} className="size-5 fill-yellow-400 text-yellow-400" aria-hidden />
-                                ))}
-                            </div>
-                            <a
-                                href={PRACTICE.maps.reviews}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group mt-4 inline-flex items-center gap-1.5 font-medium text-aubergine hover:underline"
-                            >
-                                {
-                                    {
-                                        de: 'Alle Bewertungen auf Google ansehen',
-                                        en: 'View all reviews on Google',
-                                        ru: 'Посмотреть все отзывы на Google',
-                                        ar: 'استعراض جميع التقييمات على Google',
-                                    }[locale]
-                                }
-                                <ExternalLinkIcon
-                                    className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5"
-                                    aria-hidden
-                                />
-                            </a>
-                        </Reveal>
                     </div>
                 </section>
 

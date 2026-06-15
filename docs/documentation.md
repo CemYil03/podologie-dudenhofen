@@ -20,6 +20,7 @@ docs/
 │   ├── page-content-modules.md   # Typed leaf-card content extracted from route files; auto-derived search index
 │   ├── seo.md                    # SEO standards — seoMeta() helper, dynamic sitemap.xml, robots.txt
 │   ├── server-side-rendering.md  # Playwright-based UI capture for image/PDF exports
+│   ├── site-structure.md         # Hub-and-spoke landing page; rules for where new content goes
 │   ├── state-synchronization.md  # Client-server state sync via subscriptions
 │   └── server-architecture.md    # Server-side domain logic structure (CQRS)
 ├── style/                        # Visual-design decisions (typography, color, theming, motion)
