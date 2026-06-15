@@ -25,6 +25,7 @@ import {
     ChatToolApprovalRespondDocument,
 } from '../../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../../web/graphql/routeLoaderGraphqlClient';
+import { useLocale } from '../../../web/hooks/useLocale';
 import { seoMeta } from '../../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../../web/seo/webPageUrlGet';
 import { localeFromParam } from '../../../web/utils/locale';
@@ -326,10 +327,11 @@ function ChatTranscript({
 }
 
 function DateSeparator({ iso }: { iso: string }) {
+    const locale = useLocale();
     return (
         <div className="flex items-center gap-3 text-[11px] uppercase tracking-wide text-sage">
             <span className="h-px flex-1 bg-aubergine/15" />
-            <time dateTime={iso}>{format(parseISO(iso), 'PP')}</time>
+            <time dateTime={iso}>{formatChatDateSeparatorLabel(iso, locale)}</time>
             <span className="h-px flex-1 bg-aubergine/15" />
         </div>
     );

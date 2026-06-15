@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ExternalLinkIcon, PhoneIcon, QuoteIcon, StarIcon } from 'lucide-react';
+import { ExternalLinkIcon, PhoneIcon, QuoteIcon, SendIcon, SparklesIcon, StarIcon } from 'lucide-react';
+import { useState } from 'react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { useVisitorChat } from '../../web/chat/VisitorChatProvider';
 import { Button } from '../../web/components/base/button';
@@ -113,8 +114,35 @@ export const Route = createFileRoute('/{-$locale}/')({
     },
     component() {
         const locale = useLocale();
-        const { openWithMessage } = useVisitorChat();
+        const { openWithMessage, resetChat } = useVisitorChat();
         const { activeVacation } = Route.useLoaderData();
+        // Faux composer in the "Fragen?" section. The home page does not
+        // host the real chat — the visitor sheet does — so this textarea
+        // only buffers a draft and hands it off to `openWithMessage` on
+        // submit. Stays in sync with the suggested-question buttons (both
+        // routes go through the provider) and clears once dispatched so a
+        // returning visitor sees an empty field.
+        //
+        // Both entry points (textarea + chip) call `resetChat()` first.
+        // The provider keeps `chatId` alive across sheet open/close so a
+        // visitor mid-conversation can dismiss the sheet and come back —
+        // but a send fired from the landing page is always meant as a
+        // fresh start, not an append to whatever chat happened to be open
+        // last. Without the reset, "click chip → close sheet → type new
+        // question → send" tacks the new message onto the previous chat.
+        const [assistantDraft, setAssistantDraft] = useState('');
+        const assistantStartFresh = (message: string) => {
+            const trimmed = message.trim();
+            if (!trimmed) return;
+            resetChat();
+            void openWithMessage(trimmed);
+        };
+        const assistantDraftSubmit = () => {
+            if (!assistantDraft.trim()) return;
+            const message = assistantDraft;
+            setAssistantDraft('');
+            assistantStartFresh(message);
+        };
 
         return (
             <main>
@@ -471,41 +499,187 @@ export const Route = createFileRoute('/{-$locale}/')({
                             <h2 className="mt-6 font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
                                 {
                                     {
-                                        de: 'Brauche ich überhaupt eine podologische Behandlung?',
-                                        en: 'Do I really need a podiatrist?',
-                                        ru: 'А нужна ли мне вообще подологическая процедура?',
-                                        ar: 'هل أحتاج فعلاً إلى علاج في عيادة علم الأقدام؟',
+                                        de: 'Erst kurz fragen — dann anrufen.',
+                                        en: 'A quick answer before you call.',
+                                        ru: 'Сначала спросите — потом звоните.',
+                                        ar: 'سؤال سريع قبل أن تتصلوا.',
                                     }[locale]
                                 }
                             </h2>
                             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
                                 {
                                     {
-                                        de: 'Bevor Sie anrufen — fragen Sie unseren Assistenten. Er hilft bei den häufigsten Fragen rund um Behandlungen, Verordnungen und den ersten Termin.',
-                                        en: 'Before you call — ask our assistant. It helps with the most common questions on treatments, prescriptions, and the first visit.',
-                                        ru: 'Прежде чем звонить — спросите нашего ассистента. Он поможет с самыми частыми вопросами о процедурах, направлениях и первом приёме.',
-                                        ar: 'قبل أن تتصلوا — اسألوا مساعدنا. يساعدكم في الإجابة عن أكثر الأسئلة شيوعاً حول العلاجات والوصفات الطبية والموعد الأول.',
+                                        de: 'Unser Assistent kennt die häufigsten Fragen rund um Behandlungen, Verordnungen und den ersten Termin — Tag und Nacht, ohne Wartezeit. Stellen Sie Ihre Frage in Ruhe.',
+                                        en: 'Our assistant knows the most common questions about treatments, prescriptions, and the first visit — day and night, no waiting. Take your time and ask.',
+                                        ru: 'Наш ассистент знает самые частые вопросы о процедурах, направлениях и первом приёме — днём и ночью, без ожидания. Спросите спокойно.',
+                                        ar: 'يعرف مساعدنا أكثر الأسئلة شيوعاً عن العلاجات والوصفات الطبية والموعد الأول — ليلاً ونهاراً وبلا انتظار. اسألوا بهدوء.',
                                     }[locale]
                                 }
                             </p>
                         </Reveal>
                         <Reveal delayMs={120} className="mx-auto mt-10 max-w-2xl">
                             <div className="rounded-xl border border-aubergine/10 bg-blush p-6">
-                                <div className="flex flex-col gap-2">
-                                    {INDEX_SUGGESTED_QUESTIONS.map((q) => (
-                                        <button
-                                            key={q.id}
-                                            id={q.id}
-                                            type="button"
-                                            onClick={() => void openWithMessage(q.heading[locale])}
-                                            className="search-target scroll-mt-20 rounded-md border border-aubergine/20 bg-cream/60 px-4 py-3 text-start text-sm text-aubergine transition-colors duration-200 ease-out hover:bg-aubergine/5"
+                                {/* Identity row — small avatar + name + live status. The
+                                 *  green dot is honest: the assistant is an LLM and is
+                                 *  always available. */}
+                                <div className="flex items-center gap-3">
+                                    <div
+                                        className="flex size-10 items-center justify-center rounded-full bg-aubergine text-cream"
+                                        aria-hidden
+                                    >
+                                        <SparklesIcon className="size-5" />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <div className="font-medium text-aubergine-dark">
+                                            {
+                                                {
+                                                    de: 'Praxis-Assistent',
+                                                    en: 'Practice assistant',
+                                                    ru: 'Ассистент практики',
+                                                    ar: 'مساعد العيادة',
+                                                }[locale]
+                                            }
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-xs text-(--color-brand-charcoal-3)">
+                                            <span aria-hidden className="size-1.5 rounded-full bg-green-600" />
+                                            {
+                                                {
+                                                    de: 'jetzt verfügbar · rund um die Uhr',
+                                                    en: 'available now · 24/7',
+                                                    ru: 'на связи · круглосуточно',
+                                                    ar: 'متاح الآن · على مدار الساعة',
+                                                }[locale]
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Faux composer — a real `<textarea>` so paste, autofill,
+                                 *  IME, and screen-reader form semantics all behave. The
+                                 *  send goes through the same `openWithMessage` funnel
+                                 *  the suggested chips use, so the chat sheet picks the
+                                 *  draft up identically either way. */}
+                                <form
+                                    className="mt-5"
+                                    onSubmit={(event) => {
+                                        event.preventDefault();
+                                        assistantDraftSubmit();
+                                    }}
+                                >
+                                    <label htmlFor="assistant-draft" className="sr-only">
+                                        {
+                                            {
+                                                de: 'Frage an den Praxis-Assistenten',
+                                                en: 'Question for the practice assistant',
+                                                ru: 'Вопрос ассистенту практики',
+                                                ar: 'سؤال إلى مساعد العيادة',
+                                            }[locale]
+                                        }
+                                    </label>
+                                    <div className="flex items-end gap-2 rounded-lg border border-aubergine/20 bg-cream px-3 py-2 transition-colors duration-200 ease-out focus-within:border-aubergine focus-within:ring-2 focus-within:ring-aubergine/30">
+                                        <textarea
+                                            id="assistant-draft"
+                                            rows={1}
+                                            value={assistantDraft}
+                                            onChange={(event) => setAssistantDraft(event.target.value)}
+                                            onKeyDown={(event) => {
+                                                if (event.key === 'Enter' && !event.shiftKey) {
+                                                    event.preventDefault();
+                                                    assistantDraftSubmit();
+                                                }
+                                            }}
+                                            placeholder={
+                                                {
+                                                    de: 'Stellen Sie Ihre Frage…',
+                                                    en: 'Ask your question…',
+                                                    ru: 'Задайте свой вопрос…',
+                                                    ar: 'اطرحوا سؤالكم…',
+                                                }[locale]
+                                            }
+                                            className="block min-h-9 flex-1 resize-none bg-transparent py-1 text-sm text-charcoal placeholder:text-(--color-brand-charcoal-4) focus:outline-none"
+                                        />
+                                        <Button
+                                            type="submit"
+                                            variant="brand"
+                                            size="sm"
+                                            disabled={!assistantDraft.trim()}
+                                            aria-label={
+                                                {
+                                                    de: 'Frage absenden',
+                                                    en: 'Send question',
+                                                    ru: 'Отправить вопрос',
+                                                    ar: 'إرسال السؤال',
+                                                }[locale]
+                                            }
                                         >
-                                            {q.heading[locale]}
-                                        </button>
-                                    ))}
+                                            <SendIcon className="size-4" aria-hidden />
+                                        </Button>
+                                    </div>
+                                </form>
+
+                                {/* Canned questions — chip-style, visually subordinate
+                                 *  to the input above. Each chip is one tap that opens
+                                 *  the sheet AND fires the question as the first turn,
+                                 *  same code path as before. */}
+                                <div className="mt-5">
+                                    <div className="font-mono text-xs uppercase tracking-[0.18em] text-(--color-brand-charcoal-3)">
+                                        {
+                                            {
+                                                de: 'Beliebte Fragen',
+                                                en: 'Popular questions',
+                                                ru: 'Частые вопросы',
+                                                ar: 'أسئلة شائعة',
+                                            }[locale]
+                                        }
+                                    </div>
+                                    <div className="mt-3 flex flex-wrap gap-2">
+                                        {INDEX_SUGGESTED_QUESTIONS.map((q) => (
+                                            <button
+                                                key={q.id}
+                                                id={q.id}
+                                                type="button"
+                                                onClick={() => assistantStartFresh(q.heading[locale])}
+                                                className="search-target scroll-mt-20 rounded-full border border-aubergine/20 bg-cream/60 px-4 py-1.5 text-start text-sm text-aubergine transition-colors duration-200 ease-out hover:border-aubergine hover:bg-aubergine/5"
+                                            >
+                                                {q.heading[locale]}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                            <p className="mt-4 text-center text-xs text-(--color-brand-charcoal-4)">
+
+                            {/* Phone fallback + disclaimer share one footer. Phone is
+                             *  inline so the section also serves visitors who would
+                             *  rather speak; the disclaimer stays small and grey. */}
+                            <p className="mt-5 text-center text-sm text-(--color-brand-charcoal-3)">
+                                {
+                                    {
+                                        de: 'Lieber direkt sprechen? ',
+                                        en: 'Prefer to speak directly? ',
+                                        ru: 'Хотите поговорить напрямую? ',
+                                        ar: 'تفضّلون التحدث مباشرة؟ ',
+                                    }[locale]
+                                }
+                                <a
+                                    href={`tel:${PRACTICE.phone}`}
+                                    className="inline-flex items-center gap-1.5 font-medium text-aubergine hover:underline"
+                                >
+                                    <PhoneIcon className="size-4" aria-hidden />
+                                    {formatPhoneNumber(PRACTICE.phone)}
+                                </a>
+                                <span className="text-(--color-brand-charcoal-4)">
+                                    {' · '}
+                                    {
+                                        {
+                                            de: 'Mo–Fr 08:00 – 16:00',
+                                            en: 'Mon–Fri 08:00 – 16:00',
+                                            ru: 'Пн–Пт 08:00 – 16:00',
+                                            ar: 'الإثنين–الجمعة 08:00 – 16:00',
+                                        }[locale]
+                                    }
+                                </span>
+                            </p>
+                            <p className="mt-3 text-center text-xs text-(--color-brand-charcoal-4)">
                                 {
                                     {
                                         de: 'Der Assistent gibt keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',

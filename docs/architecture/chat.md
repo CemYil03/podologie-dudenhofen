@@ -333,6 +333,11 @@ Reads return a flat insertion-ordered `messages: [ChatMessage!]!`. Day separator
 would only run on the initial load before being thrown away. The transcript runs a sequential scan that groups by ISO calendar day
 (`YYYY-MM-DD`) using the same boundary the wire `Date` scalar exposes.
 
+The separator label itself is rendered through `formatChatDateSeparatorLabel(iso, locale)` (`src/web/chat/chatDateSeparatorLabel.ts`),
+shared by both the admin route and the visitor sheet: today and yesterday collapse to the localized `Today` / `Yesterday`, older days fall
+back to the long-form locale-aware date. The today/yesterday boundary is the viewer's local timezone, the same boundary
+`groupMessagesByDate` already slices on.
+
 ### Latest-collection-only is a UI rule, not a schema rule
 
 A `ChatMessageAssistantInputCollection` is interactive only when it is the **last message in the chat**. Any later message — the matching
