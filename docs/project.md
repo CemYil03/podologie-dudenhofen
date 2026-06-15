@@ -282,7 +282,7 @@ _(Move shipped roadmap items here with a one-line note + commit/PR link. Prepend
   [`docs/architecture/seo.md`](./architecture/seo.md).
 - 2026-06-14 — Reveal-on-scroll and pointer-aware hover micro-motion across the site, honouring `prefers-reduced-motion`. Commit `9016b96`.
   Style doc: [`docs/style/motion.md`](./style/motion.md).
-- 2026-06-14 — Imprint and privacy texts finalised. See [`docs/features/legal-pages.md`](./features/legal-pages.md). Commit `7ea080a`.
+- 2026-06-14 — Imprint and privacy texts finalized. See [`docs/features/legal-pages.md`](./features/legal-pages.md). Commit `7ea080a`.
 - 2026-06-13 — Heilpraktiker-Urkunde digitised and rendered inline at `/qualifikation#urkunden` alongside the Podologie-Urkunde. Both now
   live in `public/urkunden/`. Resolves the "shown in person" caveat and the matching open question. Commit `4b63c11`.
 - 2026-06-13 — Instrument-reprocessing pipeline added to `/praxis#hygiene`: numbered three-step block with photos in
