@@ -107,6 +107,9 @@ jobs:
           --health-retries=5
     env:
       DATABASE_URL: postgresql://test:test@localhost:5432/test
+      sessionCookieName: podologie-dudenhofen-ci-session
+      WEB_PAGE_URL: http://localhost:3000
+      VISITOR_IP_HASH_SALT: ci-visitor-ip-salt
     steps:
       - uses: actions/checkout@v6
 
