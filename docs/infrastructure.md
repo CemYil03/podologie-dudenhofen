@@ -93,7 +93,8 @@ Each environment is two steps because the schema-level grants run **inside the n
 between step 1 and step 2.
 
 CI does **not** need any of this. The `test` job in `.github/workflows/pipeline.yml` provisions a throwaway Postgres service container with
-`test:test@.../test` per run.
+`test:test@.../test` per run, and exports `sessionCookieName`, `WEB_PAGE_URL`, and `VISITOR_IP_HASH_SALT` as job-level env so
+`environmentVariablesCreate` passes its boot validation when test code touches `environmentVariables`.
 
 #### Local development
 
