@@ -105,8 +105,8 @@ area, lets the transcript shrink in the middle, and parks the composer flush abo
 Two further mobile-keyboard tweaks fight for the same vertical space: the "not medical advice" disclaimer below the title is hidden under
 `sm` and surfaced via a small `InfoIcon` popover next to the title — the `<SheetDescription>` itself stays mounted with `sr-only` so the
 sheet's `aria-describedby` link still resolves. And the visitor composer asks `<MessageComposer>` for `minRows={2}` rather than relying on
-the default, keeping the empty-state footprint tight on mobile where every row is space the keyboard is already squeezing; shift+Enter
-still grows it past that floor.
+the default, keeping the empty-state footprint tight on mobile where every row is space the keyboard is already squeezing; shift+Enter still
+grows it past that floor.
 
 ## Implementation pointers
 

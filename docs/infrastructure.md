@@ -84,15 +84,15 @@ Drizzle migrations create the schema, but the **role and database itself** have 
 superuser (`postgres`, or your OS user on macOS Homebrew installs) before the first `npm run db:migrate`.
 
 These are plain SQL statements — paste them into any client (psql, pgAdmin, DBeaver, DataGrip, …). PostgreSQL has no
-`CREATE DATABASE … IF NOT EXISTS` and forbids `CREATE DATABASE` inside a `DO` block, so the database creation is **not**
-idempotent: the second run errors with `database "..." already exists`. The `CREATE ROLE` block is wrapped in `DO`/`IF NOT EXISTS`
-so the role half stays re-runnable.
+`CREATE DATABASE … IF NOT EXISTS` and forbids `CREATE DATABASE` inside a `DO` block, so the database creation is **not** idempotent: the
+second run errors with `database "..." already exists`. The `CREATE ROLE` block is wrapped in `DO`/`IF NOT EXISTS` so the role half stays
+re-runnable.
 
-Each environment is two steps because the schema-level grants run **inside the new database**, which means switching the active
-connection between step 1 and step 2.
+Each environment is two steps because the schema-level grants run **inside the new database**, which means switching the active connection
+between step 1 and step 2.
 
-CI does **not** need any of this. The `test` job in `.github/workflows/pipeline.yml` provisions a throwaway Postgres service
-container with `test:test@.../test` per run.
+CI does **not** need any of this. The `test` job in `.github/workflows/pipeline.yml` provisions a throwaway Postgres service container with
+`test:test@.../test` per run.
 
 #### Local development
 
@@ -134,8 +134,8 @@ Apply the schema with `npm run db:migrate` (committed migrations) or `npm run db
 
 #### Local unit-test database (optional)
 
-A separate persistent local DB so `npm test` does not collide with your dev data. Skip this if you are happy letting tests share the
-dev DB or if you only run them in CI.
+A separate persistent local DB so `npm test` does not collide with your dev data. Skip this if you are happy letting tests share the dev DB
+or if you only run them in CI.
 
 **Step 1** — connected to the `postgres` database, as a superuser:
 
@@ -176,8 +176,8 @@ DATABASE_URL=postgresql://podologie-dudenhofen-test:testpassword@localhost:5432/
 
 #### Production / Coolify Postgres
 
-Replace `CHANGE_ME` with a real password before running — or delete the `CREATE ROLE` block and create the role out-of-band (e.g.
-through the Coolify Postgres UI), keeping only the `CREATE DATABASE` and grants. Run as a superuser against the target server.
+Replace `CHANGE_ME` with a real password before running — or delete the `CREATE ROLE` block and create the role out-of-band (e.g. through
+the Coolify Postgres UI), keeping only the `CREATE DATABASE` and grants. Run as a superuser against the target server.
 
 **Step 1** — connected to the `postgres` database, as a superuser:
 
@@ -212,8 +212,8 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 GRANT USAGE, CREATE ON SCHEMA public TO "podologie-dudenhofen-server";
 ```
 
-Then set `DATABASE_URL=postgresql://podologie-dudenhofen-server:<secret>@<host>:5432/PodologieDudenhofenDB` in the deploy
-environment. Migrations run as part of deploy — see [Database Migrations in Deployment](#database-migrations-in-deployment).
+Then set `DATABASE_URL=postgresql://podologie-dudenhofen-server:<secret>@<host>:5432/PodologieDudenhofenDB` in the deploy environment.
+Migrations run as part of deploy — see [Database Migrations in Deployment](#database-migrations-in-deployment).
 
 To rotate the password later:
 
