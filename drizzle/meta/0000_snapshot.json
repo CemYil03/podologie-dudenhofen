@@ -1,5 +1,5 @@
 {
-    "id": "a9355fc4-3a73-4e54-9e0e-8f9077e3f261",
+    "id": "6801ebed-3754-45c0-9a4e-5bb3ef223328",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
@@ -725,6 +725,24 @@
                     "primaryKey": true,
                     "notNull": true
                 },
+                "kind": {
+                    "name": "kind",
+                    "type": "varchar",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "sessionId": {
+                    "name": "sessionId",
+                    "type": "uuid",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "ownerUserId": {
+                    "name": "ownerUserId",
+                    "type": "uuid",
+                    "primaryKey": false,
+                    "notNull": false
+                },
                 "title": {
                     "name": "title",
                     "type": "varchar",
@@ -747,8 +765,85 @@
                     "default": "now()"
                 }
             },
-            "indexes": {},
-            "foreignKeys": {},
+            "indexes": {
+                "Chats_sessionId_lastModifiedAt_idx": {
+                    "name": "Chats_sessionId_lastModifiedAt_idx",
+                    "columns": [
+                        {
+                            "expression": "sessionId",
+                            "isExpression": false,
+                            "asc": true,
+                            "nulls": "last"
+                        },
+                        {
+                            "expression": "lastModifiedAt",
+                            "isExpression": false,
+                            "asc": true,
+                            "nulls": "last"
+                        }
+                    ],
+                    "isUnique": false,
+                    "concurrently": false,
+                    "method": "btree",
+                    "with": {}
+                },
+                "Chats_ownerUserId_lastModifiedAt_idx": {
+                    "name": "Chats_ownerUserId_lastModifiedAt_idx",
+                    "columns": [
+                        {
+                            "expression": "ownerUserId",
+                            "isExpression": false,
+                            "asc": true,
+                            "nulls": "last"
+                        },
+                        {
+                            "expression": "lastModifiedAt",
+                            "isExpression": false,
+                            "asc": true,
+                            "nulls": "last"
+                        }
+                    ],
+                    "isUnique": false,
+                    "concurrently": false,
+                    "method": "btree",
+                    "with": {}
+                },
+                "Chats_kind_idx": {
+                    "name": "Chats_kind_idx",
+                    "columns": [
+                        {
+                            "expression": "kind",
+                            "isExpression": false,
+                            "asc": true,
+                            "nulls": "last"
+                        }
+                    ],
+                    "isUnique": false,
+                    "concurrently": false,
+                    "method": "btree",
+                    "with": {}
+                }
+            },
+            "foreignKeys": {
+                "Chats_sessionId_Sessions_sessionId_fk": {
+                    "name": "Chats_sessionId_Sessions_sessionId_fk",
+                    "tableFrom": "Chats",
+                    "tableTo": "Sessions",
+                    "columnsFrom": ["sessionId"],
+                    "columnsTo": ["sessionId"],
+                    "onDelete": "set null",
+                    "onUpdate": "cascade"
+                },
+                "Chats_ownerUserId_Users_userId_fk": {
+                    "name": "Chats_ownerUserId_Users_userId_fk",
+                    "tableFrom": "Chats",
+                    "tableTo": "Users",
+                    "columnsFrom": ["ownerUserId"],
+                    "columnsTo": ["userId"],
+                    "onDelete": "cascade",
+                    "onUpdate": "cascade"
+                }
+            },
             "compositePrimaryKeys": {},
             "uniqueConstraints": {},
             "policies": {},
@@ -983,6 +1078,57 @@
                 },
                 "createdAt": {
                     "name": "createdAt",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "policies": {},
+            "checkConstraints": {},
+            "isRLSEnabled": false
+        },
+        "public.Vacations": {
+            "name": "Vacations",
+            "schema": "",
+            "columns": {
+                "vacationId": {
+                    "name": "vacationId",
+                    "type": "uuid",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "startsOn": {
+                    "name": "startsOn",
+                    "type": "date",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "endsOn": {
+                    "name": "endsOn",
+                    "type": "date",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "note": {
+                    "name": "note",
+                    "type": "varchar",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
                     "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,

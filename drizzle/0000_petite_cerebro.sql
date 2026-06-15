@@ -87,6 +87,9 @@ CREATE TABLE "ChatMessagesUserInput" (
 --> statement-breakpoint
 CREATE TABLE "Chats" (
 	"chatId" uuid PRIMARY KEY NOT NULL,
+	"kind" varchar NOT NULL,
+	"sessionId" uuid,
+	"ownerUserId" uuid,
 	"title" varchar DEFAULT '' NOT NULL,
 	"lastModifiedAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
@@ -127,6 +130,15 @@ CREATE TABLE "Users" (
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "Vacations" (
+	"vacationId" uuid PRIMARY KEY NOT NULL,
+	"startsOn" date NOT NULL,
+	"endsOn" date NOT NULL,
+	"note" varchar,
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 ALTER TABLE "ChatMessageUserAttachments" ADD CONSTRAINT "ChatMessageUserAttachments_chatMessageId_ChatMessagesUser_chatMessageId_fk" FOREIGN KEY ("chatMessageId") REFERENCES "public"."ChatMessagesUser"("chatMessageId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "ChatMessageUserAttachments" ADD CONSTRAINT "ChatMessageUserAttachments_fileUploadId_FileUploads_fileUploadId_fk" FOREIGN KEY ("fileUploadId") REFERENCES "public"."FileUploads"("fileUploadId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "ChatMessages" ADD CONSTRAINT "ChatMessages_chatId_Chats_chatId_fk" FOREIGN KEY ("chatId") REFERENCES "public"."Chats"("chatId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
@@ -140,6 +152,8 @@ ALTER TABLE "ChatMessagesToolCall" ADD CONSTRAINT "ChatMessagesToolCall_chatMess
 ALTER TABLE "ChatMessagesUser" ADD CONSTRAINT "ChatMessagesUser_chatMessageId_ChatMessages_chatMessageId_fk" FOREIGN KEY ("chatMessageId") REFERENCES "public"."ChatMessages"("chatMessageId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "ChatMessagesUserInput" ADD CONSTRAINT "ChatMessagesUserInput_chatMessageId_ChatMessages_chatMessageId_fk" FOREIGN KEY ("chatMessageId") REFERENCES "public"."ChatMessages"("chatMessageId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "ChatMessagesUserInput" ADD CONSTRAINT "ChatMessagesUserInput_collectionMessageId_ChatMessagesAssistantInputCollection_chatMessageId_fk" FOREIGN KEY ("collectionMessageId") REFERENCES "public"."ChatMessagesAssistantInputCollection"("chatMessageId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "Chats" ADD CONSTRAINT "Chats_sessionId_Sessions_sessionId_fk" FOREIGN KEY ("sessionId") REFERENCES "public"."Sessions"("sessionId") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "Chats" ADD CONSTRAINT "Chats_ownerUserId_Users_userId_fk" FOREIGN KEY ("ownerUserId") REFERENCES "public"."Users"("userId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "FileUploads" ADD CONSTRAINT "FileUploads_userId_Users_userId_fk" FOREIGN KEY ("userId") REFERENCES "public"."Users"("userId") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "Logs" ADD CONSTRAINT "Logs_sessionId_Sessions_sessionId_fk" FOREIGN KEY ("sessionId") REFERENCES "public"."Sessions"("sessionId") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "Sessions" ADD CONSTRAINT "Sessions_userId_Users_userId_fk" FOREIGN KEY ("userId") REFERENCES "public"."Users"("userId") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
@@ -149,4 +163,7 @@ CREATE INDEX "ChatMessages_chatId_createdAt_idx" ON "ChatMessages" USING btree (
 CREATE INDEX "ChatMessages_kind_idx" ON "ChatMessages" USING btree ("kind");--> statement-breakpoint
 CREATE UNIQUE INDEX "ChatMessagesToolApprovalResponse_approvalId_uniq" ON "ChatMessagesToolApprovalResponse" USING btree ("approvalId");--> statement-breakpoint
 CREATE INDEX "ChatMessagesToolCall_toolCallId_idx" ON "ChatMessagesToolCall" USING btree ("toolCallId");--> statement-breakpoint
+CREATE INDEX "Chats_sessionId_lastModifiedAt_idx" ON "Chats" USING btree ("sessionId","lastModifiedAt");--> statement-breakpoint
+CREATE INDEX "Chats_ownerUserId_lastModifiedAt_idx" ON "Chats" USING btree ("ownerUserId","lastModifiedAt");--> statement-breakpoint
+CREATE INDEX "Chats_kind_idx" ON "Chats" USING btree ("kind");--> statement-breakpoint
 CREATE INDEX "FileUploads_userId_idx" ON "FileUploads" USING btree ("userId");

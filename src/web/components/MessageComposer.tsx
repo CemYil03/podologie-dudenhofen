@@ -53,7 +53,10 @@ export interface MessageComposerProps {
      *  Distinct from `disabled` so a parent can disable for non-busy reasons. */
     busy?: boolean;
     placeholder?: string;
-    rows?: number;
+    /** Minimum visible rows when the draft is empty/short. Defaults to 2. */
+    minRows?: number;
+    /** Maximum visible rows before the textarea starts scrolling. Unbounded by default. */
+    maxRows?: number;
     /** Optional content rendered inside the bottom addon, left of the Send
      *  button. Use this for feature-specific controls like a mode selector. */
     addonStart?: ReactNode;
@@ -85,7 +88,8 @@ export function MessageComposer({
     disabled = false,
     busy = false,
     placeholder,
-    rows = 2,
+    minRows = 2,
+    maxRows,
     addonStart,
     sendLabel = 'Send',
     attachments,
@@ -220,7 +224,8 @@ export function MessageComposer({
                     }}
                     placeholder={placeholder}
                     disabled={inputsLocked}
-                    rows={rows}
+                    minRows={minRows}
+                    maxRows={maxRows}
                 />
 
                 <InputGroupAddon align="block-end">

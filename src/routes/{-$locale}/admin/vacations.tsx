@@ -138,7 +138,7 @@ function NewVacationForm({ onCreated }: { onCreated: () => void }) {
                     value={note}
                     onChange={(event) => setNote(event.target.value)}
                     placeholder="z. B. Notfälle bitte an Praxis XY, Tel. …"
-                    rows={2}
+                    minRows={2}
                 />
             </label>
             {errorMessage ? <p className="text-sm text-destructive">{errorMessage}</p> : null}
@@ -213,7 +213,7 @@ function VacationRow({ vacation, onChanged }: { vacation: Vacation; onChanged: (
                 </div>
                 <label className="block">
                     <span className="mb-1 block text-sm">Hinweis</span>
-                    <Textarea value={note} onChange={(event) => setNote(event.target.value)} rows={2} />
+                    <Textarea value={note} onChange={(event) => setNote(event.target.value)} minRows={2} />
                 </label>
                 {errorMessage ? <p className="text-sm text-destructive">{errorMessage}</p> : null}
                 <div className="flex gap-2">

@@ -501,7 +501,7 @@ function TimeControl({ value, onChange }: { value: string; onChange: (next: stri
 }
 
 function TextControl({ value, onChange }: { value: string; onChange: (next: string) => void }) {
-    return <Textarea value={value} onChange={(event) => onChange(event.target.value)} placeholder="Type your answer…" rows={2} />;
+    return <Textarea value={value} onChange={(event) => onChange(event.target.value)} placeholder="Type your answer…" minRows={2} />;
 }
 
 /** Yes / No button pair. The selected button becomes filled (`default`

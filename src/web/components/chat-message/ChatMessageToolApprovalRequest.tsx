@@ -60,7 +60,7 @@ export function ChatMessageToolApprovalRequestView({
                                 placeholder="Optional: why decline?"
                                 value={reasonDraft}
                                 onChange={(event) => setReasonDraft(event.target.value)}
-                                rows={3}
+                                minRows={3}
                                 autoFocus
                             />
                             <div className="flex gap-2">

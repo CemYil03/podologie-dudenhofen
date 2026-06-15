@@ -7,7 +7,8 @@ const meta = {
     argTypes: {
         placeholder: { control: 'text' },
         disabled: { control: 'boolean' },
-        rows: { control: 'number' },
+        minRows: { control: 'number' },
+        maxRows: { control: 'number' },
     },
     args: {
         placeholder: 'Type your message here.',
@@ -32,8 +33,17 @@ export const Invalid: Story = {
     args: { 'aria-invalid': true, defaultValue: 'Invalid input' },
 };
 
-export const WithRows: Story = {
-    args: { rows: 6, placeholder: 'Textarea with explicit rows' },
+export const WithMinRows: Story = {
+    args: { minRows: 6, placeholder: 'Textarea with minRows={6}' },
+};
+
+export const WithMaxRows: Story = {
+    args: {
+        minRows: 2,
+        maxRows: 4,
+        defaultValue: Array.from({ length: 10 }, (_, i) => `Line ${i + 1}`).join('\n'),
+        placeholder: 'Textarea capped at 4 rows — overflow scrolls',
+    },
 };
 
 export const AllStates: Story = {

@@ -78,6 +78,149 @@ The following environment variables must be configured in the deployment environ
 | `BUILD_SHA`                    | No       | Commit SHA baked into the Docker image at build time. Surfaced via the `version` field of the health endpoint (`/api/health`) and read through `EnvironmentVariables.buildSha`. Falls back to `"unknown"` when not provided                                        |
 | `BUILD_TIME`                   | No       | ISO 8601 timestamp of the build (`YYYY-MM-DDTHH:MM:SSZ`). Emitted as `<lastmod>` in the dynamic `/sitemap.xml` so crawlers see a fresh date on every deploy. Falls back to the container boot time when not set — see [architecture/seo.md](./architecture/seo.md) |
 
+### Database Bootstrap
+
+Drizzle migrations create the schema, but the **role and database itself** have to exist first. Run the SQL below once as a Postgres
+superuser (`postgres`, or your OS user on macOS Homebrew installs) before the first `npm run db:migrate`.
+
+These are plain SQL statements — paste them into any client (psql, pgAdmin, DBeaver, DataGrip, …). PostgreSQL has no
+`CREATE DATABASE … IF NOT EXISTS` and forbids `CREATE DATABASE` inside a `DO` block, so the database creation is **not**
+idempotent: the second run errors with `database "..." already exists`. The `CREATE ROLE` block is wrapped in `DO`/`IF NOT EXISTS`
+so the role half stays re-runnable.
+
+Each environment is two steps because the schema-level grants run **inside the new database**, which means switching the active
+connection between step 1 and step 2.
+
+CI does **not** need any of this. The `test` job in `.github/workflows/pipeline.yml` provisions a throwaway Postgres service
+container with `test:test@.../test` per run.
+
+#### Local development
+
+**Step 1** — connected to the `postgres` database (or any other existing one), as a superuser:
+
+```sql
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'podologie-dudenhofen-server') THEN
+        CREATE ROLE "podologie-dudenhofen-server"
+            WITH LOGIN
+                 PASSWORD 'devpassword'
+                 CREATEDB; -- lets drizzle-kit create extensions / schemas
+    END IF;
+END
+$$;
+
+CREATE DATABASE "PodologieDudenhofenDB"
+    OWNER "podologie-dudenhofen-server"
+    ENCODING 'UTF8';
+
+GRANT ALL PRIVILEGES ON DATABASE "PodologieDudenhofenDB" TO "podologie-dudenhofen-server";
+```
+
+**Step 2** — switch your client's active connection to `PodologieDudenhofenDB`, then run:
+
+```sql
+ALTER SCHEMA public OWNER TO "podologie-dudenhofen-server";
+GRANT ALL ON SCHEMA public TO "podologie-dudenhofen-server";
+```
+
+Then in `.env.local`:
+
+```
+DATABASE_URL=postgresql://podologie-dudenhofen-server:devpassword@localhost:5432/PodologieDudenhofenDB
+```
+
+Apply the schema with `npm run db:migrate` (committed migrations) or `npm run db:push` (quick iteration).
+
+#### Local unit-test database (optional)
+
+A separate persistent local DB so `npm test` does not collide with your dev data. Skip this if you are happy letting tests share the
+dev DB or if you only run them in CI.
+
+**Step 1** — connected to the `postgres` database, as a superuser:
+
+```sql
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'podologie-dudenhofen-test') THEN
+        CREATE ROLE "podologie-dudenhofen-test"
+            WITH LOGIN
+                 PASSWORD 'testpassword'
+                 CREATEDB;
+    END IF;
+END
+$$;
+
+CREATE DATABASE "PodologieDudenhofenTestDB"
+    OWNER "podologie-dudenhofen-test"
+    ENCODING 'UTF8';
+
+GRANT ALL PRIVILEGES ON DATABASE "PodologieDudenhofenTestDB" TO "podologie-dudenhofen-test";
+```
+
+**Step 2** — switch your client's active connection to `PodologieDudenhofenTestDB`, then run:
+
+```sql
+ALTER SCHEMA public OWNER TO "podologie-dudenhofen-test";
+GRANT ALL ON SCHEMA public TO "podologie-dudenhofen-test";
+```
+
+Run tests against it with:
+
+```bash
+DATABASE_URL=postgresql://podologie-dudenhofen-test:testpassword@localhost:5432/PodologieDudenhofenTestDB \
+  npx drizzle-kit push
+DATABASE_URL=postgresql://podologie-dudenhofen-test:testpassword@localhost:5432/PodologieDudenhofenTestDB \
+  npm test
+```
+
+#### Production / Coolify Postgres
+
+Replace `CHANGE_ME` with a real password before running — or delete the `CREATE ROLE` block and create the role out-of-band (e.g.
+through the Coolify Postgres UI), keeping only the `CREATE DATABASE` and grants. Run as a superuser against the target server.
+
+**Step 1** — connected to the `postgres` database, as a superuser:
+
+```sql
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'podologie-dudenhofen-server') THEN
+        CREATE ROLE "podologie-dudenhofen-server"
+            WITH LOGIN
+                 PASSWORD 'CHANGE_ME';
+    END IF;
+END
+$$;
+
+CREATE DATABASE "PodologieDudenhofenDB"
+    OWNER "podologie-dudenhofen-server"
+    ENCODING 'UTF8';
+
+-- Least-privilege grants. The role owns the database (and the public schema
+-- below), which is enough for Drizzle migrations to create tables, indexes,
+-- and the LISTEN/NOTIFY channels used by PubSubPostgres. It does NOT have
+-- CREATEDB / CREATEROLE / SUPERUSER on the cluster.
+REVOKE ALL ON DATABASE "PodologieDudenhofenDB" FROM PUBLIC;
+GRANT CONNECT, TEMPORARY ON DATABASE "PodologieDudenhofenDB" TO "podologie-dudenhofen-server";
+```
+
+**Step 2** — switch your client's active connection to `PodologieDudenhofenDB`, then run:
+
+```sql
+ALTER SCHEMA public OWNER TO "podologie-dudenhofen-server";
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+GRANT USAGE, CREATE ON SCHEMA public TO "podologie-dudenhofen-server";
+```
+
+Then set `DATABASE_URL=postgresql://podologie-dudenhofen-server:<secret>@<host>:5432/PodologieDudenhofenDB` in the deploy
+environment. Migrations run as part of deploy — see [Database Migrations in Deployment](#database-migrations-in-deployment).
+
+To rotate the password later:
+
+```sql
+ALTER ROLE "podologie-dudenhofen-server" WITH PASSWORD '<new-secret>';
+```
+
 ### Database Migrations
 
 Migrations are managed by Drizzle Kit. Run before or during deployment:
