@@ -280,6 +280,21 @@ type Session {
     # field on each entry is empty — fetch a single chat through `Query.chat`
     # to materialize its transcript.
     visitorChats: [Chat!]!
+    # Rolling-24h cap on visitor-chat user messages from this requester.
+    # Counted across (this session) OR (other sessions sharing this `ipHash`)
+    # so clearing cookies does not reset the bucket. The visitor sheet renders
+    # `used / limit` and the time until the oldest in-window message ages
+    # out. See `docs/features/chat-visitor.md#rate-limiting`.
+    visitorChatQuota: VisitorChatQuota!
+}
+
+# Read-only quota snapshot. `resetsAt` is the moment the oldest in-window
+# message ages out of the rolling window — null when `used = 0`. Counts only
+# user messages on visitor-assistant chats; admin chats are not counted.
+type VisitorChatQuota {
+    used: Int!
+    limit: Int!
+    resetsAt: DateTime
 }
 
 # Admin-scoped read surface. Today carries the admin chat read; future admin

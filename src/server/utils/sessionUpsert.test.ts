@@ -8,7 +8,7 @@ import { sessions } from '../db/schema';
 describe('sessionUpsert', () => {
     it('creates a new session when no existing session ID is provided', async () => {
         // Act
-        const result = await sessionUpsert(testDb, testLogger, null, 'TestAgent');
+        const result = await sessionUpsert(testDb, testLogger, null, 'TestAgent', null);
 
         // Assert
         expect(result.sessionId).toBeDefined();
@@ -24,7 +24,7 @@ describe('sessionUpsert', () => {
         const unknownId = crypto.randomUUID();
 
         // Act
-        const result = await sessionUpsert(testDb, testLogger, unknownId, 'TestAgent');
+        const result = await sessionUpsert(testDb, testLogger, unknownId, 'TestAgent', null);
 
         // Assert
         expect(result.sessionId).not.toBe(unknownId);
@@ -46,7 +46,7 @@ describe('sessionUpsert', () => {
             .returning();
 
         // Act
-        const result = await sessionUpsert(testDb, testLogger, terminated!.sessionId, 'TestAgent');
+        const result = await sessionUpsert(testDb, testLogger, terminated!.sessionId, 'TestAgent', null);
 
         // Assert
         expect(result.sessionId).not.toBe(terminated!.sessionId);
@@ -69,7 +69,7 @@ describe('sessionUpsert', () => {
             .returning();
 
         // Act
-        const result = await sessionUpsert(testDb, testLogger, existing!.sessionId, 'NewAgent');
+        const result = await sessionUpsert(testDb, testLogger, existing!.sessionId, 'NewAgent', null);
 
         // Assert
         expect(result.sessionId).toBe(existing!.sessionId);
@@ -81,12 +81,33 @@ describe('sessionUpsert', () => {
 
     it('handles null userAgent', async () => {
         // Act
-        const result = await sessionUpsert(testDb, testLogger, null, null);
+        const result = await sessionUpsert(testDb, testLogger, null, null, null);
 
         // Assert
         expect(result.sessionId).toBeDefined();
 
         const [row] = await testDb.select().from(sessions).where(eq(sessions.sessionId, result.sessionId));
         expect(row!.userAgent).toBeNull();
+    });
+
+    it('hashes a provided client IP into ipHash, deterministically', async () => {
+        // Act — same IP twice should produce the same hash (salted with the
+        // test env's VISITOR_IP_HASH_SALT) and that hash is not the raw IP.
+        const first = await sessionUpsert(testDb, testLogger, null, null, '203.0.113.7');
+        const second = await sessionUpsert(testDb, testLogger, null, null, '203.0.113.7');
+
+        const [firstRow] = await testDb.select().from(sessions).where(eq(sessions.sessionId, first.sessionId));
+        const [secondRow] = await testDb.select().from(sessions).where(eq(sessions.sessionId, second.sessionId));
+
+        expect(firstRow!.ipHash).toBeDefined();
+        expect(firstRow!.ipHash).not.toBe('203.0.113.7');
+        expect(firstRow!.ipHash).toBe(secondRow!.ipHash);
+    });
+
+    it('leaves ipHash null when no client IP is provided', async () => {
+        const result = await sessionUpsert(testDb, testLogger, null, null, null);
+
+        const [row] = await testDb.select().from(sessions).where(eq(sessions.sessionId, result.sessionId));
+        expect(row!.ipHash).toBeNull();
     });
 });

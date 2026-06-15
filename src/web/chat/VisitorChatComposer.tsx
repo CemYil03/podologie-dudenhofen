@@ -16,9 +16,14 @@ import { useVisitorChat } from './VisitorChatProvider';
 
 interface VisitorChatComposerProps {
     placeholder?: string;
+    /** When true, the composer's Send button is forced into the disabled
+     *  state regardless of `live.isGenerating`. Used by the rate-limit row
+     *  in `VisitorChatSheet` to prevent sends once the daily cap is hit;
+     *  see `docs/features/chat-visitor.md#rate-limiting`. */
+    disabled?: boolean;
 }
 
-export function VisitorChatComposer({ placeholder }: VisitorChatComposerProps) {
+export function VisitorChatComposer({ placeholder, disabled = false }: VisitorChatComposerProps) {
     const locale = useLocale();
     const { sendMessage, live, chatId, resetChat } = useVisitorChat();
     const [draft, setDraft] = useState('');
@@ -40,7 +45,7 @@ export function VisitorChatComposer({ placeholder }: VisitorChatComposerProps) {
             value={draft}
             onValueChange={setDraft}
             onSubmit={() => void submit()}
-            disabled={live.isGenerating}
+            disabled={live.isGenerating || disabled}
             busy={live.isGenerating}
             placeholder={placeholder}
             // Single-row default — visitor messages are short, and on iOS Safari

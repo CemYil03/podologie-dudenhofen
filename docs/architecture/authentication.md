@@ -27,6 +27,15 @@ Cookie-based session management with automatic session creation on every GraphQL
 - **Terminated**: soft-deleted via `wasTerminatedAt` timestamp (row is preserved, not deleted)
 - **User binding**: `userId` column exists on the session but is nullable — sessions start anonymous and can be linked to a user later
 
+### Client IP is hashed, not stored
+
+Each session row carries `ipHash`: a SHA-256 of `<VISITOR_IP_HASH_SALT>:<client ip>`, where the IP is the first hop of `x-forwarded-for` (or
+`x-real-ip` as a fallback) — see [`clientIpFromRequest`](../../src/server/utils/clientIpFromRequest.ts). The salt is a per-deploy required
+env var (see [infrastructure.md](../infrastructure.md)). We hash so a DB leak does not expose visitor IPs and two deploys cannot be
+cross-correlated; we keep the hash so the visitor-chat rate limiter can group sessions that share an IP across cookie clears (see
+[features/chat-visitor.md — Rate limiting](../features/chat-visitor.md#rate-limiting)). Requests without a usable proxy header land
+`ipHash = null` and skip the IP arm of any bucket built on it.
+
 ### Key Files
 
 - `src/server/utils/sessionUpsert.ts` — session creation and update logic

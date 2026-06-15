@@ -57,6 +57,39 @@ Today the agent's tool set is limited to `promptUserForInput` — for follow-up 
 side-effects (sending an appointment-request email, etc.) will land later as approval-gated tools that reuse the same machinery
 `agentAdminAssistant` uses; they belong in this agent's `tools` map without any new transport plumbing.
 
+## Rate limiting
+
+The visitor surface has no sign-in, so unbounded LLM spend is a real risk — a scraper or curious user could pump arbitrary user messages
+through the assistant and spin up an LLM turn (and its tool calls) on every send. The cap is **10 user messages per visitor over a rolling
+24h window**.
+
+The bucket is keyed on the union of two predicates: `(this session_id) OR (any session sharing this ipHash)`. Both are evaluated server-side
+in one query — see [`visitorChatQuotaFindOne`](../../src/server/queries/visitorChatQuotaFindOne.ts). Counting only sessions would let the
+limit be reset by clearing cookies; counting only IPs would over-block households or office NATs. The OR'd predicate is the cheapest shape
+that resists both — and a row that satisfies both predicates only counts once, so household members who already share an IP don't burn each
+other's slots twice.
+
+`Sessions.ipHash` carries SHA-256 of `<VISITOR_IP_HASH_SALT>:<x-forwarded-for first hop or x-real-ip>`. The salt is a per-deploy required
+env var ([infrastructure.md](../infrastructure.md)). Hashing means a DB leak does not expose visitor IPs and two deploys cannot be
+cross-correlated. Requests that arrive without a proxy-set IP (local dev) leave the column null and fall back to the session bucket alone —
+the IP arm of the OR is suppressed for that request.
+
+Enforcement happens at the top of [`chatMessageCreate`](../../src/server/commands/chatMessageCreate.ts) on the visitor branch, before any DB
+writes. Over-quota sends return `null` from the mutation — the same path as any other failure. The user-facing signal is the
+`Session.visitorChatQuota` snapshot the sheet renders; the disabled Send button is what stops sends in normal flow, and a stale UI falls
+back to the existing "try again later" toast.
+
+The sheet renders a small status row above the composer once the visitor has sent at least one message:
+
+- Under the cap: `"X / 10 Nachrichten heute · zurückgesetzt in Yh"` (translated for de/en/ru/ar). `Y` is the time until the oldest in-window
+  message ages out, formatted with `formatDistanceToNow` so it tracks the user's locale.
+- At the cap: `"Tageslimit erreicht (10 / 10). Neue Nachricht in Yh möglich."` and the composer is disabled.
+
+Constants live in [`src/server/chat/visitorChatLimits.ts`](../../src/server/chat/visitorChatLimits.ts) (`VISITOR_CHAT_DAILY_LIMIT`,
+`VISITOR_CHAT_WINDOW_MS`); the GraphQL surface is `Session.visitorChatQuota: VisitorChatQuota!` with `{ used, limit, resetsAt }`. Admin
+chats are out of scope — the bucket key would have to be different (admins are signed in, IP isn't a useful identity), and admin LLM spend
+is governed by the OTP gate instead.
+
 ## Surface (UI)
 
 The visitor widget is a single right-side `Sheet` overlay rendered once at the locale layout (`src/routes/{-$locale}.tsx`). Two entry points
@@ -124,6 +157,10 @@ grows it past that floor.
 | Visitor chat list query                   | [`src/server/queries/chatsFindBySession.ts`](../../src/server/queries/chatsFindBySession.ts) (`Session.visitorChats`)       |
 | Single-chat read                          | [`src/server/queries/chatFindOne.ts`](../../src/server/queries/chatFindOne.ts) (shared with `Session.admin.chat`)           |
 | Title generation (post-turn)              | [`src/server/commands/chatTitleGenerate.ts`](../../src/server/commands/chatTitleGenerate.ts)                                |
+| Rate-limit constants                      | [`src/server/chat/visitorChatLimits.ts`](../../src/server/chat/visitorChatLimits.ts)                                        |
+| Rate-limit query                          | [`src/server/queries/visitorChatQuotaFindOne.ts`](../../src/server/queries/visitorChatQuotaFindOne.ts)                      |
+| Client IP extraction                      | [`src/server/utils/clientIpFromRequest.ts`](../../src/server/utils/clientIpFromRequest.ts)                                  |
+| IP hashing on session upsert              | [`src/server/utils/sessionUpsert.ts`](../../src/server/utils/sessionUpsert.ts) (`Sessions.ipHash`)                          |
 | Client operations                         | [`src/web/chat/VisitorChat.graphql`](../../src/web/chat/VisitorChat.graphql)                                                |
 | Provider (open/close + per-session state) | [`src/web/chat/VisitorChatProvider.tsx`](../../src/web/chat/VisitorChatProvider.tsx)                                        |
 | Floating launcher                         | [`src/web/chat/VisitorChatLauncher.tsx`](../../src/web/chat/VisitorChatLauncher.tsx)                                        |

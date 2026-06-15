@@ -371,6 +371,7 @@ export interface GqlCSession {
     admin: GqlCAdmin;
     sessionId: Scalars['ID']['output'];
     user?: Maybe<GqlCUser>;
+    visitorChatQuota: GqlCVisitorChatQuota;
     visitorChats: Array<GqlCChat>;
 }
 
@@ -425,6 +426,13 @@ export type GqlCVacationInput = {
     note?: InputMaybe<Scalars['String']['input']>;
     startsOn: Scalars['Date']['input'];
 };
+
+export interface GqlCVisitorChatQuota {
+    __typename?: 'VisitorChatQuota';
+    limit: Scalars['Int']['output'];
+    resetsAt?: Maybe<Scalars['DateTime']['output']>;
+    used: Scalars['Int']['output'];
+}
 
 export type GqlCDatenschutzPageQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -882,10 +890,22 @@ export type GqlCVisitorChatInputCollectionRespondMutation = {
 
 export type GqlCVisitorChatListItemFragment = { chatId: string; title: string; lastModifiedAt: string };
 
+export type GqlCVisitorChatQuotaFieldsFragment = { used: number; limit: number; resetsAt: string | null };
+
 export type GqlCVisitorPreviousChatsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GqlCVisitorPreviousChatsQuery = {
-    currentSession: { sessionId: string; visitorChats: Array<{ chatId: string; title: string; lastModifiedAt: string }> };
+    currentSession: {
+        sessionId: string;
+        visitorChats: Array<{ chatId: string; title: string; lastModifiedAt: string }>;
+        visitorChatQuota: { used: number; limit: number; resetsAt: string | null };
+    };
+};
+
+export type GqlCVisitorChatQuotaQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCVisitorChatQuotaQuery = {
+    currentSession: { sessionId: string; visitorChatQuota: { used: number; limit: number; resetsAt: string | null } };
 };
 
 export type GqlCVisitorChatLoadQueryVariables = Exact<{
@@ -1408,6 +1428,24 @@ export const VisitorChatListItemFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<GqlCVisitorChatListItemFragment, unknown>;
+export const VisitorChatQuotaFieldsFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'VisitorChatQuotaFields' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VisitorChatQuota' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'used' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'limit' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'resetsAt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVisitorChatQuotaFieldsFragment, unknown>;
 export const DatenschutzPageDocument = {
     kind: 'Document',
     definitions: [
@@ -3348,6 +3386,14 @@ export const VisitorPreviousChatsDocument = {
                                         selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'VisitorChatListItem' } }],
                                     },
                                 },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'visitorChatQuota' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'VisitorChatQuotaFields' } }],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -3367,8 +3413,67 @@ export const VisitorPreviousChatsDocument = {
                 ],
             },
         },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'VisitorChatQuotaFields' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VisitorChatQuota' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'used' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'limit' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'resetsAt' } },
+                ],
+            },
+        },
     ],
 } as unknown as DocumentNode<GqlCVisitorPreviousChatsQuery, GqlCVisitorPreviousChatsQueryVariables>;
+export const VisitorChatQuotaDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'VisitorChatQuota' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'visitorChatQuota' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'VisitorChatQuotaFields' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'VisitorChatQuotaFields' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VisitorChatQuota' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'used' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'limit' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'resetsAt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVisitorChatQuotaQuery, GqlCVisitorChatQuotaQueryVariables>;
 export const VisitorChatLoadDocument = {
     kind: 'Document',
     definitions: [

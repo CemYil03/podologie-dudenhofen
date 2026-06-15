@@ -16,6 +16,7 @@ import { chatsFindBySession } from '../queries/chatsFindBySession';
 import { sessionUserFindOne } from '../queries/sessionUserFindOne';
 import { vacationActiveFindOne } from '../queries/vacationActiveFindOne';
 import { vacationsFindAll } from '../queries/vacationsFindAll';
+import { visitorChatQuotaFindOne } from '../queries/visitorChatQuotaFindOne';
 import type {
     GqlSAdminChatArgs,
     GqlSAdminMutationChatInputCollectionRespondArgs,
@@ -84,6 +85,14 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             // chat.
             visitorChats(_session: GqlSSession, __: any, requestingSession: GqlSSession) {
                 return chatsFindBySession(requestingSession, serverRuntime);
+            },
+            // Rolling-24h cap for the visitor assistant. Counted per
+            // (sessionId OR ipHash) so clearing cookies does not reset the
+            // bucket. Surfaces `used / limit / resetsAt` to the client; the
+            // server-side enforcement lives in `chatMessageCreate` on the
+            // visitor branch. See `docs/features/chat-visitor.md#rate-limiting`.
+            visitorChatQuota(_session: GqlSSession, __: any, requestingSession: GqlSSession) {
+                return visitorChatQuotaFindOne(requestingSession, serverRuntime);
             },
         },
         Admin: {

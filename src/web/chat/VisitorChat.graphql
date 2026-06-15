@@ -48,11 +48,37 @@ fragment VisitorChatListItem on Chat {
     lastModifiedAt
 }
 
+# Server-side rate-limit snapshot for the visitor assistant. See
+# `docs/features/chat-visitor.md#rate-limiting` — counted per
+# (sessionId OR ipHash) over a rolling 24h window. The sheet renders
+# `used / limit` and the time until `resetsAt` once the visitor has sent
+# their first message; before that the UI hides the row entirely.
+fragment VisitorChatQuotaFields on VisitorChatQuota {
+    used
+    limit
+    resetsAt
+}
+
 query VisitorPreviousChats {
     currentSession {
         sessionId
         visitorChats {
             ...VisitorChatListItem
+        }
+        visitorChatQuota {
+            ...VisitorChatQuotaFields
+        }
+    }
+}
+
+# Standalone quota poll — the sheet re-runs this query after every
+# successful send to re-render the status row without re-pulling the chat
+# list.
+query VisitorChatQuota {
+    currentSession {
+        sessionId
+        visitorChatQuota {
+            ...VisitorChatQuotaFields
         }
     }
 }

@@ -13,7 +13,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '../components/base/popo
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../components/base/sheet';
 import { Spinner } from '../components/base/spinner';
 import { ChatMessage } from '../components/chat-message';
-import type { GqlCChatAssistantInputValue, GqlCVisitorChatListItemFragment } from '../graphql/generated';
+import type {
+    GqlCChatAssistantInputValue,
+    GqlCVisitorChatListItemFragment,
+    GqlCVisitorChatQuotaFieldsFragment,
+} from '../graphql/generated';
 import { VisitorChatInputCollectionRespondDocument, VisitorPreviousChatsDocument } from '../graphql/generated';
 import { useIsMobile } from '../hooks/use-mobile';
 import { useLocale } from '../hooks/useLocale';
@@ -65,13 +69,26 @@ export function VisitorChatSheet() {
     // while the sheet is closed so we don't run the query on every page-load
     // for visitors who never open the widget; refetch on each open with
     // `cache-and-network` so a freshly-titled chat shows up after its first
-    // turn finishes.
-    const [previousChatsResult] = useQuery({
+    // turn finishes. The same query also pulls `visitorChatQuota` so the
+    // status row above the composer renders without a second round-trip.
+    const [previousChatsResult, refetchPreviousChats] = useQuery({
         query: VisitorPreviousChatsDocument,
         pause: !isOpen,
         requestPolicy: 'cache-and-network',
     });
     const previousChats = previousChatsResult.data?.currentSession.visitorChats ?? [];
+    const visitorChatQuota = previousChatsResult.data?.currentSession.visitorChatQuota ?? null;
+
+    // Refetch the quota whenever a new live message lands — every successful
+    // send appends a user-message row, so this fires once per send and keeps
+    // the "X / 10 today" row in sync without a manual click. Doing it off
+    // `appendedMessages.length` rather than a hand-rolled callback in the
+    // provider avoids leaking rate-limit concerns into `sendMessage`.
+    const liveMessagesCount = live.appendedMessages.length;
+    useEffect(() => {
+        if (!isOpen) return;
+        refetchPreviousChats({ requestPolicy: 'network-only' });
+    }, [isOpen, liveMessagesCount, refetchPreviousChats]);
 
     // Merge the page-query rows (only populated when the visitor resumed a
     // previous chat) with the live subscription buffer. For a fresh chat
@@ -94,6 +111,12 @@ export function VisitorChatSheet() {
         [respondToCollection, live, locale],
     );
 
+    // Limit only bites once we have a live quota snapshot — pre-snapshot we
+    // render optimistically (the server enforces the cap, so the worst case
+    // is one refused mutation) rather than locking the composer on slow
+    // networks.
+    const isAtRateLimit = visitorChatQuota !== null && visitorChatQuota.used >= visitorChatQuota.limit;
+
     return (
         <Sheet open={isOpen} onOpenChange={setOpen}>
             <SheetContent
@@ -115,7 +138,7 @@ export function VisitorChatSheet() {
                             : { de: 'Chat vergrößern', en: 'Expand chat', ru: 'Развернуть чат', ar: 'توسيع الدردشة' }[locale]
                     }
                     aria-pressed={isExpanded}
-                    className="absolute top-4 end-12 z-10 hidden rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:block"
+                    className="absolute top-4 inset-e-12 z-10 hidden rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:block cursor-pointer"
                 >
                     {isExpanded ? <Minimize2Icon className="size-4" /> : <Maximize2Icon className="size-4" />}
                 </button>
@@ -190,8 +213,10 @@ export function VisitorChatSheet() {
                             onCollectionSubmit={onCollectionSubmit}
                         />
                     )}
+                    <VisitorChatQuotaStatus quota={visitorChatQuota} />
                     <VisitorChatComposer
                         placeholder={{ de: 'Frage eingeben…', en: 'Type your question…', ru: 'Введите вопрос…', ar: 'اكتب سؤالك…' }[locale]}
+                        disabled={isAtRateLimit}
                     />
                 </div>
             </SheetContent>
@@ -256,7 +281,7 @@ function PreviousChatButton({ chat, onResume }: { chat: GqlCVisitorChatListItemF
         <button
             type="button"
             onClick={() => onResume(chat.chatId)}
-            className="flex w-full flex-col gap-1 rounded-md border border-aubergine/20 px-4 py-3 text-start transition-colors duration-200 ease-out hover:bg-aubergine/5"
+            className="flex w-full flex-col gap-1 rounded-md border border-aubergine/20 px-4 py-3 text-start transition-colors duration-200 ease-out hover:bg-aubergine/5 cursor-pointer"
         >
             <span className="line-clamp-2 text-sm font-medium text-aubergine">{chat.title || fallbackTitle}</span>
             <span className="text-xs text-(--color-brand-charcoal-3)">{relative}</span>
@@ -378,4 +403,40 @@ function DateSeparator({ iso }: { iso: string }) {
             <span className="h-px flex-1 bg-aubergine/15" />
         </div>
     );
+}
+
+// Surfaces the rolling-24h cap right above the composer. Hidden when the
+// visitor hasn't sent anything yet (`used = 0` → `resetsAt = null`) so
+// first-time openers don't see a "0 / 10" message that explains nothing.
+// At the limit the row switches copy to "Tageslimit erreicht" — the
+// composer is disabled in parallel by the parent. See
+// `docs/features/chat-visitor.md#rate-limiting`.
+function VisitorChatQuotaStatus({ quota }: { quota: GqlCVisitorChatQuotaFieldsFragment | null }) {
+    const locale = useLocale();
+    if (!quota || quota.used === 0) return null;
+    const isAtLimit = quota.used >= quota.limit;
+    const resetsIn = quota.resetsAt
+        ? formatDistanceToNow(parseISO(quota.resetsAt), { addSuffix: false, locale: DATE_FNS_LOCALE[locale] })
+        : null;
+    const usageText = `${quota.used} / ${quota.limit}`;
+    if (isAtLimit) {
+        const limitReached = {
+            de: `Tageslimit erreicht (${usageText}). Neue Nachricht in ${resetsIn ?? '24 h'} möglich.`,
+            en: `Daily limit reached (${usageText}). You can send again in ${resetsIn ?? '24 h'}.`,
+            ru: `Достигнут дневной лимит (${usageText}). Снова через ${resetsIn ?? '24 ч'}.`,
+            ar: `تم بلوغ الحد اليومي (${usageText}). يمكنك الإرسال بعد ${resetsIn ?? '٢٤ ساعة'}.`,
+        }[locale];
+        return (
+            <p role="status" className="text-xs text-(--color-brand-charcoal-3)">
+                {limitReached}
+            </p>
+        );
+    }
+    const usage = {
+        de: `${usageText} Nachrichten heute · zurückgesetzt in ${resetsIn ?? '–'}`,
+        en: `${usageText} messages today · resets in ${resetsIn ?? '–'}`,
+        ru: `${usageText} сообщений сегодня · сбрасывается через ${resetsIn ?? '–'}`,
+        ar: `${usageText} رسائل اليوم · تُعاد بعد ${resetsIn ?? '–'}`,
+    }[locale];
+    return <p className="text-xs text-(--color-brand-charcoal-3)">{usage}</p>;
 }

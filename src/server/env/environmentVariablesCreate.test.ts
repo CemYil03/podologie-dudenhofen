@@ -12,6 +12,7 @@ describe('envCreate', () => {
             BUILD_SHA: 'abc123',
             BUILD_TIME: '2026-06-14T00:00:00Z',
             WEB_PAGE_URL: 'https://example.com',
+            VISITOR_IP_HASH_SALT: 'test-salt',
         });
 
         expect(environmentVariables).toEqual({
@@ -26,6 +27,7 @@ describe('envCreate', () => {
             webPageUrl: 'https://example.com',
             googleGenerativeAiApiKey: undefined,
             serverTokenSecret: undefined,
+            visitorIpHashSalt: 'test-salt',
         });
     });
 
@@ -34,6 +36,7 @@ describe('envCreate', () => {
             DATABASE_URL: 'postgres://x',
             sessionCookieName: 'sid',
             WEB_PAGE_URL: 'https://example.com',
+            VISITOR_IP_HASH_SALT: 'test-salt',
         });
 
         expect(environmentVariables.sessionCookie.secure).toBe(false);
@@ -44,6 +47,7 @@ describe('envCreate', () => {
             DATABASE_URL: 'postgres://x',
             sessionCookieName: 'sid',
             WEB_PAGE_URL: 'https://example.com',
+            VISITOR_IP_HASH_SALT: 'test-salt',
         });
 
         expect(environmentVariables.buildSha).toBe('unknown');
@@ -54,6 +58,7 @@ describe('envCreate', () => {
             DATABASE_URL: 'postgres://x',
             sessionCookieName: 'sid',
             WEB_PAGE_URL: 'https://example.com/',
+            VISITOR_IP_HASH_SALT: 'test-salt',
         });
 
         expect(environmentVariables.webPageUrl).toBe('https://example.com');
@@ -63,10 +68,14 @@ describe('envCreate', () => {
         expect(() => environmentVariablesCreate({})).toThrow(/DATABASE_URL/);
         expect(() => environmentVariablesCreate({})).toThrow(/sessionCookieName/);
         expect(() => environmentVariablesCreate({})).toThrow(/WEB_PAGE_URL/);
+        expect(() => environmentVariablesCreate({})).toThrow(/VISITOR_IP_HASH_SALT/);
     });
 
     it('throws when only some required variables are missing', () => {
         expect(() => environmentVariablesCreate({ DATABASE_URL: 'postgres://x' })).toThrow(/sessionCookieName/);
         expect(() => environmentVariablesCreate({ DATABASE_URL: 'postgres://x', sessionCookieName: 'sid' })).toThrow(/WEB_PAGE_URL/);
+        expect(() =>
+            environmentVariablesCreate({ DATABASE_URL: 'postgres://x', sessionCookieName: 'sid', WEB_PAGE_URL: 'https://example.com' }),
+        ).toThrow(/VISITOR_IP_HASH_SALT/);
     });
 });

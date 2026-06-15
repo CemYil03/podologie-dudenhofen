@@ -648,37 +648,6 @@ export const Route = createFileRoute('/{-$locale}/')({
                                 </div>
                             </div>
 
-                            {/* Phone fallback + disclaimer share one footer. Phone is
-                             *  inline so the section also serves visitors who would
-                             *  rather speak; the disclaimer stays small and grey. */}
-                            <p className="mt-5 text-center text-sm text-(--color-brand-charcoal-3)">
-                                {
-                                    {
-                                        de: 'Lieber direkt sprechen? ',
-                                        en: 'Prefer to speak directly? ',
-                                        ru: 'Хотите поговорить напрямую? ',
-                                        ar: 'تفضّلون التحدث مباشرة؟ ',
-                                    }[locale]
-                                }
-                                <a
-                                    href={`tel:${PRACTICE.phone}`}
-                                    className="inline-flex items-center gap-1.5 font-medium text-aubergine hover:underline"
-                                >
-                                    <PhoneIcon className="size-4" aria-hidden />
-                                    {formatPhoneNumber(PRACTICE.phone)}
-                                </a>
-                                <span className="text-(--color-brand-charcoal-4)">
-                                    {' · '}
-                                    {
-                                        {
-                                            de: 'Mo–Fr 08:00 – 16:00',
-                                            en: 'Mon–Fri 08:00 – 16:00',
-                                            ru: 'Пн–Пт 08:00 – 16:00',
-                                            ar: 'الإثنين–الجمعة 08:00 – 16:00',
-                                        }[locale]
-                                    }
-                                </span>
-                            </p>
                             <p className="mt-3 text-center text-xs text-(--color-brand-charcoal-4)">
                                 {
                                     {

@@ -31,6 +31,16 @@ export const sessions = pgTable(
         wasTerminatedAt: timestamp({ withTimezone: true }),
         connectionActive: boolean().notNull().default(false),
         userAgent: varchar(),
+        // SHA-256 hex of `<VISITOR_IP_HASH_SALT> + <client ip>`. Populated in
+        // `sessionUpsert` from the request's first `x-forwarded-for` hop or
+        // `x-real-ip`, salted via the per-deploy env var so a DB leak does
+        // not expose visitor IPs and two deploys cannot be cross-correlated.
+        // Drives the public visitor-chat rate limiter — see
+        // `docs/features/chat-visitor.md#rate-limiting`. Nullable: requests
+        // that arrive without a usable client IP (local dev without a
+        // proxy, misconfigured hops) skip the IP bucket and fall back to
+        // the session bucket alone.
+        ipHash: varchar(),
         createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
     },
     (table) => [
@@ -40,6 +50,9 @@ export const sessions = pgTable(
         })
             .onUpdate('cascade')
             .onDelete('set null'),
+        // Drives the IP bucket of the visitor-chat rate limiter — every
+        // visitor send runs a count keyed by `ipHash` over the last 24h.
+        index('Sessions_ipHash_idx').on(table.ipHash),
     ],
 );
 

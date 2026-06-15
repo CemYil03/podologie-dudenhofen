@@ -368,6 +368,7 @@ export interface GqlSSession {
     admin: GqlSAdmin;
     sessionId: Scalars['ID']['output'];
     user?: Maybe<GqlSUser>;
+    visitorChatQuota: GqlSVisitorChatQuota;
     visitorChats: Array<GqlSChat>;
 }
 
@@ -422,6 +423,13 @@ export type GqlSVacationInput = {
     note?: InputMaybe<Scalars['String']['input']>;
     startsOn: Scalars['Date']['input'];
 };
+
+export interface GqlSVisitorChatQuota {
+    __typename?: 'VisitorChatQuota';
+    limit: Scalars['Int']['output'];
+    resetsAt?: Maybe<Scalars['DateTime']['output']>;
+    used: Scalars['Int']['output'];
+}
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -612,6 +620,7 @@ export type GqlSResolversTypes = ResolversObject<{
     UserUpdate: GqlSUserUpdate;
     Vacation: ResolverTypeWrapper<GqlSVacation>;
     VacationInput: GqlSVacationInput;
+    VisitorChatQuota: ResolverTypeWrapper<GqlSVisitorChatQuota>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -679,6 +688,7 @@ export type GqlSResolversParentTypes = ResolversObject<{
     UserUpdate: GqlSUserUpdate;
     Vacation: GqlSVacation;
     VacationInput: GqlSVacationInput;
+    VisitorChatQuota: GqlSVisitorChatQuota;
 }>;
 
 export type GqlSAdminResolvers<
@@ -1137,6 +1147,7 @@ export type GqlSSessionResolvers<
     admin?: Resolver<GqlSResolversTypes['Admin'], ParentType, ContextType>;
     sessionId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
     user?: Resolver<Maybe<GqlSResolversTypes['User']>, ParentType, ContextType>;
+    visitorChatQuota?: Resolver<GqlSResolversTypes['VisitorChatQuota'], ParentType, ContextType>;
     visitorChats?: Resolver<Array<GqlSResolversTypes['Chat']>, ParentType, ContextType>;
 }>;
 
@@ -1190,6 +1201,15 @@ export type GqlSVacationResolvers<
     vacationId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
 }>;
 
+export type GqlSVisitorChatQuotaResolvers<
+    ContextType = any,
+    ParentType extends GqlSResolversParentTypes['VisitorChatQuota'] = GqlSResolversParentTypes['VisitorChatQuota'],
+> = ResolversObject<{
+    limit?: Resolver<GqlSResolversTypes['Int'], ParentType, ContextType>;
+    resetsAt?: Resolver<Maybe<GqlSResolversTypes['DateTime']>, ParentType, ContextType>;
+    used?: Resolver<GqlSResolversTypes['Int'], ParentType, ContextType>;
+}>;
+
 export type GqlSResolvers<ContextType = any> = ResolversObject<{
     Admin?: GqlSAdminResolvers<ContextType>;
     AdminMutation?: GqlSAdminMutationResolvers<ContextType>;
@@ -1236,6 +1256,7 @@ export type GqlSResolvers<ContextType = any> = ResolversObject<{
     User?: GqlSUserResolvers<ContextType>;
     UserMutation?: GqlSUserMutationResolvers<ContextType>;
     Vacation?: GqlSVacationResolvers<ContextType>;
+    VisitorChatQuota?: GqlSVisitorChatQuotaResolvers<ContextType>;
 }>;
 
 type Properties<T> = {

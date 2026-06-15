@@ -65,6 +65,30 @@ when the menu floats above blush or aubergine-dark sections.
 Reach for these classes via the wrapping `className` on `DropdownMenuContent` / `PopoverContent`; don't fork the base components in
 `src/web/components/base/`.
 
+## Tooltip
+
+Tooltips use the **inverse** of the popover surface: a small aubergine pill with cream text, mirroring the user chat bubble and the primary
+brand CTA. The contrast flip is intentional — popovers and dropdowns are interactive surfaces (cream-on-cream, sized for menu items);
+tooltips are ephemeral hints (a label, a keystroke, a brief description) and need to read as a chip floating above the page, not as another
+menu.
+
+| Layer       | Token                                            |
+| ----------- | ------------------------------------------------ |
+| Background  | `bg-aubergine`                                   |
+| Text        | `text-cream` at `text-xs`, `text-balance`        |
+| Shape       | `rounded-full` pill (matches CTA + chat bubbles) |
+| Arrow       | rotated square in `bg-aubergine fill-aubergine`  |
+| Side offset | `6` px default (set on `TooltipContent`)         |
+| Max width   | `max-w-xs` so longer hints wrap cleanly          |
+
+- **Component:** [`Tooltip` / `TooltipContent`](../../src/web/components/base/tooltip.tsx). The styling lives on the base component — call
+  sites just pass `side` and the label.
+- **When to use:** clarify the action behind an icon-only button or compress a label that wouldn't fit inline (e.g. the floating chat
+  launcher's "Assistent öffnen", the seasonal-effect toggle).
+- **When not to use:** non-essential decorations. A tooltip on a labelled button is noise; a tooltip on an icon-only button is necessary.
+- **Animation:** scoped to the global motion contract — `slide-in-from-*-1` + `fade-in-0` + `zoom-in-95`, `ease-out`, no springs. See
+  [motion.md](./motion.md).
+
 ## Section eyebrow + rule
 
 The standard "section header" tag: a small uppercase sage label in the mono face paired with a thin horizontal rule. Every major section

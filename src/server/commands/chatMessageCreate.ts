@@ -17,6 +17,7 @@ import type { GqlSChatMessageCreateResult, GqlSMutationChatMessageCreateArgs, Gq
 import { guardChatWrite } from '../guards/guardChatWrite';
 import type { ChatMessageRowJoined } from '../mappers/toGqlChatMessage';
 import { chatMessageRowsLoad } from '../queries/chatMessageRowsLoad';
+import { visitorChatQuotaFindOne } from '../queries/visitorChatQuotaFindOne';
 
 // Persists the user's message and runs the next assistant turn.
 //
@@ -44,6 +45,25 @@ export async function chatMessageCreate(
     serverRuntime: ServerRuntime,
 ): Promise<GqlSChatMessageCreateResult | null> {
     try {
+        // Phase 0 — Visitor rate limit. The public assistant has no sign-in,
+        // so unbounded LLM spend is a real risk; cap user messages to a
+        // rolling 24h bucket keyed on (sessionId OR ipHash) so clearing
+        // cookies does not reset it. Admin chats are out of scope — they go
+        // through `Mutation.admin` and the bucket would require a different
+        // key anyway. See `docs/features/chat-visitor.md#rate-limiting`.
+        if (chatKind === 'visitorAssistant') {
+            const quota = await visitorChatQuotaFindOne(requestingSession, serverRuntime);
+            if (quota.used >= quota.limit) {
+                serverRuntime.log.error(
+                    new Error(
+                        `visitor chat rate limit exceeded: sessionId=${requestingSession.sessionId} used=${quota.used}/${quota.limit}`,
+                    ),
+                    requestingSession,
+                );
+                return null;
+            }
+        }
+
         // Phase 1 — Payload construction (pure, no DB calls).
         const isNewChat = !attemptedChatId;
         const chatId = attemptedChatId ?? crypto.randomUUID();

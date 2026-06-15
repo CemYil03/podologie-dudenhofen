@@ -1,5 +1,5 @@
 import type { Session } from '../db/schema';
-import type { GqlSAdmin, GqlSSession } from '../graphql/generated';
+import type { GqlSAdmin, GqlSSession, GqlSVisitorChatQuota } from '../graphql/generated';
 
 export function toGqlSession(session: Session): GqlSSession {
     return {
@@ -17,5 +17,9 @@ export function toGqlSession(session: Session): GqlSSession {
         // runs at query time keyed by the requesting session. The placeholder
         // here is never read.
         visitorChats: [],
+        // `Session.visitorChatQuota` is a resolved field — `visitorChatQuotaFindOne`
+        // runs at query time keyed by the requesting session and its `ipHash`.
+        // The placeholder here is never read.
+        visitorChatQuota: {} as GqlSVisitorChatQuota,
     };
 }

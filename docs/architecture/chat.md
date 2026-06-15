@@ -30,6 +30,17 @@ The site runs two chat surfaces today, both built on the same union, persistence
 The two agents differ only in their system prompt and `tools` map. The shared `chatAssistantTurnRun` dispatches them off the chat row's
 `kind` discriminator (see "`chats.kind` picks the agent" below).
 
+### Visitor surface is rate-limited; admin surface is not
+
+The visitor branch of `chatMessageCreate` checks a rolling 24h cap on user messages before any DB writes. The bucket is keyed on the union
+of `(this session_id) OR (any session sharing this ipHash)`, computed in one query
+([`visitorChatQuotaFindOne`](../../src/server/queries/visitorChatQuotaFindOne.ts)). Counting only sessions would let the cap be reset by
+clearing cookies; counting only IPs would over-block households. The OR'd predicate is the cheapest shape that resists both. Refusals return
+`null` from the mutation — the same path the rest of the command uses for failures — and the snapshot is exposed on
+`Session.visitorChatQuota` so the UI can render `used / limit / resetsAt` and disable the composer at the cap. Admin chats are out of scope:
+they go through `Mutation.admin` (a different access path) and admin LLM spend is governed by the OTP gate instead. Constants and copy live
+with the visitor feature doc — see [Chat Visitor — Rate limiting](../features/chat-visitor.md#rate-limiting).
+
 ### `chats.kind` picks the agent
 
 Each `chats` row carries a `kind: ChatKind` column (`visitorAssistant` | `adminAssistant`). The shared turn-runner loads the chat row up

@@ -72,14 +72,14 @@ export function SiteHeader() {
                         type="button"
                         onClick={openSearch}
                         aria-label={{ de: 'Seite durchsuchen', en: 'Search the site', ru: 'Поиск по сайту', ar: 'البحث في الموقع' }[locale]}
-                        className="inline-flex items-center gap-2 rounded-full border border-aubergine/20 px-2.5 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:outline-none md:px-3"
+                        className="inline-flex items-center gap-2 rounded-full border border-aubergine/20 px-2.5 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:outline-none md:px-3 cursor-pointer"
                     >
                         <SearchIcon className="size-4" aria-hidden />
                         <span className="hidden md:inline">{{ de: 'Suchen', en: 'Search', ru: 'Поиск', ar: 'بحث' }[locale]}</span>
                     </button>
                     <a
                         href={`tel:${PRACTICE.phone}`}
-                        className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex"
+                        className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex cursor-pointer"
                         aria-label={
                             { de: 'Praxis anrufen', en: 'Call the practice', ru: 'Позвонить в практику', ar: 'الاتصال بالعيادة' }[locale]
                         }
@@ -95,7 +95,7 @@ export function SiteHeader() {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className="lg:hidden"
+                                className="lg:hidden cursor-pointer"
                                 aria-label={{ de: 'Menü öffnen', en: 'Open menu', ru: 'Открыть меню', ar: 'فتح القائمة' }[locale]}
                             >
                                 <MenuIcon className="size-5" />
