@@ -112,7 +112,7 @@ function buildSnowflakeSprite(): HTMLCanvasElement {
 
     ctx.translate(center, center);
 
-    // Per-sprite randomisation — branches are at the same fractions on every
+    // Per-sprite randomization — branches are at the same fractions on every
     // arm of one flake (six-fold symmetry) but differ between sprites.
     const branches = [
         { at: 0.32 + Math.random() * 0.08, length: 0.18 + Math.random() * 0.08 },

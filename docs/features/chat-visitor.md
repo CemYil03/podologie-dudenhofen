@@ -102,6 +102,11 @@ which on iOS Safari does not shrink when the soft keyboard appears — so withou
 into view and drags the header off the top. Driving the sheet from the visual viewport keeps the header pinned to the top of the visible
 area, lets the transcript shrink in the middle, and parks the composer flush above the keyboard.
 
+Two further mobile-keyboard tweaks fight for the same vertical space: the "not medical advice" disclaimer below the title is hidden under
+`sm` and surfaced via a small `InfoIcon` popover next to the title — the `<SheetDescription>` itself stays mounted with `sr-only` so the
+sheet's `aria-describedby` link still resolves. And the visitor composer asks `<MessageComposer>` for `rows={1}` rather than the two-row
+default, since visitor messages are short and every row is space the keyboard is already squeezing; shift+Enter still grows it.
+
 ## Implementation pointers
 
 | Concern                                   | Where                                                                                                                       |

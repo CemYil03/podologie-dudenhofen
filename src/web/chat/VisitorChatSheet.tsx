@@ -1,5 +1,5 @@
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
-import { ArrowDownIcon, Maximize2Icon, Minimize2Icon } from 'lucide-react';
+import { ArrowDownIcon, InfoIcon, Maximize2Icon, Minimize2Icon } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'urql';
 import { toFlatAnswerInput } from './chatAssistantInputKinds';
@@ -8,6 +8,7 @@ import { findLatestCollectionId, findUserInputByCollectionId, groupMessagesByDat
 import { useVisitorChat } from './VisitorChatProvider';
 import { VisitorChatComposer } from './VisitorChatComposer';
 import { AssistantMarkdown } from '../components/AssistantMarkdown';
+import { Popover, PopoverContent, PopoverTrigger } from '../components/base/popover';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../components/base/sheet';
 import { Spinner } from '../components/base/spinner';
 import { ChatMessage } from '../components/chat-message';
@@ -118,17 +119,55 @@ export function VisitorChatSheet() {
                     {isExpanded ? <Minimize2Icon className="size-4" /> : <Maximize2Icon className="size-4" />}
                 </button>
                 <SheetHeader className="border-b border-aubergine/15 bg-cream">
-                    <SheetTitle className="font-serif text-lg text-aubergine-dark">
-                        {
+                    <div className="flex items-center gap-2">
+                        <SheetTitle className="font-serif text-lg text-aubergine-dark">
                             {
-                                de: 'Fragen an unseren Assistenten',
-                                en: 'Ask our assistant',
-                                ru: 'Вопросы нашему ассистенту',
-                                ar: 'اسأل مساعدنا',
-                            }[locale]
-                        }
-                    </SheetTitle>
-                    <SheetDescription id="visitor-chat-disclaimer" className="text-xs text-(--color-brand-charcoal-3)">
+                                {
+                                    de: 'Fragen an unseren Assistenten',
+                                    en: 'Ask our assistant',
+                                    ru: 'Вопросы нашему ассистенту',
+                                    ar: 'اسأل مساعدنا',
+                                }[locale]
+                            }
+                        </SheetTitle>
+                        {/* Mobile-only info popover — surfaces the disclaimer
+                            that the visible-text version below hides under `sm`
+                            so the chat header stays compact when the soft
+                            keyboard is up. The close button (`top-end-4`) and
+                            expand toggle (`top-end-12`, sm+ only) live above on
+                            the absolute layer; this trigger sits inline with
+                            the title and stays clear of both. */}
+                        <Popover>
+                            <PopoverTrigger
+                                aria-label={
+                                    {
+                                        de: 'Hinweis anzeigen',
+                                        en: 'Show disclaimer',
+                                        ru: 'Показать примечание',
+                                        ar: 'إظهار التنبيه',
+                                    }[locale]
+                                }
+                                className="rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:hidden"
+                            >
+                                <InfoIcon className="size-4" />
+                            </PopoverTrigger>
+                            <PopoverContent side="bottom" align="start" className="w-72 text-xs text-(--color-brand-charcoal-3)">
+                                {
+                                    {
+                                        de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
+                                        en: 'Not medical advice. For acute concerns, please call us directly.',
+                                        ru: 'Это не медицинская консультация. При острых жалобах, пожалуйста, позвоните нам напрямую.',
+                                        ar: 'هذه ليست استشارة طبية. في الحالات العاجلة، يُرجى الاتصال بنا مباشرة.',
+                                    }[locale]
+                                }
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+                    {/* Visible only on `sm` and up — on phones we keep the
+                        description mounted as `sr-only` so `aria-describedby`
+                        on the SheetContent still resolves, and the visual
+                        disclaimer moves into the InfoIcon popover above. */}
+                    <SheetDescription id="visitor-chat-disclaimer" className="text-xs text-(--color-brand-charcoal-3) max-sm:sr-only">
                         {
                             {
                                 de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',

@@ -43,6 +43,11 @@ export function VisitorChatComposer({ placeholder }: VisitorChatComposerProps) {
             disabled={live.isGenerating}
             busy={live.isGenerating}
             placeholder={placeholder}
+            // Single-row default — visitor messages are short, and on iOS Safari
+            // every row of the textarea is space the soft keyboard already
+            // squeezes. The textarea still grows on shift+Enter via the user
+            // agent's auto-grow.
+            rows={1}
             sendLabel={{ de: 'Senden', en: 'Send', ru: 'Отправить', ar: 'إرسال' }[locale]}
             addonStart={
                 chatId ? (
