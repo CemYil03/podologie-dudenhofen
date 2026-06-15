@@ -47,7 +47,7 @@ export function VisitorChatComposer({ placeholder }: VisitorChatComposerProps) {
             // every row of the textarea is space the soft keyboard already
             // squeezes. The textarea still grows on shift+Enter via the user
             // agent's auto-grow.
-            rows={1}
+            rows={3}
             sendLabel={{ de: 'Senden', en: 'Send', ru: 'Отправить', ar: 'إرسال' }[locale]}
             addonStart={
                 chatId ? (

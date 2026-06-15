@@ -207,6 +207,7 @@ export function MessageComposer({
 
                 <InputGroupTextarea
                     ref={textareaRef}
+                    name="message"
                     value={value}
                     onChange={(event) => onValueChange(event.target.value)}
                     onKeyDown={(event) => {
