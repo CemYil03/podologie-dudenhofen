@@ -19,6 +19,7 @@ export type Scalars = {
 export interface GqlSAdmin {
     __typename?: 'Admin';
     chat: GqlSChat;
+    vacations: Array<GqlSVacation>;
 }
 
 export type GqlSAdminChatArgs = {
@@ -30,6 +31,9 @@ export interface GqlSAdminMutation {
     chatInputCollectionRespond?: Maybe<GqlSChatMessageCreateResult>;
     chatMessageCreate?: Maybe<GqlSChatMessageCreateResult>;
     chatToolApprovalRespond?: Maybe<GqlSChatMessageCreateResult>;
+    vacationCreate: GqlSVacation;
+    vacationDelete: GqlSMutationResult;
+    vacationUpdate: GqlSVacation;
 }
 
 export type GqlSAdminMutationChatInputCollectionRespondArgs = {
@@ -50,6 +54,19 @@ export type GqlSAdminMutationChatToolApprovalRespondArgs = {
     approved: Scalars['Boolean']['input'];
     assistantOptions: GqlSChatAssistantOptions;
     reason?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GqlSAdminMutationVacationCreateArgs = {
+    input: GqlSVacationInput;
+};
+
+export type GqlSAdminMutationVacationDeleteArgs = {
+    vacationId: Scalars['ID']['input'];
+};
+
+export type GqlSAdminMutationVacationUpdateArgs = {
+    input: GqlSVacationInput;
+    vacationId: Scalars['ID']['input'];
 };
 
 export interface GqlSChat {
@@ -337,6 +354,7 @@ export interface GqlSMutationResult {
 
 export interface GqlSQuery {
     __typename?: 'Query';
+    activeVacation?: Maybe<GqlSVacation>;
     chat: GqlSChat;
     currentSession: GqlSSession;
 }
@@ -389,6 +407,20 @@ export type GqlSUserMutationUserUpdateArgs = {
 
 export type GqlSUserUpdate = {
     name: Scalars['String']['input'];
+};
+
+export interface GqlSVacation {
+    __typename?: 'Vacation';
+    endsOn: Scalars['Date']['output'];
+    note?: Maybe<Scalars['String']['output']>;
+    startsOn: Scalars['Date']['output'];
+    vacationId: Scalars['ID']['output'];
+}
+
+export type GqlSVacationInput = {
+    endsOn: Scalars['Date']['input'];
+    note?: InputMaybe<Scalars['String']['input']>;
+    startsOn: Scalars['Date']['input'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -578,6 +610,8 @@ export type GqlSResolversTypes = ResolversObject<{
     UserCreate: GqlSUserCreate;
     UserMutation: ResolverTypeWrapper<GqlSUserMutation>;
     UserUpdate: GqlSUserUpdate;
+    Vacation: ResolverTypeWrapper<GqlSVacation>;
+    VacationInput: GqlSVacationInput;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -643,6 +677,8 @@ export type GqlSResolversParentTypes = ResolversObject<{
     UserCreate: GqlSUserCreate;
     UserMutation: GqlSUserMutation;
     UserUpdate: GqlSUserUpdate;
+    Vacation: GqlSVacation;
+    VacationInput: GqlSVacationInput;
 }>;
 
 export type GqlSAdminResolvers<
@@ -650,6 +686,7 @@ export type GqlSAdminResolvers<
     ParentType extends GqlSResolversParentTypes['Admin'] = GqlSResolversParentTypes['Admin'],
 > = ResolversObject<{
     chat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSAdminChatArgs, 'chatId'>>;
+    vacations?: Resolver<Array<GqlSResolversTypes['Vacation']>, ParentType, ContextType>;
 }>;
 
 export type GqlSAdminMutationResolvers<
@@ -673,6 +710,24 @@ export type GqlSAdminMutationResolvers<
         ParentType,
         ContextType,
         RequireFields<GqlSAdminMutationChatToolApprovalRespondArgs, 'approvalId' | 'approved' | 'assistantOptions'>
+    >;
+    vacationCreate?: Resolver<
+        GqlSResolversTypes['Vacation'],
+        ParentType,
+        ContextType,
+        RequireFields<GqlSAdminMutationVacationCreateArgs, 'input'>
+    >;
+    vacationDelete?: Resolver<
+        GqlSResolversTypes['MutationResult'],
+        ParentType,
+        ContextType,
+        RequireFields<GqlSAdminMutationVacationDeleteArgs, 'vacationId'>
+    >;
+    vacationUpdate?: Resolver<
+        GqlSResolversTypes['Vacation'],
+        ParentType,
+        ContextType,
+        RequireFields<GqlSAdminMutationVacationUpdateArgs, 'input' | 'vacationId'>
     >;
 }>;
 
@@ -1070,6 +1125,7 @@ export type GqlSQueryResolvers<
     ContextType = any,
     ParentType extends GqlSResolversParentTypes['Query'] = GqlSResolversParentTypes['Query'],
 > = ResolversObject<{
+    activeVacation?: Resolver<Maybe<GqlSResolversTypes['Vacation']>, ParentType, ContextType>;
     chat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSQueryChatArgs, 'chatId'>>;
     currentSession?: Resolver<GqlSResolversTypes['Session'], ParentType, ContextType>;
 }>;
@@ -1124,6 +1180,16 @@ export type GqlSUserMutationResolvers<
     >;
 }>;
 
+export type GqlSVacationResolvers<
+    ContextType = any,
+    ParentType extends GqlSResolversParentTypes['Vacation'] = GqlSResolversParentTypes['Vacation'],
+> = ResolversObject<{
+    endsOn?: Resolver<GqlSResolversTypes['Date'], ParentType, ContextType>;
+    note?: Resolver<Maybe<GqlSResolversTypes['String']>, ParentType, ContextType>;
+    startsOn?: Resolver<GqlSResolversTypes['Date'], ParentType, ContextType>;
+    vacationId?: Resolver<GqlSResolversTypes['ID'], ParentType, ContextType>;
+}>;
+
 export type GqlSResolvers<ContextType = any> = ResolversObject<{
     Admin?: GqlSAdminResolvers<ContextType>;
     AdminMutation?: GqlSAdminMutationResolvers<ContextType>;
@@ -1169,6 +1235,7 @@ export type GqlSResolvers<ContextType = any> = ResolversObject<{
     Subscription?: GqlSSubscriptionResolvers<ContextType>;
     User?: GqlSUserResolvers<ContextType>;
     UserMutation?: GqlSUserMutationResolvers<ContextType>;
+    Vacation?: GqlSVacationResolvers<ContextType>;
 }>;
 
 type Properties<T> = {
@@ -1221,5 +1288,13 @@ export function GqlSUserCreateSchema(): z.ZodObject<Properties<GqlSUserCreate>> 
 export function GqlSUserUpdateSchema(): z.ZodObject<Properties<GqlSUserUpdate>> {
     return z.object({
         name: z.string(),
+    });
+}
+
+export function GqlSVacationInputSchema(): z.ZodObject<Properties<GqlSVacationInput>> {
+    return z.object({
+        endsOn: z.string(),
+        note: z.string().nullish(),
+        startsOn: z.string(),
     });
 }

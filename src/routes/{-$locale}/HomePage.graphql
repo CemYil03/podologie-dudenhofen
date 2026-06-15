@@ -5,4 +5,10 @@ query HomePage {
             name
         }
     }
+    activeVacation {
+        vacationId
+        startsOn
+        endsOn
+        note
+    }
 }

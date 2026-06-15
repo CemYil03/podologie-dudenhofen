@@ -1,6 +1,7 @@
 import {
     boolean,
     customType,
+    date,
     foreignKey,
     index,
     integer,
@@ -492,3 +493,34 @@ export const chatMessageUserAttachments = pgTable(
 
 export type ChatMessageUserAttachment = typeof chatMessageUserAttachments.$inferSelect;
 export type ChatMessageUserAttachmentCreate = typeof chatMessageUserAttachments.$inferInsert;
+
+// --- Vacations ---------------------------------------------------------------
+//
+// Practice closure windows scheduled by the admin. Drives the public-facing
+// vacation banner on the home page (active or starting within the lead-time
+// window — see `VACATION_LEAD_DAYS` in `src/web/practice.ts`).
+//
+// `startsOn` and `endsOn` are inclusive calendar dates in the practice's
+// local timezone (Europe/Berlin). `date` (not `timestamp`) because the
+// window is a calendar range, not an instant — no timezone slippage when
+// rendering to a visitor in another zone.
+//
+// `note` is a single optional German free-text line surfaced verbatim on
+// the German banner (e.g. "Notfälle: Praxis XY, Tel. …"). Other locales
+// see the templated headline + dates only.
+//
+// Application-level invariant (enforced in `vacationCreate` / `vacationUpdate`):
+// `startsOn <= endsOn`, and a new/updated row's window must not overlap any
+// other row's window. Hard-deleted rather than soft — there is no audit
+// requirement and admins should be free to clean up past entries.
+export const vacations = pgTable('Vacations', {
+    vacationId: uuid().primaryKey(),
+    startsOn: date().notNull(),
+    endsOn: date().notNull(),
+    note: varchar(),
+    createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+});
+
+export type Vacation = typeof vacations.$inferSelect;
+export type VacationCreate = typeof vacations.$inferInsert;

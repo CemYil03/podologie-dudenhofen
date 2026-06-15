@@ -287,6 +287,10 @@ type Session {
 # share one guard.
 type Admin {
     chat(chatId: ID!): Chat!
+    # All scheduled vacations, sorted future-first (active and upcoming
+    # before past entries). The admin manager renders them as a single
+    # table.
+    vacations: [Vacation!]!
 }
 
 type MutationResult {
@@ -317,6 +321,27 @@ type AdminMutation {
         reason: String
         assistantOptions: ChatAssistantOptions!
     ): ChatMessageCreateResult
+    vacationCreate(input: VacationInput!): Vacation!
+    vacationUpdate(vacationId: ID!, input: VacationInput!): Vacation!
+    vacationDelete(vacationId: ID!): MutationResult!
+}
+
+# A scheduled practice closure. `startsOn` and `endsOn` are inclusive
+# calendar dates in the practice's local timezone (Europe/Berlin) — see
+# the `vacations` table comment in `src/server/db/schema.ts`. `note` is an
+# optional German free-text line surfaced verbatim on the German banner;
+# other locales render the templated copy without the note.
+type Vacation {
+    vacationId: ID!
+    startsOn: Date!
+    endsOn: Date!
+    note: String
+}
+
+input VacationInput {
+    startsOn: Date!
+    endsOn: Date!
+    note: String
 }
 
 # --- User-input answer write shape -------------------------------------------
@@ -362,6 +387,12 @@ type Query {
     # resolver via `guardChatRead` — the same path admin's `Session.admin.chat`
     # uses, so visitor chats and admin chats share one entry point.
     chat(chatId: ID!): Chat!
+    # The currently-visible vacation, if any — active today, or starting
+    # within the lead-time window (`VACATION_LEAD_DAYS` in
+    # `src/web/practice.ts`). Drives the public home-page banner. Public
+    # because the banner is a public surface; the admin manager reads
+    # through `Admin.vacations` instead.
+    activeVacation: Vacation
 }
 
 type Mutation {

@@ -4,6 +4,9 @@ import { chatMessageCreate } from '../commands/chatMessageCreate';
 import { chatToolApprovalRespond } from '../commands/chatToolApprovalRespond';
 import { userSessionTerminateMany } from '../commands/userSessionTerminateMany';
 import { userUpdate } from '../commands/userUpdate';
+import { vacationCreate } from '../commands/vacationCreate';
+import { vacationDelete } from '../commands/vacationDelete';
+import { vacationUpdate } from '../commands/vacationUpdate';
 import type { ServerRuntime } from '../domain/ServerRuntime';
 import { guardAdmin, guardAdminMutation } from '../guards/guardAdmin';
 import { guardUserMutation } from '../guards/guardUserMutation';
@@ -11,11 +14,16 @@ import { guardUserSubscription } from '../guards/guardUserSubscription';
 import { chatFindOne } from '../queries/chatFindOne';
 import { chatsFindBySession } from '../queries/chatsFindBySession';
 import { sessionUserFindOne } from '../queries/sessionUserFindOne';
+import { vacationActiveFindOne } from '../queries/vacationActiveFindOne';
+import { vacationsFindAll } from '../queries/vacationsFindAll';
 import type {
     GqlSAdminChatArgs,
     GqlSAdminMutationChatInputCollectionRespondArgs,
     GqlSAdminMutationChatMessageCreateArgs,
     GqlSAdminMutationChatToolApprovalRespondArgs,
+    GqlSAdminMutationVacationCreateArgs,
+    GqlSAdminMutationVacationDeleteArgs,
+    GqlSAdminMutationVacationUpdateArgs,
     GqlSChatAssistantInput,
     GqlSChatAssistantInputValue,
     GqlSChatMessage,
@@ -85,6 +93,12 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             chat(_admin: unknown, args: GqlSAdminChatArgs, requestingSession: GqlSSession) {
                 return chatFindOne(args, requestingSession, serverRuntime);
             },
+            // Admin's full vacations list (past, active, future). Authorization
+            // is the parent guard on `Mutation.admin` / `Session.admin`; this
+            // resolver runs only after `guardAdmin` lets the request through.
+            vacations(_admin: unknown, __: any, requestingSession: GqlSSession) {
+                return vacationsFindAll(requestingSession, serverRuntime);
+            },
         },
         UserMutation: {
             userUpdate({ userId }: GqlSUserMutation, args: GqlSUserMutationUserUpdateArgs, requestingSession: GqlSSession) {
@@ -111,6 +125,15 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             chatToolApprovalRespond(_parent: unknown, args: GqlSAdminMutationChatToolApprovalRespondArgs, requestingSession: GqlSSession) {
                 return chatToolApprovalRespond(args, requestingSession, serverRuntime);
             },
+            vacationCreate(_parent: unknown, args: GqlSAdminMutationVacationCreateArgs, requestingSession: GqlSSession) {
+                return vacationCreate(args, requestingSession, serverRuntime);
+            },
+            vacationUpdate(_parent: unknown, args: GqlSAdminMutationVacationUpdateArgs, requestingSession: GqlSSession) {
+                return vacationUpdate(args, requestingSession, serverRuntime);
+            },
+            vacationDelete(_parent: unknown, args: GqlSAdminMutationVacationDeleteArgs, requestingSession: GqlSSession) {
+                return vacationDelete(args, requestingSession, serverRuntime);
+            },
         },
         Query: {
             currentSession(_: any, __: any, requestingSession: GqlSSession) {
@@ -123,6 +146,11 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             // `sessionId`, admin chats on `ownerUserId`.
             chat(_: any, args: GqlSQueryChatArgs, requestingSession: GqlSSession) {
                 return chatFindOne(args, requestingSession, serverRuntime);
+            },
+            // Public read for the home-page banner — see
+            // `vacationActiveFindOne` for the visibility window.
+            activeVacation(_: any, __: any, requestingSession: GqlSSession) {
+                return vacationActiveFindOne(requestingSession, serverRuntime);
             },
         },
         Mutation: {

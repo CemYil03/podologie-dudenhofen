@@ -4,7 +4,10 @@ import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { useVisitorChat } from '../../web/chat/VisitorChatProvider';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
+import { SeasonalBanner } from '../../web/components/SeasonalBanner/SeasonalBanner';
+import { SeasonalEffect } from '../../web/components/SeasonalEffect/SeasonalEffect';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
+import { VacationBanner } from '../../web/components/VacationBanner';
 import { INDEX_CREDENTIALS, INDEX_SERVICES, INDEX_SUGGESTED_QUESTIONS, INDEX_TESTIMONIALS } from '../../web/content/indexContent';
 import { HomePageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
@@ -105,9 +108,13 @@ export const Route = createFileRoute('/{-$locale}/')({
     component() {
         const locale = useLocale();
         const { openWithMessage } = useVisitorChat();
+        const { activeVacation } = Route.useLoaderData();
 
         return (
             <main>
+                <SeasonalEffect locale={locale} />
+                {activeVacation ? <VacationBanner vacation={activeVacation} locale={locale} /> : null}
+                <SeasonalBanner locale={locale} isSuppressed={Boolean(activeVacation)} />
                 {/* 1. Hero */}
                 <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                     <div className="grid gap-12 md:grid-cols-2 md:items-center">

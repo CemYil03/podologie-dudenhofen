@@ -58,3 +58,9 @@ export const PRACTICE = {
     },
     googlePlaceId: 'ChIJzcTVmG20l0cR7OwkPRBebrY',
 } as const;
+
+// Lead time for the public vacation banner. A scheduled vacation becomes
+// visible on the home page this many days before its `startsOn`, and stays
+// visible through `endsOn`. Centralised here so the public query
+// (`vacationActiveFindOne`) and any future surfaces stay in lockstep.
+export const VACATION_LEAD_DAYS = 7;

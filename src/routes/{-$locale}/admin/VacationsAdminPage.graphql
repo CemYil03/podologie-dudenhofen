@@ -1,0 +1,47 @@
+# Operations for the admin vacations manager. The list query lives behind
+# the `Admin` parent guard, so the resolver only runs for sessions that
+# `guardAdmin` lets through.
+
+query VacationsAdminPage {
+    currentSession {
+        sessionId
+        admin {
+            vacations {
+                vacationId
+                startsOn
+                endsOn
+                note
+            }
+        }
+    }
+}
+
+mutation VacationCreate($input: VacationInput!) {
+    admin {
+        vacationCreate(input: $input) {
+            vacationId
+            startsOn
+            endsOn
+            note
+        }
+    }
+}
+
+mutation VacationUpdate($vacationId: ID!, $input: VacationInput!) {
+    admin {
+        vacationUpdate(vacationId: $vacationId, input: $input) {
+            vacationId
+            startsOn
+            endsOn
+            note
+        }
+    }
+}
+
+mutation VacationDelete($vacationId: ID!) {
+    admin {
+        vacationDelete(vacationId: $vacationId) {
+            success
+        }
+    }
+}

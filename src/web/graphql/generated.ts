@@ -22,6 +22,7 @@ export type Scalars = {
 export interface GqlCAdmin {
     __typename?: 'Admin';
     chat: GqlCChat;
+    vacations: Array<GqlCVacation>;
 }
 
 export type GqlCAdminChatArgs = {
@@ -33,6 +34,9 @@ export interface GqlCAdminMutation {
     chatInputCollectionRespond?: Maybe<GqlCChatMessageCreateResult>;
     chatMessageCreate?: Maybe<GqlCChatMessageCreateResult>;
     chatToolApprovalRespond?: Maybe<GqlCChatMessageCreateResult>;
+    vacationCreate: GqlCVacation;
+    vacationDelete: GqlCMutationResult;
+    vacationUpdate: GqlCVacation;
 }
 
 export type GqlCAdminMutationChatInputCollectionRespondArgs = {
@@ -53,6 +57,19 @@ export type GqlCAdminMutationChatToolApprovalRespondArgs = {
     approved: Scalars['Boolean']['input'];
     assistantOptions: GqlCChatAssistantOptions;
     reason?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GqlCAdminMutationVacationCreateArgs = {
+    input: GqlCVacationInput;
+};
+
+export type GqlCAdminMutationVacationDeleteArgs = {
+    vacationId: Scalars['ID']['input'];
+};
+
+export type GqlCAdminMutationVacationUpdateArgs = {
+    input: GqlCVacationInput;
+    vacationId: Scalars['ID']['input'];
 };
 
 export interface GqlCChat {
@@ -340,6 +357,7 @@ export interface GqlCMutationResult {
 
 export interface GqlCQuery {
     __typename?: 'Query';
+    activeVacation?: Maybe<GqlCVacation>;
     chat: GqlCChat;
     currentSession: GqlCSession;
 }
@@ -394,13 +412,30 @@ export type GqlCUserUpdate = {
     name: Scalars['String']['input'];
 };
 
+export interface GqlCVacation {
+    __typename?: 'Vacation';
+    endsOn: Scalars['Date']['output'];
+    note?: Maybe<Scalars['String']['output']>;
+    startsOn: Scalars['Date']['output'];
+    vacationId: Scalars['ID']['output'];
+}
+
+export type GqlCVacationInput = {
+    endsOn: Scalars['Date']['input'];
+    note?: InputMaybe<Scalars['String']['input']>;
+    startsOn: Scalars['Date']['input'];
+};
+
 export type GqlCDatenschutzPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GqlCDatenschutzPageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
 
 export type GqlCHomePageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GqlCHomePageQuery = { currentSession: { sessionId: string; user: { name: string } | null } };
+export type GqlCHomePageQuery = {
+    currentSession: { sessionId: string; user: { name: string } | null };
+    activeVacation: { vacationId: string; startsOn: string; endsOn: string; note: string | null } | null;
+};
 
 export type GqlCImpressumPageQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -790,6 +825,38 @@ export type GqlCChatUpdatesSubscription = {
           }
         | { __typename: 'ChatUpdateTurnEnded'; generationId: string };
 };
+
+export type GqlCVacationsAdminPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GqlCVacationsAdminPageQuery = {
+    currentSession: {
+        sessionId: string;
+        admin: { vacations: Array<{ vacationId: string; startsOn: string; endsOn: string; note: string | null }> };
+    };
+};
+
+export type GqlCVacationCreateMutationVariables = Exact<{
+    input: Schema.GqlCVacationInput;
+}>;
+
+export type GqlCVacationCreateMutation = {
+    admin: { vacationCreate: { vacationId: string; startsOn: string; endsOn: string; note: string | null } };
+};
+
+export type GqlCVacationUpdateMutationVariables = Exact<{
+    vacationId: string;
+    input: Schema.GqlCVacationInput;
+}>;
+
+export type GqlCVacationUpdateMutation = {
+    admin: { vacationUpdate: { vacationId: string; startsOn: string; endsOn: string; note: string | null } };
+};
+
+export type GqlCVacationDeleteMutationVariables = Exact<{
+    vacationId: string;
+}>;
+
+export type GqlCVacationDeleteMutation = { admin: { vacationDelete: { success: boolean } } };
 
 export type GqlCVisitorChatMessageCreateMutationVariables = Exact<{
     chatId?: string | null | undefined;
@@ -1399,6 +1466,19 @@ export const HomePageDocument = {
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
                                     },
                                 },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'activeVacation' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'vacationId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'startsOn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'endsOn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'note' } },
                             ],
                         },
                     },
@@ -2851,6 +2931,211 @@ export const ChatUpdatesDocument = {
         },
     ],
 } as unknown as DocumentNode<GqlCChatUpdatesSubscription, GqlCChatUpdatesSubscriptionVariables>;
+export const VacationsAdminPageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'VacationsAdminPage' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currentSession' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sessionId' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'admin' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'vacations' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'vacationId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'startsOn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'endsOn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVacationsAdminPageQuery, GqlCVacationsAdminPageQueryVariables>;
+export const VacationCreateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'VacationCreate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'VacationInput' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'admin' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vacationCreate' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'input' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vacationId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'startsOn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'endsOn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVacationCreateMutation, GqlCVacationCreateMutationVariables>;
+export const VacationUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'VacationUpdate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vacationId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'VacationInput' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'admin' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vacationUpdate' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'vacationId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'vacationId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'input' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vacationId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'startsOn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'endsOn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVacationUpdateMutation, GqlCVacationUpdateMutationVariables>;
+export const VacationDeleteDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'VacationDelete' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vacationId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'admin' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vacationDelete' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'vacationId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'vacationId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'success' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GqlCVacationDeleteMutation, GqlCVacationDeleteMutationVariables>;
 export const VisitorChatMessageCreateDocument = {
     kind: 'Document',
     definitions: [

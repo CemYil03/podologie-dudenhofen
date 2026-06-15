@@ -24,6 +24,7 @@ import { Route as ApiStreamRouteImport } from './routes/api/stream'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
 import { Route as ApiFileUploadsRouteImport } from './routes/api/file-uploads'
+import { Route as Char123LocaleChar125AdminVacationsRouteImport } from './routes/{-$locale}/admin/vacations'
 import { Route as Char123LocaleChar125AdminChatRouteImport } from './routes/{-$locale}/admin/chat'
 import { Route as ApiFileUploadsFileUploadIdRouteImport } from './routes/api/file-uploads_.$fileUploadId'
 
@@ -110,6 +111,12 @@ const ApiFileUploadsRoute = ApiFileUploadsRouteImport.update({
   path: '/api/file-uploads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char123LocaleChar125AdminVacationsRoute =
+  Char123LocaleChar125AdminVacationsRouteImport.update({
+    id: '/admin/vacations',
+    path: '/admin/vacations',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const Char123LocaleChar125AdminChatRoute =
   Char123LocaleChar125AdminChatRouteImport.update({
     id: '/admin/chat',
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
   '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
+  '/{-$locale}/admin/vacations': typeof Char123LocaleChar125AdminVacationsRoute
 }
 export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
@@ -159,6 +167,7 @@ export interface FileRoutesByTo {
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
   '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
+  '/{-$locale}/admin/vacations': typeof Char123LocaleChar125AdminVacationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -179,6 +188,7 @@ export interface FileRoutesById {
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/api/file-uploads_/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
   '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
+  '/{-$locale}/admin/vacations': typeof Char123LocaleChar125AdminVacationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/'
     | '/api/file-uploads/$fileUploadId'
     | '/{-$locale}/admin/chat'
+    | '/{-$locale}/admin/vacations'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/robots.txt'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/{-$locale}'
     | '/api/file-uploads/$fileUploadId'
     | '/{-$locale}/admin/chat'
+    | '/{-$locale}/admin/vacations'
   id:
     | '__root__'
     | '/robots.txt'
@@ -237,6 +249,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/'
     | '/api/file-uploads_/$fileUploadId'
     | '/{-$locale}/admin/chat'
+    | '/{-$locale}/admin/vacations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -357,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiFileUploadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$locale}/admin/vacations': {
+      id: '/{-$locale}/admin/vacations'
+      path: '/admin/vacations'
+      fullPath: '/{-$locale}/admin/vacations'
+      preLoaderRoute: typeof Char123LocaleChar125AdminVacationsRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/{-$locale}/admin/chat': {
       id: '/{-$locale}/admin/chat'
       path: '/admin/chat'
@@ -384,6 +404,7 @@ interface Char123LocaleChar125RouteChildren {
   Char123LocaleChar125QualifikationRoute: typeof Char123LocaleChar125QualifikationRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
   Char123LocaleChar125AdminChatRoute: typeof Char123LocaleChar125AdminChatRoute
+  Char123LocaleChar125AdminVacationsRoute: typeof Char123LocaleChar125AdminVacationsRoute
 }
 
 const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
@@ -397,6 +418,8 @@ const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
     Char123LocaleChar125QualifikationRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
   Char123LocaleChar125AdminChatRoute: Char123LocaleChar125AdminChatRoute,
+  Char123LocaleChar125AdminVacationsRoute:
+    Char123LocaleChar125AdminVacationsRoute,
 }
 
 const Char123LocaleChar125RouteWithChildren =
