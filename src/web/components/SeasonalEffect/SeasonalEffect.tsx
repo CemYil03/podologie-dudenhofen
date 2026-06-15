@@ -1,5 +1,6 @@
 import { XIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../base/tooltip';
 import { seasonalNow } from '../seasonalNow';
 import { effectConfetti } from './effects/effectConfetti';
 import { effectFireworksSpark, fireworkBurst } from './effects/effectFireworks';
@@ -89,14 +90,24 @@ export function SeasonalEffect({ locale = 'de' }: { locale?: string } = {}) {
                 // before the loop kicks in keeps the first paint quiet.
                 style={{ opacity: 1 }}
             />
-            <button
-                type="button"
-                onClick={handleDismiss}
-                aria-label={DISMISS_LABEL[locale] ?? DISMISS_LABEL.de}
-                className="fixed right-4 bottom-4 z-30 rounded-full border border-aubergine/15 bg-cream/80 p-2 text-(--color-brand-charcoal-3) shadow-sm backdrop-blur transition-all hover:bg-cream hover:text-aubergine focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40"
-            >
-                <XIcon className="size-4" aria-hidden />
-            </button>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <button
+                        type="button"
+                        onClick={handleDismiss}
+                        aria-label={DISMISS_LABEL[locale] ?? DISMISS_LABEL.de}
+                        // Anchored to the bottom-start corner (bottom-left in LTR,
+                        // bottom-right in RTL) so it doesn't collide with the
+                        // VisitorChatLauncher that lives in the bottom-end corner.
+                        className="fixed bottom-4 start-4 sm:bottom-6 sm:start-6 z-30 cursor-pointer rounded-full border border-aubergine/15 bg-cream/80 p-2 text-(--color-brand-charcoal-3) shadow-sm backdrop-blur transition-all hover:bg-cream hover:text-aubergine focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40"
+                    >
+                        <XIcon className="size-4" aria-hidden />
+                    </button>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={6}>
+                    {DISMISS_LABEL[locale] ?? DISMISS_LABEL.de}
+                </TooltipContent>
+            </Tooltip>
         </>
     );
 }

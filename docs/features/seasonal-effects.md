@@ -61,8 +61,9 @@ distressed.
 - **Page-visibility pause**: animation halts while the tab is hidden, both for battery and to avoid the surprise-burst on refocus.
 - **Density caps**: 22 snow particles on desktop, 50% of that on mobile (<768px). All effects scale down proportionally.
 - **Canvas behind everything**: `position: fixed`, `inset-0`, `z-0`, `pointer-events-none`, `aria-hidden`.
-- **Animation dismiss**: a small × button bottom-right; once clicked the preference is saved in `localStorage` (`seasonal-effect-dismissed`)
-  and never shown to that user again.
+- **Animation dismiss**: a small × button anchored to the bottom-start corner (bottom-left in LTR, bottom-right in RTL) so it doesn't
+  collide with the visitor chat launcher in the bottom-end corner. Wrapped in a tooltip so the action is discoverable. Once clicked the
+  preference is saved in `localStorage` (`seasonal-effect-dismissed`) and never shown to that user again.
 - **Banner dismiss**: × button on the right of the banner; persisted in `sessionStorage` (per-tab) so a returning visitor sees the
   next-season greeting on a fresh visit.
 - **Home page only**: neither component is mounted on appointment forms, contact, or content pages.
