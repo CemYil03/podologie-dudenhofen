@@ -3,7 +3,7 @@ import type { RecurringJobDefinition } from '../types';
 export const staleSessionsCleanup: RecurringJobDefinition = {
     kind: 'recurring',
     name: 'stale-sessions-cleanup',
-    cron: '* * * * *',
+    cron: '17 3 * * *',
     handler: async ({ serverRuntime }) => {
         serverRuntime.log.info('Running stale sessions cleanup');
         // TODO: implement cleanup logic
