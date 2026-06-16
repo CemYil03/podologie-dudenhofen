@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ExternalLinkIcon, PhoneIcon, QuoteIcon, SendIcon, SparklesIcon, StarIcon } from 'lucide-react';
+import { ExternalLinkIcon, PhoneIcon, QuoteIcon, SparklesIcon, StarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { useVisitorChat } from '../../web/chat/VisitorChatProvider';
 import { Button } from '../../web/components/base/button';
+import { MessageComposer } from '../../web/components/MessageComposer';
 import { Reveal } from '../../web/components/Reveal';
 import { SeasonalBanner } from '../../web/components/SeasonalBanner/SeasonalBanner';
 import { SeasonalEffect } from '../../web/components/SeasonalEffect/SeasonalEffect';
@@ -554,68 +555,31 @@ export const Route = createFileRoute('/{-$locale}/')({
                                     </div>
                                 </div>
 
-                                {/* Faux composer — a real `<textarea>` so paste, autofill,
-                                 *  IME, and screen-reader form semantics all behave. The
-                                 *  send goes through the same `openWithMessage` funnel
-                                 *  the suggested chips use, so the chat sheet picks the
-                                 *  draft up identically either way. */}
-                                <form
-                                    className="mt-5"
-                                    onSubmit={(event) => {
-                                        event.preventDefault();
-                                        assistantDraftSubmit();
-                                    }}
-                                >
-                                    <label htmlFor="assistant-draft" className="sr-only">
-                                        {
+                                {/* Faux composer — reuses the same `<MessageComposer>`
+                                 *  shell as the in-sheet `VisitorChatComposer` so the
+                                 *  landing-page entry feels identical to the chat
+                                 *  surface it opens. No "new chat" button (`addonStart`)
+                                 *  here: the send always starts fresh via
+                                 *  `assistantStartFresh` → `resetChat()` →
+                                 *  `openWithMessage`, same funnel the suggested chips
+                                 *  below use, so the chat sheet picks the draft up
+                                 *  identically either way. */}
+                                <div className="mt-5">
+                                    <MessageComposer
+                                        value={assistantDraft}
+                                        onValueChange={setAssistantDraft}
+                                        onSubmit={assistantDraftSubmit}
+                                        placeholder={
                                             {
-                                                de: 'Frage an den Praxis-Assistenten',
-                                                en: 'Question for the practice assistant',
-                                                ru: 'Вопрос ассистенту практики',
-                                                ar: 'سؤال إلى مساعد العيادة',
+                                                de: 'Stellen Sie Ihre Frage…',
+                                                en: 'Ask your question…',
+                                                ru: 'Задайте свой вопрос…',
+                                                ar: 'اطرحوا سؤالكم…',
                                             }[locale]
                                         }
-                                    </label>
-                                    <div className="flex items-end gap-2 rounded-lg border border-aubergine/20 bg-cream px-3 py-2 transition-colors duration-200 ease-out focus-within:border-aubergine focus-within:ring-2 focus-within:ring-aubergine/30">
-                                        <textarea
-                                            id="assistant-draft"
-                                            rows={1}
-                                            value={assistantDraft}
-                                            onChange={(event) => setAssistantDraft(event.target.value)}
-                                            onKeyDown={(event) => {
-                                                if (event.key === 'Enter' && !event.shiftKey) {
-                                                    event.preventDefault();
-                                                    assistantDraftSubmit();
-                                                }
-                                            }}
-                                            placeholder={
-                                                {
-                                                    de: 'Stellen Sie Ihre Frage…',
-                                                    en: 'Ask your question…',
-                                                    ru: 'Задайте свой вопрос…',
-                                                    ar: 'اطرحوا سؤالكم…',
-                                                }[locale]
-                                            }
-                                            className="block min-h-9 flex-1 resize-none bg-transparent py-1 text-sm text-charcoal placeholder:text-(--color-brand-charcoal-4) focus:outline-none"
-                                        />
-                                        <Button
-                                            type="submit"
-                                            variant="brand"
-                                            size="sm"
-                                            disabled={!assistantDraft.trim()}
-                                            aria-label={
-                                                {
-                                                    de: 'Frage absenden',
-                                                    en: 'Send question',
-                                                    ru: 'Отправить вопрос',
-                                                    ar: 'إرسال السؤال',
-                                                }[locale]
-                                            }
-                                        >
-                                            <SendIcon className="size-4" aria-hidden />
-                                        </Button>
-                                    </div>
-                                </form>
+                                        sendLabel={{ de: 'Senden', en: 'Send', ru: 'Отправить', ar: 'إرسال' }[locale]}
+                                    />
+                                </div>
 
                                 {/* Canned questions — chip-style, visually subordinate
                                  *  to the input above. Each chip is one tap that opens
