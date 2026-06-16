@@ -142,68 +142,81 @@ export function VisitorChatSheet() {
                 >
                     {isExpanded ? <Minimize2Icon className="size-4" /> : <Maximize2Icon className="size-4" />}
                 </button>
+                {/* When expanded, cap the inner column so prose stays at a comfortable
+                    reading width (~75ch) while the sheet itself — header border, background,
+                    composer surface — still spans the viewport. The header keeps its full-width
+                    border-b; only the title/disclaimer line is capped so it lines up with the
+                    transcript and composer columns below. */}
                 <SheetHeader className="border-b border-aubergine/15 bg-cream">
-                    <div className="flex items-center gap-2">
-                        <SheetTitle className="font-serif text-lg text-aubergine-dark">
+                    <div className={isExpanded ? 'mx-auto flex w-full max-w-3xl flex-col gap-1.5' : 'flex flex-col gap-1.5'}>
+                        <div className="flex items-center gap-2">
+                            <SheetTitle className="font-serif text-lg text-aubergine-dark">
+                                {
+                                    {
+                                        de: 'Fragen an unseren Assistenten',
+                                        en: 'Ask our assistant',
+                                        ru: 'Вопросы нашему ассистенту',
+                                        ar: 'اسأل مساعدنا',
+                                    }[locale]
+                                }
+                            </SheetTitle>
+                            {/* Mobile-only info popover — surfaces the disclaimer
+                                that the visible-text version below hides under `sm`
+                                so the chat header stays compact when the soft
+                                keyboard is up. The close button (`top-end-4`) and
+                                expand toggle (`top-end-12`, sm+ only) live above on
+                                the absolute layer; this trigger sits inline with
+                                the title and stays clear of both. */}
+                            <Popover>
+                                <PopoverTrigger
+                                    aria-label={
+                                        {
+                                            de: 'Hinweis anzeigen',
+                                            en: 'Show disclaimer',
+                                            ru: 'Показать примечание',
+                                            ar: 'إظهار التنبيه',
+                                        }[locale]
+                                    }
+                                    className="rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:hidden"
+                                >
+                                    <InfoIcon className="size-4" />
+                                </PopoverTrigger>
+                                <PopoverContent side="bottom" align="start" className="w-72 text-xs text-(--color-brand-charcoal-3)">
+                                    {
+                                        {
+                                            de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
+                                            en: 'Not medical advice. For acute concerns, please call us directly.',
+                                            ru: 'Это не медицинская консультация. При острых жалобах, пожалуйста, позвоните нам напрямую.',
+                                            ar: 'هذه ليست استشارة طبية. في الحالات العاجلة، يُرجى الاتصال بنا مباشرة.',
+                                        }[locale]
+                                    }
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        {/* Visible only on `sm` and up — on phones we keep the
+                            description mounted as `sr-only` so `aria-describedby`
+                            on the SheetContent still resolves, and the visual
+                            disclaimer moves into the InfoIcon popover above. */}
+                        <SheetDescription id="visitor-chat-disclaimer" className="text-xs text-(--color-brand-charcoal-3) max-sm:sr-only">
                             {
                                 {
-                                    de: 'Fragen an unseren Assistenten',
-                                    en: 'Ask our assistant',
-                                    ru: 'Вопросы нашему ассистенту',
-                                    ar: 'اسأل مساعدنا',
+                                    de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
+                                    en: 'Not medical advice. For acute concerns, please call us directly.',
+                                    ru: 'Это не медицинская консультация. При острых жалобах, пожалуйста, позвоните нам напрямую.',
+                                    ar: 'هذه ليست استشارة طبية. في الحالات العاجلة، يُرجى الاتصال بنا مباشرة.',
                                 }[locale]
                             }
-                        </SheetTitle>
-                        {/* Mobile-only info popover — surfaces the disclaimer
-                            that the visible-text version below hides under `sm`
-                            so the chat header stays compact when the soft
-                            keyboard is up. The close button (`top-end-4`) and
-                            expand toggle (`top-end-12`, sm+ only) live above on
-                            the absolute layer; this trigger sits inline with
-                            the title and stays clear of both. */}
-                        <Popover>
-                            <PopoverTrigger
-                                aria-label={
-                                    {
-                                        de: 'Hinweis anzeigen',
-                                        en: 'Show disclaimer',
-                                        ru: 'Показать примечание',
-                                        ar: 'إظهار التنبيه',
-                                    }[locale]
-                                }
-                                className="rounded-xs text-aubergine-dark/70 ring-offset-background transition-opacity hover:text-aubergine-dark hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden sm:hidden"
-                            >
-                                <InfoIcon className="size-4" />
-                            </PopoverTrigger>
-                            <PopoverContent side="bottom" align="start" className="w-72 text-xs text-(--color-brand-charcoal-3)">
-                                {
-                                    {
-                                        de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
-                                        en: 'Not medical advice. For acute concerns, please call us directly.',
-                                        ru: 'Это не медицинская консультация. При острых жалобах, пожалуйста, позвоните нам напрямую.',
-                                        ar: 'هذه ليست استشارة طبية. في الحالات العاجلة، يُرجى الاتصال بنا مباشرة.',
-                                    }[locale]
-                                }
-                            </PopoverContent>
-                        </Popover>
+                        </SheetDescription>
                     </div>
-                    {/* Visible only on `sm` and up — on phones we keep the
-                        description mounted as `sr-only` so `aria-describedby`
-                        on the SheetContent still resolves, and the visual
-                        disclaimer moves into the InfoIcon popover above. */}
-                    <SheetDescription id="visitor-chat-disclaimer" className="text-xs text-(--color-brand-charcoal-3) max-sm:sr-only">
-                        {
-                            {
-                                de: 'Keine medizinische Beratung. Bei akuten Beschwerden bitte direkt anrufen.',
-                                en: 'Not medical advice. For acute concerns, please call us directly.',
-                                ru: 'Это не медицинская консультация. При острых жалобах, пожалуйста, позвоните нам напрямую.',
-                                ar: 'هذه ليست استشارة طبية. في الحالات العاجلة، يُرجى الاتصال بنا مباشرة.',
-                            }[locale]
-                        }
-                    </SheetDescription>
                 </SheetHeader>
 
-                <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
+                <div
+                    className={
+                        isExpanded
+                            ? 'mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col gap-4 p-4'
+                            : 'flex min-h-0 flex-1 flex-col gap-4 p-4'
+                    }
+                >
                     {allMessages.length === 0 && !live.isGenerating ? (
                         <EmptyState previousChats={previousChats} onResume={(id) => void loadChat(id)} />
                     ) : (

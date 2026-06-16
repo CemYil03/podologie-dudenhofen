@@ -130,7 +130,9 @@ really converge — see the same note in [Chat Admin](./chat-admin.md).
 
 On `sm` and up the sheet header carries an expand toggle (Lucide `Maximize2`/`Minimize2`) next to the close button — desktop visitors can
 flip the sheet to full-screen for a longer transcript and back. The toggle is hidden under `sm` (the sheet is already full-width on phones)
-and resets to the default size every time the sheet closes.
+and resets to the default size every time the sheet closes. When expanded the sheet itself spans the viewport, but the inner column (header
+content, transcript, composer) is capped at `max-w-3xl` and centered so prose stays at a comfortable reading width — the header's border-b
+still runs the full width of the sheet so the chrome reads as a single surface.
 
 On phones the sheet's height + top track `window.visualViewport` while it is open
 ([`useVisualViewport`](../../src/web/hooks/useVisualViewport.ts)). The default `inset-y-0 h-full` sizing is against the layout viewport,
