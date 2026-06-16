@@ -1,4 +1,7 @@
+import * as React from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { CheckIcon, CopyIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
@@ -10,6 +13,7 @@ import { useLocale } from '../../web/hooks/useLocale';
 import { PRACTICE } from '../../web/practice';
 import { seoMeta } from '../../web/seo/seoMeta';
 import { webPageUrlGet } from '../../web/seo/webPageUrlGet';
+import type { Locale } from '../../web/utils/locale';
 import { localeFromParam } from '../../web/utils/locale';
 
 export const Route = createFileRoute('/{-$locale}/karriere')({
@@ -53,6 +57,50 @@ function scrollToBewerbung() {
     if (!target) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+}
+
+// Localized labels for the copy-email button. A `mailto:` link is unreliable
+// on desktops without a registered mail handler (Chrome silently navigates
+// to its protocol picker, or the click is swallowed entirely), so the
+// primary application affordance copies the address to the clipboard and
+// confirms via toast.
+const COPY_EMAIL_LABEL: Record<Locale, { idle: string; copied: string; error: string }> = {
+    de: { idle: 'E-Mail-Adresse kopieren', copied: 'E-Mail-Adresse kopiert', error: 'Kopieren fehlgeschlagen' },
+    en: { idle: 'Copy email address', copied: 'Email address copied', error: 'Could not copy' },
+    ru: { idle: 'Скопировать e-mail', copied: 'E-mail скопирован', error: 'Не удалось скопировать' },
+    ar: { idle: 'نسخ عنوان البريد الإلكتروني', copied: 'تم نسخ عنوان البريد الإلكتروني', error: 'تعذّر النسخ' },
+};
+
+// Inline button that copies the practice email to the clipboard and shows
+// transient feedback (icon swap + sonner toast). Visible address sits next
+// to the button so anyone without clipboard access can still read it off
+// the page.
+function CopyEmailButton({ locale, className }: { locale: Locale; className?: string }) {
+    const labels = COPY_EMAIL_LABEL[locale];
+    const [copied, setCopied] = React.useState(false);
+    const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    React.useEffect(() => {
+        return () => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+        };
+    }, []);
+    const onCopy = React.useCallback(async () => {
+        try {
+            await navigator.clipboard.writeText(PRACTICE.email);
+            toast.success(labels.copied);
+        } catch {
+            toast.error(labels.error);
+        }
+        setCopied(true);
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => setCopied(false), 1500);
+    }, [labels.copied, labels.error]);
+    return (
+        <Button type="button" size="lg" onClick={onCopy} aria-label={`${labels.idle}: ${PRACTICE.email}`} className={className}>
+            {copied ? <CheckIcon aria-hidden /> : <CopyIcon aria-hidden />}
+            <span>{copied ? labels.copied : labels.idle}</span>
+        </Button>
+    );
 }
 
 function KarrierePage() {
@@ -301,17 +349,9 @@ function KarrierePage() {
                         ))}
                     </ol>
                     <div className="mt-12 flex flex-wrap items-center gap-3 *:flex-1 sm:*:flex-none">
-                        <Button size="lg" asChild className="rounded-full bg-cream px-6 text-aubergine-dark hover:bg-cream/90">
-                            <a href={`mailto:${PRACTICE.email}`}>
-                                {
-                                    {
-                                        de: 'Initiativbewerbung senden',
-                                        en: 'Send unsolicited application',
-                                        ru: 'Отправить инициативную заявку',
-                                        ar: 'إرسال طلب تقدّم تلقائي',
-                                    }[locale]
-                                }
-                            </a>
+                        <CopyEmailButton locale={locale} className="rounded-full bg-cream px-6 text-aubergine-dark hover:bg-cream/90" />
+                        <Button variant="link" asChild className="text-cream/80 hover:text-cream font-mono">
+                            <a href={`mailto:${PRACTICE.email}`}>{PRACTICE.email}</a>
                         </Button>
                         <Button variant="link" asChild className="text-cream/80 hover:text-cream">
                             <a href={`tel:${PRACTICE.phone}`}>
