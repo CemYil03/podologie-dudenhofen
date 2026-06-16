@@ -10,7 +10,12 @@ The visitor agent answers top-of-funnel questions about the practice — service
 appointment, who pays. It explicitly does **not**:
 
 - give medical advice, diagnose, or recommend treatments
-- quote concrete prices (beyond the standing rule that statutory insurance covers podologische Leistungen with an ärztliche Verordnung)
+- quote concrete practice prices for individual services. The **statutory** GKV co-payment numbers — €10 prescription fee per
+  Verordnungsblatt and 10% Zuzahlung per treatment, plus the Befreiungsausweis carve-out — are explicitly allowed because they are set by
+  law, not by the practice; the system prompt grounds these in [`podologieFacts.ts`](../../src/server/agents/podologieFacts.ts) (`costs`
+  block per locale) and mirrors the public `/leistungen#kosten` page.
+- guess whether a private health insurer (PKV) will reimburse a given treatment — that depends on the individual tariff; the agent refers
+  the patient back to their PKV.
 - book or confirm appointments — it points at the phone number on `/kontakt#kontaktdaten` (the dedicated contact-form section returns once
   online booking ships)
 

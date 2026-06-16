@@ -48,6 +48,7 @@ const LOCALE_FRAMING: Record<
         hoursLabel: string;
         transitLabel: string;
         servicesHeader: string;
+        costsHeader: string;
         linksGuidance: string;
         availablePagesHeader: string;
         servicesPageLabel: string;
@@ -72,6 +73,8 @@ const LOCALE_FRAMING: Record<
         hoursLabel: 'Öffnungszeiten',
         transitLabel: 'Anfahrt mit ÖPNV',
         servicesHeader: 'Leistungen:',
+        costsHeader:
+            'Kosten, Krankenkasse, Zuzahlung & Eigenanteil — verbindliche Faktenbasis. Nutze GENAU diese Formulierungen, wenn jemand fragt, was eine Behandlung kostet, ob die Kasse zahlt, was „Eigenanteil" oder „Zuzahlung" bedeutet, oder wo der Unterschied zwischen Kassen- und Privatpatient*innen liegt:',
         linksGuidance:
             'Verlinke bei passenden Fragen die entsprechende Seite des Praxis-Webauftritts.\nVerwende dafür IMMER Markdown-Linksyntax mit relativen URLs, z. B. `[Leistungsübersicht](/leistungen)` — niemals nackte Pfade wie `/leistungen` in den Fließtext schreiben. Der Linktext soll natürlich im Satz stehen.',
         availablePagesHeader: 'Verfügbare Seiten:',
@@ -84,7 +87,8 @@ const LOCALE_FRAMING: Record<
         rules: [
             'Was du nicht tust:',
             '- Keine medizinische Beratung, keine Diagnosen, keine Empfehlungen zu Medikamenten oder Behandlungsabläufen.',
-            '- Keine konkreten Preise nennen (außer dem Hinweis, dass die gesetzliche Krankenkasse podologische Leistungen mit ärztlicher Verordnung übernimmt).',
+            '- Keine konkreten Behandlungspreise der Praxis nennen (also keine Eurobeträge für einzelne Leistungen). AUSNAHME: Die gesetzlichen Zuzahlungsbeträge — 10 € Rezeptgebühr je Verordnungsblatt und 10 % Zuzahlung je Behandlung für Kassenpatient*innen — darfst und sollst du nennen, weil sie gesetzlich festgelegt sind und keine Praxispreise sind.',
+            '- Niemals raten, ob die private Krankenversicherung (PKV) eine Behandlung erstattet — das hängt vom individuellen Tarif ab. Verweise an die PKV der Patientin.',
             '- Keine Termine vereinbaren oder zusagen — verweise immer auf die Telefonnummer und unsere Anrufzeiten (Mo–Fr 08:00–16:00).',
         ],
         fallback:
@@ -103,6 +107,8 @@ const LOCALE_FRAMING: Record<
         hoursLabel: 'Opening hours',
         transitLabel: 'Public transport',
         servicesHeader: 'Services:',
+        costsHeader:
+            'Costs, statutory insurance, Zuzahlung & Eigenanteil — binding fact base. Use EXACTLY these phrasings when someone asks what a treatment costs, whether the fund pays, what "Eigenanteil" / "Zuzahlung" means, or how statutory and private patients differ:',
         linksGuidance:
             'When a question matches one, link to the corresponding page of the practice site.\nALWAYS use Markdown link syntax with relative URLs, e.g. `[Services overview](/leistungen)` — never write bare paths like `/leistungen` in the prose. The link text should read naturally in the sentence.',
         availablePagesHeader: 'Available pages:',
@@ -115,7 +121,8 @@ const LOCALE_FRAMING: Record<
         rules: [
             'What you do not do:',
             '- No medical advice, no diagnoses, no recommendations on medication or treatment plans.',
-            '- No concrete prices (except the note that statutory insurance covers podiatric services with a medical prescription).',
+            '- Do not quote concrete practice prices (no euro amounts for individual services). EXCEPTION: the statutory co-payment amounts — €10 prescription fee per prescription form and 10% co-payment per treatment for GKV patients — you may and should quote, because they are set by law, not by the practice.',
+            '- Never guess whether private health insurance (PKV) will reimburse a treatment — that depends on the individual tariff. Refer the patient to their PKV.',
             '- No appointment booking or confirming — always refer to the phone number and our call hours (Mon–Fri 08:00–16:00).',
         ],
         fallback:
@@ -133,6 +140,8 @@ const LOCALE_FRAMING: Record<
         hoursLabel: 'Часы работы',
         transitLabel: 'Общественный транспорт',
         servicesHeader: 'Услуги:',
+        costsHeader:
+            'Стоимость, государственная касса, доплата (Zuzahlung) и Eigenanteil — обязательная фактологическая база. Используй ИМЕННО эти формулировки, когда спрашивают о стоимости лечения, оплачивает ли касса, что значит «Eigenanteil» / «Zuzahlung», или в чём разница между пациентом GKV и частным:',
         linksGuidance:
             'Когда вопрос совпадает с темой страницы, ставь ссылку на соответствующую страницу сайта практики.\nИСПОЛЬЗУЙ ВСЕГДА разметку Markdown с относительными URL, например `[Обзор услуг](/leistungen)` — никогда не пиши голые пути вроде `/leistungen` в тексте. Текст ссылки должен звучать естественно в предложении.',
         availablePagesHeader: 'Доступные страницы:',
@@ -145,7 +154,8 @@ const LOCALE_FRAMING: Record<
         rules: [
             'Чего ты не делаешь:',
             '— Никаких медицинских советов, диагнозов, рекомендаций по лекарствам или схемам лечения.',
-            '— Не называешь конкретных цен (кроме указания, что государственная страховка покрывает подологические услуги по направлению врача).',
+            '— Не называешь конкретных цен практики (никаких сумм в евро за отдельные услуги). ИСКЛЮЧЕНИЕ: законные суммы доплаты — 10 € рецептурный сбор за бланк и 10 % доплата за процедуру для пациентов GKV — называть можно и нужно, так как они установлены законом, а не практикой.',
+            '— Никогда не предполагай, возместит ли частная страховка (PKV) лечение — это зависит от индивидуального тарифа. Направляй пациента к его PKV.',
             '— Не записываешь и не подтверждаешь приёмы — всегда направляй к телефону и нашим часам приёма звонков (Пн–Пт 08:00–16:00).',
         ],
         fallback: 'Если ты не уверен в ответе или вопрос выходит за эти рамки, скажи об этом честно и направь к телефону.',
@@ -163,6 +173,8 @@ const LOCALE_FRAMING: Record<
         hoursLabel: 'ساعات العمل',
         transitLabel: 'وسائل النقل العامة',
         servicesHeader: 'الخدمات:',
+        costsHeader:
+            'التكاليف، التأمين الصحي القانوني، المساهمة (Zuzahlung) و«Eigenanteil» — قاعدة معلومات مُلزِمة. استخدم هذه الصياغات بالضبط عند السؤال عن تكلفة العلاج، أو هل يدفع الصندوق، أو ما معنى «Eigenanteil» / «Zuzahlung»، أو الفرق بين مرضى GKV والمرضى الخاصين:',
         linksGuidance:
             'عند تطابق السؤال مع صفحة معينة، ضع رابطًا إلى الصفحة المقابلة في موقع العيادة.\nاستخدم دائمًا صيغة روابط Markdown بمسارات نسبية، مثل `[نظرة عامة على الخدمات](/leistungen)` — لا تكتب أبدًا مسارات مكشوفة مثل `/leistungen` داخل النص. يجب أن يكون نص الرابط طبيعيًا داخل الجملة.',
         availablePagesHeader: 'الصفحات المتاحة:',
@@ -175,7 +187,8 @@ const LOCALE_FRAMING: Record<
         rules: [
             'ما لا تفعله:',
             '- لا استشارات طبية، ولا تشخيص، ولا توصيات بشأن الأدوية أو خطط العلاج.',
-            '- لا تذكر أسعارًا محددة (باستثناء الإشارة إلى أن التأمين الصحي القانوني يغطي خدمات العناية بالقدم بوصفة طبية).',
+            '- لا تذكر أسعارًا محددة من العيادة (لا مبالغ يورو لخدمات منفردة). الاستثناء: مبالغ المساهمة القانونية — 10 يورو رسم وصفة لكل ورقة وصفة و10٪ مساهمة لكل جلسة لمرضى GKV — يجوز ويجب ذكرها لأنها محددة بالقانون وليست رسمًا من العيادة.',
+            '- لا تخمّن أبدًا ما إذا كان التأمين الخاص (PKV) سيُعوّض العلاج — يعتمد ذلك على التعريفة الفردية. أحِل المريض إلى شركة تأمينه الخاصة.',
             '- لا تحجز ولا تؤكد المواعيد — أحِل دائمًا إلى رقم الهاتف وأوقات الاتصال لدينا (الإثنين–الجمعة 08:00–16:00).',
         ],
         fallback: 'إذا لم تكن متأكدًا من الإجابة أو كان السؤال خارج هذا النطاق، فقُل ذلك بصراحة وأحِل إلى رقم الهاتف.',
@@ -200,6 +213,9 @@ function visitorInstructions(locale: Locale): string {
         '',
         framing.servicesHeader,
         ...localized.services.map((s) => `- ${s}`),
+        '',
+        framing.costsHeader,
+        ...localized.costs.map((s) => `- ${s}`),
         '',
         framing.linksGuidance,
         framing.availablePagesHeader,
