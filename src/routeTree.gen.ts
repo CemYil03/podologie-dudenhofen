@@ -24,6 +24,8 @@ import { Route as ApiStreamRouteImport } from './routes/api/stream'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
 import { Route as ApiFileUploadsRouteImport } from './routes/api/file-uploads'
+import { Route as Char123LocaleChar125AdminIndexRouteImport } from './routes/{-$locale}/admin/index'
+import { Route as Char123LocaleChar125AdminVisitorChatsRouteImport } from './routes/{-$locale}/admin/visitor-chats'
 import { Route as Char123LocaleChar125AdminVacationsRouteImport } from './routes/{-$locale}/admin/vacations'
 import { Route as Char123LocaleChar125AdminChatRouteImport } from './routes/{-$locale}/admin/chat'
 import { Route as ApiFileUploadsFileUploadIdRouteImport } from './routes/api/file-uploads_.$fileUploadId'
@@ -111,6 +113,18 @@ const ApiFileUploadsRoute = ApiFileUploadsRouteImport.update({
   path: '/api/file-uploads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char123LocaleChar125AdminIndexRoute =
+  Char123LocaleChar125AdminIndexRouteImport.update({
+    id: '/admin/',
+    path: '/admin/',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
+const Char123LocaleChar125AdminVisitorChatsRoute =
+  Char123LocaleChar125AdminVisitorChatsRouteImport.update({
+    id: '/admin/visitor-chats',
+    path: '/admin/visitor-chats',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const Char123LocaleChar125AdminVacationsRoute =
   Char123LocaleChar125AdminVacationsRouteImport.update({
     id: '/admin/vacations',
@@ -149,6 +163,8 @@ export interface FileRoutesByFullPath {
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
   '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
   '/{-$locale}/admin/vacations': typeof Char123LocaleChar125AdminVacationsRoute
+  '/{-$locale}/admin/visitor-chats': typeof Char123LocaleChar125AdminVisitorChatsRoute
+  '/{-$locale}/admin/': typeof Char123LocaleChar125AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
@@ -168,6 +184,8 @@ export interface FileRoutesByTo {
   '/api/file-uploads/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
   '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
   '/{-$locale}/admin/vacations': typeof Char123LocaleChar125AdminVacationsRoute
+  '/{-$locale}/admin/visitor-chats': typeof Char123LocaleChar125AdminVisitorChatsRoute
+  '/{-$locale}/admin': typeof Char123LocaleChar125AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -189,6 +207,8 @@ export interface FileRoutesById {
   '/api/file-uploads_/$fileUploadId': typeof ApiFileUploadsFileUploadIdRoute
   '/{-$locale}/admin/chat': typeof Char123LocaleChar125AdminChatRoute
   '/{-$locale}/admin/vacations': typeof Char123LocaleChar125AdminVacationsRoute
+  '/{-$locale}/admin/visitor-chats': typeof Char123LocaleChar125AdminVisitorChatsRoute
+  '/{-$locale}/admin/': typeof Char123LocaleChar125AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,6 +231,8 @@ export interface FileRouteTypes {
     | '/api/file-uploads/$fileUploadId'
     | '/{-$locale}/admin/chat'
     | '/{-$locale}/admin/vacations'
+    | '/{-$locale}/admin/visitor-chats'
+    | '/{-$locale}/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/robots.txt'
@@ -230,6 +252,8 @@ export interface FileRouteTypes {
     | '/api/file-uploads/$fileUploadId'
     | '/{-$locale}/admin/chat'
     | '/{-$locale}/admin/vacations'
+    | '/{-$locale}/admin/visitor-chats'
+    | '/{-$locale}/admin'
   id:
     | '__root__'
     | '/robots.txt'
@@ -250,6 +274,8 @@ export interface FileRouteTypes {
     | '/api/file-uploads_/$fileUploadId'
     | '/{-$locale}/admin/chat'
     | '/{-$locale}/admin/vacations'
+    | '/{-$locale}/admin/visitor-chats'
+    | '/{-$locale}/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -370,6 +396,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiFileUploadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$locale}/admin/': {
+      id: '/{-$locale}/admin/'
+      path: '/admin'
+      fullPath: '/{-$locale}/admin/'
+      preLoaderRoute: typeof Char123LocaleChar125AdminIndexRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
+    '/{-$locale}/admin/visitor-chats': {
+      id: '/{-$locale}/admin/visitor-chats'
+      path: '/admin/visitor-chats'
+      fullPath: '/{-$locale}/admin/visitor-chats'
+      preLoaderRoute: typeof Char123LocaleChar125AdminVisitorChatsRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/{-$locale}/admin/vacations': {
       id: '/{-$locale}/admin/vacations'
       path: '/admin/vacations'
@@ -405,6 +445,8 @@ interface Char123LocaleChar125RouteChildren {
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
   Char123LocaleChar125AdminChatRoute: typeof Char123LocaleChar125AdminChatRoute
   Char123LocaleChar125AdminVacationsRoute: typeof Char123LocaleChar125AdminVacationsRoute
+  Char123LocaleChar125AdminVisitorChatsRoute: typeof Char123LocaleChar125AdminVisitorChatsRoute
+  Char123LocaleChar125AdminIndexRoute: typeof Char123LocaleChar125AdminIndexRoute
 }
 
 const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
@@ -420,6 +462,9 @@ const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
   Char123LocaleChar125AdminChatRoute: Char123LocaleChar125AdminChatRoute,
   Char123LocaleChar125AdminVacationsRoute:
     Char123LocaleChar125AdminVacationsRoute,
+  Char123LocaleChar125AdminVisitorChatsRoute:
+    Char123LocaleChar125AdminVisitorChatsRoute,
+  Char123LocaleChar125AdminIndexRoute: Char123LocaleChar125AdminIndexRoute,
 }
 
 const Char123LocaleChar125RouteWithChildren =

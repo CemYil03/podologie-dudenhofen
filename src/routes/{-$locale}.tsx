@@ -1,9 +1,10 @@
-import { Outlet, createFileRoute, notFound, redirect } from '@tanstack/react-router';
+import { Outlet, createFileRoute, notFound, redirect, useLocation } from '@tanstack/react-router';
 import { createIsomorphicFn } from '@tanstack/react-start';
 import { getRequestHeader, setResponseHeader } from '@tanstack/react-start/server';
 import { VisitorChatLauncher } from '../web/chat/VisitorChatLauncher';
 import { VisitorChatProvider } from '../web/chat/VisitorChatProvider';
 import { VisitorChatSheet } from '../web/chat/VisitorChatSheet';
+import { AdminHeader } from '../web/components/AdminHeader';
 import { SiteFooter } from '../web/components/SiteFooter';
 import { SiteHeader } from '../web/components/SiteHeader';
 import { useSearchTargetHighlight } from '../web/hooks/useSearchTargetHighlight';
@@ -44,6 +45,20 @@ export const Route = createFileRoute('/{-$locale}')({
 
 function LocaleLayout() {
     useSearchTargetHighlight();
+    const pathname = useLocation({ select: (l) => l.pathname });
+    // `/admin/*` runs under its own minimal chrome: a custom `AdminHeader`,
+    // no public footer, and no visitor-chat surfaces (the visitor widget is
+    // a public conversion affordance — it has no place in a staff
+    // workflow). Public routes get the full site chrome.
+    const isAdmin = /(^|\/)admin(\/|$)/.test(pathname);
+    if (isAdmin) {
+        return (
+            <div className="flex min-h-screen flex-col">
+                <AdminHeader />
+                <Outlet />
+            </div>
+        );
+    }
     return (
         <VisitorChatProvider>
             <div className="flex min-h-screen flex-col">

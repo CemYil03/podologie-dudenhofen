@@ -102,8 +102,9 @@ The visitor widget is a single right-side `Sheet` overlay rendered once at the l
 drive it:
 
 - A floating round button (`MessageCircleIcon`) at the bottom-right corner of every public page —
-  [`VisitorChatLauncher`](../../src/web/chat/VisitorChatLauncher.tsx). Hidden under `/admin/*` so the admin chat surface owns its own
-  affordance, and hidden while the sheet is open so the launcher doesn't sit underneath the slide-in animation.
+  [`VisitorChatLauncher`](../../src/web/chat/VisitorChatLauncher.tsx). Not reachable under `/admin/*` — the locale layout doesn't mount the
+  visitor-chat surfaces there at all, see [Admin Chrome](../architecture/admin-chrome.md). Hidden while the sheet is open so the launcher
+  doesn't sit underneath the slide-in animation.
 - The home page's "Fragen?" section (`src/routes/{-$locale}/index.tsx`) hosts a small assistant card: a sparkle avatar + "available now"
   status, a faux composer (a real `<textarea>` with a brand-styled Send button), and the four canned questions as chip-style buttons below.
   The composer's submit handler and each chip both fire `openWithMessage()` on the visitor-chat context — opening the sheet and dispatching

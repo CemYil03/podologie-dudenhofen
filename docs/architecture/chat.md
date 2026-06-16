@@ -83,6 +83,11 @@ Per-chat ownership is still enforced inside each command via `guardChatWrite`, w
 its `kind`. `chatFindOne` mirrors the rule via `guardChatRead`. So even if an admin reaches `Mutation.admin.chatMessageCreate(chatId: ...)`
 with another admin's chat id, the per-chat guard still rejects.
 
+The admin surface also has a deliberately broader read path for visitor-chat **review** — `Admin.visitorChats` and
+`Admin.visitorChat(chatId)`. These bypass `guardChatRead` (which is session-scoped and would refuse every cross-session read) and rely on
+the parent `guardAdmin` for who-can-read; the single-chat resolver pins `kind = 'visitorAssistant'` so it can never reach into another
+admin's chat. See [Admin Visitor-Chat Review](../features/admin-visitor-chats.md).
+
 `ChatMessageUser.author` and `ChatMessageUserInput.author` are nullable: visitor messages have no `User` row to point at. Admin messages
 always populate the field.
 

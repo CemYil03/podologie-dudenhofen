@@ -20,9 +20,15 @@ export interface GqlSAdmin {
     __typename?: 'Admin';
     chat: GqlSChat;
     vacations: Array<GqlSVacation>;
+    visitorChat: GqlSChat;
+    visitorChats: Array<GqlSChat>;
 }
 
 export type GqlSAdminChatArgs = {
+    chatId: Scalars['ID']['input'];
+};
+
+export type GqlSAdminVisitorChatArgs = {
     chatId: Scalars['ID']['input'];
 };
 
@@ -551,7 +557,13 @@ export type GqlSResolversUnionTypes<_RefType extends Record<string, unknown>> = 
 
 /** Mapping between all available schema types and the resolvers types */
 export type GqlSResolversTypes = ResolversObject<{
-    Admin: ResolverTypeWrapper<Omit<GqlSAdmin, 'chat'> & { chat: GqlSResolversTypes['Chat'] }>;
+    Admin: ResolverTypeWrapper<
+        Omit<GqlSAdmin, 'chat' | 'visitorChat' | 'visitorChats'> & {
+            chat: GqlSResolversTypes['Chat'];
+            visitorChat: GqlSResolversTypes['Chat'];
+            visitorChats: Array<GqlSResolversTypes['Chat']>;
+        }
+    >;
     AdminMutation: ResolverTypeWrapper<GqlSAdminMutation>;
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
     Chat: ResolverTypeWrapper<Omit<GqlSChat, 'messages'> & { messages: Array<GqlSResolversTypes['ChatMessage']> }>;
@@ -625,7 +637,11 @@ export type GqlSResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type GqlSResolversParentTypes = ResolversObject<{
-    Admin: Omit<GqlSAdmin, 'chat'> & { chat: GqlSResolversParentTypes['Chat'] };
+    Admin: Omit<GqlSAdmin, 'chat' | 'visitorChat' | 'visitorChats'> & {
+        chat: GqlSResolversParentTypes['Chat'];
+        visitorChat: GqlSResolversParentTypes['Chat'];
+        visitorChats: Array<GqlSResolversParentTypes['Chat']>;
+    };
     AdminMutation: GqlSAdminMutation;
     Boolean: Scalars['Boolean']['output'];
     Chat: Omit<GqlSChat, 'messages'> & { messages: Array<GqlSResolversParentTypes['ChatMessage']> };
@@ -697,6 +713,8 @@ export type GqlSAdminResolvers<
 > = ResolversObject<{
     chat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSAdminChatArgs, 'chatId'>>;
     vacations?: Resolver<Array<GqlSResolversTypes['Vacation']>, ParentType, ContextType>;
+    visitorChat?: Resolver<GqlSResolversTypes['Chat'], ParentType, ContextType, RequireFields<GqlSAdminVisitorChatArgs, 'chatId'>>;
+    visitorChats?: Resolver<Array<GqlSResolversTypes['Chat']>, ParentType, ContextType>;
 }>;
 
 export type GqlSAdminMutationResolvers<

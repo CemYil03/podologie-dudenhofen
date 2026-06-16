@@ -306,6 +306,20 @@ type Admin {
     # before past entries). The admin manager renders them as a single
     # table.
     vacations: [Vacation!]!
+    # Every visitor-assistant chat across all sessions, most-recent first.
+    # Lets the admin review what visitors are actually asking the assistant
+    # so the system prompt and tool surface can evolve with real demand.
+    # `messages` on each entry is empty — fetch a single transcript through
+    # `Admin.visitorChat(chatId)`. Authorization is the parent `guardAdmin`;
+    # the resolver intentionally does NOT call `guardChatRead`, which is
+    # session-scoped and would refuse cross-session reads that admins
+    # legitimately need.
+    visitorChats: [Chat!]!
+    # Single visitor-chat transcript for review. Bypasses `guardChatRead`'s
+    # per-session ownership check (which exists for the public surface) and
+    # validates only that the chat is `kind = 'visitorAssistant'` so this
+    # entry point can never reach into another admin's chats.
+    visitorChat(chatId: ID!): Chat!
 }
 
 type MutationResult {

@@ -1,9 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { format } from 'date-fns';
+import { de } from 'date-fns/locale';
 import { Trash2Icon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import type { DateRange } from 'react-day-picker';
 import { useMutation, useQuery } from 'urql';
 import { Button } from '../../../web/components/base/button';
-import { Input } from '../../../web/components/base/input';
+import { DateRangePicker } from '../../../web/components/base/date-range-picker';
 import { Textarea } from '../../../web/components/base/textarea';
 import {
     VacationCreateDocument,
@@ -122,16 +125,19 @@ function NewVacationForm({ onCreated }: { onCreated: () => void }) {
     return (
         <form onSubmit={handleSubmit} className="space-y-4 rounded-md border border-(--color-brand-charcoal-1)/30 p-5">
             <h2 className="font-serif text-xl text-aubergine">Neuer Urlaub</h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <label className="block">
-                    <span className="mb-1 block text-sm">Beginn</span>
-                    <Input type="date" value={startsOn} onChange={(event) => setStartsOn(event.target.value)} required />
-                </label>
-                <label className="block">
-                    <span className="mb-1 block text-sm">Ende</span>
-                    <Input type="date" value={endsOn} onChange={(event) => setEndsOn(event.target.value)} required />
-                </label>
-            </div>
+            <label className="block">
+                <span className="mb-1 block text-sm">Zeitraum</span>
+                <DateRangePicker
+                    value={isoRangeToDateRange(startsOn, endsOn)}
+                    onChange={(next) => {
+                        setStartsOn(dateToIso(next?.from));
+                        setEndsOn(dateToIso(next?.to));
+                    }}
+                    placeholder="Zeitraum wählen"
+                    locale={de}
+                    className="w-full"
+                />
+            </label>
             <label className="block">
                 <span className="mb-1 block text-sm">Hinweis (optional, nur deutsch)</span>
                 <Textarea
@@ -201,16 +207,19 @@ function VacationRow({ vacation, onChanged }: { vacation: Vacation; onChanged: (
     if (isEditing) {
         return (
             <li className="space-y-3 p-4">
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <label className="block">
-                        <span className="mb-1 block text-sm">Beginn</span>
-                        <Input type="date" value={startsOn} onChange={(event) => setStartsOn(event.target.value)} />
-                    </label>
-                    <label className="block">
-                        <span className="mb-1 block text-sm">Ende</span>
-                        <Input type="date" value={endsOn} onChange={(event) => setEndsOn(event.target.value)} />
-                    </label>
-                </div>
+                <label className="block">
+                    <span className="mb-1 block text-sm">Zeitraum</span>
+                    <DateRangePicker
+                        value={isoRangeToDateRange(startsOn, endsOn)}
+                        onChange={(next) => {
+                            setStartsOn(dateToIso(next?.from));
+                            setEndsOn(dateToIso(next?.to));
+                        }}
+                        placeholder="Zeitraum wählen"
+                        locale={de}
+                        className="w-full"
+                    />
+                </label>
                 <label className="block">
                     <span className="mb-1 block text-sm">Hinweis</span>
                     <Textarea value={note} onChange={(event) => setNote(event.target.value)} minRows={2} />
@@ -257,6 +266,23 @@ function vacationStatusLabel(vacation: Vacation): string {
     if (vacation.endsOn < today) return 'vergangen';
     if (vacation.startsOn <= today) return 'aktiv';
     return 'geplant';
+}
+
+// Vacation dates travel as `yyyy-MM-dd` strings. Parse at noon to keep the
+// `Date` clear of any timezone-induced day shift before re-serializing.
+function isoToDate(iso: string): Date | undefined {
+    if (iso === '') return undefined;
+    return new Date(`${iso}T12:00:00`);
+}
+
+function isoRangeToDateRange(startsOn: string, endsOn: string): DateRange | undefined {
+    const from = isoToDate(startsOn);
+    if (!from) return undefined;
+    return { from, to: isoToDate(endsOn) };
+}
+
+function dateToIso(date: Date | undefined): string {
+    return date ? format(date, 'yyyy-MM-dd') : '';
 }
 
 function formatGermanDate(iso: string): string {

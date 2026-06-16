@@ -1,0 +1,35 @@
+# Operations for the admin visitor-chat review surface. The list and the
+# transcript both hang off `Admin`, so the parent `guardAdmin` is the only
+# authorization check — admins legitimately read across sessions, unlike the
+# public `Query.chat` path. Reuses the existing `ChatMessageFields` fragment
+# from `ChatPage.graphql`.
+
+query VisitorChatsAdminPage {
+    currentSession {
+        sessionId
+        admin {
+            visitorChats {
+                chatId
+                title
+                lastModifiedAt
+            }
+        }
+    }
+}
+
+query VisitorChatAdminPage($chatId: ID!) {
+    currentSession {
+        sessionId
+        admin {
+            visitorChat(chatId: $chatId) {
+                chatId
+                kind
+                title
+                lastModifiedAt
+                messages {
+                    ...ChatMessageFields
+                }
+            }
+        }
+    }
+}

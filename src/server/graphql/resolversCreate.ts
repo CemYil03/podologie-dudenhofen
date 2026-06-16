@@ -16,9 +16,12 @@ import { chatsFindBySession } from '../queries/chatsFindBySession';
 import { sessionUserFindOne } from '../queries/sessionUserFindOne';
 import { vacationActiveFindOne } from '../queries/vacationActiveFindOne';
 import { vacationsFindAll } from '../queries/vacationsFindAll';
+import { visitorChatFindOne } from '../queries/visitorChatFindOne';
 import { visitorChatQuotaFindOne } from '../queries/visitorChatQuotaFindOne';
+import { visitorChatsFindAll } from '../queries/visitorChatsFindAll';
 import type {
     GqlSAdminChatArgs,
+    GqlSAdminVisitorChatArgs,
     GqlSAdminMutationChatInputCollectionRespondArgs,
     GqlSAdminMutationChatMessageCreateArgs,
     GqlSAdminMutationChatToolApprovalRespondArgs,
@@ -107,6 +110,19 @@ export function resolversCreate(serverRuntime: ServerRuntime): GqlSResolvers {
             // resolver runs only after `guardAdmin` lets the request through.
             vacations(_admin: unknown, __: any, requestingSession: GqlSSession) {
                 return vacationsFindAll(requestingSession, serverRuntime);
+            },
+            // Cross-session visitor-chat list for admin review. Parent guard
+            // is the only check — admins legitimately read across sessions,
+            // unlike the public surface.
+            visitorChats(_admin: unknown, __: any, requestingSession: GqlSSession) {
+                return visitorChatsFindAll(requestingSession, serverRuntime);
+            },
+            // Single visitor-chat transcript for admin review. Bypasses
+            // `guardChatRead` (which is session-scoped) but pins the kind to
+            // `visitorAssistant` so the resolver can't be aimed at another
+            // admin's chat.
+            visitorChat(_admin: unknown, args: GqlSAdminVisitorChatArgs, requestingSession: GqlSSession) {
+                return visitorChatFindOne(args, requestingSession, serverRuntime);
             },
         },
         UserMutation: {

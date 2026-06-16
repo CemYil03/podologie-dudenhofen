@@ -1,12 +1,12 @@
-import { useLocation } from '@tanstack/react-router';
 import { MessageCircleIcon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/base/tooltip';
 import { useLocale } from '../hooks/useLocale';
 import { useVisitorChat } from './VisitorChatProvider';
 
 // Floating round button at the bottom-right of every public page (bottom-left
-// in RTL via the `end-6` logical utility). Hidden under `/admin/*` — the admin
-// chat owns its own surface and the visitor widget would just compete with it.
+// in RTL via the `end-6` logical utility). Not reachable under `/admin/*` —
+// `LocaleLayout` does not mount `VisitorChatProvider` there, so the launcher
+// never renders on those routes (see `docs/architecture/admin-chrome.md`).
 // See `docs/features/chat-visitor.md`.
 
 const OPEN_LABEL: Record<string, string> = {
@@ -18,9 +18,7 @@ const OPEN_LABEL: Record<string, string> = {
 
 export function VisitorChatLauncher() {
     const { isOpen, setOpen } = useVisitorChat();
-    const location = useLocation();
     const locale = useLocale();
-    if (location.pathname.includes('/admin/')) return null;
     // While the sheet is open the floating button would sit underneath its
     // overlay anyway; hiding it explicitly avoids a momentary "stacked button"
     // glimpse during the slide-in animation.
