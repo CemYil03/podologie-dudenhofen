@@ -37,6 +37,11 @@ its runtime dependencies inlined. This is the file the Dockerfile launches in pr
 The final image contains only the `.output/` directory — no source, no `node_modules`, no `package.json`. Runtime deps (`react`,
 `@tanstack/react-router`, `pg`, etc.) are inlined into the bundle by nitro, so the runtime stage does not need to install anything.
 
+`vite.config.ts` sets `build.sourcemap: true`, so each `index-*.js` chunk is shipped alongside an `index-*.js.map` file. The map is a
+separate static asset — only a `//# sourceMappingURL=` comment is appended to the JS payload, so the served bundle size is unchanged.
+DevTools and field-error tooling can de-minify stack traces against these maps, and Lighthouse's "Missing source maps for large first-party
+JavaScript" audit passes.
+
 ```bash
 docker build -t app .
 docker run -p 3000:3000 -e DATABASE_URL=... -e sessionCookieName=... -e WEB_PAGE_URL=... -e GOOGLE_GENERATIVE_AI_API_KEY=... app

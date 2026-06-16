@@ -34,6 +34,15 @@ const apiSecFetchDestStrip = (): Plugin => ({
 
 const config = defineConfig({
     resolve: { tsconfigPaths: true },
+    // Emit source maps for production client bundles. Lighthouse's
+    // "Missing source maps for large first-party JavaScript" audit flags
+    // any minified JS over ~500kB without a sourcemap; shipping
+    // `index-*.js.map` lets DevTools (and field tooling like Sentry)
+    // de-minify stack traces without changing runtime behaviour. Vite
+    // emits the `.map` file as a separate static asset and only injects
+    // a `//# sourceMappingURL=` comment, so the served JS payload is
+    // unchanged.
+    build: { sourcemap: true },
     // Test configuration lives in `vitest.config.ts` — Vitest 4 + Vite 8's
     // module runner cannot evaluate React's CJS entry through the full
     // TanStack Start plugin stack, so the test config defines its own
