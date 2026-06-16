@@ -26,7 +26,7 @@ export const PODOLOGIE_FACTS = {
         therapist: '/praxis#therapeutin',
         hygiene: '/praxis#hygiene',
         directions: '/kontakt#anfahrt',
-        contactRequest: '/kontakt#anfrage',
+        contactRequest: '/kontakt#kontaktdaten',
     },
 } as const;
 

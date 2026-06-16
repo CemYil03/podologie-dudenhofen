@@ -17,7 +17,7 @@ import { toolPromptUserForInput } from './toolPromptUserForInput';
 // directions, what to bring to a first appointment, who pays). Explicitly
 // NOT: medical advice, price quotes, diagnosis. When the visitor's question
 // shifts toward booking or anything outside this scope, the assistant points
-// at the contact CTA on `/kontakt#anfrage` and the phone number.
+// at the contact CTA on `/kontakt#kontaktdaten` and the phone number.
 //
 // Tool set is intentionally narrow: only `promptUserForInput` for any
 // follow-up structured info the assistant needs (e.g. "for which symptom?").

@@ -5,6 +5,10 @@ import { formatPhoneNumber } from '../../shared/formatters/formatPhoneNumber';
 import { Button } from '../../web/components/base/button';
 import { Reveal } from '../../web/components/Reveal';
 import { SectionEyebrow } from '../../web/components/SectionEyebrow';
+// Note: the page intentionally has no `#anfrage` section today — phone CTAs
+// throughout the page (and the site-wide header CTA) cover the same intent.
+// The section will return once an online booking flow ships; see
+// `docs/project.md` ("Roadmap → Contact form").
 import { KontaktPageDocument } from '../../web/graphql/generated';
 import { routeLoaderGraphqlClient } from '../../web/graphql/routeLoaderGraphqlClient';
 import { useLocale } from '../../web/hooks/useLocale';
@@ -72,11 +76,18 @@ function KontaktPage() {
                             }[locale]
                         }
                     </p>
+                    <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
+                        <Button variant="brand" size="lg" asChild>
+                            <a href={`tel:${PRACTICE.phone}`}>
+                                {{ de: 'Jetzt anrufen', en: 'Call now', ru: 'Позвонить сейчас', ar: 'اتّصلوا الآن' }[locale]}
+                            </a>
+                        </Button>
+                    </div>
                 </Reveal>
             </section>
 
-            {/* Kontaktdaten — cream */}
-            <section id="kontaktdaten" className="scroll-mt-20">
+            {/* Kontaktdaten — blush */}
+            <section id="kontaktdaten" className="scroll-mt-20 bg-blush">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
                         <SectionEyebrow>
@@ -229,8 +240,8 @@ function KontaktPage() {
                 </div>
             </section>
 
-            {/* Anfahrt — blush */}
-            <section id="anfahrt" className="scroll-mt-20 bg-blush">
+            {/* Anfahrt — cream */}
+            <section id="anfahrt" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
                         <SectionEyebrow>
@@ -356,40 +367,6 @@ function KontaktPage() {
                             </p>
                         </Reveal>
                     </div>
-                </div>
-            </section>
-
-            {/* Anfrage — cream */}
-            <section id="anfrage" className="scroll-mt-20">
-                <div className="mx-auto max-w-5xl px-6 py-20">
-                    <Reveal>
-                        <SectionEyebrow>
-                            {{ de: 'Terminanfrage', en: 'Appointment request', ru: 'Запрос на приём', ar: 'طلب موعد' }[locale]}
-                        </SectionEyebrow>
-                        <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Termin vereinbaren.', en: 'Book an appointment.', ru: 'Записаться на приём.', ar: 'حجز موعد.' }[locale]}
-                        </h2>
-
-                        <div className="mt-10 rounded-2xl border border-aubergine/10 bg-blush/40 p-8 sm:p-10">
-                            <p className="max-w-2xl text-lg leading-relaxed text-(--color-brand-charcoal-2)">
-                                {
-                                    {
-                                        de: 'Bitte rufen Sie uns für Terminvereinbarungen direkt an. Ein Online-Formular folgt in Kürze.',
-                                        en: 'For appointments, please call us directly. An online form will follow soon.',
-                                        ru: 'Для записи на приём, пожалуйста, позвоните нам напрямую. Онлайн-форма появится в ближайшее время.',
-                                        ar: 'لحجز المواعيد، يُرجى الاتصال بنا مباشرة. سيتوفّر نموذج إلكتروني قريباً.',
-                                    }[locale]
-                                }
-                            </p>
-                            <div className="mt-8 flex flex-wrap gap-3 *:flex-1 sm:*:flex-none">
-                                <Button variant="brand" size="lg" asChild>
-                                    <a href={`tel:${PRACTICE.phone}`}>
-                                        {{ de: 'Jetzt anrufen', en: 'Call now', ru: 'Позвонить сейчас', ar: 'اتّصلوا الآن' }[locale]}
-                                    </a>
-                                </Button>
-                            </div>
-                        </div>
-                    </Reveal>
                 </div>
             </section>
         </main>

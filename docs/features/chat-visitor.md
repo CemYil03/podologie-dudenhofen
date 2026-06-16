@@ -11,7 +11,8 @@ appointment, who pays. It explicitly does **not**:
 
 - give medical advice, diagnose, or recommend treatments
 - quote concrete prices (beyond the standing rule that statutory insurance covers podologische Leistungen with an ärztliche Verordnung)
-- book or confirm appointments — it points at the contact form on `/kontakt#anfrage` and the practice phone number
+- book or confirm appointments — it points at the phone number on `/kontakt#kontaktdaten` (the dedicated contact-form section returns once
+  online booking ships)
 
 The system prompt is grounded in [`podologieFacts.ts`](../../src/server/agents/podologieFacts.ts) — a single TS constant that mirrors the
 "Practice details" section of [`docs/project.md`](../project.md). When any of those details change, update the constant **and** the project

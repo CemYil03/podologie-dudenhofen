@@ -83,19 +83,19 @@ formatting is handled at render time by `formatPhoneNumber()` from `src/shared/f
 
 The site launches with these pages. Every page is multilingual across all four locales (de/en/ru/ar) unless marked otherwise.
 
-| Route                               | Purpose                                                                                                                                                                                                           | Priority |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `/` (Home)                          | Services-led hero + 3 service highlights + AI-assistant entry card + opening hours + map + dark credential strip + testimonials + final CTA. Vacation banner takes priority over the seasonal banner at the top.  | P0       |
-| `/praxis` (Practice)                | Long-scroll page with anchored sections `#raeume`, `#therapeutin`, `#hygiene` (incl. instrument-reprocessing pipeline) — replaces the legacy `/therapeutin` and `/hygiene` pages                                  | P0       |
-| `/leistungen` (Services)            | `#brauche-ich-eine-behandlung` checklist · `#leistungen` service cards · `#was-bringe-ich-mit` (first-appointment list) · `#kosten` (insurance vs self-payer) · `#termin` CTA                                     | P0       |
-| `/qualifikation` (Credentials)      | `#podologie` · `#heilpraktiker` · `#urkunden` (renders both Urkunden inline) · `#termin` CTA — replaces legacy `/podologie`, `/heilpraktiker-podologie`, `/podologie-urkunde`, `/heilpraktiker-urkunde`           | P0       |
-| `/karriere` (Careers)               | Initiativbewerbung surface for other Podolog\*innen — `#was-uns-ausmacht`, `#wen-wir-suchen`, `#was-wir-bieten`, `#bewerbung`. German-only in the sitemap; the other locales render but aren't indexed.           | P0       |
-| `/kontakt` (Contact)                | `#kontaktdaten` · `#anfahrt` with Google + Apple Maps deep-links + embedded map + ÖPNV + parking · `#anfrage` request CTA — absorbs the legacy `/anfahrt` page                                                    | P0       |
-| `/chat` (Visitor AI assistant)      | Public chat surface backed by `agentVisitorAssistant`, grounded in `podologieFacts.ts`. Top-of-funnel only — never gives medical advice or quotes prices, hands off to `/kontakt#anfrage`. See `chat-visitor.md`. | P0       |
-| `/admin/chat`, `/admin/vacations`   | Practice-owner surfaces. Admin AI chat (`chat-admin.md`) and vacation scheduler (`vacations.md`). Behind auth; not in sitemap.                                                                                    | P0       |
-| `/impressum` (Imprint)              | Legal imprint — required by §5 TMG. German-only in sitemap.                                                                                                                                                       | P0       |
-| `/datenschutz` (Privacy)            | Privacy policy — required by GDPR. German-only in sitemap.                                                                                                                                                        | P0       |
-| `/barrierefreiheit` (Accessibility) | Accessibility statement (BFSG / EU 2025) — not yet built                                                                                                                                                          | P1       |
+| Route                               | Purpose                                                                                                                                                                                                                                                                                                           | Priority |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `/` (Home)                          | Services-led hero + 3 service highlights + AI-assistant entry card + opening hours + map + dark credential strip + testimonials + final CTA. Vacation banner takes priority over the seasonal banner at the top.                                                                                                  | P0       |
+| `/praxis` (Practice)                | Long-scroll page with anchored sections `#raeume`, `#therapeutin`, `#hygiene` (incl. instrument-reprocessing pipeline) — replaces the legacy `/therapeutin` and `/hygiene` pages                                                                                                                                  | P0       |
+| `/leistungen` (Services)            | `#brauche-ich-eine-behandlung` checklist · `#leistungen` service cards · `#was-bringe-ich-mit` (first-appointment list) · `#kosten` (insurance vs self-payer) · `#termin` CTA                                                                                                                                     | P0       |
+| `/qualifikation` (Credentials)      | `#podologie` · `#heilpraktiker` · `#urkunden` (renders both Urkunden inline) · `#termin` CTA — replaces legacy `/podologie`, `/heilpraktiker-podologie`, `/podologie-urkunde`, `/heilpraktiker-urkunde`                                                                                                           | P0       |
+| `/karriere` (Careers)               | Initiativbewerbung surface for other Podolog\*innen — `#was-uns-ausmacht`, `#wen-wir-suchen`, `#was-wir-bieten`, `#bewerbung`. German-only in the sitemap; the other locales render but aren't indexed.                                                                                                           | P0       |
+| `/kontakt` (Contact)                | `#kontaktdaten` (with phone CTA in the hero) · `#anfahrt` with Google + Apple Maps deep-links + embedded map + ÖPNV + parking — absorbs the legacy `/anfahrt` page. The `#anfrage` request CTA section will return when the online booking flow ships; until then the page-wide phone CTAs cover the same intent. | P0       |
+| `/chat` (Visitor AI assistant)      | Public chat surface backed by `agentVisitorAssistant`, grounded in `podologieFacts.ts`. Top-of-funnel only — never gives medical advice or quotes prices, hands off to the phone number on `/kontakt#kontaktdaten`. See `chat-visitor.md`.                                                                        | P0       |
+| `/admin/chat`, `/admin/vacations`   | Practice-owner surfaces. Admin AI chat (`chat-admin.md`) and vacation scheduler (`vacations.md`). Behind auth; not in sitemap.                                                                                                                                                                                    | P0       |
+| `/impressum` (Imprint)              | Legal imprint — required by §5 TMG. German-only in sitemap.                                                                                                                                                                                                                                                       | P0       |
+| `/datenschutz` (Privacy)            | Privacy policy — required by GDPR. German-only in sitemap.                                                                                                                                                                                                                                                        | P0       |
+| `/barrierefreiheit` (Accessibility) | Accessibility statement (BFSG / EU 2025) — not yet built                                                                                                                                                                                                                                                          | P1       |
 
 The top-level navigation in [`SiteHeader`](../src/web/components/SiteHeader.tsx) shows five items: Praxis · Leistungen · Qualifikation ·
 Karriere · Kontakt — translated per locale. Legal pages live in the [`SiteFooter`](../src/web/components/SiteFooter.tsx) only, alongside the
@@ -113,7 +113,7 @@ The chat assistant and the curated site-search index deep-link into these — re
   `/leistungen#termin`
 - `/qualifikation#podologie`, `/qualifikation#heilpraktiker`, `/qualifikation#urkunden`, `/qualifikation#termin`
 - `/karriere#was-uns-ausmacht`, `/karriere#wen-wir-suchen`, `/karriere#was-wir-bieten`, `/karriere#bewerbung`
-- `/kontakt#kontaktdaten`, `/kontakt#anfahrt`, `/kontakt#anfrage`
+- `/kontakt#kontaktdaten`, `/kontakt#anfahrt` (the `#anfrage` anchor returns once online booking ships)
 
 ### Legacy → new redirect map
 
@@ -170,10 +170,10 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 
 ### P0 — Launch blockers
 
-- [ ] **Contact form.** Single form on `/kontakt#anfrage`: name, contact (phone or email), preferred-callback window, free-text reason.
-      Submits via a GraphQL mutation, sends an email via a transactional provider (decision pending — Postmark / Resend / SES), stores a row
-      for audit. **No PHI in the form** — patients should not type diagnoses; we collect intent only. The page currently shows a placeholder
-      card with a direct call button until this lands.
+- [ ] **Contact form.** Single form to land back on `/kontakt` (anchor `#anfrage` returns then): name, contact (phone or email),
+      preferred-callback window, free-text reason. Submits via a GraphQL mutation, sends an email via a transactional provider (decision
+      pending — Postmark / Resend / SES), stores a row for audit. **No PHI in the form** — patients should not type diagnoses; we collect
+      intent only. The page currently has no anfrage section at all — phone CTAs throughout the page cover the same intent until this lands.
 - [ ] **Email transport.** Pick a provider, add the env var, wire `serverRuntime.mailer.send()`, add the contact-form integration test.
 - [ ] **Legal pages reviewed by the practice owner / their lawyer.** Imprint and privacy must be accurate before public launch.
 - [ ] **Cookie / consent banner — not required.** This build sets only strictly-necessary cookies — `sessionId` and `locale` (see
@@ -197,7 +197,8 @@ Ordered by priority. P0 items block launch; P1 items are post-launch but pre-cut
 - [x] **Schema.org `MedicalBusiness` JSON-LD** on every page (name, address, geo, opening hours, telephone, image, sameAs). Built in
       `src/web/seo/structuredData.ts`.
 - [x] **Visitor AI assistant.** `/chat`, backed by `agentVisitorAssistant` and grounded in `podologieFacts.ts`. Conservative system prompt,
-      no medical advice, hands off to `/kontakt#anfrage`. Documented in [`docs/features/chat-visitor.md`](./features/chat-visitor.md).
+      no medical advice, hands off to the phone number on `/kontakt#kontaktdaten`. Documented in
+      [`docs/features/chat-visitor.md`](./features/chat-visitor.md).
 
 ### P1 — Pre-cutover, can ship after first deploy
 
