@@ -73,7 +73,7 @@ export function SeasonalBanner({ locale, isSuppressed = false }: { locale: Local
                 <button
                     type="button"
                     onClick={handleDismiss}
-                    className="-m-1 rounded p-1 text-(--color-brand-charcoal-3) transition-colors hover:bg-aubergine/5 hover:text-aubergine"
+                    className="-m-1 rounded p-1 text-(--color-brand-charcoal-3) transition-colors hover:bg-aubergine/5 hover:text-aubergine cursor-pointer"
                     aria-label={DISMISS_LABEL[locale]}
                 >
                     <XIcon className="size-4" aria-hidden />

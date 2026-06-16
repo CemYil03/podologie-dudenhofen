@@ -358,7 +358,7 @@ function LeistungenPage() {
                                         aria-controls={`patient-panel-${option.value}`}
                                         onClick={() => setPatientType(option.value)}
                                         className={cn(
-                                            'rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5',
+                                            'rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5 cursor-pointer',
                                             active ? 'bg-aubergine text-cream' : 'text-aubergine/70 hover:text-aubergine',
                                         )}
                                     >
