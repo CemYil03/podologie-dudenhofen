@@ -113,17 +113,21 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
             showCloseButton={false}
             commandProps={{ filter }}
         >
-            <CommandInput placeholder={(isMobile ? PLACEHOLDER_MOBILE : PLACEHOLDER)[locale]} onValueChange={onInputValueChange} />
+            <CommandInput
+                className="md:text-base"
+                placeholder={(isMobile ? PLACEHOLDER_MOBILE : PLACEHOLDER)[locale]}
+                onValueChange={onInputValueChange}
+            />
             <CommandList ref={listRef}>
                 <CommandEmpty>{EMPTY[locale]}</CommandEmpty>
                 {SEARCH_INDEX.map((entry) => (
                     <CommandItem key={entryValue(entry)} value={entryValue(entry)} onSelect={() => onSelect(entry)}>
-                        <div className="flex w-full items-start justify-between gap-3">
+                        <div className="flex w-full items-start justify-between gap-2 px-2">
                             <div className="flex flex-col gap-0.5">
-                                <span className="font-medium text-aubergine-dark">{entry.title[locale]}</span>
-                                <span className="text-xs text-(--color-brand-charcoal-3)">{entry.description[locale]}</span>
+                                <span className="font-medium text-aubergine-dark md:text-base">{entry.title[locale]}</span>
+                                <span className="text-xs text-(--color-brand-charcoal-3) md:text-sm">{entry.description[locale]}</span>
                             </div>
-                            <span className="shrink-0 rounded bg-cream px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-(--color-brand-charcoal-3)">
+                            <span className="shrink-0 rounded bg-cream px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-(--color-brand-charcoal-3) md:text-xs">
                                 {SEARCH_PAGE_LABELS[entry.path][locale]}
                             </span>
                         </div>
