@@ -70,9 +70,9 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
         },
         keywords: {
             de: ['praxis', 'übersicht', 'räume', 'therapeutin', 'hygiene', 'barrierefrei'],
-            en: ['practice', 'overview', 'rooms', 'therapist', 'hygiene', 'barrier-free'],
-            ru: ['практика', 'обзор', 'помещения', 'специалист', 'гигиена', 'без барьеров'],
-            ar: ['العيادة', 'نظرة عامة', 'الغرف', 'المعالجة', 'النظافة', 'خالية من العوائق'],
+            en: ['practice', 'overview', 'rooms', 'therapist', 'hygiene', 'accessible', 'barrier-free'],
+            ru: ['практика', 'обзор', 'помещения', 'специалист', 'гигиена', 'доступно', 'без барьеров'],
+            ar: ['العيادة', 'نظرة عامة', 'الغرف', 'المعالجة', 'النظافة', 'سهلة الوصول', 'خالية من العوائق'],
         },
     },
     {
@@ -194,21 +194,21 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
         sectionId: 'raeume',
         title: {
             de: 'Räume — barrierefrei und ruhig',
-            en: 'Rooms — barrier-free and calm',
-            ru: 'Помещения — без барьеров и тихие',
-            ar: 'الغرف — خالية من العوائق وهادئة',
+            en: 'Rooms — accessible and calm',
+            ru: 'Помещения — доступные и тихие',
+            ar: 'الغرف — سهلة الوصول وهادئة',
         },
         description: {
             de: 'Ebenerdig, barrierefrei, klimatisiert. Behandlung im Liegen oder Sitzen.',
-            en: 'Ground-level, barrier-free, air-conditioned. Treatment lying down or seated.',
-            ru: 'На уровне земли, без барьеров, с кондиционированием. Лечение лёжа или сидя.',
-            ar: 'في الطابق الأرضي، خالية من العوائق، مكيّفة. العلاج بوضع الاستلقاء أو الجلوس.',
+            en: 'Ground-level, accessible, air-conditioned. Treatment lying down or seated.',
+            ru: 'На уровне земли, доступно, с кондиционированием. Лечение лёжа или сидя.',
+            ar: 'في الطابق الأرضي، سهلة الوصول، مكيّفة. العلاج بوضع الاستلقاء أو الجلوس.',
         },
         keywords: {
             de: ['räume', 'barrierefrei', 'rollstuhl', 'rollator', 'klimatisiert'],
-            en: ['rooms', 'barrier-free', 'wheelchair', 'walker', 'air-conditioned'],
-            ru: ['помещения', 'без барьеров', 'инвалидная коляска', 'ходунки', 'кондиционирование'],
-            ar: ['الغرف', 'خالية من العوائق', 'كرسي متحرك', 'مشاية', 'مكيّفة'],
+            en: ['rooms', 'accessible', 'barrier-free', 'wheelchair', 'walker', 'air-conditioned'],
+            ru: ['помещения', 'доступно', 'без барьеров', 'инвалидная коляска', 'ходунки', 'кондиционирование'],
+            ar: ['الغرف', 'سهلة الوصول', 'خالية من العوائق', 'كرسي متحرك', 'مشاية', 'مكيّفة'],
         },
     },
     {

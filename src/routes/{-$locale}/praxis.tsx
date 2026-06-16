@@ -24,9 +24,9 @@ export const Route = createFileRoute('/{-$locale}/praxis')({
             }[locale],
             description: {
                 de: 'Podologie Dudenhofen — barrierefreie Räume, Therapeutin Annette Yilmaz und Hygiene nach RKI-Empfehlung.',
-                en: 'Podologie Dudenhofen — barrier-free rooms, podiatrist Annette Yilmaz and hygiene to RKI standard.',
-                ru: 'Podologie Dudenhofen — безбарьерные помещения, терапевт Annette Yilmaz и гигиена по рекомендациям RKI.',
-                ar: 'Podologie Dudenhofen — غرف خالية من العوائق، المعالجة Annette Yilmaz ونظافة وفق توصيات RKI.',
+                en: 'Podologie Dudenhofen — accessible rooms, podiatrist Annette Yilmaz and hygiene to RKI standard.',
+                ru: 'Podologie Dudenhofen — доступные помещения, терапевт Annette Yilmaz и гигиена по рекомендациям RKI.',
+                ar: 'Podologie Dudenhofen — غرف سهلة الوصول، المعالجة Annette Yilmaz ونظافة وفق توصيات RKI.',
             }[locale],
             path: '/praxis',
             locale,
@@ -91,9 +91,9 @@ function PraxisPage() {
                             {
                                 {
                                     de: 'Barrierefrei, ruhig, klimatisiert.',
-                                    en: 'Barrier-free, calm and air-conditioned.',
-                                    ru: 'Без барьеров, спокойно и с кондиционированием.',
-                                    ar: 'خالية من العوائق، هادئة ومكيّفة.',
+                                    en: 'Accessible, calm and air-conditioned.',
+                                    ru: 'Доступно, спокойно и с кондиционированием.',
+                                    ar: 'سهلة الوصول، هادئة ومكيّفة.',
                                 }[locale]
                             }
                         </h2>
@@ -120,9 +120,9 @@ function PraxisPage() {
                                     {
                                         {
                                             de: 'Die Praxis ist ebenerdig und barrierefrei zugänglich — auch mit Rollator oder Rollstuhl. Behandelt wird im Liegen oder Sitzen, je nachdem, was Ihnen angenehmer ist.',
-                                            en: 'The practice is on ground level and barrier-free — accessible with a walker or wheelchair. Treatment takes place lying down or seated, whichever is more comfortable for you.',
-                                            ru: 'Практика находится на первом этаже и доступна без барьеров — в том числе с ходунками или инвалидной коляской. Процедуры проводятся лёжа или сидя — в зависимости от того, как Вам удобнее.',
-                                            ar: 'العيادة في الطابق الأرضي ويمكن الوصول إليها دون عوائق — حتى باستخدام المشّاية أو الكرسي المتحرك. يتم العلاج بوضعية الاستلقاء أو الجلوس، بحسب ما هو أكثر راحة لكم.',
+                                            en: 'The practice is on ground level and step-free — accessible with a walker or wheelchair. Treatment takes place lying down or seated, whichever is more comfortable for you.',
+                                            ru: 'Практика находится на первом этаже, доступ без ступеней — в том числе с ходунками или инвалидной коляской. Процедуры проводятся лёжа или сидя — в зависимости от того, как Вам удобнее.',
+                                            ar: 'العيادة في الطابق الأرضي ويمكن الوصول إليها بدون درج — حتى باستخدام المشّاية أو الكرسي المتحرك. يتم العلاج بوضعية الاستلقاء أو الجلوس، بحسب ما هو أكثر راحة لكم.',
                                         }[locale]
                                     }
                                 </p>

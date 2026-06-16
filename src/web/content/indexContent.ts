@@ -32,15 +32,15 @@ export const INDEX_PRAXIS_PILLARS: ReadonlyArray<IndexPraxisPillar> = [
         },
         body: {
             de: 'Barrierefrei, ruhig, klimatisiert — eine Patientin oder ein Patient zur Zeit.',
-            en: 'Barrier-free, calm and air-conditioned — one patient at a time.',
-            ru: 'Без барьеров, спокойно и с кондиционированием — один пациент за приём.',
-            ar: 'خالية من العوائق، هادئة ومكيّفة — مريض واحد في كل مرة.',
+            en: 'Accessible, calm and air-conditioned — one patient at a time.',
+            ru: 'Доступно, спокойно и с кондиционированием — один пациент за приём.',
+            ar: 'سهلة الوصول، هادئة ومكيّفة — مريض واحد في كل مرة.',
         },
         keywords: {
             de: ['räume', 'barrierefrei', 'rollstuhl', 'rollator', 'klimaanlage'],
-            en: ['rooms', 'barrier-free', 'wheelchair', 'walker', 'air-conditioning'],
-            ru: ['помещения', 'без барьеров', 'инвалидная коляска', 'ходунки', 'кондиционер'],
-            ar: ['الغرف', 'خالية من العوائق', 'كرسي متحرك', 'مشاية', 'تكييف'],
+            en: ['rooms', 'accessible', 'barrier-free', 'wheelchair', 'walker', 'air-conditioning'],
+            ru: ['помещения', 'доступно', 'без барьеров', 'инвалидная коляска', 'ходунки', 'кондиционер'],
+            ar: ['الغرف', 'سهلة الوصول', 'خالية من العوائق', 'كرسي متحرك', 'مشاية', 'تكييف'],
         },
     },
     {
