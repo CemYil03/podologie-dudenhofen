@@ -305,10 +305,10 @@ const SEARCH_INDEX_SECTIONS: ReadonlyArray<SearchEntry> = [
         path: '/leistungen',
         sectionId: 'leistungen',
         title: {
-            de: 'Leistungsangebot im Detail',
-            en: 'Full service catalogue',
-            ru: 'Полный перечень услуг',
-            ar: 'كتالوج الخدمات الكامل',
+            de: 'Unsere Behandlungen',
+            en: 'Our treatments',
+            ru: 'Наши процедуры',
+            ar: 'علاجاتنا',
         },
         description: {
             de: 'Medizinische Fußpflege, Behandlung des Diabetischen Fußsyndroms und Nagelkorrektur-Spangen.',

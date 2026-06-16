@@ -233,13 +233,13 @@ function LeistungenPage() {
                 </div>
             </section>
 
-            {/* Unser Leistungsangebot */}
+            {/* Unsere Behandlungen */}
             <section id="leistungen" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 py-20">
                     <Reveal>
-                        <SectionEyebrow>{{ de: 'Leistungen', en: 'Services', ru: 'Услуги', ar: 'الخدمات' }[locale]}</SectionEyebrow>
+                        <SectionEyebrow>{{ de: 'Behandlungen', en: 'Treatments', ru: 'Процедуры', ar: 'العلاجات' }[locale]}</SectionEyebrow>
                         <h2 className="mt-6 max-w-3xl font-serif text-3xl leading-tight font-semibold text-aubergine-dark sm:text-4xl">
-                            {{ de: 'Unser Leistungsangebot', en: 'What we offer', ru: 'Наш спектр услуг', ar: 'مجموعة خدماتنا' }[locale]}
+                            {{ de: 'Unsere Behandlungen', en: 'Our treatments', ru: 'Наши процедуры', ar: 'علاجاتنا' }[locale]}
                         </h2>
                         <p className="mt-4 max-w-2xl text-(--color-brand-charcoal-2)">
                             {
