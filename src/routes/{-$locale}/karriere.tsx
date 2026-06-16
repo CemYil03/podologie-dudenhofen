@@ -340,7 +340,10 @@ function KarrierePage() {
                                 {index === 0 ? (
                                     <p className="mt-3 text-sm text-cream/70">
                                         {{ de: 'Telefon', en: 'Phone', ru: 'Телефон', ar: 'الهاتف' }[locale]}:{' '}
-                                        <a href={`tel:${PRACTICE.phone}`} className="text-gold hover:underline">
+                                        <a
+                                            href={`tel:${PRACTICE.phone}`}
+                                            className="rounded-sm text-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-aubergine-dark"
+                                        >
                                             {formatPhoneNumber(PRACTICE.phone)}
                                         </a>
                                     </p>

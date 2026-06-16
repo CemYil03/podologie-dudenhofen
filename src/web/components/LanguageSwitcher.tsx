@@ -62,7 +62,10 @@ export function LanguageSwitcher() {
                         <DropdownMenuItem
                             key={locale}
                             onSelect={() => switchTo(locale)}
-                            className={cn('text-aubergine-dark focus:bg-aubergine/10 focus:text-aubergine-dark', isActive && 'font-medium')}
+                            className={cn(
+                                'text-aubergine-dark focus:bg-aubergine/10 focus:text-aubergine-dark focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:outline-none',
+                                isActive && 'font-medium',
+                            )}
                         >
                             <span className="flex-1">{LOCALE_NATIVE_NAME[locale]}</span>
                             {isActive && <CheckIcon className="size-4 text-aubergine" aria-hidden />}

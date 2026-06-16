@@ -13,19 +13,28 @@ export function SiteFooter() {
                 <span aria-hidden className="text-aubergine/30">
                     ·
                 </span>
-                <Link to="/{-$locale}/karriere" className="hover:text-aubergine hover:underline">
+                <Link
+                    to="/{-$locale}/karriere"
+                    className="rounded-sm hover:text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                >
                     {{ de: 'Karriere', en: 'Careers', ru: 'Карьера', ar: 'الوظائف' }[locale]}
                 </Link>
                 <span aria-hidden className="text-aubergine/30">
                     ·
                 </span>
-                <Link to="/{-$locale}/impressum" className="hover:text-aubergine hover:underline">
+                <Link
+                    to="/{-$locale}/impressum"
+                    className="rounded-sm hover:text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                >
                     {{ de: 'Impressum', en: 'Imprint', ru: 'Выходные данные', ar: 'بيانات الناشر' }[locale]}
                 </Link>
                 <span aria-hidden className="text-aubergine/30">
                     ·
                 </span>
-                <Link to="/{-$locale}/datenschutz" className="hover:text-aubergine hover:underline">
+                <Link
+                    to="/{-$locale}/datenschutz"
+                    className="rounded-sm hover:text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                >
                     {{ de: 'Datenschutz', en: 'Privacy', ru: 'Конфиденциальность', ar: 'الخصوصية' }[locale]}
                 </Link>
             </div>

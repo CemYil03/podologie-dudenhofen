@@ -117,12 +117,18 @@ function DatenschutzPage() {
                         </address>
                         <p className="mt-3">
                             {{ de: 'Telefon', en: 'Phone', ru: 'Телефон', ar: 'الهاتف' }[locale]}:{' '}
-                            <a href={`tel:${PRACTICE.phone}`} className="text-aubergine hover:underline">
+                            <a
+                                href={`tel:${PRACTICE.phone}`}
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                            >
                                 {formatPhoneNumber(PRACTICE.phone)}
                             </a>
                             <br />
                             {{ de: 'E-Mail', en: 'Email', ru: 'Электронная почта', ar: 'البريد الإلكتروني' }[locale]}:{' '}
-                            <a href={`mailto:${PRACTICE.email}`} className="text-aubergine hover:underline">
+                            <a
+                                href={`mailto:${PRACTICE.email}`}
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                            >
                                 {PRACTICE.email}
                             </a>
                         </p>
@@ -291,7 +297,11 @@ function DatenschutzPage() {
                                     ar: 'في صفحة ',
                                 }[locale]
                             }
-                            <Link to="/{-$locale}/kontakt" hash="anfahrt" className="text-aubergine hover:underline">
+                            <Link
+                                to="/{-$locale}/kontakt"
+                                hash="anfahrt"
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                            >
                                 {
                                     {
                                         de: 'Kontakt → Anfahrt',
@@ -323,7 +333,7 @@ function DatenschutzPage() {
                                 href="https://policies.google.com/privacy"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-aubergine hover:underline"
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                             >
                                 policies.google.com/privacy
                             </a>
@@ -578,7 +588,7 @@ function DatenschutzPage() {
                                 href="https://www.datenschutz.rlp.de"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-aubergine hover:underline"
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                             >
                                 www.datenschutz.rlp.de
                             </a>

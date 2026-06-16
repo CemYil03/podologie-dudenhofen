@@ -38,7 +38,7 @@ export function SiteHeader() {
             <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:gap-6 md:px-6 md:py-4">
                 <Link
                     to="/{-$locale}"
-                    className="min-w-0 truncate font-serif text-base font-semibold tracking-tight whitespace-nowrap text-aubergine-dark md:text-lg"
+                    className="min-w-0 truncate rounded-md font-serif text-base font-semibold tracking-tight whitespace-nowrap text-aubergine-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream md:text-lg"
                 >
                     {PRACTICE.name}
                 </Link>
@@ -55,7 +55,7 @@ export function SiteHeader() {
                                 key={item.to}
                                 to={item.to}
                                 className={cn(
-                                    'rounded-full px-3 py-1.5 text-sm font-medium transition-colors',
+                                    'rounded-full px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40',
                                     isActive
                                         ? 'bg-aubergine/10 text-aubergine-dark'
                                         : 'text-(--color-brand-charcoal-2) hover:bg-aubergine/5 hover:text-aubergine',
@@ -79,7 +79,7 @@ export function SiteHeader() {
                     </button>
                     <a
                         href={`tel:${PRACTICE.phone}`}
-                        className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream md:inline-flex cursor-pointer"
+                        className="hidden items-center gap-2 rounded-full border border-aubergine/20 px-3 py-1.5 text-sm font-medium text-aubergine transition-colors hover:bg-aubergine hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 md:inline-flex cursor-pointer"
                         aria-label={
                             { de: 'Praxis anrufen', en: 'Call the practice', ru: 'Позвонить в практику', ar: 'الاتصال بالعيادة' }[locale]
                         }
@@ -117,7 +117,7 @@ export function SiteHeader() {
                                     <button
                                         type="button"
                                         onClick={openSearch}
-                                        className="flex items-center gap-2 rounded-md px-3 py-3 text-start text-base font-medium text-aubergine-dark hover:bg-aubergine/10"
+                                        className="flex items-center gap-2 rounded-md px-3 py-3 text-start text-base font-medium text-aubergine-dark hover:bg-aubergine/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40"
                                     >
                                         <SearchIcon className="size-4" aria-hidden />
                                         {{ de: 'Suchen', en: 'Search', ru: 'Поиск', ar: 'بحث' }[locale]}
@@ -127,7 +127,7 @@ export function SiteHeader() {
                                     <SheetClose asChild key={item.to}>
                                         <Link
                                             to={item.to}
-                                            className="rounded-md px-3 py-3 text-base font-medium text-aubergine-dark hover:bg-aubergine/10"
+                                            className="rounded-md px-3 py-3 text-base font-medium text-aubergine-dark hover:bg-aubergine/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40"
                                         >
                                             {item.label[locale]}
                                         </Link>
@@ -137,7 +137,7 @@ export function SiteHeader() {
                             <div className="mt-auto border-t border-aubergine/10 p-4">
                                 <a
                                     href={`tel:${PRACTICE.phone}`}
-                                    className="flex items-center justify-center gap-2 rounded-full bg-aubergine px-4 py-3 text-sm font-medium text-cream"
+                                    className="flex items-center justify-center gap-2 rounded-full bg-aubergine px-4 py-3 text-sm font-medium text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                                 >
                                     <PhoneIcon className="size-4" aria-hidden />
                                     <span>{formatPhoneNumber(PRACTICE.phone)}</span>

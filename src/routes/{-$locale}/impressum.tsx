@@ -117,7 +117,10 @@ function ImpressumPage() {
                                 {{ de: 'Telefon', en: 'Phone', ru: 'Телефон', ar: 'الهاتف' }[locale]}
                             </dt>
                             <dd>
-                                <a href={`tel:${PRACTICE.phone}`} className="text-aubergine hover:underline">
+                                <a
+                                    href={`tel:${PRACTICE.phone}`}
+                                    className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                                >
                                     {formatPhoneNumber(PRACTICE.phone)}
                                 </a>
                             </dd>
@@ -125,7 +128,10 @@ function ImpressumPage() {
                                 {{ de: 'E-Mail', en: 'Email', ru: 'Эл. почта', ar: 'البريد الإلكتروني' }[locale]}
                             </dt>
                             <dd>
-                                <a href={`mailto:${PRACTICE.email}`} className="text-aubergine hover:underline">
+                                <a
+                                    href={`mailto:${PRACTICE.email}`}
+                                    className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                                >
                                     {PRACTICE.email}
                                 </a>
                             </dd>
@@ -187,7 +193,7 @@ function ImpressumPage() {
                                 href="https://www.gesetze-im-internet.de"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-aubergine hover:underline"
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                             >
                                 www.gesetze-im-internet.de
                             </a>
@@ -218,7 +224,7 @@ function ImpressumPage() {
                                 href="https://www.rheinpfalz-kreis.de"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-aubergine hover:underline"
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                             >
                                 www.rheinpfalz-kreis.de
                             </a>
@@ -285,7 +291,7 @@ function ImpressumPage() {
                                 href="https://ec.europa.eu/consumers/odr"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-aubergine hover:underline"
+                                className="rounded-sm text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                             >
                                 ec.europa.eu/consumers/odr
                             </a>

@@ -223,7 +223,7 @@ function LeistungenPage() {
                             }
                             <a
                                 href={`tel:${PRACTICE.phone}`}
-                                className="inline-flex items-center gap-1.5 font-medium text-aubergine underline-offset-4 transition-transform duration-150 ease-out hover:underline active:scale-[0.98]"
+                                className="inline-flex items-center gap-1.5 rounded-sm font-medium text-aubergine underline-offset-4 transition-transform duration-150 ease-out hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream active:scale-[0.98]"
                             >
                                 <PhoneIcon className="size-3.5" aria-hidden />
                                 {formatPhoneNumber(PRACTICE.phone)}
@@ -358,7 +358,7 @@ function LeistungenPage() {
                                         aria-controls={`patient-panel-${option.value}`}
                                         onClick={() => setPatientType(option.value)}
                                         className={cn(
-                                            'rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5 cursor-pointer',
+                                            'rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream sm:px-5 cursor-pointer',
                                             active ? 'bg-aubergine text-cream' : 'text-aubergine/70 hover:text-aubergine',
                                         )}
                                     >
@@ -558,7 +558,7 @@ function LeistungenPage() {
                                     <button
                                         type="button"
                                         onClick={() => setPatientType('privat')}
-                                        className="group inline-flex items-center gap-1 text-sm text-aubergine underline-offset-4 hover:underline"
+                                        className="group inline-flex items-center gap-1 rounded-sm text-sm text-aubergine underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                                     >
                                         {
                                             {
@@ -599,7 +599,7 @@ function LeistungenPage() {
                                         </p>
                                         <a
                                             href={`tel:${PRACTICE.phone}`}
-                                            className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-aubergine underline-offset-4 transition-transform duration-150 ease-out hover:underline active:scale-[0.98]"
+                                            className="mt-3 inline-flex items-center gap-2 rounded-sm text-sm font-medium text-aubergine underline-offset-4 transition-transform duration-150 ease-out hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream active:scale-[0.98]"
                                         >
                                             <PhoneIcon className="size-4" aria-hidden />
                                             {formatPhoneNumber(PRACTICE.phone)}
@@ -607,7 +607,7 @@ function LeistungenPage() {
                                         <button
                                             type="button"
                                             onClick={() => setPatientType('kasse')}
-                                            className="group mt-3 inline-flex items-center gap-1 text-sm text-aubergine underline-offset-4 hover:underline"
+                                            className="group mt-3 inline-flex items-center gap-1 rounded-sm text-sm text-aubergine underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
                                         >
                                             {
                                                 {
