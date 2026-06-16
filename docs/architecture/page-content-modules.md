@@ -67,7 +67,7 @@ entries with one auto-derived entry per leaf. Adding a card to a page updates th
 
 - Module names: `{page}Content.ts` (entity-action — the page is the entity).
 - Constant names: `{PAGE}_{GROUP}` in SCREAMING_SNAKE_CASE (`LEISTUNGEN_CHECKLIST`, `KARRIERE_OFFERINGS`).
-- Leaf ids: kebab-case, language-neutral, derived from the German wording, prefixed with the group (`check-pilzinfektionen`,
+- Leaf ids: kebab-case, language-neutral, derived from the German wording, prefixed with the group (`check-diabetes`,
   `service-haut-pilzbehandlung`, `step-probetag`). Ids are URL fragments and DOM ids — they are never visible to users, so they do not need
   translation.
 - Keywords: include German and English variants, common typos and synonyms (e.g. `mykose` → `pilzbehandlung`, `salary` → `vergütung`). The

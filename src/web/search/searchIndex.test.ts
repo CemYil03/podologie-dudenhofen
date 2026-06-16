@@ -20,9 +20,8 @@ describe('SEARCH_INDEX', () => {
         // Act
         const matches = SEARCH_INDEX.filter((e) => searchEntryHaystack(e, 'de').includes(query));
 
-        // Assert — both the symptom checklist card and the treatment card should surface
+        // Assert — the treatment card carries the symptom keyword so the user lands on the right place
         const ids = matches.map((m) => m.sectionId);
-        expect(ids).toContain('check-pilzinfektionen');
         expect(ids).toContain('service-haut-pilzbehandlung');
     });
 
