@@ -260,8 +260,14 @@ function EmptyState({
                   ar: 'أو اطرح سؤالًا جديدًا.',
               }[locale];
 
+    // `min-h-0 overflow-y-auto` so the previous-chats list can shrink and
+    // scroll inside the flex column. Without this, on mobile the list pushes
+    // the composer off-screen once the soft keyboard opens — the parent
+    // viewport shrinks, but a flex item without `min-h-0` won't shrink below
+    // its content height, so the rate-limit row + composer below it get
+    // clipped out of view.
     return (
-        <div className="flex flex-1 flex-col gap-4 text-sm text-(--color-brand-charcoal-2)">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto text-sm text-(--color-brand-charcoal-2)">
             {previousChats.length > 0 ? (
                 <div className="flex flex-col gap-2">
                     <p className="text-xs uppercase tracking-wide text-sage">
