@@ -37,6 +37,15 @@ export function SiteFooter() {
                 >
                     {{ de: 'Datenschutz', en: 'Privacy', ru: 'Конфиденциальность', ar: 'الخصوصية' }[locale]}
                 </Link>
+                <span aria-hidden className="text-aubergine/30">
+                    ·
+                </span>
+                <Link
+                    to="/{-$locale}/barrierefreiheit"
+                    className="rounded-sm hover:text-aubergine hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aubergine/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+                >
+                    {{ de: 'Barrierefreiheit', en: 'Accessibility', ru: 'Доступность', ar: 'إمكانية الوصول' }[locale]}
+                </Link>
             </div>
         </footer>
     );

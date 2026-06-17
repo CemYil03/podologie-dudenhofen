@@ -1,13 +1,14 @@
-# Legal Pages — Impressum and Datenschutzerklärung
+# Legal Pages — Impressum, Datenschutzerklärung, and Erklärung zur Barrierefreiheit
 
 ## User behavior
 
-Two routes are reachable from the site-wide footer (`SiteFooter`) on every public page:
+Three routes are reachable from the site-wide footer (`SiteFooter`) on every public page:
 
 - `/impressum` (`/en/imprint` via the `{-$locale}` segment) — Anbieterkennzeichnung gemäß § 5 TMG / § 18 MStV
 - `/datenschutz` (`/en/privacy`) — Datenschutzerklärung nach Art. 13 DSGVO
+- `/barrierefreiheit` (`/en/accessibility`) — Erklärung zur Barrierefreiheit (WCAG 2.1 AA target, known limitations, reporting channel)
 
-The German slugs are canonical — same per-route file, English variant via `useLocale()`. Both pages are listed in the sitemap at
+The German slugs are canonical — same per-route file, English variant via `useLocale()`. All three pages are listed in the sitemap at
 `priority: 0.3, changefreq: yearly` (see `src/web/seo/sitemapRoutes.ts`).
 
 The `/kontakt#anfahrt` section additionally carries a one-line note under the embedded Google Maps iframe linking back to the privacy policy
@@ -83,9 +84,14 @@ non-functional cookie flips this back to "banner needed".
 | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | `src/routes/{-$locale}/impressum.tsx`                                     | Imprint route (DE+EN via `useLocale()`)                                                         |
 | `src/routes/{-$locale}/datenschutz.tsx`                                   | Privacy policy route (DE+EN); `POLICY_VERSION` constant at the top — bump on substantive change |
+| `src/routes/{-$locale}/barrierefreiheit.tsx`                              | Accessibility statement (4 locales); `STATEMENT_VERSION` constant — bump on substantive change  |
 | `src/routes/{-$locale}/ImpressumPage.graphql` / `DatenschutzPage.graphql` | Empty `currentSession` query, matches every other page                                          |
 | `src/web/components/SiteFooter.tsx`                                       | Quiet single-line footer wired into `src/routes/{-$locale}.tsx`                                 |
-| `src/web/seo/sitemapRoutes.ts`                                            | Sitemap entries for both pages                                                                  |
+| `src/web/seo/sitemapRoutes.ts`                                            | Sitemap entries for all three pages                                                             |
+
+The accessibility statement has no GraphQL loader — it is fully static and doesn't need the `currentSession` round-trip the other legal
+pages run. The engineering counterpart of the statement (patterns we rely on to hit WCAG AA) lives in
+[`docs/style/accessibility.md`](../style/accessibility.md).
 
 Contact info is sourced from `src/web/practice.ts` (`PRACTICE`). Phone is rendered via `formatPhoneNumber()`; raw E.164 goes into `tel:`
 links.

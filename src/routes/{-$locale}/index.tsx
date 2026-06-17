@@ -146,7 +146,7 @@ export const Route = createFileRoute('/{-$locale}/')({
         };
 
         return (
-            <main>
+            <main id="main-content">
                 <SeasonalEffect locale={locale} />
                 {activeVacation ? <VacationBanner vacation={activeVacation} locale={locale} /> : null}
                 <SeasonalBanner locale={locale} isSuppressed={Boolean(activeVacation)} />

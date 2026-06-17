@@ -47,6 +47,7 @@ These are non-negotiable. The full details are in `docs/conventions.md`.
 | Typography            | Self-hosted Source Sans 3 variable font, bundled via `@fontsource`            | `docs/style/typography.md`                     |
 | Theming               | Single light theme — no dark mode, no `dark:` utilities                       | `docs/style/themes.md`                         |
 | Motion                | Reveal-on-scroll + restrained hover; `ease-out` only; reduced-motion honoured | `docs/style/motion.md`                         |
+| Accessibility         | WCAG 2.1 AA target; skip link, translated alt text, semantic landmarks        | `docs/style/accessibility.md`                  |
 | Code generation       | `npm run graphql:generate` — server `GqlS*`, client `GqlC*`                   | `codegen.ts`                                   |
 
 ## How to Add Things

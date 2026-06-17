@@ -20,6 +20,7 @@ import { Route as Char123LocaleChar125KontaktRouteImport } from './routes/{-$loc
 import { Route as Char123LocaleChar125KarriereRouteImport } from './routes/{-$locale}/karriere'
 import { Route as Char123LocaleChar125ImpressumRouteImport } from './routes/{-$locale}/impressum'
 import { Route as Char123LocaleChar125DatenschutzRouteImport } from './routes/{-$locale}/datenschutz'
+import { Route as Char123LocaleChar125BarrierefreiheitRouteImport } from './routes/{-$locale}/barrierefreiheit'
 import { Route as ApiStreamRouteImport } from './routes/api/stream'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
@@ -93,6 +94,12 @@ const Char123LocaleChar125DatenschutzRoute =
     path: '/datenschutz',
     getParentRoute: () => Char123LocaleChar125Route,
   } as any)
+const Char123LocaleChar125BarrierefreiheitRoute =
+  Char123LocaleChar125BarrierefreiheitRouteImport.update({
+    id: '/barrierefreiheit',
+    path: '/barrierefreiheit',
+    getParentRoute: () => Char123LocaleChar125Route,
+  } as any)
 const ApiStreamRoute = ApiStreamRouteImport.update({
   id: '/api/stream',
   path: '/api/stream',
@@ -152,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
+  '/{-$locale}/barrierefreiheit': typeof Char123LocaleChar125BarrierefreiheitRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
@@ -173,6 +181,7 @@ export interface FileRoutesByTo {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
+  '/{-$locale}/barrierefreiheit': typeof Char123LocaleChar125BarrierefreiheitRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
@@ -196,6 +205,7 @@ export interface FileRoutesById {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/stream': typeof ApiStreamRoute
+  '/{-$locale}/barrierefreiheit': typeof Char123LocaleChar125BarrierefreiheitRoute
   '/{-$locale}/datenschutz': typeof Char123LocaleChar125DatenschutzRoute
   '/{-$locale}/impressum': typeof Char123LocaleChar125ImpressumRoute
   '/{-$locale}/karriere': typeof Char123LocaleChar125KarriereRoute
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
+    | '/{-$locale}/barrierefreiheit'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
+    | '/{-$locale}/barrierefreiheit'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
@@ -263,6 +275,7 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/stream'
+    | '/{-$locale}/barrierefreiheit'
     | '/{-$locale}/datenschutz'
     | '/{-$locale}/impressum'
     | '/{-$locale}/karriere'
@@ -368,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125DatenschutzRouteImport
       parentRoute: typeof Char123LocaleChar125Route
     }
+    '/{-$locale}/barrierefreiheit': {
+      id: '/{-$locale}/barrierefreiheit'
+      path: '/barrierefreiheit'
+      fullPath: '/{-$locale}/barrierefreiheit'
+      preLoaderRoute: typeof Char123LocaleChar125BarrierefreiheitRouteImport
+      parentRoute: typeof Char123LocaleChar125Route
+    }
     '/api/stream': {
       id: '/api/stream'
       path: '/api/stream'
@@ -435,6 +455,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface Char123LocaleChar125RouteChildren {
+  Char123LocaleChar125BarrierefreiheitRoute: typeof Char123LocaleChar125BarrierefreiheitRoute
   Char123LocaleChar125DatenschutzRoute: typeof Char123LocaleChar125DatenschutzRoute
   Char123LocaleChar125ImpressumRoute: typeof Char123LocaleChar125ImpressumRoute
   Char123LocaleChar125KarriereRoute: typeof Char123LocaleChar125KarriereRoute
@@ -450,6 +471,8 @@ interface Char123LocaleChar125RouteChildren {
 }
 
 const Char123LocaleChar125RouteChildren: Char123LocaleChar125RouteChildren = {
+  Char123LocaleChar125BarrierefreiheitRoute:
+    Char123LocaleChar125BarrierefreiheitRoute,
   Char123LocaleChar125DatenschutzRoute: Char123LocaleChar125DatenschutzRoute,
   Char123LocaleChar125ImpressumRoute: Char123LocaleChar125ImpressumRoute,
   Char123LocaleChar125KarriereRoute: Char123LocaleChar125KarriereRoute,

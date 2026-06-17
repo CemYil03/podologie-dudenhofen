@@ -107,7 +107,7 @@ function KarrierePage() {
     const locale = useLocale();
 
     return (
-        <main>
+        <main id="main-content">
             {/* Hero */}
             <section id="hero" className="scroll-mt-20">
                 <div className="mx-auto max-w-5xl px-6 pt-16 pb-20">

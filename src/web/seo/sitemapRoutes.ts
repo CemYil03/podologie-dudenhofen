@@ -42,4 +42,5 @@ export const SITEMAP_PATHS: ReadonlyArray<SitemapPath> = [
     { path: '/kontakt', changefreq: 'monthly', priority: 0.9 },
     { path: '/impressum', changefreq: 'yearly', priority: 0.3, locales: ['de'] },
     { path: '/datenschutz', changefreq: 'yearly', priority: 0.3, locales: ['de'] },
+    { path: '/barrierefreiheit', changefreq: 'yearly', priority: 0.3, locales: ['de'] },
 ];

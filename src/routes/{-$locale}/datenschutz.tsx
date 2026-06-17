@@ -49,7 +49,7 @@ function DatenschutzPage() {
     const locale = useLocale();
 
     return (
-        <main>
+        <main id="main-content">
             {/* Hero — cream */}
             <section id="hero" className="mx-auto max-w-3xl scroll-mt-20 px-6 pt-16 pb-12">
                 <SectionEyebrow>

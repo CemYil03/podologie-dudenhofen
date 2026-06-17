@@ -7,6 +7,7 @@ import { VisitorChatSheet } from '../web/chat/VisitorChatSheet';
 import { AdminHeader } from '../web/components/AdminHeader';
 import { SiteFooter } from '../web/components/SiteFooter';
 import { SiteHeader } from '../web/components/SiteHeader';
+import { SkipLink } from '../web/components/SkipLink';
 import { useSearchTargetHighlight } from '../web/hooks/useSearchTargetHighlight';
 import { DEFAULT_LOCALE, LOCALES, localeFromAcceptLanguage } from '../web/utils/locale';
 import type { Locale } from '../web/utils/locale';
@@ -62,6 +63,7 @@ function LocaleLayout() {
     return (
         <VisitorChatProvider>
             <div className="flex min-h-screen flex-col">
+                <SkipLink />
                 <SiteHeader />
                 <Outlet />
                 <SiteFooter />

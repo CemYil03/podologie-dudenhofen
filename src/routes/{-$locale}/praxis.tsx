@@ -44,7 +44,7 @@ function PraxisPage() {
     const locale = useLocale();
 
     return (
-        <main>
+        <main id="main-content">
             <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
                     <SectionEyebrow>{{ de: 'Praxis', en: 'Practice', ru: 'Практика', ar: 'العيادة' }[locale]}</SectionEyebrow>

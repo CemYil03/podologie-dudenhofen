@@ -115,7 +115,7 @@ function LeistungenPage() {
     const bringList = patientType === 'kasse' ? LEISTUNGEN_BRING_LIST_KASSE : LEISTUNGEN_BRING_LIST_PRIVAT;
 
     return (
-        <main>
+        <main id="main-content">
             {/* Hero */}
             <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>

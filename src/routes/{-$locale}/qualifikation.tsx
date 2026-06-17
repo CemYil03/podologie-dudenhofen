@@ -44,7 +44,7 @@ function QualifikationPage() {
     const locale = useLocale();
 
     return (
-        <main>
+        <main id="main-content">
             {/* 1. Hero — cream */}
             <section id="hero" className="mx-auto max-w-5xl scroll-mt-20 px-6 pt-16 pb-20">
                 <Reveal>
