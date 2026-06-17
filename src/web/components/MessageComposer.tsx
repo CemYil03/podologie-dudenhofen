@@ -212,6 +212,12 @@ export function MessageComposer({
                 <InputGroupTextarea
                     ref={textareaRef}
                     name="message"
+                    // `overscroll-contain` stops scroll-chaining: when the
+                    // textarea is at its top or bottom and the user keeps
+                    // dragging, the leftover scroll would otherwise bubble to
+                    // the page body behind the chat sheet — visible and weird
+                    // on mobile. Containing it here keeps the page still.
+                    className="overscroll-contain"
                     value={value}
                     onChange={(event) => onValueChange(event.target.value)}
                     onKeyDown={(event) => {

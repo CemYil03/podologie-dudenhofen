@@ -267,7 +267,7 @@ function EmptyState({
     // its content height, so the rate-limit row + composer below it get
     // clipped out of view.
     return (
-        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto text-sm text-(--color-brand-charcoal-2)">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain text-sm text-(--color-brand-charcoal-2)">
             {previousChats.length > 0 ? (
                 <div className="flex flex-col gap-2">
                     <p className="text-xs uppercase tracking-wide text-sage">
@@ -361,7 +361,11 @@ function ChatTranscript({
 
     return (
         <div className="relative min-h-0 flex-1">
-            <div ref={scrollRef} onScroll={onScroll} className="flex h-full min-w-0 flex-col gap-4 overflow-y-auto overflow-x-hidden pe-1">
+            <div
+                ref={scrollRef}
+                onScroll={onScroll}
+                className="flex h-full min-w-0 flex-col gap-4 overflow-y-auto overflow-x-hidden overscroll-contain pe-1"
+            >
                 {groupedMessages.map((group) => (
                     <section key={group.date} className="flex min-w-0 flex-col gap-4">
                         <DateSeparator iso={group.date} />
